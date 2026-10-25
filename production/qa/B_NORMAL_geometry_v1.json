@@ -18,10 +18,10 @@
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 3.062,
+    "edge_column_mae": 3.037,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 330264,
-    "sha256": "9abe3bfc401ad5d3380a7d98c8b0757ae9dcdc665b278bc8758e8435e6406464",
+    "webp_bytes": 326046,
+    "sha256": "590ff305897edf864780e244310d2a0a2dd505d974e7e6bf9243ad6bfe8cd26d",
     "mean_rgb": [
       101.0,
       88.6,
@@ -33,7 +33,9 @@
     "curved_ray_intersections": true,
     "candidate_3d_projected_hotspots": 11,
     "visible_interaction_rays": 11,
-    "audio_A05_intercom_model": true
+    "audio_A05_intercom_model": true,
+    "cyrillic_signs_printed_on_real_world_geometry": 4,
+    "physical_furniture_shadow_rays": true
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
@@ -78,11 +80,11 @@
     }
   },
   "remaining": [
-    "Kettle, mug, plate and faucet now have true curved ray surfaces, but remaining furniture is still stylized",
+    "Station signs and direct occlusion shadows now render, but most furniture remains procedural low-poly art",
     "10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam",
     "Do not replace playable room B until art production approval"
   ],
-  "material_stage": "CC0_photographic_albedo_v5_curved_props_with_reflection",
+  "material_stage": "CC0_photoscans_with_3d_cast_shadows_and_Cyrillic_signs",
   "qa_updated_at": "2026-10-25",
   "materials": [
     {
