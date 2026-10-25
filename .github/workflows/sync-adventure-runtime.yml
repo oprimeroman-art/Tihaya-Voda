@@ -36,6 +36,7 @@ jobs:
           python3 studio/verification/standalone-html.test.py
           node studio/verification/horror-visuals.test.cjs
           node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
       - name: Commit generated HTML changes to main
         run: |
           git add game/index.html game-editor/index.html
