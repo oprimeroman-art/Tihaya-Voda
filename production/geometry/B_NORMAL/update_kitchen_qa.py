@@ -5,6 +5,7 @@ import json,hashlib
 import numpy as np
 from PIL import Image
 from fetch_cc0_materials import DEST,TEXTURES,good
+import render_kitchen360 as renderer
 
 ROOT=Path(__file__).resolve().parents[3]
 QA=ROOT/'production/qa/B_NORMAL_geometry_v1.json'
@@ -19,8 +20,9 @@ def main():
     assert seam<5,'Bad spherical panorama seam'
     for name,(_,md5,length) in TEXTURES.items():
         assert good((DEST/(name+'_diff_1k.jpg')).read_bytes(),md5,length),'Texture hash changed'
-    obj['scene_objects']=97
-    obj['material_stage']='CC0_photographic_albedo_v3'
+    renderer.kitchen()
+    obj['scene_objects']=len(renderer.SCENE)
+    obj['material_stage']='CC0_photographic_albedo_v4_with_reflection'
     obj['materials']=[{'id':name,'source':'https://polyhaven.com/a/'+name,'license':'CC0','md5':data[1]}
                       for name,data in TEXTURES.items()]
     obj['test']['ratio_2_to_1']=True
@@ -29,6 +31,7 @@ def main():
     obj['test']['sha256']=hashlib.sha256(raw).hexdigest()
     obj['test']['stable_story_uv_anchors_verified']=7
     obj['test']['photo_albedo_verified']=True
+    obj['test']['mirror_single_bounce']=True
     obj['remaining']=[
       'Photographic materials are physically mapped but models remain low-poly; no photorealism claim',
       'Visual QA in actual WebGL game, calibrating complete hotspot corners and Q01/Q04 walkaround still needed',

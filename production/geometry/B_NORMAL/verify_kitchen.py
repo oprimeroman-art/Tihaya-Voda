@@ -31,11 +31,17 @@ def main():
  assert len(renderer.MATERIALS)==4,'Four CC0 photographic albedo textures required'
  renderer.kitchen()
  names={o[0] for o in renderer.SCENE}
- assert len(renderer.SCENE)>=90 and len(names)>=50, 'Scene has lost key geometry'
+ assert len(renderer.SCENE)>=275 and len(names)>=55, 'Scene has lost key geometry'
  for label,(world,expected,object_name) in ANCHORS.items():
   assert object_name in names, f'{label}: 3D object missing'
   actual=uv(world)
   assert all(abs(a-b)<.0001 for a,b in zip(actual,expected)),f'{label} has moved: {actual} vs {expected}'
+ for prefix in ('burner_ring_0_', 'burner_ring_1_', 'burner_ring_2_', 'burner_ring_3_', 'kettle_shell_', 'sink_drain_', 'mirror_trim_', 'fridge_grille_'):
+  assert any(name.startswith(prefix) for name in names), 'Missing detailed 3D object: '+prefix
+ pos=np.array([[[-1.18,1.50,-2.390]]],dtype=np.float32)
+ rays=np.array([[[-.20,-.02,-.98]]],dtype=np.float32)
+ row,col,colour=renderer.mirror_rays(pos,rays,np.array([[True]],dtype=bool))
+ assert len(row)==len(col)==len(colour)==1 and np.all(np.isfinite(colour)), 'Mirror reflection invalid'
  print(f'PASS: {len(renderer.SCENE)} 3D objects, {len(ANCHORS)} unchanged quest UV anchors')
  out=Path(__file__).resolve().parent/'_verify_render.webp'
  try:

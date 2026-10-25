@@ -150,6 +150,131 @@ def kitchen():
     for i,z in enumerate([-1.4,.78]):
         box('light_halo'+str(i),(-.52,2.74,z-.33),(.52,2.77,z+.33),(132,116,88),'steel')
         box('warm_light'+str(i),(-.4,2.735,z-.23),(.4,2.74,z+.23),(249,218,149),'lamp')
+    add_detail_geometry()
+
+def add_circular_trim(name,cx,y,cz,r,segments,thickness,color,material='steel'):
+    """Concentric physical details modelled in world space as many short cuboids."""
+    for i in range(segments):
+        angle=2*np.pi*i/segments
+        x=cx+r*np.cos(angle);z=cz+r*np.sin(angle)
+        box(f'{name}_{i:02d}',(x-thickness,y,z-thickness),
+            (x+thickness,y+thickness*.65,z+thickness),color,material)
+
+
+def add_detail_geometry():
+    """Enhance prop silhouettes without moving any approved scripted object centres."""
+    # Stove: each of the four burners has metallic trim, ceramic control dots.
+    for i,(x,z) in enumerate([(.42,-2.17),(.94,-2.17),(.42,-1.83),(.94,-1.83)]):
+        add_circular_trim(f'burner_ring_{i}',x+.13,1.028,z+.125,.107,12,.015,
+                          (84,89,88))
+        box(f'burner_center_{i}',(x+.106,1.031,z+.104),
+            (x+.154,1.036,z+.145),(43,45,48),'steel')
+    for i,x in enumerate([.28,.55,.83,1.11]):
+        box(f'stove_switch_{i}',(x,.98,-1.55),(x+.058,1.04,-1.515),
+            (170,169,157),'steel')
+    # Sink: separate edge trim and a visible drain instead of a flat blue plate.
+    for key,lo,hi in [
+        ('sink_front',(-1.78,.995,-1.73),(-.59,1.02,-1.705)),
+        ('sink_left',(-1.79,.99,-2.34),(-1.765,1.02,-1.72)),
+        ('sink_right',(-.615,.99,-2.34),(-.59,1.02,-1.72)),
+        ('sink_back',(-1.78,.99,-2.355),(-.59,1.02,-2.33))]:
+        box(key,lo,hi,(171,179,179),'steel')
+    add_circular_trim('sink_drain',-1.18,.999,-2.015,.048,12,.006,(42,54,59))
+    box('faucet_valve',(-1.23,1.065,-2.42),(-1.08,1.09,-2.35),
+        (151,159,158),'steel')
+    for i in range(4):
+        box(f'faucet_handle_ridge_{i}',(-1.15+i*.024,1.285,-2.35),
+            (-1.144+i*.024,1.3,-2.31),(201,205,194),'steel')
+    # Kettle remains centred on its original interactive anchor.
+    add_circular_trim('kettle_lid_rim',1.77,1.365,-2.115,.103,16,.014,
+                      (64,68,66))
+    box('kettle_lid_knob',(1.746,1.371,-2.137),(1.794,1.42,-2.095),
+        (41,44,45),'steel')
+    for j in range(4):
+        yy=1.02+j*.069
+        add_circular_trim(f'kettle_shell_{j}',1.765,yy,-2.113,
+                          .143-.009*max(j-1,0),16,.016,
+                          (174+j*2,183+j*2,177+j*2),'enamel')
+    # Handle sits visibly above the kettle, with steam outlet on one side.
+    box('kettle_handle_left',(1.68,1.375,-2.173),(1.709,1.485,-2.145),
+        (43,44,43),'steel')
+    box('kettle_handle_right',(1.823,1.375,-2.173),(1.849,1.485,-2.145),
+        (43,44,43),'steel')
+    box('kettle_handle_grip',(1.68,1.477,-2.174),(1.85,1.505,-2.143),
+        (44,46,46),'steel')
+    box('kettle_power_indicator',(1.733,1.027,-1.964),(1.775,1.051,-1.957),
+        (138,39,29),'enamel')
+    # Mirror: multiple independent real surfaces, rivets and metal wear.
+    for side,x in [('left',-1.757),('right',-.583)]:
+        box('mirror_trim_'+side,(x,1.224,-2.451),(x+.016,1.763,-2.405),
+            (164,170,165),'steel')
+    box('mirror_upper_lip',(-1.76,1.757,-2.45),(-.565,1.771,-2.404),
+        (166,173,172),'steel')
+    box('mirror_lower_lip',(-1.76,1.22,-2.455),(-.565,1.239,-2.403),
+        (143,150,148),'steel')
+    for xx in [-1.715,-.614]:
+        for yy in [1.264,1.728]:
+            box('mirror_screw',(xx,yy,-2.405),(xx+.014,yy+.014,-2.398),
+                (62,68,69),'steel')
+    # Fridge equipment: drip tray, door gasket, ventilation grille.
+    for i,y in enumerate([.29,.32,.35,.38,.41]):
+        box(f'fridge_grille_{i}',(2.145,y,-2.22),(2.158,y+.010,-1.53),
+            (79,86,84),'steel')
+    box('fridge_badge',(2.145,1.768,-1.970),(2.163,1.851,-1.711),
+        (190,190,174),'enamel')
+    # Cabinets: physical hinge joints and two pulls for the main doors.
+    for x in [-2.58,-1.40,.80,1.74]:
+        for yy in [1.94,2.30]:
+            box('cabinet_hinge',(x+.021,yy,-1.838),(x+.049,yy+.07,-1.804),
+                (159,163,156),'steel')
+    # Table hardware and chair legs for a practical working canteen.
+    for xx in [-1.38,1.34]:
+        for zz in [1.18,1.55]:
+            box('chair_leg',(xx,.055,zz),(xx+.038,.44,zz+.037),
+                (51,54,51),'steel')
+    for i,z in enumerate([.62,1.63]):
+        box(f'table_edge_detail_{i}',(-1.055,.746,z),(1.00,.774,z+.025),
+            (83,64,49),'wood')
+    for i,x in enumerate([-.98,.92]):
+        box(f'table_edge_end_{i}',(x,.744,.60),(x+.026,.774,1.75),
+            (79,62,48),'wood')
+
+
+def mirror_rays(hit_points, incoming, mask):
+    """One real planar reflection bounce. Reflect room surfaces, never the mirror itself."""
+    rows,cols=np.nonzero(mask)
+    if len(rows)==0:return rows,cols,np.zeros((0,3),np.float32)
+    origin=hit_points[rows,cols].copy()
+    rays=incoming[rows,cols].copy()
+    rays[:,2]*=-1  # Mirror plane faces inward towards positive Z.
+    origin[:,2]+=.0008
+    best=np.full(len(rows),np.inf,np.float32)
+    colours=np.tile(np.array([17,27,35],dtype=np.float32),(len(rows),1))
+    safe=np.where(np.abs(rays)<1e-7,np.where(rays<0,-1e-7,1e-7),rays)
+    for obj,lo,hi,col,kind in SCENE:
+        if obj.startswith('mirror_'):continue
+        t0=(lo-origin)/safe
+        t1=(hi-origin)/safe
+        near=np.minimum(t0,t1)
+        far=np.maximum(t0,t1)
+        entry=np.max(near,axis=1)
+        exit=np.min(far,axis=1)
+        valid=(exit>=np.maximum(entry,.001))&(entry>.001)&(entry<best)
+        if not np.any(valid):continue
+        axis=np.argmax(near,axis=1)
+        normals=np.zeros_like(rays)
+        for j in range(3):normals[:,j]=np.where(axis==j,-np.sign(rays[:,j]),0)
+        position=origin+entry[:,None]*rays
+        light=np.array([0,2.73,-1.4],np.float32)-position
+        ll=np.maximum(.00001,np.linalg.norm(light,axis=1))
+        lambert=np.maximum(0,np.einsum('ij,ij->i',normals,light)/ll)
+        fade=np.clip(.27+.73*lambert/(.7+.09*ll*ll),.24,.91)
+        shade=np.minimum(255,np.asarray(col,np.float32)[None,:]*fade[:,None])
+        shade[:,2]*=1.06
+        colours[valid]=shade[valid]
+        best=np.where(valid,entry,best)
+    return rows,cols,colours
+
 
 def render(width=2048):
     height=width//2
@@ -279,6 +404,10 @@ def render(width=2048):
                 rgb[...,2]*=.81
             # Mild photographic toe; preserve detail without raising blacks.
             rgb=np.where(rgb<33,rgb*.85,rgb)
+            if name=='mirror_glass':
+                py,px,reflected=mirror_rays(pt,direction,hit)
+                if len(py):
+                    rgb[py,px]=.12*rgb[py,px]+.88*reflected
             best=np.where(hit,entry,best)
             base=np.where(hit[...,None],rgb,base)
         # Deliberately wrap the longitude seam by computing last ray from the first column.
