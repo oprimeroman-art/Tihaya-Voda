@@ -13,22 +13,23 @@
     0
   ],
   "game_centre_look_direction": "u=0.5 points along negative Z to kitchen counter",
-  "scene_objects": 97,
+  "scene_objects": 289,
   "image_path": "art/candidates/B_B_NORMAL_360_geometry.webp",
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 2.964,
+    "edge_column_mae": 3.028,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 326802,
-    "sha256": "486153b225cb3e49112fd05c170bd4225bf07c643879f31fe4faec5c9bedcef7",
+    "webp_bytes": 329548,
+    "sha256": "a35bc4a44f9416b3ac07e05f8c081caf65980f8f9193059b17432ac8dd212d16",
     "mean_rgb": [
       101.0,
       88.6,
       64.5
     ],
     "stable_story_uv_anchors_verified": 7,
-    "photo_albedo_verified": true
+    "photo_albedo_verified": true,
+    "mirror_single_bounce": true
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
@@ -77,7 +78,7 @@
     "Visual QA in actual WebGL game, calibrating complete hotspot corners and Q01/Q04 walkaround still needed",
     "Do not replace playable room B until art production approval"
   ],
-  "material_stage": "CC0_photographic_albedo_v3",
+  "material_stage": "CC0_photographic_albedo_v4_with_reflection",
   "qa_updated_at": "2026-10-25",
   "materials": [
     {
