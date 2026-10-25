@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Маяк-9 — проверка 360° панорам</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#0b0d10;color:#ddd;font:14px/1.45 system-ui,Arial,sans-serif}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px;background:#171b21;border-bottom:1px solid #363a40}
+strong{color:#eee;letter-spacing:.03em}button,input{font:inherit}button{background:#293139;color:#fff;border:1px solid #777;padding:7px 10px;cursor:pointer;border-radius:4px}button:hover{background:#3e484f}
+input{max-width:240px}#stage{position:relative;min-height:300px;height:calc(100vh - 155px)}canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
+#help{position:absolute;top:12px;left:12px;padding:12px;background:#10151bdc;max-width:320px;pointer-events:none;border-radius:6px}
+#help:empty{display:none}footer{padding:12px 16px;background:#171b21;color:#b8c0cb;font-size:12px;min-height:64px}#info{white-space:pre-wrap}#coords{color:#b6ddde}
+@media(max-width:700px){header{padding:8px;font-size:12px}#stage{height:calc(100vh - 188px)}}
+</style></head><body>
+<header><strong>Маяк-9 · 360° QA</strong><label>PNG / WebP / JPEG <input id="file" type="file" accept="image/png,image/webp,image/jpeg"></label>
+<button id="reset">Сбросить камеру</button><button id="copy">Копировать UV</button><button id="clear">Сбросить точки</button></header>
+<div id="stage"><canvas id="scene"></canvas><div id="help">Открой панораму через поле выбора файла. Перетаскивай мышью для поворота, колесо — масштаб. Два щелчка задают прямоугольник предмета (UV).</div></div>
+<footer><span id="info">Файл не выбран. Офлайн просмотр: изображение никуда не отправляется.</span><div id="coords"></div></footer>
+<script>
+'use strict';
+const canvas=document.querySelector('#scene'),info=document.querySelector('#info'),coords=document.querySelector('#coords'),help=document.querySelector('#help');
+const gl=canvas.getContext('webgl',{alpha:false,antialias:false})||canvas.getContext('experimental-webgl');
+const TAU=2*Math.PI,clamp=(n,a,b)=>Math.min(b,Math.max(a,n));let yaw=0,pitch=0,fov=78,drag=false,moved=false,lastX=0,lastY=0,points=[],texture=null,loaded=false,filename='',dimensions='',seam='';
+function compile(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+let program=null,uniforms={};
+if(gl){
+ const vertex='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+ const fragment=`precision mediump float;uniform sampler2D tex;uniform vec2 size;uniform float yaw,pitch,fov;const float PI=3.14159265359;void main(){vec2 q=(gl_FragCoord.xy/size-.5)*2.;float t=tan(radians(fov)*.5);vec3 v=normalize(vec3(q.x*(size.x/size.y)*t,q.y*t,-1.));float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);v=vec3(v.x,cp*v.y-sp*v.z,sp*v.y+cp*v.z);v=vec3(cy*v.x-sy*v.z,v.y,sy*v.x+cy*v.z);vec2 uv=vec2(fract(.5+atan(v.x,-v.z)/(2.*PI)),.5+asin(clamp(v.y,-1.,1.))/PI);gl_FragColor=texture2D(tex,uv);}`;
+ program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+ const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+ const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+ for(const name of ['size','yaw','pitch','fov'])uniforms[name]=gl.getUniformLocation(program,name);
+ gl.uniform1i(gl.getUniformLocation(program,'tex'),0);
+}else info.textContent='WebGL недоступен. Открой этот файл в Chrome с включённым WebGL.';
+function render(){if(!gl||!loaded)return;const dpr=Math.min(devicePixelRatio||1,1.5),w=Math.floor(canvas.clientWidth*dpr),h=Math.floor(canvas.clientHeight*dpr);if(!w||!h)return;if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h)}gl.useProgram(program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.uniform2f(uniforms.size,w,h);gl.uniform1f(uniforms.yaw,yaw);gl.uniform1f(uniforms.pitch,pitch);gl.uniform1f(uniforms.fov,fov);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);info.textContent=filename+' · '+dimensions+' · '+seam+' · yaw '+yaw.toFixed(2)+' · pitch '+pitch.toFixed(2)+' · FOV '+fov.toFixed(0)+'°';}
+function uvAt(x,y){const nx=(x/canvas.clientWidth-.5)*2,ny=(.5-y/canvas.clientHeight)*2,t=Math.tan(fov*Math.PI/360);let a=nx*(canvas.clientWidth/canvas.clientHeight)*t,b=ny*t,c=-1;const len=Math.hypot(a,b,c);a/=len;b/=len;c/=len;const cp=Math.cos(pitch),sp=Math.sin(pitch),cy=Math.cos(yaw),sy=Math.sin(yaw),yy=cp*b-sp*c,zz=sp*b+cp*c,xx=cy*a-sy*zz,z=sy*a+cy*zz;return{u:((.5+Math.atan2(xx,-z)/TAU)%1+1)%1,v:clamp(.5-Math.asin(clamp(yy,-1,1))/Math.PI,0,1)};}
+function updatePoints(){if(!points.length){coords.textContent='UV: нет точек';return;}const p=points.map(x=>'('+x.u.toFixed(4)+', '+x.v.toFixed(4)+')').join(' / ');if(points.length===2){let [a,b]=points;if(Math.abs(a.u-b.u)>.5){coords.textContent='UV: '+p+' · ВНИМАНИЕ: зона пересекает шов, выбери другой центр.';return;}const u1=Math.min(a.u,b.u),u2=Math.max(a.u,b.u),v1=Math.min(a.v,b.v),v2=Math.max(a.v,b.v),corners=[{u:u1,v:v1},{u:u2,v:v1},{u:u2,v:v2},{u:u1,v:v2}];coords.textContent='UV: '+p+' · corners: '+JSON.stringify(corners);}else coords.textContent='UV: '+p+' · выбери второй угол';}
+canvas.addEventListener('pointerdown',e=>{if(!loaded||e.button!==0)return;drag=true;moved=false;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;if(Math.abs(dx)+Math.abs(dy)>1)moved=true;yaw-=dx*.0045;pitch=clamp(pitch+dy*.0045,-1.49,1.49);lastX=e.clientX;lastY=e.clientY;render()});
+canvas.addEventListener('pointerup',e=>{if(!drag)return;drag=false;if(moved)return;const r=canvas.getBoundingClientRect(),p=uvAt(e.clientX-r.left,e.clientY-r.top);if(points.length>=2)points=[];points.push(p);updatePoints()});
+canvas.addEventListener('pointercancel',()=>drag=false);canvas.addEventListener('wheel',e=>{e.preventDefault();fov=clamp(fov+e.deltaY*.035,35,98);render()},{passive:false});
+document.querySelector('#reset').onclick=()=>{yaw=0;pitch=0;fov=78;render()};document.querySelector('#clear').onclick=()=>{points=[];updatePoints()};
+document.querySelector('#copy').onclick=()=>{const text=coords.textContent.includes('corners: ')?coords.textContent.split('corners: ')[1]:coords.textContent;navigator.clipboard?.writeText(text).then(()=>info.textContent='UV-координаты скопированы').catch(()=>info.textContent='Не удалось автоматически скопировать; выдели строку внизу.')};
+document.querySelector('#file').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f||!gl)return;const url=URL.createObjectURL(f),im=new Image();im.onload=()=>{URL.revokeObjectURL(url);const w=im.naturalWidth,h=im.naturalHeight;filename=f.name;dimensions=w+'×'+h+(w!==h*2?' · НЕ 2:1':'')+(w<2048||h<1024?' · низкое разрешение':'');
+ try{const c=document.createElement('canvas');c.width=1;c.height=Math.min(512,h);const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(im,0,0,1,c.height);const left=cx.getImageData(0,0,1,c.height).data;cx.clearRect(0,0,1,c.height);cx.drawImage(im,-w+1,0,w,c.height);const right=cx.getImageData(0,0,1,c.height).data;let diff=0;for(let i=0;i<left.length;i+=4)for(let k=0;k<3;k++)diff+=Math.abs(left[i+k]-right[i+k]);seam='оценка шва '+(diff/(c.height*3)).toFixed(1)+' / 255 (не геометрическая проверка)';}catch(_e){seam='шов не проверен';}
+ if(texture)gl.deleteTexture(texture);texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);loaded=true;points=[];updatePoints();help.textContent='Перетащи для поворота на 360°. Два коротких клика задают 4 UV-угла предмета. Проверяй шов при yaw около ±3.14.';render();};im.onerror=()=>{URL.revokeObjectURL(url);info.textContent='Невозможно прочитать изображение.'};im.src=url;});
+window.addEventListener('resize',render);updatePoints();
+</script></body></html>
