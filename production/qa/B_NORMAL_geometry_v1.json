@@ -13,15 +13,21 @@
     0
   ],
   "game_centre_look_direction": "u=0.5 points along negative Z to kitchen counter",
-  "scene_objects": 75,
+  "scene_objects": 97,
   "image_path": "art/candidates/B_B_NORMAL_360_geometry.webp",
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 1.25,
+    "edge_column_mae": 2.188,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 81838,
-    "sha256": "96b82b658e0cd47634880242e94f1f11089824ee5eefced3a0b5db12edda506a"
+    "webp_bytes": 108714,
+    "sha256": "13d6bfcaabe3408bc536bf20e73d6c8fc1359c50a486b89cef2cd6866f6d5721",
+    "mean_rgb": [
+      101.0,
+      88.6,
+      64.5
+    ],
+    "stable_story_uv_anchors_verified": 7
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
@@ -66,9 +72,11 @@
     }
   },
   "remaining": [
-    "3D material and furniture modeling are deliberately low fidelity; do not use as production art",
-    "No visual review in Chromium yet; inspect complete rotation in panorama-review.html",
+    "Improved procedural textures are still stylized 3D; art production and final photoreal materials remain outstanding",
+    "Chromium visual walkaround and full gameplay testing not completed",
     "All UV coordinates describe object centres only; corners must be calibrated in editor",
     "Do not change shipped game project without final art and hotspot acceptance"
-  ]
+  ],
+  "material_stage": "procedural_materials_v2",
+  "qa_updated_at": "2026-10-25"
 }
