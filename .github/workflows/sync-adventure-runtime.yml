@@ -9,6 +9,8 @@ on:
       - 'studio/source/adventure-ui.js'
       - 'studio/source/game-runtime.html'
       - 'codex-scripts/sync_embedded_engine.py'
+      - 'codex-scripts/audit_art_ready.py'
+      - 'production/asset_manifest_q01_q03.json'
 
 permissions:
   contents: write
@@ -29,6 +31,8 @@ jobs:
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-saves.test.cjs
           node studio/verification/adventure-rooms.test.cjs
+      - name: Report first art wave readiness (nonblocking before actual art production)
+        run: python3 codex-scripts/audit_art_ready.py
       - name: Update existing offline game and editor
         run: |
           python3 codex-scripts/sync_embedded_engine.py
