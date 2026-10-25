@@ -1,0 +1,41 @@
+name: Synchronize adventure runtime
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'studio/source/adventure-core.js'
+      - 'codex-scripts/sync_embedded_engine.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-adventure-runtime
+  cancel-in-progress: false
+
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Run story engine regression checks
+        run: node studio/verification/adventure-pending.test.cjs
+      - name: Update existing offline game and editor
+        run: |
+          python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/sync_embedded_engine.py --check
+      - name: Commit generated HTML changes to main
+        run: |
+          git add game/index.html game-editor/index.html
+          if git diff --cached --quiet; then
+            echo 'Game and editor HTML are up to date.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build: synchronize adventure engine in game and editor'
+          git push origin HEAD:main
