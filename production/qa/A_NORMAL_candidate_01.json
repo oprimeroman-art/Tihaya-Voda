@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "room": "A",
+  "variant": "A_NORMAL",
+  "candidate": "imagegen concept generated 2026-10-25 (chat file: арктическая_станция_уют_среди_льдов.png)",
+  "status": "candidate_not_imported",
+  "image_dimensions": [
+    1774,
+    887
+  ],
+  "aspect_ratio": 2,
+  "min_production_dimensions": [
+    2048,
+    1024
+  ],
+  "seam_sample": {
+    "method": "mean absolute RGB difference between extreme left and extreme right columns",
+    "mae": 12.26,
+    "warning": "A low edge-column error does not prove the image is a geometrically valid full 360 panorama; verify in the player with a full rotation."
+  },
+  "notes": [
+    "Base room has a bed, table, mug, badge, documents, slippers, locker and station exit as required.",
+    "Aesthetic mostly matches lived-in Arctic station, although the bulkhead-style doorway needs review against land-base architecture.",
+    "Generated resolution is below the production minimum.",
+    "The currently shipped game uses a placeholder; do not replace it until panorama, seam and hotspot QA pass."
+  ],
+  "calibration_status": "provisional; authored against the candidate picture only; no changes made to shipped object corners",
+  "proposed_object_uv_boxes": [
+    {
+      "object_id": "obj_take_BADGE04",
+      "action": "take_BADGE04",
+      "label": "бейдж на рабочем столе",
+      "u_min": 0.045,
+      "u_max": 0.105,
+      "v_min": 0.65,
+      "v_max": 0.735
+    },
+    {
+      "object_id": "obj_take_STORAGE_KEY",
+      "action": "take_STORAGE_KEY",
+      "label": "кружка на столе",
+      "u_min": 0.045,
+      "u_max": 0.08,
+      "v_min": 0.58,
+      "v_max": 0.66
+    },
+    {
+      "object_id": "obj_read_D24",
+      "action": "read_D24",
+      "label": "бумаги и личные записи на столе",
+      "u_min": 0.095,
+      "u_max": 0.175,
+      "v_min": 0.59,
+      "v_max": 0.67
+    },
+    {
+      "object_id": "obj_slippers",
+      "action": "slippers",
+      "label": "тапочки возле кровати",
+      "u_min": 0.29,
+      "u_max": 0.35,
+      "v_min": 0.71,
+      "v_max": 0.81
+    }
+  ],
+  "next_gate": "Approve a correctly wrapped equirectangular 360x180 image with min 2048x1024, review every object location in running WebGL viewer, then apply object corners and import image through the existing editor."
+}
