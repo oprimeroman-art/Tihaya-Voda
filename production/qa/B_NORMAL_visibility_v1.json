@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "room": "B",
+  "status": "preliminary_3d_ray_visibility",
+  "not_final_player_validation": true,
+  "items": [
+    {
+      "action": "TEA_SEQUENCE",
+      "source": "kettle_body",
+      "nearest_geometry": "kettle_curved",
+      "visible_centre_ray": true,
+      "distance_m": 2.652,
+      "target_depth_m": 2.8
+    },
+    {
+      "action": "COOKING",
+      "source": "cooker_trim",
+      "nearest_geometry": "cooker_trim",
+      "visible_centre_ray": true,
+      "distance_m": 2.194,
+      "target_depth_m": 2.253
+    },
+    {
+      "action": "plate_choice",
+      "source": "plate",
+      "nearest_geometry": "plate_curved",
+      "visible_centre_ray": true,
+      "distance_m": 1.449,
+      "target_depth_m": 1.478
+    },
+    {
+      "action": "read_D01",
+      "source": "tea_instruction",
+      "nearest_geometry": "tea_instruction",
+      "visible_centre_ray": true,
+      "distance_m": 3.136,
+      "target_depth_m": 3.152
+    },
+    {
+      "action": "read_D16",
+      "source": "note_page",
+      "nearest_geometry": "note_page",
+      "visible_centre_ray": true,
+      "distance_m": 3.001,
+      "target_depth_m": 3.017
+    },
+    {
+      "action": "watch_A05",
+      "source": "intercom_A05_face",
+      "nearest_geometry": "intercom_A05_speaker",
+      "visible_centre_ray": true,
+      "distance_m": 3.444,
+      "target_depth_m": 3.467
+    },
+    {
+      "action": "wash_cup",
+      "source": "sink_water",
+      "nearest_geometry": "sink_water",
+      "visible_centre_ray": true,
+      "distance_m": 2.441,
+      "target_depth_m": 2.452
+    },
+    {
+      "action": "mirror04",
+      "source": "mirror_glass",
+      "nearest_geometry": "mirror_glass",
+      "visible_centre_ray": true,
+      "distance_m": 2.66,
+      "target_depth_m": 2.679
+    },
+    {
+      "action": "mirror04_away",
+      "source": "chair_back",
+      "nearest_geometry": "chair_back",
+      "visible_centre_ray": true,
+      "distance_m": 2.272,
+      "target_depth_m": 2.323
+    },
+    {
+      "action": "mirror04_again",
+      "source": "mirror_glass",
+      "nearest_geometry": "mirror_glass",
+      "visible_centre_ray": true,
+      "distance_m": 2.66,
+      "target_depth_m": 2.679
+    },
+    {
+      "action": "mirror04_third",
+      "source": "door_leaf",
+      "nearest_geometry": "door_leaf",
+      "visible_centre_ray": true,
+      "distance_m": 3.139,
+      "target_depth_m": 3.177
+    }
+  ]
+}

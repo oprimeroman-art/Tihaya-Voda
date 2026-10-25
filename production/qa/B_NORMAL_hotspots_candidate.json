@@ -167,8 +167,29 @@
     {
       "id": "obj_watch_A05",
       "action_id": "watch_A05",
-      "status": "requires_authored_3d_prop",
-      "reason": "No corresponding physical object is present; do not bind to empty wall"
+      "source_3d_object": "intercom_A05_face",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.83392,
+            "v": 0.48325
+          },
+          {
+            "u": 0.86447,
+            "v": 0.48325
+          },
+          {
+            "u": 0.86447,
+            "v": 0.5508
+          },
+          {
+            "u": 0.83392,
+            "v": 0.5508
+          }
+        ]
+      ]
     },
     {
       "id": "obj_wash_cup",

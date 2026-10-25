@@ -13,15 +13,15 @@
     0
   ],
   "game_centre_look_direction": "u=0.5 points along negative Z to kitchen counter",
-  "scene_objects": 289,
+  "scene_objects": 301,
   "image_path": "art/candidates/B_B_NORMAL_360_geometry.webp",
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 3.027,
+    "edge_column_mae": 3.062,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 330064,
-    "sha256": "51f435ede927d8b11e56cdab3c11610532c3aa3f52751a92e6b6fbe35dd840b2",
+    "webp_bytes": 330264,
+    "sha256": "9abe3bfc401ad5d3380a7d98c8b0757ae9dcdc665b278bc8758e8435e6406464",
     "mean_rgb": [
       101.0,
       88.6,
@@ -31,7 +31,9 @@
     "photo_albedo_verified": true,
     "mirror_single_bounce": true,
     "curved_ray_intersections": true,
-    "candidate_3d_projected_hotspots": 11
+    "candidate_3d_projected_hotspots": 11,
+    "visible_interaction_rays": 11,
+    "audio_A05_intercom_model": true
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
