@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "room": "B",
+  "variant": "B_NORMAL",
+  "stage": "art_candidate_only",
+  "projection": "equirectangular_360x180",
+  "camera_m": [
+    0,
+    1.65,
+    0
+  ],
+  "source": "world-space AABB projected to panorama UV",
+  "objects": [
+    {
+      "id": "obj_TEA_SEQUENCE",
+      "action_id": "TEA_SEQUENCE",
+      "source_3d_object": "kettle_body",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.59098,
+            "v": 0.52335
+          },
+          {
+            "u": 0.63054,
+            "v": 0.52335
+          },
+          {
+            "u": 0.63054,
+            "v": 0.59435
+          },
+          {
+            "u": 0.59098,
+            "v": 0.59435
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_COOKING",
+      "action_id": "COOKING",
+      "source_3d_object": "cooker_trim",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.50206,
+            "v": 0.55968
+          },
+          {
+            "u": 0.62892,
+            "v": 0.55968
+          },
+          {
+            "u": 0.62892,
+            "v": 0.63942
+          },
+          {
+            "u": 0.50206,
+            "v": 0.63942
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_plate_choice",
+      "action_id": "plate_choice",
+      "source_3d_object": "plate",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": true,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.98283,
+            "v": 0.65209
+          },
+          {
+            "u": 1,
+            "v": 0.65209
+          },
+          {
+            "u": 1,
+            "v": 0.72801
+          },
+          {
+            "u": 0.98283,
+            "v": 0.72801
+          }
+        ],
+        [
+          {
+            "u": 0,
+            "v": 0.65209
+          },
+          {
+            "u": 0.0624,
+            "v": 0.65209
+          },
+          {
+            "u": 0.0624,
+            "v": 0.72801
+          },
+          {
+            "u": 0,
+            "v": 0.72801
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_read_D01",
+      "action_id": "read_D01",
+      "source_3d_object": "tea_instruction",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.1671,
+            "v": 0.46945
+          },
+          {
+            "u": 0.19611,
+            "v": 0.46945
+          },
+          {
+            "u": 0.19611,
+            "v": 0.53055
+          },
+          {
+            "u": 0.1671,
+            "v": 0.53055
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_read_D16",
+      "action_id": "read_D16",
+      "source_3d_object": "note_page",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.18356,
+            "v": 0.46539
+          },
+          {
+            "u": 0.21862,
+            "v": 0.46539
+          },
+          {
+            "u": 0.21862,
+            "v": 0.53675
+          },
+          {
+            "u": 0.18356,
+            "v": 0.53675
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_watch_A05",
+      "action_id": "watch_A05",
+      "status": "requires_authored_3d_prop",
+      "reason": "No corresponding physical object is present; do not bind to empty wall"
+    },
+    {
+      "id": "obj_wash_cup",
+      "action_id": "wash_cup",
+      "source_3d_object": "sink_water",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.37249,
+            "v": 0.56068
+          },
+          {
+            "u": 0.46206,
+            "v": 0.56068
+          },
+          {
+            "u": 0.46206,
+            "v": 0.61807
+          },
+          {
+            "u": 0.37249,
+            "v": 0.61807
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_mirror04",
+      "action_id": "mirror04",
+      "source_3d_object": "mirror_glass",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.39493,
+            "v": 0.48287
+          },
+          {
+            "u": 0.46571,
+            "v": 0.48287
+          },
+          {
+            "u": 0.46571,
+            "v": 0.5579
+          },
+          {
+            "u": 0.39493,
+            "v": 0.5579
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_mirror04_away",
+      "action_id": "mirror04_away",
+      "source_3d_object": "chair_back",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.85878,
+            "v": 0.53585
+          },
+          {
+            "u": 0.90085,
+            "v": 0.53585
+          },
+          {
+            "u": 0.90085,
+            "v": 0.67364
+          },
+          {
+            "u": 0.85878,
+            "v": 0.67364
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_mirror04_again",
+      "action_id": "mirror04_again",
+      "source_3d_object": "mirror_glass",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.39493,
+            "v": 0.48287
+          },
+          {
+            "u": 0.46571,
+            "v": 0.48287
+          },
+          {
+            "u": 0.46571,
+            "v": 0.5579
+          },
+          {
+            "u": 0.39493,
+            "v": 0.5579
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_mirror04_third",
+      "action_id": "mirror04_third",
+      "source_3d_object": "door_leaf",
+      "status": "needs_manual_in_game_approval",
+      "seam_split": false,
+      "candidate_quads": [
+        [
+          {
+            "u": 0.77896,
+            "v": 0.42978
+          },
+          {
+            "u": 0.8372,
+            "v": 0.42978
+          },
+          {
+            "u": 0.8372,
+            "v": 0.66495
+          },
+          {
+            "u": 0.77896,
+            "v": 0.66495
+          }
+        ]
+      ]
+    }
+  ],
+  "not_in_shipped_game": true,
+  "warning": "Do not directly write these rectangles to game-project before checking visibility, occlusion, seam handling and chapter Q01/Q04 interactions."
+}

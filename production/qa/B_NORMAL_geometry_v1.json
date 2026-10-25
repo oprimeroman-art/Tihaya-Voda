@@ -18,10 +18,10 @@
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 3.028,
+    "edge_column_mae": 3.027,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 329548,
-    "sha256": "a35bc4a44f9416b3ac07e05f8c081caf65980f8f9193059b17432ac8dd212d16",
+    "webp_bytes": 330064,
+    "sha256": "51f435ede927d8b11e56cdab3c11610532c3aa3f52751a92e6b6fbe35dd840b2",
     "mean_rgb": [
       101.0,
       88.6,
@@ -29,7 +29,9 @@
     ],
     "stable_story_uv_anchors_verified": 7,
     "photo_albedo_verified": true,
-    "mirror_single_bounce": true
+    "mirror_single_bounce": true,
+    "curved_ray_intersections": true,
+    "candidate_3d_projected_hotspots": 11
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
@@ -74,11 +76,11 @@
     }
   },
   "remaining": [
-    "Photographic materials are physically mapped but models remain low-poly; no photorealism claim",
-    "Visual QA in actual WebGL game, calibrating complete hotspot corners and Q01/Q04 walkaround still needed",
+    "Kettle, mug, plate and faucet now have true curved ray surfaces, but remaining furniture is still stylized",
+    "10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam",
     "Do not replace playable room B until art production approval"
   ],
-  "material_stage": "CC0_photographic_albedo_v4_with_reflection",
+  "material_stage": "CC0_photographic_albedo_v5_curved_props_with_reflection",
   "qa_updated_at": "2026-10-25",
   "materials": [
     {
@@ -105,5 +107,6 @@
       "license": "CC0",
       "md5": "bd9daf4c04046ca392a38b8df955ed26"
     }
-  ]
+  ],
+  "curved_primitives": 5
 }
