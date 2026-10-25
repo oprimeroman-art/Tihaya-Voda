@@ -1,0 +1,74 @@
+{
+  "asset": "B_NORMAL",
+  "status": "geometry_candidate_not_approved_for_final_art",
+  "type": "analytic_3d_equirectangular_render",
+  "projection": "equirectangular360x180",
+  "dimensions": [
+    2048,
+    1024
+  ],
+  "camera_eye_m": [
+    0,
+    1.65,
+    0
+  ],
+  "game_centre_look_direction": "u=0.5 points along negative Z to kitchen counter",
+  "scene_objects": 75,
+  "image_path": "art/candidates/B_B_NORMAL_360_geometry.webp",
+  "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
+  "test": {
+    "ratio_2_to_1": true,
+    "edge_column_mae": 1.25,
+    "full_sphere_from_ray_box_intersections": true,
+    "webp_bytes": 81838,
+    "sha256": "96b82b658e0cd47634880242e94f1f11089824ee5eefced3a0b5db12edda506a"
+  },
+  "hotspot_anchor_uv_preview": {
+    "TEA_SEQUENCE": {
+      "u": 0.61012,
+      "v": 0.55432
+    },
+    "COOKING": {
+      "u": 0.5579,
+      "v": 0.59244
+    },
+    "plate_choice": {
+      "u": 0.02389,
+      "v": 0.69038
+    },
+    "wash_cup": {
+      "u": 0.41251,
+      "v": 0.5863
+    },
+    "mirror04": {
+      "u": 0.4286,
+      "v": 0.52139
+    },
+    "mirror04_again": {
+      "u": 0.4286,
+      "v": 0.52139
+    },
+    "mirror04_away": {
+      "u": 0.02672,
+      "v": 0.70353
+    },
+    "mirror04_third": {
+      "u": 0.80752,
+      "v": 0.51534
+    },
+    "read_D01": {
+      "u": 0.17935,
+      "v": 0.49799
+    },
+    "read_D16": {
+      "u": 0.20047,
+      "v": 0.49788
+    }
+  },
+  "remaining": [
+    "3D material and furniture modeling are deliberately low fidelity; do not use as production art",
+    "No visual review in Chromium yet; inspect complete rotation in panorama-review.html",
+    "All UV coordinates describe object centres only; corners must be calibrated in editor",
+    "Do not change shipped game project without final art and hotspot acceptance"
+  ]
+}
