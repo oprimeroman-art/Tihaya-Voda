@@ -12,6 +12,8 @@ on:
       - 'production/geometry/B_NORMAL/generate_hotspots.py'
       - 'production/geometry/B_NORMAL/verify_curved_hotspots.py'
       - 'production/geometry/B_NORMAL/audit_visibility.py'
+      - 'codex-scripts/build_kitchen_preview.py'
+      - 'studio/verification/kitchen-preview.test.cjs'
       - '.github/workflows/render-kitchen-360.yml'
 permissions:
   contents: write
@@ -45,9 +47,15 @@ jobs:
         run: python production/geometry/B_NORMAL/audit_visibility.py
       - name: Refresh current candidate QA
         run: python production/geometry/B_NORMAL/update_kitchen_qa.py
+      - name: Embed candidate into existing game as opt-in QA (normal mode untouched)
+        run: |
+          python codex-scripts/build_kitchen_preview.py
+          python codex-scripts/build_kitchen_preview.py --check
+          node studio/verification/kitchen-preview.test.cjs
+          python studio/verification/standalone-html.test.py
       - name: Commit candidate without additional copies
         run: |
-          git add art/candidates/B_B_NORMAL_360_geometry.webp art/materials/cc0/*.jpg production/qa/B_NORMAL_geometry_v1.json production/qa/B_NORMAL_hotspots_candidate.json production/qa/B_NORMAL_visibility_v1.json
+          git add art/candidates/B_B_NORMAL_360_geometry.webp art/materials/cc0/*.jpg production/qa/B_NORMAL_geometry_v1.json production/qa/B_NORMAL_hotspots_candidate.json production/qa/B_NORMAL_visibility_v1.json game/index.html
           if git diff --cached --quiet; then
             echo 'Candidate is unchanged.'
             exit 0
