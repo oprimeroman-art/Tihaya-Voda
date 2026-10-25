@@ -215,11 +215,15 @@ class Engine {
  apply(fx=[]){for(const x of fx){if(x.set)Object.assign(this.state.flags,x.set);if(x.item&&!this.state.inventory.includes(x.item))this.state.inventory.push(x.item);if(x.document){if(!this.state.documents.includes(x.document))this.state.documents.push(x.document);this.state.flags['FOUND_'+x.document]=true;}
  if(x.dialogue){const line=this.data.dialogues.find(l=>l.id===x.dialogue);if(line){this.state.journal.push({text:line.speaker,lines:[line]});this.hooks.line?.(line);}}if(x.variant)Object.assign(this.state.variants,x.variant);if(x.signal)this.signal(x.signal);if(x.checkpoint)this.checkpoint(x.checkpoint);if(x.room)this.enter(x.room,true);if(x.death)this.die(x.death);if(x.ending){this.state.ended=x.ending;this.state.flags.ENDING=x.ending;this.state.flags.Q12_DONE=true;}}
  }
- signal(name){for(const e of this.data.events){if(!(Array.isArray(e.signal)?e.signal.includes(name):e.signal===name)||this.state.fired.includes(e.id)||this.state.pending.some(p=>p.id===e.id)||!test(e.when,this.state))continue;this.state.pending.push({id:e.id,due:this.state.clock+(e.delay||0)});}}
- flush(dt=0){this.state.clock+=Math.max(0,dt);if(this.modal)return null;
- const ranks={mandatory:0,conditional:1,optional:2};this.state.pending.sort((a,b)=>ranks[this.data.events.find(e=>e.id===a.id).priority]-ranks[this.data.events.find(e=>e.id===b.id).priority]);
- const i=this.state.pending.findIndex(p=>{const e=this.data.events.find(e=>e.id===p.id);return p.due<=this.state.clock&&(!e.room||e.room===this.state.room)&&(!e.horror||this.state.flags.Q02_DONE)&&(e.priority!=='optional'||this.state.clock-this.state.lastOptional>=65);});
- if(i<0)return null;const p=this.state.pending.splice(i,1)[0],e=this.data.events.find(e=>e.id===p.id);this.state.fired.push(e.id);if(e.priority==='optional')this.state.lastOptional=this.state.clock;
+ signal(name){if(this.state.ended)return;for(const e of this.data.events){if(!(Array.isArray(e.signal)?e.signal.includes(name):e.signal===name)||this.state.fired.includes(e.id)||this.state.pending.some(p=>p.id===e.id)||!test(e.when,this.state))continue;this.state.pending.push({id:e.id,due:this.state.clock+(e.delay||0)});}}
+ flush(dt=0){this.state.clock+=Math.max(0,dt);if(this.modal||this.state.ended)return null;
+ // Revalidate queued events: flags and timeline state can change before execution.
+ const events=new Map(this.data.events.map(e=>[e.id,e]));
+ this.state.pending=this.state.pending.filter(p=>{const e=events.get(p.id);return e&&!this.state.fired.includes(e.id)&&test(e.when,this.state);});
+ const ranks={mandatory:0,conditional:1,optional:2};
+ this.state.pending.sort((a,b)=>(ranks[events.get(a.id).priority]??3)-(ranks[events.get(b.id).priority]??3)||a.due-b.due);
+ const i=this.state.pending.findIndex(p=>{const e=events.get(p.id);return p.due<=this.state.clock&&(!e.room||e.room===this.state.room)&&(!e.horror||this.state.flags.Q02_DONE)&&(e.priority!=='optional'||this.state.clock-this.state.lastOptional>=65);});
+ if(i<0)return null;const p=this.state.pending.splice(i,1)[0],e=events.get(p.id);this.state.fired.push(e.id);if(e.priority==='optional')this.state.lastOptional=this.state.clock;
  this.apply(e.effects);this.state.journal.push({id:e.id,text:e.presentation,lines:e.lines||[],time:this.state.clock});this.signal('event:'+e.id);this.changed();return e;
  }
  enter(room,force=false){if(this.state.ended)return false;if(!force){const edge=this.data.links.find(e=>e.from===this.state.room&&e.to===room);if(!edge||!test(edge.when,this.state))return false;}
