@@ -1,0 +1,39 @@
+name: Render B_NORMAL spherical candidate
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'production/geometry/B_NORMAL/render_kitchen360.py'
+      - '.github/workflows/render-kitchen-360.yml'
+permissions:
+  contents: write
+concurrency:
+  group: render-b-normal-360
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install renderer dependencies
+        run: python -m pip install --disable-pip-version-check numpy pillow
+      - name: Render B_NORMAL true 360 geometry
+        run: python production/geometry/B_NORMAL/render_kitchen360.py --width 2048 --out art/candidates/B_B_NORMAL_360_geometry.webp
+      - name: Validate dimension and seam
+        run: |
+          python -c 'from PIL import Image; import numpy as np; im=Image.open("art/candidates/B_B_NORMAL_360_geometry.webp").convert("RGB"); assert im.size==(2048,1024),im.size; a=np.asarray(im,dtype=np.float32); diff=float(np.abs(a[:,0]-a[:,-1]).mean()); print("seam_mae",diff); assert diff<3,diff'
+      - name: Commit candidate without additional copies
+        run: |
+          git add art/candidates/B_B_NORMAL_360_geometry.webp
+          if git diff --cached --quiet; then
+            echo 'Candidate is unchanged.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(art): B_NORMAL 360 geometry candidate'
+          git push origin HEAD:main
