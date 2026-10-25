@@ -75,12 +75,16 @@ def main():
     # Stockroom F: canonical puzzle/notes with three storyboard variants.
     from alpha_wave3 import apply_wave3
     applied.update(apply_wave3(payload,ROOT))
+    # Canonical story objects and narrative anomaly art, without changing quest logic.
+    from alpha_wave4_props import apply_wave4_props, decorate_game_ui
+    applied.update(apply_wave4_props(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
     if "KITCHEN_QA_PREVIEW_BEGIN" in html:
         raise ValueError("Leftover temporary 3D art preview injection")
     html=html[:start]+json.dumps(payload,ensure_ascii=False,separators=(",",":"))+html[start+end:]
+    html=decorate_game_ui(html)
     html=html.replace("</head>",'<meta name="robots" content="noindex,nofollow,noarchive"></head>',1)
     html=html.replace("<title>ПОЛЯРНАЯ СМЕНА</title>",
                       "<title>Протокол «Тихая вода» — демо</title>",1)
