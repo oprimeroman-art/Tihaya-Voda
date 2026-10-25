@@ -27,6 +27,8 @@ def uv(p):
 
 def main():
  renderer.SCENE.clear()
+ renderer.load_materials()
+ assert len(renderer.MATERIALS)==4,'Four CC0 photographic albedo textures required'
  renderer.kitchen()
  names={o[0] for o in renderer.SCENE}
  assert len(renderer.SCENE)>=90 and len(names)>=50, 'Scene has lost key geometry'
@@ -38,6 +40,12 @@ def main():
  out=Path(__file__).resolve().parent/'_verify_render.webp'
  try:
   im=renderer.render(512)
+  photographed=np.asarray(im,dtype=np.float32)
+  renderer.MATERIALS.clear()
+  procedural=np.asarray(renderer.render(512),dtype=np.float32)
+  renderer.load_materials()
+  assert np.abs(photographed-procedural).mean()>1.0, 'Photographic materials do not affect rendering'
+
   im.save(out,'WEBP',quality=87)
   pix=np.asarray(Image.open(out).convert('RGB'),dtype=np.float32)
   assert pix.shape==(256,512,3), 'Not a 2:1 equirectangular image'

@@ -10,6 +10,62 @@ import numpy as np
 from PIL import Image
 
 SCENE=[]
+# Photoscanned albedo maps. This intentionally preserves the established mesh
+# and scenario UV anchors; only the colour of intersected surfaces changes.
+MATERIALS={}
+MATERIAL_NAMES={
+    'wood':'wood_table',
+    'floor':'concrete_floor',
+    'paint':'rusty_painted_metal',
+    'panels':'concrete_floor',
+    'steel':'metal_plate',
+    'enamel':'concrete_floor',
+    'cloth':'wood_table'
+}
+REPO_ROOT=Path(__file__).resolve().parents[3]
+TEXTURE_DIR=REPO_ROOT/'art/materials/cc0'
+
+def load_materials(directory=TEXTURE_DIR):
+    """Load pinned CC0 photo albedo maps; never silently fake a photomaterial."""
+    MATERIALS.clear()
+    for name in sorted(set(MATERIAL_NAMES.values())):
+        filename=Path(directory)/(name+'_diff_1k.jpg')
+        if not filename.is_file():
+            raise FileNotFoundError(f'CC0 photo material missing: {filename}. '
+                'Run python production/geometry/B_NORMAL/fetch_cc0_materials.py')
+        with Image.open(filename) as im:
+            rgb=np.asarray(im.convert('RGB'),dtype=np.float32)
+        if min(rgb.shape[:2])<512:
+            raise ValueError('Material has insufficient detail: '+str(filename))
+        mean=np.maximum(rgb.mean(axis=(0,1)),15)
+        MATERIALS[name]=(rgb,mean)
+    return MATERIALS
+
+def sample_photo(kind,point,normal):
+    """Planar box-face UV mapping (physical metres, not camera longitude).
+
+    The projection uses the dominant wall normal to choose the two consistent
+    in-plane world axes; photo grain therefore stays glued to surfaces.
+    """
+    texture_name=MATERIAL_NAMES.get(kind)
+    if not texture_name or texture_name not in MATERIALS:return None
+    rgb,mean=MATERIALS[texture_name]
+    dims=rgb.shape
+    normal_index=np.argmax(np.abs(normal),axis=-1)
+    pu=np.where(normal_index==0,point[...,2],point[...,0])
+    pv=np.where(normal_index==1,point[...,2],point[...,1])
+    if kind=='wood':pu=np.where(normal_index==1,point[...,0],pu)
+    repeat={'wood':.68,'floor':1.02,'paint':.73,'panels':.42,
+            'steel':1.7,'enamel':.81,'cloth':1.15}.get(kind,1.0)
+    ix=np.mod(np.floor(pu*repeat*dims[1]).astype(np.int32),dims[1])
+    iy=np.mod(np.floor(pv*repeat*dims[0]).astype(np.int32),dims[0])
+    sample=rgb[iy,ix]
+    # Rescale the photographed colour to the original art-direction palette:
+    # preserve working-station greys rather than making every wall rusty red.
+    normalized=np.clip(sample/mean[None,None,:],.34,1.72)
+    strength={'wood':.79,'floor':.58,'paint':.38,'panels':.35,
+              'steel':.62,'enamel':.18,'cloth':.24}.get(kind,.25)
+    return (1-strength)+strength*normalized
 def box(name, lo, hi, rgb, kind='plain'):
     SCENE.append((name,np.array(lo,dtype=np.float32),np.array(hi,dtype=np.float32),np.array(rgb,dtype=np.float32),kind))
 def kitchen():
@@ -213,6 +269,9 @@ def render(width=2048):
                 tint[...,0]*=1.13
                 tint[...,2]*=.78
             lum=np.clip(illum*factor,.08,1.65)
+            photographed=sample_photo(kind,pt,norm)
+            if photographed is not None:
+                tint*=photographed
             rgb=np.minimum(255,color[None,None,:]*lum[...,None]*tint)
             if kind!='lamp':
                 rgb[...,0]*=1.14
@@ -232,8 +291,12 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--width',type=int,default=2048)
     p.add_argument('--out',type=Path,default=Path('art/candidates/B_B_NORMAL_360_geometry.webp'))
+    p.add_argument('--materials',choices=['photoscan','procedural'],default='photoscan',
+                   help='photoscan is default; procedural is explicit offline fallback')
     args=p.parse_args()
     if args.width<512 or args.width%2:raise SystemExit('--width must be an even integer >=512')
+    if args.materials=='photoscan':load_materials()
+    else:MATERIALS.clear()
     kitchen()
     image=render(args.width)
     args.out.parent.mkdir(parents=True,exist_ok=True)
