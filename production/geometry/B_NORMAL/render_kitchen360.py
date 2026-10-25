@@ -150,6 +150,16 @@ def kitchen():
     box('work_notice_clip',(2.954,1.89,-.08),(2.983,1.94,.08),(75,82,82),'steel')
     box('dry_towel',(-2.39,1.06,-1.625),(-2.01,1.51,-1.591),(126,139,125),'cloth')
     box('towel_rail',(-2.50,1.53,-1.631),(-1.92,1.56,-1.576),(173,176,166),'steel')
+    # Ordinary station audio intercom beside the kitchen exit.
+    # A05 is a 10-second Suhov AUDIO, not video or television.
+    box('intercom_A05',(2.82,1.19,1.80),(2.94,1.76,2.25),(118,126,119),'paint')
+    box('intercom_A05_face',(2.798,1.24,1.837),(2.819,1.70,2.212),(75,87,86),'steel')
+    box('intercom_A05_speaker',(2.790,1.47,1.89),(2.797,1.665,2.165),(27,34,35),'steel')
+    for i in range(7):
+        zz=1.913+i*.034
+        box(f'intercom_A05_grille_{i}',(2.786,1.49,zz),(2.79,1.646,zz+.012),(132,141,133),'steel')
+    box('intercom_A05_call_button',(2.780,1.325,1.978),(2.797,1.405,2.052),(148,80,70),'enamel')
+    box('intercom_A05_status_led',(2.785,1.685,2.052),(2.797,1.709,2.081),(68,106,74),'enamel')
     # Warm circular ceiling lights approximated by laminated squares.
     for i,z in enumerate([-1.4,.78]):
         box('light_halo'+str(i),(-.52,2.74,z-.33),(.52,2.77,z+.33),(132,116,88),'steel')

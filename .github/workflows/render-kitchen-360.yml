@@ -11,6 +11,7 @@ on:
       - 'production/geometry/B_NORMAL/curved_geometry.py'
       - 'production/geometry/B_NORMAL/generate_hotspots.py'
       - 'production/geometry/B_NORMAL/verify_curved_hotspots.py'
+      - 'production/geometry/B_NORMAL/audit_visibility.py'
       - '.github/workflows/render-kitchen-360.yml'
 permissions:
   contents: write
@@ -40,11 +41,13 @@ jobs:
           python -c 'from PIL import Image; import numpy as np; im=Image.open("art/candidates/B_B_NORMAL_360_geometry.webp").convert("RGB"); assert im.size==(2048,1024),im.size; a=np.asarray(im,dtype=np.float32); diff=float(np.abs(a[:,0]-a[:,-1]).mean()); print("seam_mae",diff); assert diff<5,diff'
       - name: Generate proposed quads without editing playable rooms
         run: python production/geometry/B_NORMAL/generate_hotspots.py
+      - name: Check that all 11 story prop surfaces are actually visible
+        run: python production/geometry/B_NORMAL/audit_visibility.py
       - name: Refresh current candidate QA
         run: python production/geometry/B_NORMAL/update_kitchen_qa.py
       - name: Commit candidate without additional copies
         run: |
-          git add art/candidates/B_B_NORMAL_360_geometry.webp art/materials/cc0/*.jpg production/qa/B_NORMAL_geometry_v1.json production/qa/B_NORMAL_hotspots_candidate.json
+          git add art/candidates/B_B_NORMAL_360_geometry.webp art/materials/cc0/*.jpg production/qa/B_NORMAL_geometry_v1.json production/qa/B_NORMAL_hotspots_candidate.json production/qa/B_NORMAL_visibility_v1.json
           if git diff --cached --quiet; then
             echo 'Candidate is unchanged.'
             exit 0

@@ -35,6 +35,8 @@ def main():
     obj['test']['mirror_single_bounce']=True
     obj['test']['curved_ray_intersections']=True
     obj['test']['candidate_3d_projected_hotspots']=11
+    obj['test']['visible_interaction_rays']=11
+    obj['test']['audio_A05_intercom_model']=True
     obj['remaining']=[
       'Kettle, mug, plate and faucet now have true curved ray surfaces, but remaining furniture is still stylized',
       '10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam',

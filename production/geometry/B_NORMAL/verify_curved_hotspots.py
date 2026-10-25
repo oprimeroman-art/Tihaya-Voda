@@ -6,6 +6,7 @@ import numpy as np
 import curved_geometry as curve
 import render_kitchen360 as model
 import generate_hotspots as spots
+import audit_visibility as visibility
 
 def main():
     # Ellipsoid: front pole hit distance is geometrically exact.
@@ -42,8 +43,8 @@ def main():
     entries=output['objects']
     assert len(entries)==11,'all current kitchen actions must be covered'
     assert len({x['action_id'] for x in entries})==11
-    assert len([x for x in entries if x['status']=='requires_authored_3d_prop'])==1
-    assert next(x for x in entries if x['action_id']=='watch_A05')['status']=='requires_authored_3d_prop'
+    assert len([x for x in entries if x['status']=='requires_authored_3d_prop'])==0
+    assert next(x for x in entries if x['action_id']=='watch_A05')['source_3d_object']=='intercom_A05_face'
     plate=next(x for x in entries if x['action_id']=='plate_choice')
     assert plate['seam_split'] and len(plate['candidate_quads'])==2,        'a physical plate spans the 0/1 meridian; do not emit broken bounding rectangle'
     for x in entries:
@@ -52,7 +53,11 @@ def main():
             assert all(0<=p['u']<=1 and 0<=p['v']<=1 for p in quad)
             assert quad[0]['u']<quad[1]['u']
             assert quad[0]['v']<quad[2]['v']
+    report=visibility.audit(j)
+    assert len(report['items'])==11
+    obstructed=[x for x in report['items'] if not x.get('visible_centre_ray')]
+    assert not obstructed,'Some story props are hidden from the player camera: '+str(obstructed)
     assert output['not_in_shipped_game']
-    print('PASS: curved sphere/cylinder rays, kettle/mug/plate, 11 actions, split seam and 1 unplaced prop')
+    print('PASS: curved sphere/cylinder rays, kettle/mug/plate, 11/11 visible centre rays, seam-safe plate and A05 intercom')
 
 if __name__=='__main__':main()

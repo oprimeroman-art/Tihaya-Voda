@@ -13,7 +13,7 @@ PROJECT=ROOT/'game-project/project.json'
 OUTPUT=ROOT/'production/qa/B_NORMAL_hotspots_candidate.json'
 
 # Explicit authoritative authored feature-to-3D-object mapping.
-# No fictional 3D object has been invented for watch_A05.
+# A05 is audio-only; map to kitchen intercom, not a video screen.
 MAPPING={
  'TEA_SEQUENCE':('kettle_body',None),
  'COOKING':('cooker_trim',None),
@@ -25,6 +25,7 @@ MAPPING={
  'mirror04_away':('chair_back',1),
  'mirror04_again':('mirror_glass',None),
  'mirror04_third':('door_leaf',None),
+ 'watch_A05':('intercom_A05_face',None),
 }
 
 def longitude(x,z):return (.5+math.atan2(x,-z)/(2*math.pi))%1
