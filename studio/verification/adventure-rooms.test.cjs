@@ -44,5 +44,18 @@ vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureAppl
  window.GagarinAdventure.UI.prototype.load.call(uiMock,{room:'B'});
  assert.equal(uiMock.root.hidden,false);
  assert.deepEqual(calls,['close','load:B','sync']);
- console.log('PASS: ghost/mirror variants, offscreen state, no teleport/camera reset, cache refresh, save UI sync');
+ const reflectionSource=runtime.slice(runtime.indexOf('function adventureReflectState(){'),runtime.indexOf(begin));
+ const currentObj={tourKey:'ga:work',visible:false};
+ const staleObj={tourKey:'ga:future',visible:true};
+ const cached={dirty:false};let updates=0;
+ const refl={game:{globals:[{key:'SHIFT',value:1}],rooms:[{objects:[currentObj,staleObj]}],story:{adventure:{actions:[{id:'work'},{id:'future'}]}}},adventurePlayer:{engine:{state:{flags:{SHIFT:7}},eligible(a){return a.id==='work';}}},cache:new Map([['A',cached]]),refresh(){updates++}};
+ vm.createContext(refl);vm.runInContext(reflectionSource+';this.reflect=adventureReflectState;',refl);
+ // restoreMutable previously overwrote computed visible flags with stale snapshot values.
+ refl.reflect();
+ assert.equal(currentObj.visible,true,'restored interactable must be visible again');
+ assert.equal(staleObj.visible,false,'ineligible interaction must remain hidden');
+ assert.equal(refl.game.globals[0].value,7,'story flags must override stale outer globals');
+ assert.equal(cached.dirty,true,'redraw after restore');
+ assert.equal(updates,1);
+ console.log('PASS: variants, camera preservation, offscreen changes, save sync, restored object visibility and flags');
 })().catch(e=>{console.error(e);process.exitCode=1});

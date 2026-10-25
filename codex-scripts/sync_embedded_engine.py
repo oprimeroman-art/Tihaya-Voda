@@ -36,13 +36,16 @@ def synchronize(html):
     end = html.index("</script>", b)
     html = html[:a] + CORE.rstrip() + "\n\n" + UI.rstrip() + "\n" + html[end:]
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
+    state_start = "function adventureReflectState(){"
     variant_start = "function adventureApplyVariant(rid,variant){"
     boot_start = "function boot(){try{"
-    if variant_start in html:
-        html = replace_between(html, RUNTIME, variant_start, boot_start)
+    if state_start in html:
+        html = replace_between(html, RUNTIME, state_start, boot_start)
+    elif variant_start in html:
+        html = replace_between(html, RUNTIME, variant_start, boot_start, state_start)
     else:
-        # One-time upgrade of old builds whose adventureSetup had no variant helper.
-        html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, variant_start)
+        # One-time upgrade of older builds whose adventureSetup had no variant helper.
+        html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, state_start)
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     return html
 
