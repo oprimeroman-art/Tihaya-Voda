@@ -1,0 +1,71 @@
+name: Download current game build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify current standalone outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s game/index.html
+          test -s game-editor/index.html
+          grep -q 'window.BUILT_GAME=' game/index.html
+          grep -q 'KITCHEN_QA_PREVIEW_BEGIN' game/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          for f in ('game/index.html', 'game-editor/index.html'):
+              data = Path(f).read_bytes()
+              assert data.startswith(b'<!doctype html') or data.startswith(b'<!DOCTYPE html')
+              assert data.count(b'</html>') >= 1
+              print(f, len(data), 'bytes OK')
+          PY
+      - name: Assemble downloadable build without repository changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/GAME dist/EDITOR
+          cp game/index.html dist/GAME/index.html
+          cp game-editor/index.html dist/EDITOR/index.html
+          cat > dist/GAME/KITCHEN_QA.html <<'HTML'
+          <!doctype html>
+          <html lang="ru">
+          <head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=index.html?qa-kitchen=1"><title>Тихая вода — тест кухни</title></head>
+          <body><p><a href="index.html?qa-kitchen=1">Открыть тестовую кухню B_NORMAL</a></p></body>
+          </html>
+          HTML
+          cat > dist/ПРОЧИТАЙ_МЕНЯ.txt <<'TXT'
+          ПРОТОКОЛ «ТИХАЯ ВОДА» — ТЕКУЩИЙ ИГРОВОЙ БИЛД
+          =============================================
+          GAME/index.html           — запустить игру в Chrome, двойной щелчок.
+          GAME/KITCHEN_QA.html      — вариант игры с ТЕСТОВОЙ 360°-кухней.
+          EDITOR/index.html         — автономный редактор панорамной игры.
+
+          Разархивируйте ZIP полностью. Никаких установок не требуется.
+          Интернет для запуска игры не нужен: изображения и данные уже внутри HTML.
+
+          ВАЖНО: Кухня из режима QA пока НЕ утверждена как финальная графика.
+          В обычном запуске используется прежняя панорама кухни.
+          Тестовый режим отделяет сохранения от обычной игры.
+          Blender НЕ требуется; Blender НЕ включён в этот архив.
+
+          Это снимок работающих HTML-файлов существующей ветки main.
+          TXT
+          printf 'GitHub repo: https://github.com/oprimeroman-art/Tihaya-Voda\nCommit: %s\n' "$GITHUB_SHA" >> dist/ПРОЧИТАЙ_МЕНЯ.txt
+          (cd dist && sha256sum GAME/index.html EDITOR/index.html GAME/KITCHEN_QA.html > SHA256SUMS.txt)
+          echo 'Build size:'
+          du -h dist/GAME/index.html dist/EDITOR/index.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Tihaya-Voda-Current-Playable-Build
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
