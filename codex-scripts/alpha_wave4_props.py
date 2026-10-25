@@ -9,6 +9,7 @@ import base64
 import hashlib
 import io
 import json
+import re
 import tarfile
 from pathlib import Path
 
@@ -117,16 +118,16 @@ def decorate_game_ui(html):
    this.ghostFrame.append(img);}
  }\n constructor(data,hooks={})'''
     html = html.replace(marker, helpers, 1)
-    needle = 'this.variant.textContent=authored?\'Состояние помещения: \'+s.variants[s.room]:\'Иллюстрация состояния в работе: \'+s.variants[s.room];'
-    if html.count(needle) != 1: raise ValueError('Variant UI layout changed')
-    html = html.replace(needle, needle + 'this.updateArtHaunt();', 1)
+    variant = re.search(r"this\.variant\.textContent=authored\?[^;]+;",html)
+    if not variant: raise ValueError('Variant UI layout changed')
+    html = html[:variant.end()] + 'this.updateArtHaunt();' + html[variant.end():]
     needle = 'const b=this.panel(a.label);this.currentAction=id;'
     if html.count(needle) != 1: raise ValueError('Action dialog opening changed')
     html = html.replace(needle, needle + 'const art=this.artData()?.action?.[id];if(art)this.showArt(b,art);',1)
     # The media action opens a new dialog; show artwork there as well.
-    needle = "const warning=el('div',m.title,'ga-slot');b.append(warning);"
+    needle = 'b.append(warning);let t=0,started=false,frame=0,finished=false;'
     if html.count(needle)!=1:raise ValueError('Media scene layout changed')
-    html=html.replace(needle,needle+"const ar=this.artData()?.action?.['watch_'+m.id];if(ar)this.showArt(b,ar);",1)
+    html=html.replace(needle,"b.append(warning);const ar=this.artData()?.action?.['watch_'+m.id];if(ar)this.showArt(b,ar);let t=0,started=false,frame=0,finished=false;",1)
     # Re-reading the authentic document from journal retains its illustration.
     needle="const box=this.panel(d.title);box.append(el('pre',d.text));"
     if html.count(needle)!=1:raise ValueError('Journal page reader changed')
