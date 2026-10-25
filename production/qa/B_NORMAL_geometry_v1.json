@@ -18,16 +18,17 @@
   "generator": "production/geometry/B_NORMAL/render_kitchen360.py",
   "test": {
     "ratio_2_to_1": true,
-    "edge_column_mae": 2.188,
+    "edge_column_mae": 2.964,
     "full_sphere_from_ray_box_intersections": true,
-    "webp_bytes": 108714,
-    "sha256": "13d6bfcaabe3408bc536bf20e73d6c8fc1359c50a486b89cef2cd6866f6d5721",
+    "webp_bytes": 326802,
+    "sha256": "486153b225cb3e49112fd05c170bd4225bf07c643879f31fe4faec5c9bedcef7",
     "mean_rgb": [
       101.0,
       88.6,
       64.5
     ],
-    "stable_story_uv_anchors_verified": 7
+    "stable_story_uv_anchors_verified": 7,
+    "photo_albedo_verified": true
   },
   "hotspot_anchor_uv_preview": {
     "TEA_SEQUENCE": {
@@ -72,11 +73,36 @@
     }
   },
   "remaining": [
-    "Improved procedural textures are still stylized 3D; art production and final photoreal materials remain outstanding",
-    "Chromium visual walkaround and full gameplay testing not completed",
-    "All UV coordinates describe object centres only; corners must be calibrated in editor",
-    "Do not change shipped game project without final art and hotspot acceptance"
+    "Photographic materials are physically mapped but models remain low-poly; no photorealism claim",
+    "Visual QA in actual WebGL game, calibrating complete hotspot corners and Q01/Q04 walkaround still needed",
+    "Do not replace playable room B until art production approval"
   ],
-  "material_stage": "procedural_materials_v2",
-  "qa_updated_at": "2026-10-25"
+  "material_stage": "CC0_photographic_albedo_v3",
+  "qa_updated_at": "2026-10-25",
+  "materials": [
+    {
+      "id": "rusty_painted_metal",
+      "source": "https://polyhaven.com/a/rusty_painted_metal",
+      "license": "CC0",
+      "md5": "3846f5567b6e7985b275a6b3867a648f"
+    },
+    {
+      "id": "concrete_floor",
+      "source": "https://polyhaven.com/a/concrete_floor",
+      "license": "CC0",
+      "md5": "99b94da291a4f038fa6af93c3993cbec"
+    },
+    {
+      "id": "wood_table",
+      "source": "https://polyhaven.com/a/wood_table",
+      "license": "CC0",
+      "md5": "45af5766b300f7e940ee8984c5fabd4f"
+    },
+    {
+      "id": "metal_plate",
+      "source": "https://polyhaven.com/a/metal_plate",
+      "license": "CC0",
+      "md5": "bd9daf4c04046ca392a38b8df955ed26"
+    }
+  ]
 }
