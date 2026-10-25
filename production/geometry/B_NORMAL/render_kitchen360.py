@@ -7,9 +7,12 @@ Output is an ART CANDIDATE. Run: python render_kitchen360.py --width 2048
 import argparse
 from pathlib import Path
 import numpy as np
+import curved_geometry as curved
 from PIL import Image
 
 SCENE=[]
+CURVED=[]
+REPLACED_BOXES={'kettle_body','kettle_lid','mug','plate','faucet_stem'}
 # Photoscanned albedo maps. This intentionally preserves the established mesh
 # and scenario UV anchors; only the colour of intersected surfaces changes.
 MATERIALS={}
@@ -70,6 +73,7 @@ def box(name, lo, hi, rgb, kind='plain'):
     SCENE.append((name,np.array(lo,dtype=np.float32),np.array(hi,dtype=np.float32),np.array(rgb,dtype=np.float32),kind))
 def kitchen():
     SCENE.clear()  # Repeated preview/test renders must not duplicate room geometry.
+    CURVED.clear()
     # Station module 6m wide x 5m long; camera at human eye height.
     box('floor',(-3,-.06,-2.5),(3,0,2.5),(98,99,89),'floor')
     box('ceiling',(-3,2.82,-2.5),(3,2.9,2.5),(131,132,123),'panels')
@@ -151,6 +155,20 @@ def kitchen():
         box('light_halo'+str(i),(-.52,2.74,z-.33),(.52,2.77,z+.33),(132,116,88),'steel')
         box('warm_light'+str(i),(-.4,2.735,z-.23),(.4,2.74,z+.23),(249,218,149),'lamp')
     add_detail_geometry()
+    # True curved silhouettes in the same world positions as the original
+    # scripted AABB prop anchors; these replace only rasterized proxy boxes.
+    CURVED.extend([
+        curved.ellipsoid('kettle_curved',(1.765,1.155,-2.115),(.148,.183,.146),
+                         (190,198,194),'enamel'),
+        curved.cylinder('kettle_lid_curved',(1.765,0,-2.115),.114,1.335,1.367,
+                        (99,104,101),'steel'),
+        curved.cylinder('mug_curved',(.415,0,1.115),.098,.808,.981,
+                        (208,207,194),'enamel'),
+        curved.cylinder('plate_curved',(-.155,0,1.215),.220,.805,.839,
+                        (224,224,204),'enamel'),
+        curved.cylinder('faucet_stem_curved',(-1.16,0,-2.34),.033,1.0,1.286,
+                        (168,179,177),'steel')
+    ])
 
 def add_circular_trim(name,cx,y,cz,r,segments,thickness,color,material='steel'):
     """Concentric physical details modelled in world space as many short cuboids."""
@@ -240,6 +258,20 @@ def add_detail_geometry():
             (79,62,48),'wood')
 
 
+def curved_shading(position, normal, colour, kind):
+    """World-space lighting for rounded surfaces, using the same CC0 albedo."""
+    illum=np.full(position.shape[:-1],.25,np.float32)
+    for lx,ly,lz,power in [(0,2.72,-1.4,4.4),(0,2.72,.78,3.0),(-2.9,1.8,-1.1,1.1)]:
+        vec=np.asarray((lx,ly,lz),np.float32)-position
+        dd=np.sum(vec*vec,axis=-1)+.26
+        dot=np.maximum(0,np.sum(normal*vec,axis=-1)/np.sqrt(dd))
+        illum+=power*dot/(dd+2)
+    sampled=sample_photo(kind,position,normal)
+    base=np.asarray(colour,np.float32)*np.clip(illum[...,None],.2,1.42)
+    if sampled is not None:base*=sampled
+    return np.minimum(255,base)
+
+
 def mirror_rays(hit_points, incoming, mask):
     """One real planar reflection bounce. Reflect room surfaces, never the mirror itself."""
     rows,cols=np.nonzero(mask)
@@ -252,7 +284,7 @@ def mirror_rays(hit_points, incoming, mask):
     colours=np.tile(np.array([17,27,35],dtype=np.float32),(len(rows),1))
     safe=np.where(np.abs(rays)<1e-7,np.where(rays<0,-1e-7,1e-7),rays)
     for obj,lo,hi,col,kind in SCENE:
-        if obj.startswith('mirror_'):continue
+        if obj.startswith('mirror_') or obj in REPLACED_BOXES:continue
         t0=(lo-origin)/safe
         t1=(hi-origin)/safe
         near=np.minimum(t0,t1)
@@ -273,6 +305,15 @@ def mirror_rays(hit_points, incoming, mask):
         shade[:,2]*=1.06
         colours[valid]=shade[valid]
         best=np.where(valid,entry,best)
+    # Curved props must also be visible in the mirror. Reflection is one bounce.
+    for primitive in CURVED:
+        distance,normal=curved.intersect(primitive,origin,rays)
+        visible=np.isfinite(distance)&(distance<best)
+        if not np.any(visible):continue
+        position=origin+rays*np.where(visible,distance,0)[...,None]
+        shade=curved_shading(position,normal,primitive[4],primitive[5])
+        colours[visible]=shade[visible]
+        best=np.where(visible,distance,best)
     return rows,cols,colours
 
 
@@ -292,6 +333,7 @@ def render(width=2048):
         best=np.full(shape,1e6,np.float32)
         base=np.zeros((*shape,3),np.float32)
         for name,lo,hi,color,kind in SCENE:
+            if name in REPLACED_BOXES:continue
             safe=np.where(abs(direction)<1e-7,np.where(direction<0,-1e-7,1e-7),direction)
             t0=(lo-camera)/safe;t1=(hi-camera)/safe
             near=np.minimum(t0,t1);far=np.maximum(t0,t1)
@@ -410,6 +452,16 @@ def render(width=2048):
                     rgb[py,px]=.12*rgb[py,px]+.88*reflected
             best=np.where(hit,entry,best)
             base=np.where(hit[...,None],rgb,base)
+        # Replace proxy boxes with actual curved props; depth-test against walls,
+        # stove and furniture, so hidden parts never float through foreground.
+        for primitive in CURVED:
+            distance,normal=curved.intersect(primitive,camera,direction)
+            visible=np.isfinite(distance)&(distance<best)
+            if not np.any(visible):continue
+            position=camera+direction*np.where(visible,distance,0)[...,None]
+            shaded=curved_shading(position,normal,primitive[4],primitive[5])
+            base=np.where(visible[...,None],shaded,base)
+            best=np.where(visible,distance,best)
         # Deliberately wrap the longitude seam by computing last ray from the first column.
         result[y0:y0+len(yy)]=np.uint8(np.clip(base,0,255))
     # Seam borders must represent the same azimuth.

@@ -22,7 +22,8 @@ def main():
         assert good((DEST/(name+'_diff_1k.jpg')).read_bytes(),md5,length),'Texture hash changed'
     renderer.kitchen()
     obj['scene_objects']=len(renderer.SCENE)
-    obj['material_stage']='CC0_photographic_albedo_v4_with_reflection'
+    obj['curved_primitives']=len(renderer.CURVED)
+    obj['material_stage']='CC0_photographic_albedo_v5_curved_props_with_reflection'
     obj['materials']=[{'id':name,'source':'https://polyhaven.com/a/'+name,'license':'CC0','md5':data[1]}
                       for name,data in TEXTURES.items()]
     obj['test']['ratio_2_to_1']=True
@@ -32,9 +33,11 @@ def main():
     obj['test']['stable_story_uv_anchors_verified']=7
     obj['test']['photo_albedo_verified']=True
     obj['test']['mirror_single_bounce']=True
+    obj['test']['curved_ray_intersections']=True
+    obj['test']['candidate_3d_projected_hotspots']=11
     obj['remaining']=[
-      'Photographic materials are physically mapped but models remain low-poly; no photorealism claim',
-      'Visual QA in actual WebGL game, calibrating complete hotspot corners and Q01/Q04 walkaround still needed',
+      'Kettle, mug, plate and faucet now have true curved ray surfaces, but remaining furniture is still stylized',
+      '10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam',
       'Do not replace playable room B until art production approval'
     ]
     QA.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
