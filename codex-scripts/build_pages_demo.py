@@ -86,9 +86,7 @@ def main():
     dest=args.output
     dest.mkdir(parents=True,exist_ok=True)
     (dest/"index.html").write_text(html,encoding="utf-8")
-    (dest/"robots.txt").write_text("User-agent: *
-Disallow: /
-",encoding="ascii")
+    (dest/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="ascii")
     # Source only from the game, not the whole private repository.
     print("PUBLISHED",dest/"index.html","bytes",len(html.encode("utf-8")),
           "approved_rooms",applied,"panoramas",len(payload["panoramas"]))
