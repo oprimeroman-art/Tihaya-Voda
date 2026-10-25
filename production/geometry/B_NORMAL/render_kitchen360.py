@@ -13,6 +13,7 @@ SCENE=[]
 def box(name, lo, hi, rgb, kind='plain'):
     SCENE.append((name,np.array(lo,dtype=np.float32),np.array(hi,dtype=np.float32),np.array(rgb,dtype=np.float32),kind))
 def kitchen():
+    SCENE.clear()  # Repeated preview/test renders must not duplicate room geometry.
     # Station module 6m wide x 5m long; camera at human eye height.
     box('floor',(-3,-.06,-2.5),(3,0,2.5),(98,99,89),'floor')
     box('ceiling',(-3,2.82,-2.5),(3,2.9,2.5),(131,132,123),'panels')
@@ -74,6 +75,21 @@ def kitchen():
     box('door_leaf',(2.89,.10,.70),(2.96,2.20,1.57),(110,120,120),'paint')
     box('door_window',(2.875,1.28,.96),(2.89,1.70,1.31),(35,67,81),'window')
     box('door_handle',(2.86,.94,1.41),(2.89,1.04,1.50),(178,178,160),'steel')
+    # Small utilitarian fittings are generated as actual 3-D volumes, not decals.
+    for i, zz in enumerate([-2.14, -1.55, -.9, -.2, .55, 1.28]):
+        box('ceiling_conduit_'+str(i),(-2.98,2.63,zz), (2.90,2.675,zz+.035),(52,61,58),'steel')
+    for i, xx in enumerate([-2.65,-1.9,.13,1.1,2.5]):
+        box('hanger_rail_'+str(i),(xx,2.50,-2.48),(xx+.05,2.54,-1.90),(64,66,61),'steel')
+    for i, xx in enumerate([-2.28,-1.71,-.16,.73]):
+        box('panel_rivet_'+str(i),(xx,1.31,-1.584),(xx+.035,1.355,-1.555),(162,152,135),'steel')
+    for i, xx in enumerate([-2.16,-1.75,-1.34]):
+        box('spice_jar_'+str(i),(xx,1.42,-2.27),(xx+.16,1.70,-2.07),
+            (137+12*i,102+12*i,73+17*i),'enamel')
+    # Radio notice and a drying rag distinguish an inhabited operational station.
+    box('work_notice',(2.968,1.24,-.28),(2.981,1.91,.28),(211,203,178),'paper')
+    box('work_notice_clip',(2.954,1.89,-.08),(2.983,1.94,.08),(75,82,82),'steel')
+    box('dry_towel',(-2.39,1.06,-1.625),(-2.01,1.51,-1.591),(126,139,125),'cloth')
+    box('towel_rail',(-2.50,1.53,-1.631),(-1.92,1.56,-1.576),(173,176,166),'steel')
     # Warm circular ceiling lights approximated by laminated squares.
     for i,z in enumerate([-1.4,.78]):
         box('light_halo'+str(i),(-.52,2.74,z-.33),(.52,2.77,z+.33),(132,116,88),'steel')
@@ -106,7 +122,7 @@ def render(width=2048):
             norm=np.zeros_like(direction)
             for ax in range(3):norm[...,ax]=np.where(axis==ax,-np.sign(direction[...,ax]),0)
             # Light at two ceiling fixtures, warm local illumination and cold window bounce.
-            ambient=np.float32(.47)
+            ambient=np.float32(.35)
             illum=np.full(shape,ambient,np.float32)
             for lx,ly,lz,power in [(0,2.72,-1.4,4.4),(0,2.72,.78,3.0),(-2.9,1.8,-1.1,1.1)]:
                 vec=np.array([lx,ly,lz],np.float32)-pt
@@ -115,32 +131,95 @@ def render(width=2048):
                 illum+=power*dot/(dd+2)
             illum=np.clip(illum,.30,1.55)
             x,z=pt[...,0],pt[...,2]
-            # Uniform, deterministic material detail. No random speckle flicker.
-            grain=np.sin(pt[...,0]*31+pt[...,2]*19)*.025+np.cos(pt[...,1]*25+pt[...,0]*43)*.017
-            factor=1+grain
+            # Surface detail is evaluated in world space: it stays aligned when
+            # the player rotates 360 degrees, unlike a screen-space filter.
+            x,z=pt[...,0],pt[...,2]
+            q=pt[...,1]
+            micro=np.sin(x*53.6+z*31.4+q*17.7)*np.sin(z*47.1-q*33.4)*.031
+            medium=np.sin(x*7.4+z*13.9-q*5.1)*np.cos(z*4.7+x*11.3+q*2.7)*.082
+            coarse=np.sin(x*1.9+z*2.5+q*4.1)*np.cos(z*3.2-x*3.0+q*1.8)*.075
+            grit=.45*micro+.34*medium+.21*coarse
+            factor=1+grit
+            tint=np.ones((*shape,3),np.float32)
             if kind=='wood':
-                factor+=.11*np.sin(x*48+z*8)+.03*np.sin(x*91)
+                fibers=np.sin(x*47+z*7.8+.5*np.sin(z*2.5))*np.cos(x*4.5+z*1.4)
+                age=np.sin(x*11.2+z*25.8)*np.cos(x*8.8-z*4.1)
+                factor+=.10*fibers+.09*age+.025*np.sin(x*119)
+                tint[...,0]*=1.09
+                tint[...,2]*=.83
             elif kind=='panels':
-                seam=np.minimum(abs(((x+.015)/1.02+.5)%1-.5),abs(((pt[...,1]+.03)/.92+.5)%1-.5))
-                factor-=np.where(seam<.008,.12,0)
+                # Fine riveted enamel wall panels and age at modular seams.
+                if name in ('left','right'):
+                    hori=z
+                else:
+                    hori=x
+                seam_x=np.abs(((hori+.015)/1.02+.5)%1-.5)
+                seam_y=np.abs(((q+.03)/.94+.5)%1-.5)
+                seam=np.minimum(seam_x,seam_y)
+                factor-=np.where(seam<.012,.22,0)
+                near_seam=np.exp(-((seam/.055)**2))
+                corrosion=np.maximum(0,medium+.6*coarse+.015)
+                factor-=.23*near_seam*corrosion
+                tint[...,0]+=near_seam*corrosion*.14
+                tint[...,1]-=near_seam*corrosion*.10
+                tint[...,2]-=near_seam*corrosion*.18
+            elif kind=='paint':
+                brush=np.sin(x*75+z*20+q*8)*.025
+                factory=np.sin(x*2+z*3+q*4)*.026
+                factor+=brush+factory
+                boundary=np.minimum.reduce([np.abs(pt[...,i]-lo[i]) for i in range(3)]+
+                                           [np.abs(hi[i]-pt[...,i]) for i in range(3)])
+                chips=(boundary<.012)&(medium>.02)
+                factor-=np.where(chips,.24,0)
+                tint[...,0]+=chips*.10
             elif kind=='floor':
-                tilex=np.abs(((x+.02)/.60+.5)%1-.5);tilez=np.abs(((z+.04)/.72+.5)%1-.5)
-                factor-=np.where((tilex<.012)|(tilez<.012),.17,0)
-                factor+=.035*np.sin(5*x+9*z)
+                tilex=np.abs(((x+.02)/.60+.5)%1-.5)
+                tilez=np.abs(((z+.04)/.72+.5)%1-.5)
+                grout=(tilex<.012)|(tilez<.012)
+                factor-=np.where(grout,.27,0)
+                # Old washed tile: patchy wear, a few reflective worn patches.
+                factor+=.10*np.sin(5*x+9*z)+.05*np.cos(17*x-11*z)
+                factor-=.12*np.maximum(0,-medium-.005)
+                gloss=.08*np.maximum(0,np.sin(x*9.3+z*12.9)+np.cos(x*6.7-z*4.3))
+                factor+=gloss
+                # Contact darkening beneath counters and dining table.
+                table_shadow=np.exp(-((x/.94)**4+((z-1.2)/.55)**4))
+                counter_shadow=np.exp(-((z+2.0)/.42)**4)
+                factor-=.25*table_shadow+.20*counter_shadow
+            elif kind=='steel':
+                brushed=np.sin(q*119+x*75+z*68)*.030
+                factor+=brushed+.045*np.cos(x*7+z*13)
+                tint[...,2]*=1.05
             elif kind=='glass':
-                factor+=.18*np.sin(pt[...,1]*17+x*14)
+                # Cold hard tint: this is a placeholder for actual reflection
+                # capture, not a physically convincing ghost mirror yet.
+                factor+=.12*np.sin(q*17+x*14)+.04*np.cos(x*29)
+                tint[...,0]*=.67
+                tint[...,2]*=1.35
+            elif kind=='window':
+                tint[...,0]*=.55
+                tint[...,2]*=1.50
             elif kind=='enamel':
-                factor+=.02*np.cos(44*x)
+                factor+=.015*np.cos(44*x)+.021*np.sin(63*z+13*q)
             elif kind=='paper':
                 factor-=.025*np.cos(24*x+6*z)
+                smudges=np.maximum(0,np.sin(x*13+q*35)*np.cos(z*15))
+                factor-=.065*smudges
+            elif kind=='cloth':
+                factor+=.042*np.sin(x*120+q*70)+.06*np.cos(q*13)
+            # Keep warm overhead light against cold Arctic-window fill.
             if kind=='lamp':
-                illum=np.full(shape,1.2,np.float32)
-            lum=np.clip(illum*factor,.08,1.60)
-            rgb=np.minimum(255,color[None,None,:]*lum[...,None])
-            # Color temperature: warm overhead and blue window.
+                illum=np.full(shape,1.4,np.float32)
+                tint[...,0]*=1.13
+                tint[...,2]*=.78
+            lum=np.clip(illum*factor,.08,1.65)
+            rgb=np.minimum(255,color[None,None,:]*lum[...,None]*tint)
             if kind!='lamp':
-                rgb[...,0]*=1.07
-                rgb[...,2]*=.93
+                rgb[...,0]*=1.14
+                rgb[...,1]*=.995
+                rgb[...,2]*=.81
+            # Mild photographic toe; preserve detail without raising blacks.
+            rgb=np.where(rgb<33,rgb*.85,rgb)
             best=np.where(hit,entry,best)
             base=np.where(hit[...,None],rgb,base)
         # Deliberately wrap the longitude seam by computing last ray from the first column.

@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'production/geometry/B_NORMAL/render_kitchen360.py'
+      - 'production/geometry/B_NORMAL/verify_kitchen.py'
       - '.github/workflows/render-kitchen-360.yml'
 permissions:
   contents: write
@@ -21,6 +22,8 @@ jobs:
           python-version: '3.11'
       - name: Install renderer dependencies
         run: python -m pip install --disable-pip-version-check numpy pillow
+      - name: Verify geometry and fixed story anchors
+        run: python production/geometry/B_NORMAL/verify_kitchen.py
       - name: Render B_NORMAL true 360 geometry
         run: python production/geometry/B_NORMAL/render_kitchen360.py --width 2048 --out art/candidates/B_B_NORMAL_360_geometry.webp
       - name: Validate dimension and seam
