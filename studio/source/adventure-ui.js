@@ -22,7 +22,7 @@ class UI{
  destroy(){clearInterval(this.timer);this.disposeMedia?.();window.removeEventListener('keydown',this.onKey,true);this.root.remove();}
  active(){return !this.hooks.paused?.();}
  reset(){this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
- load(s){this.endingShown=false;this.close(false);this.engine.load(s);this.root.hidden=false;this.render();}
+ load(s){this.endingShown=false;this.close(false);this.engine.load(s);this.root.hidden=false;this.sync();}
  snapshot(){return this.engine.export();}
  sync(){this.hooks.variant?.(this.engine.state.room,this.engine.state.variants[this.engine.state.room]);if(this.engine.state.room!==this.hooks.room?.())this.hooks.go?.(this.engine.state.room);this.render();}
  tick(){const now=performance.now(),dt=Math.min(1,(now-this.last)/1000);this.last=now;if(this.root.hidden)return;this.root.style.visibility=this.active()?'visible':'hidden';if(!this.active())return;if(this.mediaTick)this.mediaTick(dt);if(this.dialog){this.engine.flush(dt);return;}const ev=this.engine.flush(dt);if(ev)this.scene(ev);else if(this.engine.state.ended&&!this.endingShown)this.ending();}

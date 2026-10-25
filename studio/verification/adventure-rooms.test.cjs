@@ -1,0 +1,48 @@
+/* Room variants: no fake room transitions, camera resets, or stale visuals. */
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const runtime=fs.readFileSync(path.join(root,'source/game-runtime.html'),'utf8');
+const ui=fs.readFileSync(path.join(root,'source/adventure-ui.js'),'utf8');
+const begin='function adventureApplyVariant(rid,variant){';
+const end='function adventureSetup(){';
+assert.equal(runtime.split(begin).length,2);
+const callback=runtime.slice(runtime.indexOf(begin),runtime.indexOf(end,runtime.indexOf(begin)));
+const baseA={mime:'image/png',data:'BASE_A'},baseB={mime:'image/png',data:'BASE_B'};
+const specialA={mime:'image/png',data:'MIRROR_A'},specialB={mime:'image/png',data:'GHOST_B'};
+let loaded=[],draws=0,yaw=1.234,roomId='A';
+const oldTexture={handle:1};
+const ctx={game:{rooms:[{id:'A'},{id:'B'}],story:{adventure:{rooms:[{id:'A',variantAssets:{A_MIRROR:'specialA'}},{id:'B',variantAssets:{B_GHOST:'specialB'}}]}},assets:{specialA,specialB},panoramas:{A:baseA,B:baseB}},adventureBasePanoramas:{A:baseA,B:baseB},adventureVariantsApplied:{},cache:new Map([['A',{texture:oldTexture}]]),gl:{deleteTexture(t){loaded.push(['delete',t])}},get roomId(){return roomId;},prepare(room){loaded.push(['prepare',room.id]);return Promise.resolve({})},refresh(){draws++},console};
+vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureApplyVariant;',ctx);
+(async()=>{
+ ctx.applyVariant('B','B_GHOST');
+ assert.equal(ctx.game.panoramas.B,specialB,'offscreen scene should store its new variant');
+ assert.deepEqual(loaded,[],'offscreen variant must not reload or enter another room');
+ assert.equal(roomId,'A');
+ ctx.applyVariant('A','A_MIRROR');
+ assert.equal(ctx.game.panoramas.A,specialA);
+ assert.equal(ctx.cache.has('A'),false,'stale panorama cache must be invalidated');
+ await Promise.resolve();
+ assert.equal(draws,1,'visible room redraws once');
+ assert.equal(yaw,1.234,'camera viewpoint is unchanged');
+ assert.equal(roomId,'A','no teleportation');
+ const before=loaded.length;
+ ctx.applyVariant('A','A_MIRROR');await Promise.resolve();
+ assert.equal(loaded.length,before,'same variant must be idempotent');
+ ctx.applyVariant('A','A_NORMAL');await Promise.resolve();
+ assert.equal(ctx.game.panoramas.A,baseA,'base variant must restore original panorama');
+ roomId='B';ctx.applyVariant('B','B_GHOST');await Promise.resolve();
+ assert.equal(ctx.game.panoramas.B,specialB,'offscreen variant persists on entering room');
+ // Test load() with a stub UI: loading must call sync() and restore room/variant state.
+ const window={GagarinAdventure:{}};
+ vm.runInNewContext(ui,{window,document:{},console});
+ const calls=[];
+ const uiMock={endingShown:true,close(){calls.push('close')},engine:{load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
+ window.GagarinAdventure.UI.prototype.load.call(uiMock,{room:'B'});
+ assert.equal(uiMock.root.hidden,false);
+ assert.deepEqual(calls,['close','load:B','sync']);
+ console.log('PASS: ghost/mirror variants, offscreen state, no teleport/camera reset, cache refresh, save UI sync');
+})().catch(e=>{console.error(e);process.exitCode=1});

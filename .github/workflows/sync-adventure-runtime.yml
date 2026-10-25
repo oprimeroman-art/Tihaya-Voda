@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - 'studio/source/adventure-core.js'
+      - 'studio/source/adventure-ui.js'
+      - 'studio/source/game-runtime.html'
       - 'codex-scripts/sync_embedded_engine.py'
 
 permissions:
@@ -26,10 +28,12 @@ jobs:
         run: |
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-saves.test.cjs
+          node studio/verification/adventure-rooms.test.cjs
       - name: Update existing offline game and editor
         run: |
           python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_embedded_engine.py --check
+          python3 studio/verification/standalone-html.test.py
       - name: Commit generated HTML changes to main
         run: |
           git add game/index.html game-editor/index.html
