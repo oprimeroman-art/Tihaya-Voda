@@ -289,7 +289,7 @@ class UI{
  destroy(){clearInterval(this.timer);this.disposeMedia?.();window.removeEventListener('keydown',this.onKey,true);this.root.remove();}
  active(){return !this.hooks.paused?.();}
  reset(){this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
- load(s){this.endingShown=false;this.close(false);this.engine.load(s);this.root.hidden=false;this.render();}
+ load(s){this.endingShown=false;this.close(false);this.engine.load(s);this.root.hidden=false;this.sync();}
  snapshot(){return this.engine.export();}
  sync(){this.hooks.variant?.(this.engine.state.room,this.engine.state.variants[this.engine.state.room]);if(this.engine.state.room!==this.hooks.room?.())this.hooks.go?.(this.engine.state.room);this.render();}
  tick(){const now=performance.now(),dt=Math.min(1,(now-this.last)/1000);this.last=now;if(this.root.hidden)return;this.root.style.visibility=this.active()?'visible':'hidden';if(!this.active())return;if(this.mediaTick)this.mediaTick(dt);if(this.dialog){this.engine.flush(dt);return;}const ev=this.engine.flush(dt);if(ev)this.scene(ev);else if(this.engine.state.ended&&!this.endingShown)this.ending();}
@@ -356,10 +356,18 @@ function unwrapped(c){const b=c[0].u;return c.map(p=>({u:b+((((p.u-b)+.5)%1+1)%1
 function drawQuad(ctx,img,c,w,h){if(!img||!c?.length)return;const p=unwrapped(c).map(v=>({x:v.u*w,y:v.v*h})),iw=img.videoWidth||img.width,ih=img.videoHeight||img.height;
 function drawTri(s,t){const [a,b,d]=t,[v0,v1,v2]=s,det=(v1.x-v0.x)*(v2.y-v0.y)-(v2.x-v0.x)*(v1.y-v0.y);if(Math.abs(det)<.000001)return;const A=((b.x-a.x)*(v2.y-v0.y)-(d.x-a.x)*(v1.y-v0.y))/det,C=((d.x-a.x)*(v1.x-v0.x)-(b.x-a.x)*(v2.x-v0.x))/det,B=((b.y-a.y)*(v2.y-v0.y)-(d.y-a.y)*(v1.y-v0.y))/det,D=((d.y-a.y)*(v1.x-v0.x)-(b.y-a.y)*(v2.x-v0.x))/det;ctx.save();ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.lineTo(d.x,d.y);ctx.clip();ctx.transform(A,B,C,D,a.x-A*v0.x-C*v0.y,a.y-B*v0.x-D*v0.y);ctx.drawImage(img,0,0);ctx.restore()}
 for(const shift of [-1,0,1]){const q=p.map(v=>({x:v.x+shift*w,y:v.y}));drawTri([{x:0,y:0},{x:iw,y:0},{x:0,y:ih}],[q[0],q[1],q[3]]);drawTri([{x:iw,y:ih},{x:0,y:ih},{x:iw,y:0}],[q[2],q[3],q[1]])}}
-async function prepare(r){if(cache.has(r.id))return cache.get(r.id);
- const bitmap=await sourceImg(game.panoramas[r.id].data,game.panoramas[r.id].mime),width=Math.min(bitmap.width,gl?Math.min(4096,gl.getParameter(gl.MAX_TEXTURE_SIZE)):2048),height=Math.floor(bitmap.height*width/bitmap.width),cv=document.createElement('canvas');cv.width=width;cv.height=height;const ctx=cv.getContext('2d',{willReadFrequently:!gl});
- const entry={bitmap,cv,ctx,width,height,dirty:true,imgs:{},texture:null};for(const o of r.objects){for(const id of o.states){if(!entry.imgs[id]&&game.assets[id])entry.imgs[id]=await sourceImg(game.assets[id].data,game.assets[id].mime);}}
+async function prepare(r){
+ const panoSource=game.panoramas[r.id];
+ const cached=cache.get(r.id);
+ if(cached&&cached.source===panoSource)return cached;
+ const bitmap=await sourceImg(panoSource.data,panoSource.mime),width=Math.min(bitmap.width,gl?Math.min(4096,gl.getParameter(gl.MAX_TEXTURE_SIZE)):2048),height=Math.floor(bitmap.height*width/bitmap.width),cv=document.createElement('canvas');cv.width=width;cv.height=height;const ctx=cv.getContext('2d',{willReadFrequently:!gl});
+ const entry={bitmap,cv,ctx,width,height,dirty:true,imgs:{},texture:null,source:panoSource};for(const o of r.objects){for(const id of o.states){if(!entry.imgs[id]&&game.assets[id])entry.imgs[id]=await sourceImg(game.assets[id].data,game.assets[id].mime);}}
  if(game.retouch?.[r.id])entry.clean=await sourceImg(game.retouch[r.id].data,'image/png');
+ // A different variant may have been requested while the images were loading.
+ if(game.panoramas[r.id]!==panoSource)return prepare(r);
+ const currentEntry=cache.get(r.id);
+ if(currentEntry?.source===panoSource)return currentEntry;
+ if(currentEntry?.texture&&gl)gl.deleteTexture(currentEntry.texture);
  if(gl){entry.texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,entry.texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);}
  cache.set(r.id,entry);return entry;
 }
@@ -453,9 +461,21 @@ function project(p){const lon=(p.u-.5)*TAU,lat=(.5-p.v)*Math.PI,dx=Math.sin(lon)
 function centroid(o){const q=unwrapped(o.corners);return {u:norm(q.reduce((a,p)=>a+p.u,0)/4),v:q.reduce((a,p)=>a+p.v,0)/4}}
 async function switchRoom(id,adventureSync=false){if(adventurePlayer&&sessionStarted&&!adventureSync&&id!==adventurePlayer.engine.state.room){if(!adventurePlayer.engine.enter(id))return;}const r=game.rooms.find(a=>a.id===id);if(!r)return;haltInactiveMedia(id);directorEnter(id); $('status').textContent='Переходим: '+r.name;$('status').classList.remove('hide');try{await prepare(r);roomId=id;game.current=id;yaw=r.view?.yaw||0;pitch=r.view?.pitch||0;fov=r.view?.fov||72;$('room').textContent=r.name;$('floor').textContent='360° панорама';const links=$('routes');links.replaceChildren();for(const x of r.exits||[]){const to=game.rooms.find(q=>q.id===x.to);if(!to)continue;const b=document.createElement('button');b.className='route';b.textContent='→ '+to.name;b.onclick=()=>switchRoom(to.id);links.append(b);}if(!links.children.length)links.textContent='Выходов пока нет';if(sessionStarted && runtime && runtime.current!==roomId)runtime.enter(roomId);refresh();$('status').classList.add('hide');if(sessionStarted&&!sessionPaused){startAutoMedia();directorAutoEnter();scheduleGameSave();}}catch(e){$('status').textContent='Ошибка загрузки комнаты: '+e.message;console.error(e);}}
 function varsChanged(){scheduleGameSave()}function visualChanged(id){const e=cache.get(id);if(e)e.dirty=true;refresh();scheduleGameSave();}
+function adventureApplyVariant(rid,variant){
+ const room=game.rooms.find(r=>r.id===rid),meta=game.story.adventure.rooms.find(r=>r.id===rid);
+ if(!room||!meta)return;
+ const assetId=meta.variantAssets?.[variant],asset=game.assets[assetId]||adventureBasePanoramas[rid];
+ if(!asset||(adventureVariantsApplied[rid]===variant&&game.panoramas[rid]===asset))return;
+ adventureVariantsApplied[rid]=variant;game.panoramas[rid]=asset;
+ const old=cache.get(rid);if(old?.texture&&gl)gl.deleteTexture(old.texture);cache.delete(rid);
+ // Changing an image is not a room transition: preserve the viewpoint and director state.
+ if(rid===roomId)prepare(room).then(()=>{
+   if(roomId===rid&&adventureVariantsApplied[rid]===variant)refresh();
+ }).catch(error=>console.error('Ошибка состояния панорамы',rid,error));
+}
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),
- variant:(rid,variant)=>{const meta=game.story.adventure.rooms.find(r=>r.id===rid),asset=game.assets[meta?.variantAssets?.[variant]]||adventureBasePanoramas[rid];if(asset&&adventureVariantsApplied[rid]!==variant){adventureVariantsApplied[rid]=variant;game.panoramas[rid]=asset;cache.delete(rid);switchRoom(rid,true);}},paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
+ variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{const s=adventurePlayer?.engine.state;if(!s)return;for(const v of game.globals)if(v.key in s.flags)v.value=s.flags[v.key];for(const r of game.rooms)for(const o of r.objects){if(o.tourKey?.startsWith('ga:')){const a=game.story.adventure.actions.find(a=>a.id===o.tourKey.slice(3));o.visible=!!a&&adventurePlayer.engine.eligible(a);}}for(const c of cache.values())c.dirty=true;refresh();scheduleGameSave();},
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:bytesBase64(a.data,a.mime)}:null;}});
  $('right').style.display='none';$('footer').style.display='none';storyPlayer.questBox.style.display='none';
@@ -507,10 +527,10 @@ function resetGame(){if(adventurePlayer){adventurePlayer.endingShown=false;Objec
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
  yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=game.release?.startTorch!==false;
  $('toggle').textContent='Фонарик: '+(torch?'включён':'выключен');sessionStarted=true;closeSystem();switchRoom(roomId).then(()=>{runtime.enter(roomId);saveGameLocal()}).catch(e=>note(e.message));}
-async function loadGameSave(data){directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
- storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=data.roomId;game.current=roomId;runtime.current=roomId;
+async function loadGameSave(data){directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
+ storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
  yaw=Number(data.yaw)||0;pitch=Number(data.pitch)||0;fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=data.torch!==false;
- $('toggle').textContent='Фонарик: '+(torch?'включён':'выключен');sessionStarted=true;closeSystem();await switchRoom(roomId);yaw=Number(data.yaw)||0;pitch=Number(data.pitch)||0;fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
+ $('toggle').textContent='Фонарик: '+(torch?'включён':'выключен');sessionStarted=true;closeSystem();await switchRoom(roomId,true);adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=Number(data.pitch)||0;fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
 function setAudio(){if(storyPlayer){storyPlayer.volume.value=String(audioSettings.master);storyPlayer.musicRatio=audioSettings.music/100;storyPlayer.adjustVolumes()}for(const c of mediaControllers.values()){if(c.audio)c.audio.volume=Math.max(0,Math.min(1,audioSettings.master/100));}}
 function saveSoundPreferences(){if(storyPlayer&&audioSettings.master!==Number(storyPlayer.volume.value)){audioSettings.master=Number(storyPlayer.volume.value);}storageWrite(PREF_KEY,JSON.stringify(audioSettings));}
 function loadSoundPreferences(){try{const v=JSON.parse(storageRead(PREF_KEY)||'null');if(v){audioSettings.master=Math.max(0,Math.min(100,Number(v.master)||0));audioSettings.music=Math.max(0,Math.min(100,Number(v.music)||0));}}catch(_){}}
