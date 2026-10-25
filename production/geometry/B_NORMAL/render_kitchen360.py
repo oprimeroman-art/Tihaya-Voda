@@ -65,7 +65,7 @@ def sample_photo(kind,point,normal):
     sample=rgb[iy,ix]
     # Rescale the photographed colour to the original art-direction palette:
     # preserve working-station greys rather than making every wall rusty red.
-    normalized=np.clip(sample/mean[None,None,:],.34,1.72)
+    normalized=np.clip(sample/mean,.34,1.72)
     strength={'wood':.79,'floor':.58,'paint':.38,'panels':.35,
               'steel':.62,'enamel':.18,'cloth':.24}.get(kind,.25)
     return (1-strength)+strength*normalized

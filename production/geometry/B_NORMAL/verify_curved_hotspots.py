@@ -23,6 +23,15 @@ def main():
                           np.array([[0,1,0]],np.float32))
     assert np.isclose(cap[0],1,atol=1e-5),'cylinder cap intersection'
     assert np.allclose(n[0],[0,1,0],atol=1e-4)
+    model.load_materials()
+    # Regression for actual full-resolution mirror reflection: reflection
+    # rays are flat (N,3), while screen tiles are (H,W,3).
+    normal_1d=np.array([[0,0,1],[0,1,0]],dtype=np.float32)
+    points_1d=np.array([[.2,1.1,-1.0],[.5,.9,-1.6]],dtype=np.float32)
+    flat=model.sample_photo('enamel',points_1d,normal_1d)
+    assert flat.shape==(2,3) and np.isfinite(flat).all()
+    screen=model.sample_photo('enamel',points_1d.reshape(1,2,3),normal_1d.reshape(1,2,3))
+    assert screen.shape==(1,2,3) and np.allclose(screen[0],flat)
     model.kitchen()
     assert len(model.CURVED)==5, 'expected five physically curved props'
     assert {'kettle_body','kettle_lid','mug','plate','faucet_stem'}==model.REPLACED_BOXES
