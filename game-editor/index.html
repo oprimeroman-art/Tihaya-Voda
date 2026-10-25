@@ -204,9 +204,31 @@ function test(c,s){
 }
 class Engine {
  constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.reset();}
- reset(){this.state={version:1,project:this.data.id,chapter:1,room:this.data.startRoom,flags:copy(this.data.initial||{}),inventory:[],documents:[],done:[],fired:[],pending:[],journal:[],visits:{},variants:{},errors:{},progress:{},clock:0,lastOptional:-65,ended:false,checkpoint:null};this.modal=false;for(const r of this.data.rooms)this.state.variants[r.id]=r.default_variant;}
+ fresh(){const state={version:1,project:this.data.id,chapter:1,room:this.data.startRoom,flags:copy(this.data.initial||{}),inventory:[],documents:[],done:[],fired:[],pending:[],journal:[],visits:{},variants:{},errors:{},progress:{},clock:0,lastOptional:-65,ended:false,checkpoint:null};for(const r of this.data.rooms)state.variants[r.id]=r.default_variant;return state;}
+ reset(){this.state=this.fresh();this.modal=false;}
  export(){return copy(this.state);}
- load(s){if(!s||s.version!==1||s.project!==this.data.id||!this.data.rooms.some(r=>r.id===s.room)||!Array.isArray(s.done)||!s.flags)throw Error('Несовместимое сохранение сценария');this.state=copy(s);this.modal=false;this.changed();}
+ normalize(s,nested=false){
+  const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
+  if(!object(s)||s.version!==1||s.project!==this.data.id||!this.data.rooms.some(r=>r.id===s.room)||!object(s.flags)||!Array.isArray(s.done)||!Number.isInteger(s.chapter)||s.chapter<1||s.chapter>this.data.quests.length)throw Error('Несовместимое сохранение сценария');
+  const defaults=this.fresh(),state={...defaults,...copy(s)};
+  state.flags={...defaults.flags,...copy(s.flags)};
+  for(const key of ['inventory','documents','done','fired'])state[key]=Array.isArray(s[key])?copy(s[key]).filter(x=>typeof x==='string'):[];
+  state.journal=Array.isArray(s.journal)?copy(s.journal):[];
+  for(const key of ['visits','variants','errors','progress'])state[key]={...defaults[key],...(object(s[key])?copy(s[key]):{})};
+  state.clock=Number.isFinite(s.clock)&&s.clock>=0?s.clock:0;
+  state.lastOptional=Number.isFinite(s.lastOptional)?s.lastOptional:-65;
+  const ids=new Set(this.data.events.map(e=>e.id)),pendingIds=new Set();
+  state.pending=(Array.isArray(s.pending)?s.pending:[]).filter(p=>{
+   if(!object(p)||!ids.has(p.id)||!Number.isFinite(p.due)||pendingIds.has(p.id)||state.fired.includes(p.id))return false;
+   pendingIds.add(p.id);return true;
+  }).map(p=>({id:p.id,due:p.due}));
+  state.checkpoint=null;
+  if(!nested&&object(s.checkpoint)&&object(s.checkpoint.state)){
+   try{state.checkpoint={name:String(s.checkpoint.name||'Контрольная точка'),state:this.normalize(s.checkpoint.state,true)};}catch(_err){/* Ignore a broken optional checkpoint, not the valid main save. */}
+  }
+  return state;
+ }
+ load(s){const state=this.normalize(s);this.state=state;this.modal=false;this.changed();}
  changed(){this.hooks.change?.(this.state);}
  eligible(a){return !this.state.ended&&(!a.room||a.room===this.state.room)&&test(a.when,this.state)&&(!a.once||!this.state.done.includes(a.id));}
  actions(){return this.data.actions.filter(a=>this.eligible(a));}
