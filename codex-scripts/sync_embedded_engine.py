@@ -45,6 +45,15 @@ def synchronize(html):
         if html.count("</style></head><body>") != 1:
             raise ValueError("Cannot find main style boundary in exported game")
         html = html.replace("</style></head><body>", css + "</style></head><body>", 1)
+    cue_a, cue_b = "/* HORROR_CUE_STYLE_BEGIN", "/* HORROR_CUE_STYLE_END */"
+    cue_css = RUNTIME[RUNTIME.index(cue_a):RUNTIME.index(cue_b)+len(cue_b)]
+    if cue_a in html:
+        a, b = html.index(cue_a), html.index(cue_b, html.index(cue_a))+len(cue_b)
+        html = html[:a] + cue_css + html[b:]
+    else:
+        if html.count("</style></head><body>") != 1:
+            raise ValueError("Expected one CSS insertion point")
+        html = html.replace("</style></head><body>", cue_css + "</style></head><body>", 1)
     veil = '<div id="veil"></div>'
     overlays = '<div id="horror-atmosphere" aria-hidden="true"></div><div id="horror-apparition" aria-hidden="true"></div>'
     if html.count(veil) != 1:
@@ -53,6 +62,14 @@ def synchronize(html):
         html = html.replace(veil, veil + overlays, 1)
     if html.count('id="horror-atmosphere"') != 1 or html.count('id="horror-apparition"') != 1:
         raise ValueError("Duplicate horror overlay nodes")
+    cue_node = '<div id="horror-cue" aria-hidden="true"></div>'
+    if 'id="horror-cue"' not in html:
+        apparition = '<div id="horror-apparition" aria-hidden="true"></div>'
+        if html.count(apparition) != 1:
+            raise ValueError("Expected exactly one apparition overlay")
+        html = html.replace(apparition, apparition + cue_node, 1)
+    if html.count('id="horror-cue"') != 1:
+        raise ValueError("Duplicated timed horror overlay")
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
     horror_start = "/* HORROR_VISUALS_BEGIN"
     state_start = "function adventureReflectState(){"
@@ -66,6 +83,9 @@ def synchronize(html):
         html = replace_between(html, RUNTIME, variant_start, boot_start, horror_start)
     else:
         html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, horror_start)
+    html = replace_between(html, RUNTIME, "async function switchRoom(id,adventureSync=false){", "function varsChanged(){")
+    html = replace_between(html, RUNTIME, "function resetGame(){", "async function loadGameSave(data){")
+    html = replace_between(html, RUNTIME, "function tick(ts){", "requestAnimationFrame(tick);boot();")
     html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     return html
