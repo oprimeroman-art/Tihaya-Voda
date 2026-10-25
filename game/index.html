@@ -461,6 +461,17 @@ function project(p){const lon=(p.u-.5)*TAU,lat=(.5-p.v)*Math.PI,dx=Math.sin(lon)
 function centroid(o){const q=unwrapped(o.corners);return {u:norm(q.reduce((a,p)=>a+p.u,0)/4),v:q.reduce((a,p)=>a+p.v,0)/4}}
 async function switchRoom(id,adventureSync=false){if(adventurePlayer&&sessionStarted&&!adventureSync&&id!==adventurePlayer.engine.state.room){if(!adventurePlayer.engine.enter(id))return;}const r=game.rooms.find(a=>a.id===id);if(!r)return;haltInactiveMedia(id);directorEnter(id); $('status').textContent='Переходим: '+r.name;$('status').classList.remove('hide');try{await prepare(r);roomId=id;game.current=id;yaw=r.view?.yaw||0;pitch=r.view?.pitch||0;fov=r.view?.fov||72;$('room').textContent=r.name;$('floor').textContent='360° панорама';const links=$('routes');links.replaceChildren();for(const x of r.exits||[]){const to=game.rooms.find(q=>q.id===x.to);if(!to)continue;const b=document.createElement('button');b.className='route';b.textContent='→ '+to.name;b.onclick=()=>switchRoom(to.id);links.append(b);}if(!links.children.length)links.textContent='Выходов пока нет';if(sessionStarted && runtime && runtime.current!==roomId)runtime.enter(roomId);refresh();$('status').classList.add('hide');if(sessionStarted&&!sessionPaused){startAutoMedia();directorAutoEnter();scheduleGameSave();}}catch(e){$('status').textContent='Ошибка загрузки комнаты: '+e.message;console.error(e);}}
 function varsChanged(){scheduleGameSave()}function visualChanged(id){const e=cache.get(id);if(e)e.dirty=true;refresh();scheduleGameSave();}
+function adventureReflectState(){
+ const s=adventurePlayer?.engine.state;if(!s)return;
+ for(const v of game.globals)if(v.key in s.flags)v.value=s.flags[v.key];
+ for(const r of game.rooms)for(const o of r.objects){
+  if(!o.tourKey?.startsWith('ga:'))continue;
+  const a=game.story.adventure.actions.find(a=>a.id===o.tourKey.slice(3));
+  o.visible=!!a&&adventurePlayer.engine.eligible(a);
+ }
+ for(const entry of cache.values())entry.dirty=true;
+ refresh();
+}
 function adventureApplyVariant(rid,variant){
  const room=game.rooms.find(r=>r.id===rid),meta=game.story.adventure.rooms.find(r=>r.id===rid);
  if(!room||!meta)return;
@@ -476,7 +487,7 @@ function adventureApplyVariant(rid,variant){
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
- change:()=>{const s=adventurePlayer?.engine.state;if(!s)return;for(const v of game.globals)if(v.key in s.flags)v.value=s.flags[v.key];for(const r of game.rooms)for(const o of r.objects){if(o.tourKey?.startsWith('ga:')){const a=game.story.adventure.actions.find(a=>a.id===o.tourKey.slice(3));o.visible=!!a&&adventurePlayer.engine.eligible(a);}}for(const c of cache.values())c.dirty=true;refresh();scheduleGameSave();},
+ change:()=>{adventureReflectState();scheduleGameSave();},
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:bytesBase64(a.data,a.mime)}:null;}});
  $('right').style.display='none';$('footer').style.display='none';storyPlayer.questBox.style.display='none';
 }
@@ -527,7 +538,7 @@ function resetGame(){if(adventurePlayer){adventurePlayer.endingShown=false;Objec
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
  yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=game.release?.startTorch!==false;
  $('toggle').textContent='Фонарик: '+(torch?'включён':'выключен');sessionStarted=true;closeSystem();switchRoom(roomId).then(()=>{runtime.enter(roomId);saveGameLocal()}).catch(e=>note(e.message));}
-async function loadGameSave(data){directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
+async function loadGameSave(data){directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
  storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
  yaw=Number(data.yaw)||0;pitch=Number(data.pitch)||0;fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=data.torch!==false;
  $('toggle').textContent='Фонарик: '+(torch?'включён':'выключен');sessionStarted=true;closeSystem();await switchRoom(roomId,true);adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=Number(data.pitch)||0;fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
