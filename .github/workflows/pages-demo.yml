@@ -9,9 +9,12 @@ on:
       - site-assets/alpha-wave2/**
       - site-assets/alpha-wave3/**
       - site-assets/story-props-wave2/**
+      - site-assets/medical-props/**
       - codex-scripts/alpha_wave2.py
       - codex-scripts/alpha_wave3.py
       - codex-scripts/alpha_wave4_props.py
+      - codex-scripts/alpha_wave5_medical.py
+      - codex-scripts/test_wave5_medical.py
       - codex-scripts/build_pages_demo.py
       - .github/workflows/pages-demo.yml
   workflow_dispatch:
@@ -43,6 +46,8 @@ jobs:
           assert 'data:image/webp;base64,' in s
           print('PASS six illustrated rooms, canonical prop art, narrative ghosts, no Blender')
           PY
+      - name: Verify canonical medical props in built game
+        run: python3 codex-scripts/test_wave5_medical.py
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

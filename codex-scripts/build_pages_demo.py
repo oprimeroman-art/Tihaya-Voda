@@ -78,6 +78,9 @@ def main():
     # Canonical story objects and narrative anomaly art, without changing quest logic.
     from alpha_wave4_props import apply_wave4_props, decorate_game_ui
     applied.update(apply_wave4_props(payload,ROOT))
+    # Medical cards from canonical chapter 10: original documents, no new events.
+    from alpha_wave5_medical import apply_medical_props
+    applied.update(apply_medical_props(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
