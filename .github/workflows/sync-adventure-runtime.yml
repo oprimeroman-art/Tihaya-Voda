@@ -23,7 +23,9 @@ jobs:
         with:
           persist-credentials: true
       - name: Run story engine regression checks
-        run: node studio/verification/adventure-pending.test.cjs
+        run: |
+          node studio/verification/adventure-pending.test.cjs
+          node studio/verification/adventure-saves.test.cjs
       - name: Update existing offline game and editor
         run: |
           python3 codex-scripts/sync_embedded_engine.py

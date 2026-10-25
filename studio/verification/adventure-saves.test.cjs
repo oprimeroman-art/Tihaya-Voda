@@ -1,0 +1,44 @@
+/* Version 1 save compatibility and malformed optional state recovery. */
+'use strict';
+const assert = require('node:assert/strict');
+const {readFileSync} = require('node:fs');
+const {join} = require('node:path');
+const {Engine} = require('../source/adventure-core.js');
+const root=join(__dirname,'../..');
+const story=JSON.parse(readFileSync(join(root,'game-project/project.json'),'utf8')).story.adventure;
+for(const ending of ['A','B','C','D']){
+ const file=JSON.parse(readFileSync(join(root,'reports',`SAVE_BEFORE_${ending}.json`),'utf8'));
+ const e=new Engine(story);e.load(file.adventure);
+ assert.equal(e.state.room,file.adventure.room,`${ending}: room retained`);
+ assert.equal(e.state.chapter,file.adventure.chapter,`${ending}: chapter retained`);
+ assert.deepEqual(e.state.done,file.adventure.done,`${ending}: completed quests retained`);
+ assert.deepEqual(e.state.inventory,file.adventure.inventory,`${ending}: inventory retained`);
+ assert.deepEqual(e.state.flags,file.adventure.flags,`${ending}: flags retained`);
+ assert.deepEqual(e.state.variants,file.adventure.variants,`${ending}: variants retained`);
+}
+const real=JSON.parse(readFileSync(join(root,'reports/SAVE_BEFORE_A.json'),'utf8')).adventure;
+const e=new Engine(story);
+const damaged=JSON.parse(JSON.stringify(real));
+damaged.inventory=null;damaged.documents=undefined;damaged.fired=null;
+damaged.visits='invalid';damaged.errors=null;damaged.variants=null;
+damaged.clock=Number.NaN;damaged.lastOptional=Number.NaN;
+damaged.pending=[{id:'DELETED_EVENT',due:0},{id:story.events[0].id,due:2},{id:story.events[0].id,due:3},{id:story.events[1].id,due:Infinity}];
+damaged.checkpoint={name:'Broken',state:{project:'wrong'}};
+e.load(damaged);
+assert.deepEqual(e.state.inventory,[]);
+assert.deepEqual(e.state.documents,[]);
+assert.equal(e.state.clock,0);
+assert.equal(e.state.lastOptional,-65);
+assert.equal(e.state.pending.length,1);
+assert.equal(e.state.checkpoint,null);
+assert.equal(typeof e.state.variants[e.state.room],'string');
+const prev=e.export();
+assert.throws(()=>e.load({...real,project:'foreign-project'}),/Несовместимое/);
+assert.deepEqual(e.export(),prev,'invalid saves must not discard the running game');
+const checkpt=JSON.parse(JSON.stringify(real));
+checkpt.checkpoint={name:'TEST',state:{...real,checkpoint:null}};
+e.load(checkpt);
+assert.equal(e.state.checkpoint.name,'TEST');
+assert.equal(e.state.checkpoint.state.room,real.room);
+assert.equal(e.state.checkpoint.state.checkpoint,null);
+console.log('PASS: four ending saves, malformed optional fields, obsolete events, corrupted checkpoint and rejection safety');
