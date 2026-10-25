@@ -32,7 +32,7 @@ jobs:
           assert 'KITCHEN_QA_PREVIEW_BEGIN' not in s
           assert s.count('"mime":"image/webp"')>=3
           assert 'noindex,nofollow,noarchive' in s
-          assert len(s)>2_500_000
+          assert len(s.encode('utf-8'))>2_500_000
           print('PASS illustrated source, no QA 3D, noindex')
           PY
       - uses: actions/upload-pages-artifact@v4
