@@ -7,7 +7,9 @@ on:
       - game/index.html
       - site-assets/illustrated/**
       - site-assets/alpha-wave2/**
+      - site-assets/alpha-wave3/**
       - codex-scripts/alpha_wave2.py
+      - codex-scripts/alpha_wave3.py
       - codex-scripts/build_pages_demo.py
       - .github/workflows/pages-demo.yml
   workflow_dispatch:
@@ -32,10 +34,10 @@ jobs:
           from pathlib import Path
           s=Path('_site/index.html').read_text()
           assert 'KITCHEN_QA_PREVIEW_BEGIN' not in s
-          assert s.count('"mime":"image/webp"')>=5
+          assert s.count('"mime":"image/webp"')>=6
           assert 'noindex,nofollow,noarchive' in s
           assert len(s.encode('utf-8'))>2_500_000
-          print('PASS 5 illustrated rooms, no Blender, noindex')
+          print('PASS 6 illustrated rooms, no Blender, noindex')
           PY
       - uses: actions/upload-pages-artifact@v4
         with:
