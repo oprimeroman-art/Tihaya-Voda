@@ -1,0 +1,24 @@
+name: Playtest B_NORMAL in Chromium
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kitchen-qa:
+    name: WebGL and Q01 kitchen playtest
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install isolated Chromium QA dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install --with-deps chromium
+      - name: Verify the game with a real browser
+        run: python studio/verification/kitchen-browser.test.py
