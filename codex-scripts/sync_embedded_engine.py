@@ -35,17 +35,38 @@ def synchronize(html):
     # The UI is the final part of its script tag in both shipped HTML files.
     end = html.index("</script>", b)
     html = html[:a] + CORE.rstrip() + "\n\n" + UI.rstrip() + "\n" + html[end:]
+    # The original offline exports predate the optional ambient visual layer.
+    css_a, css_b = "/* HORROR_STYLE_BEGIN", "/* HORROR_STYLE_END */"
+    css = RUNTIME[RUNTIME.index(css_a):RUNTIME.index(css_b)+len(css_b)]
+    if css_a in html:
+        a, b = html.index(css_a), html.index(css_b, html.index(css_a))+len(css_b)
+        html = html[:a] + css + html[b:]
+    else:
+        if html.count("</style></head><body>") != 1:
+            raise ValueError("Cannot find main style boundary in exported game")
+        html = html.replace("</style></head><body>", css + "</style></head><body>", 1)
+    veil = '<div id="veil"></div>'
+    overlays = '<div id="horror-atmosphere" aria-hidden="true"></div><div id="horror-apparition" aria-hidden="true"></div>'
+    if html.count(veil) != 1:
+        raise ValueError("Expected exactly one panorama veil")
+    if 'id="horror-atmosphere"' not in html:
+        html = html.replace(veil, veil + overlays, 1)
+    if html.count('id="horror-atmosphere"') != 1 or html.count('id="horror-apparition"') != 1:
+        raise ValueError("Duplicate horror overlay nodes")
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
+    horror_start = "/* HORROR_VISUALS_BEGIN"
     state_start = "function adventureReflectState(){"
     variant_start = "function adventureApplyVariant(rid,variant){"
     boot_start = "function boot(){try{"
-    if state_start in html:
-        html = replace_between(html, RUNTIME, state_start, boot_start)
+    if horror_start in html:
+        html = replace_between(html, RUNTIME, horror_start, boot_start)
+    elif state_start in html:
+        html = replace_between(html, RUNTIME, state_start, boot_start, horror_start)
     elif variant_start in html:
-        html = replace_between(html, RUNTIME, variant_start, boot_start, state_start)
+        html = replace_between(html, RUNTIME, variant_start, boot_start, horror_start)
     else:
-        # One-time upgrade of older builds whose adventureSetup had no variant helper.
-        html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, state_start)
+        html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, horror_start)
+    html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     return html
 
