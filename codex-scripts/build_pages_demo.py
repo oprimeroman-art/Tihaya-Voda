@@ -69,6 +69,9 @@ def main():
         art=members[roomid+".webp"]
         payload["panoramas"][roomid]={"mime":"image/webp","data":base64.b64encode(art).decode("ascii")}
         applied[roomid]=len(authored)
+    # Illustrate the next original story locations; no new quest text or events.
+    from alpha_wave2 import apply_wave2
+    applied.update(apply_wave2(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
@@ -79,11 +82,13 @@ def main():
     html=html.replace("<title>ПОЛЯРНАЯ СМЕНА</title>",
                       "<title>Протокол «Тихая вода» — демо</title>",1)
     assert html.count('window.BUILT_GAME=')==1
-    assert all(payload["panoramas"][id]["mime"]=="image/webp" for id in "ABC")
+    assert all(payload["panoramas"][id]["mime"]=="image/webp" for id in "ABCDH")
     dest=args.output
     dest.mkdir(parents=True,exist_ok=True)
     (dest/"index.html").write_text(html,encoding="utf-8")
-    (dest/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="ascii")
+    (dest/"robots.txt").write_text("User-agent: *
+Disallow: /
+",encoding="ascii")
     # Source only from the game, not the whole private repository.
     print("PUBLISHED",dest/"index.html","bytes",len(html.encode("utf-8")),
           "approved_rooms",applied,"panoramas",len(payload["panoramas"]))
