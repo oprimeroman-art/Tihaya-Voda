@@ -1,0 +1,2464 @@
+{
+  "$schema_note": "SCENARIO CONTENT CONTRACT ONLY. This is not a native importable Panorama Studio project; map to actual editor data after inspecting real version.",
+  "project_id": "tihaya_voda",
+  "title": "Протокол «Тихая вода»",
+  "version": "2.0",
+  "language": "ru",
+  "start_date_in_story": "2026-01-18",
+  "gameplay_mode": "single_player_first_person_panorama",
+  "narrative_chapters": [
+    {
+      "chapter": 1,
+      "id": "CH01",
+      "title": "КОМУ ВЫДАЛИ КЛЮЧ?",
+      "target_minutes": [
+        0,
+        9
+      ],
+      "world_phase": 0,
+      "quest_id": "Q01",
+      "steps": [
+        "get_badge",
+        "get_storage_key",
+        "complete_TEASEQUENCE",
+        "sign_shift",
+        "install_fuse3"
+      ],
+      "completion_event": "Q01_DONE"
+    },
+    {
+      "chapter": 2,
+      "id": "CH02",
+      "title": "ВЕЩИ ДЕРЖАТСЯ НА МЕСТЕ",
+      "target_minutes": [
+        9,
+        19
+      ],
+      "world_phase": 0,
+      "quest_id": "Q02",
+      "steps": [
+        "complete_POWER_BASIC",
+        "complete_CORES_MARKING",
+        "complete_RADIO_TUNE",
+        "send_report"
+      ],
+      "completion_event": "Q02_DONE"
+    },
+    {
+      "chapter": 3,
+      "id": "CH03",
+      "title": "КОГДА ВЫ ЗДЕСЬ БЫЛИ?",
+      "target_minutes": [
+        19,
+        29
+      ],
+      "world_phase": 1,
+      "quest_id": "Q03",
+      "steps": [
+        "inspect_D19",
+        "complete_PLUMB_SEQ",
+        "collect_VHS_V01",
+        "watch_V01",
+        "inspect_cabinet_message"
+      ],
+      "completion_event": "Q03_DONE"
+    },
+    {
+      "chapter": 4,
+      "id": "CH04",
+      "title": "НА ДВОИХ",
+      "target_minutes": [
+        29,
+        40
+      ],
+      "world_phase": 2,
+      "quest_id": "Q04",
+      "steps": [
+        "read_D20",
+        "count_cans",
+        "complete_COOKING",
+        "choose_second_plate",
+        "examine_after_dinner"
+      ],
+      "completion_event": "Q04_DONE"
+    },
+    {
+      "chapter": 5,
+      "id": "CH05",
+      "title": "СТЕКЛО ПОМНИТ",
+      "target_minutes": [
+        40,
+        52
+      ],
+      "world_phase": 2,
+      "quest_id": "Q05",
+      "steps": [
+        "collect_P17",
+        "complete_SPECTRUM_MATCH",
+        "complete_MICROSCOPE",
+        "visit_hidden_room",
+        "read_D03"
+      ],
+      "completion_event": "Q05_DONE"
+    },
+    {
+      "chapter": 6,
+      "id": "CH06",
+      "title": "ЭФИР НЕ ДЛЯ ТЕБЯ",
+      "target_minutes": [
+        52,
+        64
+      ],
+      "world_phase": 3,
+      "quest_id": "Q06",
+      "steps": [
+        "complete_WAVE_PHASE",
+        "listen_A01",
+        "listen_A02",
+        "read_both_acts"
+      ],
+      "completion_event": "Q06_DONE"
+    },
+    {
+      "chapter": 7,
+      "id": "CH07",
+      "title": "КТО СТУЧИТ СНАРУЖИ?",
+      "target_minutes": [
+        64,
+        76
+      ],
+      "world_phase": 3,
+      "quest_id": "Q07",
+      "steps": [
+        "equip_three_items",
+        "complete_ANTENNA",
+        "complete_AIRLOCK_EQUALIZE",
+        "enter_station"
+      ],
+      "completion_event": "Q07_DONE"
+    },
+    {
+      "chapter": 8,
+      "id": "CH08",
+      "title": "ПЛЁНКА ОТВЕЧАЕТ",
+      "target_minutes": [
+        76,
+        88
+      ],
+      "world_phase": 3,
+      "quest_id": "Q08",
+      "steps": [
+        "complete_VHS_ASSEMBLE",
+        "watch_V02",
+        "inspect_wet_towel"
+      ],
+      "completion_event": "Q08_DONE"
+    },
+    {
+      "chapter": 9,
+      "id": "CH09",
+      "title": "КАКОЙ СЕЙЧАС ГОД?",
+      "target_minutes": [
+        88,
+        100
+      ],
+      "world_phase": 4,
+      "quest_id": "Q09",
+      "steps": [
+        "read_archive",
+        "complete_PUNCHCARD_OVERLAY",
+        "scan_uv",
+        "enter_1978",
+        "exit_1978"
+      ],
+      "completion_event": "Q09_DONE"
+    },
+    {
+      "chapter": 10,
+      "id": "CH10",
+      "title": "СЕМЬ МИНУТ",
+      "target_minutes": [
+        100,
+        114
+      ],
+      "world_phase": 4,
+      "quest_id": "Q10",
+      "steps": [
+        "complete_CARDIOMATCH",
+        "complete_TIMELINE_SYNC",
+        "watch_V04",
+        "find_three_corridor_discrepancies",
+        "leave_long_corridor"
+      ],
+      "completion_event": "Q10_DONE"
+    },
+    {
+      "chapter": 11,
+      "id": "CH11",
+      "title": "СПРОСИ У ПУСТОТЫ",
+      "target_minutes": [
+        114,
+        130
+      ],
+      "world_phase": 4,
+      "quest_id": "Q11",
+      "steps": [
+        "complete_NODE_POWER",
+        "complete_NODE_MEMORY",
+        "complete_NODE_OBSERVER",
+        "complete_SHUTTERS",
+        "answer_radio"
+      ],
+      "completion_event": "Q11_DONE"
+    },
+    {
+      "chapter": 12,
+      "id": "CH12",
+      "title": "ПОДПИСЬ",
+      "target_minutes": [
+        130,
+        142
+      ],
+      "world_phase": 4,
+      "quest_id": "Q12",
+      "steps": [
+        "see_window_1978",
+        "switch_power_off",
+        "insert_pin",
+        "verify_analog",
+        "choose_mode",
+        "confirm_and_sign"
+      ],
+      "completion_event": "Q12_DONE"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "A",
+      "variants": [
+        "A_NORMAL",
+        "A_SECOND_PILLOW",
+        "A_LATE"
+      ],
+      "default_variant": "A_NORMAL"
+    },
+    {
+      "id": "B",
+      "variants": [
+        "B_NORMAL",
+        "B_SECOND_PLATE",
+        "B_GHOST_MIRROR",
+        "B_TWO_GHOSTS",
+        "B_LATE"
+      ],
+      "default_variant": "B_NORMAL"
+    },
+    {
+      "id": "C",
+      "variants": [
+        "C_NORMAL",
+        "C_MIRROR_LIGHT",
+        "C_HIDDEN_DOOR",
+        "C_REVERSED_SNOW",
+        "C_DAYLIGHT"
+      ],
+      "default_variant": "C_NORMAL"
+    },
+    {
+      "id": "D",
+      "variants": [
+        "D_NORMAL",
+        "D_FALSE_MONITOR",
+        "D_DOUBLE_ACTS",
+        "D_LATE_MIRROR",
+        "D_INDOOR_TOWER"
+      ],
+      "default_variant": "D_NORMAL"
+    },
+    {
+      "id": "E",
+      "variants": [
+        "E_NORMAL",
+        "E_FALSE_DIGITAL"
+      ],
+      "default_variant": "E_NORMAL"
+    },
+    {
+      "id": "F",
+      "variants": [
+        "F_NORMAL",
+        "F_ARCHIVE12",
+        "F_SUIT_STANDING"
+      ],
+      "default_variant": "F_NORMAL"
+    },
+    {
+      "id": "G",
+      "variants": [
+        "G_NORMAL",
+        "G_P17",
+        "G_MIRROR_DOOR"
+      ],
+      "default_variant": "G_NORMAL"
+    },
+    {
+      "id": "H",
+      "variants": [
+        "H_NORMAL",
+        "H_AFTER_V01",
+        "H_ANNA_GLASS",
+        "H_1978",
+        "H_V01B"
+      ],
+      "default_variant": "H_NORMAL"
+    },
+    {
+      "id": "I",
+      "variants": [
+        "I_NORMAL",
+        "I_COVERED_BODY",
+        "I_EMPTY_BED"
+      ],
+      "default_variant": "I_NORMAL"
+    },
+    {
+      "id": "J",
+      "variants": [
+        "J_NORMAL",
+        "J_FALSE_BELOV",
+        "J_SAFE"
+      ],
+      "default_variant": "J_NORMAL"
+    },
+    {
+      "id": "K",
+      "variants": [
+        "K_NORMAL",
+        "K_TOWER_SILHOUETTE",
+        "K_TOWER_EMPTY"
+      ],
+      "default_variant": "K_NORMAL"
+    },
+    {
+      "id": "L",
+      "variants": [
+        "L_NORMAL",
+        "L_SHUTTER_DANGER",
+        "L_THREE_WINDOWS"
+      ],
+      "default_variant": "L_NORMAL"
+    },
+    {
+      "id": "M",
+      "variants": [
+        "M_NORMAL",
+        "M_DELAY_MONITOR",
+        "M_FINAL"
+      ],
+      "default_variant": "M_NORMAL"
+    },
+    {
+      "id": "N",
+      "variants": [
+        "N_CLOCK",
+        "N_SIGN",
+        "N_HANDWRITING",
+        "N_LATE_EXIT"
+      ],
+      "default_variant": "N_CLOCK"
+    },
+    {
+      "id": "O",
+      "variants": [
+        "O_1978"
+      ],
+      "default_variant": "O_1978"
+    },
+    {
+      "id": "P",
+      "variants": [
+        "P_FINAL_PANEL",
+        "P_END_A",
+        "P_END_B",
+        "P_END_C",
+        "P_END_D"
+      ],
+      "default_variant": "P_FINAL_PANEL"
+    }
+  ],
+  "items": [
+    {
+      "id": "BADGE04",
+      "pickup_room": "A",
+      "used_by": "Q01",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "STORAGE_KEY",
+      "pickup_room": "A",
+      "used_by": "Q01",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "FUSE_3",
+      "pickup_room": "F",
+      "used_by": "Q01",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "VHS_V01",
+      "pickup_room": "F",
+      "used_by": "Q03",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "P17_SAMPLE",
+      "pickup_room": "G",
+      "used_by": "Q05",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "FLASHLIGHT",
+      "pickup_room": "J",
+      "used_by": "Q07",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "ANTENNA_KEY",
+      "pickup_room": "J",
+      "used_by": "Q07",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "BEACON",
+      "pickup_room": "J",
+      "used_by": "Q07",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "VHS_FRAGMENT_A",
+      "pickup_room": "H",
+      "used_by": "Q08",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "VHS_FRAGMENT_B",
+      "pickup_room": "H",
+      "used_by": "Q08",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "PUNCHCARD_RU",
+      "pickup_room": "H",
+      "used_by": "Q09",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "PUNCHCARD_DE",
+      "pickup_room": "H",
+      "used_by": "Q09",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "VHS_V03",
+      "pickup_room": "H",
+      "used_by": "OPT_PETR_LETTER",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    },
+    {
+      "id": "SHUTTER_PIN",
+      "pickup_room": "M",
+      "used_by": "Q12",
+      "type": "quest_item",
+      "persistent_across_checkpoints": true
+    }
+  ],
+  "minigames": [
+    {
+      "id": "TEA_SEQUENCE",
+      "template": "sequence",
+      "win_rule_design": "[вода, нагрев, заварка, разлить]",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "POWER_BASIC",
+      "template": "switches",
+      "win_rule_design": "шина A=4; шина B=3+2, предел=5",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "CORES_MARKING",
+      "template": "matching",
+      "win_rule_design": "P14=840/A; P15=877/B; P16=899/C",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "RADIO_TUNE",
+      "template": "dial",
+      "win_rule_design": "4625 кГц ±5 и три кода точка, точка, тире",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "PLUMB_SEQ",
+      "template": "sequence",
+      "win_rule_design": "2-4-1-3",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "COOKING",
+      "template": "sequence",
+      "win_rule_design": "вода-крупа-нагрев-тушёнка-выключить",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "SPECTRUM_MATCH",
+      "template": "layer_match",
+      "win_rule_design": "зубцы на позициях 2,5,1",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "MICROSCOPE",
+      "template": "dial",
+      "win_rule_design": "поляризатор=90°",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "WAVE_PHASE",
+      "template": "dual_dial",
+      "win_rule_design": "фаза 40 ±5; фильтр 70 ±5",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "ANTENNA",
+      "template": "matching",
+      "win_rule_design": "A→1,B→3,C→2,X поврежден",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "AIRLOCK_EQUALIZE",
+      "template": "triple_dial",
+      "win_rule_design": "три аналоговые шкалы=50 ±2; VERIFY",
+      "failure_policy": "death_on_outer_door_only",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "VHS_ASSEMBLE",
+      "template": "order",
+      "win_rule_design": "кухня-галерея-радио",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "PUNCHCARD_OVERLAY",
+      "template": "layer_match",
+      "win_rule_design": "совместить кресты по четырём углам",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "CARDIOMATCH",
+      "template": "matching",
+      "win_rule_design": "карточки А и Б",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "TIMELINE_SYNC",
+      "template": "timeline",
+      "win_rule_design": "звук, рычаг, датчик на 00:37 ±1с",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "CORRIDOR_OBSERVATION",
+      "template": "find_three",
+      "win_rule_design": "обратные часы, выход, подпись",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "NODE_POWER",
+      "template": "switches",
+      "win_rule_design": "аналоговая схема как POWER_BASIC",
+      "failure_policy": "unlimited",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "NODE_MEMORY",
+      "template": "choice",
+      "win_rule_design": "TRUTH/PETR/ARCHIVE, с подтверждением",
+      "failure_policy": "choice_reversible_until_final",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "NODE_OBSERVER",
+      "template": "choice",
+      "win_rule_design": "1 или 2 по доказательствам",
+      "failure_policy": "choice_reversible_until_final",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "SHUTTERS",
+      "template": "sequence",
+      "win_rule_design": "L-R-C; 4 ошибки дают локальную смерть",
+      "failure_policy": "death_after_four_errors",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    },
+    {
+      "id": "FINAL_PANEL",
+      "template": "sequence_choice",
+      "win_rule_design": "POWER_OFF PIN_INSERT ANALOG_OK OBSERVER MODE SIGN",
+      "failure_policy": "one_way_after_confirmation",
+      "hint_after_errors": 2,
+      "keyboard_alternative": true
+    }
+  ],
+  "documents": [
+    {
+      "id": "D01",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D02",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D03",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D04",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D05",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D06",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D07",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D08",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D09",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D10",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D11",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D12",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D13",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D14",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D15",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D16",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D17",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D18",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D19",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D20",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D21",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D22",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D23",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D24",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D25",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D26",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D27",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D28",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D29",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    },
+    {
+      "id": "D30",
+      "text_ref": "CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "reopenable": true
+    }
+  ],
+  "videos": [
+    {
+      "id": "V01",
+      "required": true,
+      "media_slot": "video/v01_walk_2023.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V02",
+      "required": true,
+      "media_slot": "video/v02_sukhov_repair_2028.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V03",
+      "required": false,
+      "media_slot": "video/v03_sukhov_olya.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V04",
+      "required": true,
+      "media_slot": "video/v04_incident17.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V05",
+      "required": false,
+      "media_slot": "video/v05_commission_2009.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V06",
+      "required": false,
+      "media_slot": "video/v06_ozerov_reel.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V07",
+      "required": false,
+      "media_slot": "video/v07_lastshift_2028.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V08",
+      "required": false,
+      "media_slot": "video/v08_personnel.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V09",
+      "required": false,
+      "media_slot": "video/v09_mirror_lab.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V10",
+      "required": false,
+      "media_slot": "video/v10_belov_office.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V11",
+      "required": false,
+      "media_slot": "video/v11_irina_record.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V12",
+      "required": false,
+      "media_slot": "video/v12_for_olya.mp4",
+      "source_ref": "PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "placeholder_is_allowed": true
+    },
+    {
+      "id": "V01B",
+      "required": false,
+      "media_slot": "video/v01b_walk_other.mp4",
+      "placeholder_is_allowed": true
+    }
+  ],
+  "events": [
+    {
+      "id": "E001",
+      "chapter": 1,
+      "category": "normal",
+      "room": "A",
+      "trigger": "game_start",
+      "description": "Гул дизеля и термос на столе",
+      "sets_flag": "Q01_STARTED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E002",
+      "chapter": 1,
+      "category": "normal",
+      "room": "B",
+      "trigger": "inspect_kettle",
+      "description": "Обычная инструкция по чайнику",
+      "sets_flag": "TEA_TUTORIAL",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E003",
+      "chapter": 1,
+      "category": "normal",
+      "room": "D",
+      "trigger": "signed_shift",
+      "description": "Служебное подтверждение смены",
+      "sets_flag": "SIGNED_SHIFT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E004",
+      "chapter": 1,
+      "category": "normal",
+      "room": "F",
+      "trigger": "take_fuse",
+      "description": "Подсказка к щитовой",
+      "sets_flag": "HAS_FUSE_3",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E005",
+      "chapter": 2,
+      "category": "normal",
+      "room": "E",
+      "trigger": "power_basic_done",
+      "description": "Тихий щелчок отключенного реле",
+      "sets_flag": "POWER_BALANCED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E006",
+      "chapter": 2,
+      "category": "normal",
+      "room": "G",
+      "trigger": "cores_labeled",
+      "description": "Обычная регистрация кернов",
+      "sets_flag": "CORES_LABELED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E007",
+      "chapter": 2,
+      "category": "normal",
+      "room": "D",
+      "trigger": "radio_report_sent",
+      "description": "Медленная печать отчёта",
+      "sets_flag": "RADIO_REPORT_SENT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E008",
+      "chapter": 2,
+      "category": "trace",
+      "room": "D",
+      "trigger": "q02_done",
+      "description": "Лист P-17 с завтрашней датой",
+      "sets_flag": "P17_PRINTED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E009",
+      "chapter": 3,
+      "category": "trace",
+      "room": "F",
+      "trigger": "enter_after_p17",
+      "description": "Табличка БЫТОВОЕ меняется на АРХИВ-12",
+      "sets_flag": "BOX12_RELABELED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E010",
+      "chapter": 3,
+      "category": "trace",
+      "room": "H",
+      "trigger": "v01_end",
+      "description": "На видео человек в нынешней куртке",
+      "sets_flag": "WATCHED_V01",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E011",
+      "chapter": 3,
+      "category": "loud_normal",
+      "room": "C",
+      "trigger": "exit_after_v01",
+      "description": "Грохот упавшего ведра без угрозы",
+      "sets_flag": "BUCKET_FALLEN",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E012",
+      "chapter": 3,
+      "category": "trace",
+      "room": "H",
+      "trigger": "return_after_v01",
+      "description": "Шкаф открыт, надпись о знакомстве",
+      "sets_flag": "ARCHIVE_MESSAGE_SHOWN",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E013",
+      "chapter": 3,
+      "category": "mirror",
+      "room": "C",
+      "trigger": "first_return_after_v01",
+      "description": "Отражение показывает включённый фонарь",
+      "sets_flag": "M03_MIRROR",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E014",
+      "chapter": 3,
+      "category": "trace",
+      "room": "C",
+      "trigger": "second_look_after_m03",
+      "description": "Влажный отпечаток с обратной стороны",
+      "sets_flag": "M03_HANDPRINT",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E015",
+      "chapter": 3,
+      "category": "quiet",
+      "room": "A",
+      "trigger": "return_from_archive",
+      "description": "Ботинки стоят ровнее чем были",
+      "sets_flag": "A_SHOES_SHIFTED",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E016",
+      "chapter": 3,
+      "category": "quiet",
+      "room": "D",
+      "trigger": "return_from_archive",
+      "description": "Цифровые часы пропускают минуту",
+      "sets_flag": "D_CLOCK_JUMP",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E017",
+      "chapter": 4,
+      "category": "trace",
+      "room": "F",
+      "trigger": "inventory_check",
+      "description": "Пятая банка с маркировкой 2028",
+      "sets_flag": "FIFTH_CAN",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E018",
+      "chapter": 4,
+      "category": "trace",
+      "room": "B",
+      "trigger": "cooked",
+      "description": "На столе тёплая вторая тарелка",
+      "sets_flag": "SECOND_PLATE_APPEARED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E019",
+      "chapter": 4,
+      "category": "mirror",
+      "room": "B",
+      "trigger": "inspect_sink_after_cooked",
+      "description": "Анна в зеркале ест из пустой тарелки",
+      "sets_flag": "M04_GHOST",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E020",
+      "chapter": 4,
+      "category": "mirror",
+      "room": "B",
+      "trigger": "second_mirror_look",
+      "description": "Анна просит закрыть дверь",
+      "sets_flag": "M04_GHOST_TALKED",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E021",
+      "chapter": 4,
+      "category": "object",
+      "room": "B",
+      "trigger": "third_mirror_look",
+      "description": "Отражение исчезает, дверь открыта",
+      "sets_flag": "M04_DOOR_OPEN",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E022",
+      "chapter": 4,
+      "category": "sound",
+      "room": "B",
+      "trigger": "second_plate_left_and_reentry",
+      "description": "Скрип второго стула",
+      "sets_flag": "B_CHAIR_SCRAPE",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E023",
+      "chapter": 4,
+      "category": "sound",
+      "room": "B",
+      "trigger": "second_plate_removed_and_reentry",
+      "description": "Три удара ложки о раковину",
+      "sets_flag": "B_THREE_TAPS",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E024",
+      "chapter": 4,
+      "category": "sound",
+      "room": "C",
+      "trigger": "after_dinner_first_enter",
+      "description": "Шаги женщины с ложкой за дверью",
+      "sets_flag": "C_GHOST_STEPS",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E025",
+      "chapter": 4,
+      "category": "trace",
+      "room": "B",
+      "trigger": "after_dinner_second_enter",
+      "description": "Доска дежурств показывает двоих",
+      "sets_flag": "B_BOARD_TWO",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E026",
+      "chapter": 4,
+      "category": "trace",
+      "room": "B",
+      "trigger": "after_board_two_leave",
+      "description": "Доска снова показывает одного",
+      "sets_flag": "B_BOARD_RESET",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E027",
+      "chapter": 4,
+      "category": "quiet",
+      "room": "A",
+      "trigger": "after_dinner_reentry",
+      "description": "Вторая вмятина на подушке",
+      "sets_flag": "A_SECOND_DENT",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E028",
+      "chapter": 5,
+      "category": "trace",
+      "room": "G",
+      "trigger": "p17_found",
+      "description": "В морозильном ящике вода не замерзает",
+      "sets_flag": "P17_FOUND",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E029",
+      "chapter": 5,
+      "category": "spatial",
+      "room": "G",
+      "trigger": "spectrum_completed",
+      "description": "Шлиф керна показывает пол коридора",
+      "sets_flag": "P17_SPECTRUM",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E030",
+      "chapter": 5,
+      "category": "mirror",
+      "room": "G",
+      "trigger": "microscope_completed",
+      "description": "Отражение показывает дверь в коридоре",
+      "sets_flag": "M05_MIRROR_DOOR",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E031",
+      "chapter": 5,
+      "category": "spatial",
+      "room": "C",
+      "trigger": "return_from_microscope",
+      "description": "Появилась дверь ТИХАЯ",
+      "sets_flag": "C_HIDDEN_DOOR",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E032",
+      "chapter": 5,
+      "category": "ghost",
+      "room": "C",
+      "trigger": "inspect_hidden_sink",
+      "description": "Шорох рукавов и мытьё рук за стеной",
+      "sets_flag": "C_HIDDEN_WASHING",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E033",
+      "chapter": 5,
+      "category": "spatial",
+      "room": "C",
+      "trigger": "take_d03",
+      "description": "Задняя дверь становится стеной, выход открывается напротив",
+      "sets_flag": "D03_TAKEN",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E034",
+      "chapter": 5,
+      "category": "sound",
+      "room": "C",
+      "trigger": "return_from_hidden",
+      "description": "Звук хлопка запаздывает на 12 секунд",
+      "sets_flag": "C_AUDIO_DELAY",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E035",
+      "chapter": 5,
+      "category": "ghost",
+      "room": "C",
+      "trigger": "after_hidden_second_enter",
+      "description": "Озеров проходит поперёк глухой двери",
+      "sets_flag": "C_OZEROV_PASS",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E036",
+      "chapter": 5,
+      "category": "trace",
+      "room": "A",
+      "trigger": "after_hidden_return",
+      "description": "На календаре чужая отметка карандашом",
+      "sets_flag": "A_CALENDAR_MARK",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E037",
+      "chapter": 6,
+      "category": "sound",
+      "room": "D",
+      "trigger": "start_wave_minigame",
+      "description": "Два канала голоса накладываются",
+      "sets_flag": "D_WAVES_START",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E038",
+      "chapter": 6,
+      "category": "future",
+      "room": "D",
+      "trigger": "wave_phase_success",
+      "description": "Предупреждение из 2028",
+      "sets_flag": "HEARD_A01",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E039",
+      "chapter": 6,
+      "category": "future",
+      "room": "D",
+      "trigger": "play_second_signal",
+      "description": "Запись собственного дыхания",
+      "sets_flag": "HEARD_A02",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E040",
+      "chapter": 6,
+      "category": "mirror",
+      "room": "D",
+      "trigger": "inspect_off_monitor_after_audio",
+      "description": "Белов отражается в выключенном мониторе",
+      "sets_flag": "M06_BELOV",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E041",
+      "chapter": 6,
+      "category": "mirror",
+      "room": "D",
+      "trigger": "approach_monitor_after_m06",
+      "description": "Отражение говорит Не сейчас",
+      "sets_flag": "M06_BELOV_TALK",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E042",
+      "chapter": 6,
+      "category": "trace",
+      "room": "D",
+      "trigger": "both_signals_heard",
+      "description": "Принтер выдаёт два взаимоисключающих акта",
+      "sets_flag": "D07_PRINTED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E043",
+      "chapter": 6,
+      "category": "sound",
+      "room": "I",
+      "trigger": "first_entry_ch6",
+      "description": "Отключённый телефон звонит один раз",
+      "sets_flag": "I_PHONE_CALL",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E044",
+      "chapter": 6,
+      "category": "trace",
+      "room": "A",
+      "trigger": "return_ch6",
+      "description": "Подушка холодная, но смята",
+      "sets_flag": "A_COLD_PILLOW",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E045",
+      "chapter": 6,
+      "category": "sound",
+      "room": "B",
+      "trigger": "second_return_ch6",
+      "description": "В чайнике слышно кипение без нагрева",
+      "sets_flag": "B_FALSE_KETTLE",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E046",
+      "chapter": 7,
+      "category": "outdoor",
+      "room": "K",
+      "trigger": "antenna_started",
+      "description": "Силуэт у мачты без изменения расстояния",
+      "sets_flag": "COUNTER_TOWER",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E047",
+      "chapter": 7,
+      "category": "sound",
+      "room": "K",
+      "trigger": "repair_connector_two",
+      "description": "Шаги приближаются без движения силуэта",
+      "sets_flag": "COUNTER_STEPS",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E048",
+      "chapter": 7,
+      "category": "outdoor",
+      "room": "K",
+      "trigger": "antenna_repaired",
+      "description": "Свет мачты выключен, фигура исчезла",
+      "sets_flag": "ANTENNA_REPAIRED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E049",
+      "chapter": 7,
+      "category": "threat",
+      "room": "J",
+      "trigger": "return_from_antenna",
+      "description": "Голос Белова снаружи и настоящий голос по радио",
+      "sets_flag": "J_FALSE_BELOV",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E050",
+      "chapter": 7,
+      "category": "threat",
+      "room": "J",
+      "trigger": "open_outer_without_pressure",
+      "description": "Счётчик входит, короткая смерть и чекпоинт",
+      "sets_flag": "DEATH_AIRLOCK",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E051",
+      "chapter": 7,
+      "category": "mirror",
+      "room": "J",
+      "trigger": "inspect_frosted_glass",
+      "description": "Овал дыхания и четыре ладони на стекле",
+      "sets_flag": "J_FROST_FACE",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E052",
+      "chapter": 7,
+      "category": "normal",
+      "room": "J",
+      "trigger": "pressure_verified",
+      "description": "Внутренняя дверь безопасно открывается",
+      "sets_flag": "AIRLOCK_SAFE",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E053",
+      "chapter": 7,
+      "category": "trace",
+      "room": "C",
+      "trigger": "return_from_airlock",
+      "description": "Следы снега ведут из спальни к шлюзу",
+      "sets_flag": "C_REVERSED_SNOW",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E054",
+      "chapter": 7,
+      "category": "sound",
+      "room": "B",
+      "trigger": "return_from_airlock",
+      "description": "Запах подгоревшего молока и скрип посуды",
+      "sets_flag": "B_MILK_SMELL",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E055",
+      "chapter": 7,
+      "category": "trace",
+      "room": "A",
+      "trigger": "return_from_airlock",
+      "description": "В календаре обведено 19 января",
+      "sets_flag": "A_TOMORROW_MARK",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E056",
+      "chapter": 8,
+      "category": "future",
+      "room": "H",
+      "trigger": "vhs_assembled",
+      "description": "Склеенная плёнка несёт дату 2028",
+      "sets_flag": "VHS_ASSEMBLED",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E057",
+      "chapter": 8,
+      "category": "future",
+      "room": "H",
+      "trigger": "v02_end",
+      "description": "Оператор на плёнке вытирает мокрые руки",
+      "sets_flag": "WATCHED_V02",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E058",
+      "chapter": 8,
+      "category": "ghost",
+      "room": "H",
+      "trigger": "turn_off_vhs",
+      "description": "Анна проходит по отражению двери",
+      "sets_flag": "H_ANNA_GLASS",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E059",
+      "chapter": 8,
+      "category": "trace",
+      "room": "C",
+      "trigger": "exit_after_v02",
+      "description": "Мокрое полотенце на полу",
+      "sets_flag": "C_WET_TOWEL",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E060",
+      "chapter": 8,
+      "category": "human",
+      "room": "H",
+      "trigger": "v03_end",
+      "description": "Последнее бытовое послание Сухова дочери",
+      "sets_flag": "WATCHED_V03",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E061",
+      "chapter": 8,
+      "category": "sound",
+      "room": "B",
+      "trigger": "after_v03_kitchen",
+      "description": "Шаги ребёнка слышны только в записи из стены",
+      "sets_flag": "B_CHILD_RECORDING",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E062",
+      "chapter": 8,
+      "category": "trace",
+      "room": "H",
+      "trigger": "after_v02_second_visit",
+      "description": "Оборванная обложка личной кассеты",
+      "sets_flag": "D13_FOUND",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E063",
+      "chapter": 8,
+      "category": "quiet",
+      "room": "A",
+      "trigger": "after_v02_second_visit",
+      "description": "Кружка на столе повёрнута к пустому стулу",
+      "sets_flag": "A_CUP_TURN",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E064",
+      "chapter": 9,
+      "category": "archive",
+      "room": "H",
+      "trigger": "punchcard_solved",
+      "description": "Получен индекс скважины 0-4",
+      "sets_flag": "DRILL04_ID",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E065",
+      "chapter": 9,
+      "category": "spatial",
+      "room": "H",
+      "trigger": "return_from_uv_scan",
+      "description": "Архив сменяется на 1978 без монтажной вспышки",
+      "sets_flag": "H_1978_ENTER",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E066",
+      "chapter": 9,
+      "category": "ghost",
+      "room": "H",
+      "trigger": "enter_after_swap",
+      "description": "Два инженера обсуждают сапоги",
+      "sets_flag": "H_1978_VOICES",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E067",
+      "chapter": 9,
+      "category": "mirror",
+      "room": "H",
+      "trigger": "inspect_calibration_plate",
+      "description": "Озеров считает отражённых людей",
+      "sets_flag": "H_OZEROV_MIRROR",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E068",
+      "chapter": 9,
+      "category": "object",
+      "room": "H",
+      "trigger": "ozerov_count_four",
+      "description": "Четвёртый стул падает в комнате",
+      "sets_flag": "H_CHAIR_FALL",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E069",
+      "chapter": 9,
+      "category": "spatial",
+      "room": "H",
+      "trigger": "close_old_cabinet",
+      "description": "Возврат в современный архив",
+      "sets_flag": "H_1978_EXIT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E070",
+      "chapter": 9,
+      "category": "trace",
+      "room": "H",
+      "trigger": "after_h1978_exit",
+      "description": "Старый плафон продолжает светить без провода",
+      "sets_flag": "H_BULB_GHOST",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E071",
+      "chapter": 9,
+      "category": "sound",
+      "room": "C",
+      "trigger": "return_after_1978",
+      "description": "Два голоса говорят мимо игрока",
+      "sets_flag": "C_1978_THROUGH",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E072",
+      "chapter": 9,
+      "category": "trace",
+      "room": "D",
+      "trigger": "after_1978_reentry",
+      "description": "Принтер выдает пустой лист с четвёртой подписью",
+      "sets_flag": "D_FOURTH_SIGNATURE",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E073",
+      "chapter": 10,
+      "category": "body",
+      "room": "I",
+      "trigger": "patient_match_done",
+      "description": "Две медицинские записи одной кардиограммы",
+      "sets_flag": "I_DUPLICATE_HEART",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E074",
+      "chapter": 10,
+      "category": "mirror",
+      "room": "I",
+      "trigger": "inspect_medic_cabinet",
+      "description": "В зеркале отпечаток лба изнутри",
+      "sets_flag": "I_FOREHEAD_PRINT",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E075",
+      "chapter": 10,
+      "category": "future",
+      "room": "D",
+      "trigger": "v04_restored",
+      "description": "На записи рычаг исправен и герой закрывает его",
+      "sets_flag": "RESTORED_V04",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E076",
+      "chapter": 10,
+      "category": "mirror",
+      "room": "D",
+      "trigger": "after_v04_end",
+      "description": "Поздний отражается в чёрном экране",
+      "sets_flag": "D_LATE_MIRROR",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E077",
+      "chapter": 10,
+      "category": "mirror",
+      "room": "D",
+      "trigger": "turn_from_late_mirror",
+      "description": "На стекле остаётся влажная ладонь",
+      "sets_flag": "D_LATE_HANDPRINT",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E078",
+      "chapter": 10,
+      "category": "spatial",
+      "room": "N",
+      "trigger": "enter_long_corridor",
+      "description": "Первый коридор, часы идут назад",
+      "sets_flag": "N_CLOCK_BACK",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E079",
+      "chapter": 10,
+      "category": "spatial",
+      "room": "N",
+      "trigger": "second_segment",
+      "description": "Второй коридор, неверная табличка",
+      "sets_flag": "N_EXIT_WRONG",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E080",
+      "chapter": 10,
+      "category": "spatial",
+      "room": "N",
+      "trigger": "third_segment",
+      "description": "На полу свежая чужая подпись",
+      "sets_flag": "N_SIGNATURE",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E081",
+      "chapter": 10,
+      "category": "ghost",
+      "room": "N",
+      "trigger": "three_clues_found",
+      "description": "Поздний стоит в конце, не атакует",
+      "sets_flag": "N_LATE_PERSON",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E082",
+      "chapter": 10,
+      "category": "spatial",
+      "room": "N",
+      "trigger": "open_exit_after_clues",
+      "description": "Возврат в обычный коридор",
+      "sets_flag": "N_EXIT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E083",
+      "chapter": 10,
+      "category": "trace",
+      "room": "B",
+      "trigger": "after_n_first_entry",
+      "description": "В рецепте указано На двоих",
+      "sets_flag": "B_RECIPE_TWO",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E084",
+      "chapter": 11,
+      "category": "puzzle",
+      "room": "E",
+      "trigger": "start_power_node",
+      "description": "Цифровые числа подменены числом людей",
+      "sets_flag": "E_FALSE_POWER",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E085",
+      "chapter": 11,
+      "category": "ghost",
+      "room": "B",
+      "trigger": "first_visit_ch11",
+      "description": "В зеркале сидят двое и обсуждают игрока",
+      "sets_flag": "B_TWO_GHOSTS",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E086",
+      "chapter": 11,
+      "category": "sound",
+      "room": "B",
+      "trigger": "after_two_ghosts",
+      "description": "Ложка падает в пустую кружку",
+      "sets_flag": "B_SPOON_DROP",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E087",
+      "chapter": 11,
+      "category": "body",
+      "room": "I",
+      "trigger": "first_visit_ch11",
+      "description": "Тело дышит под покрывалом",
+      "sets_flag": "I_BLANKET_BODY",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E088",
+      "chapter": 11,
+      "category": "body",
+      "room": "I",
+      "trigger": "remove_blanket",
+      "description": "Пустой матрас, дыхание внутри шкафа",
+      "sets_flag": "I_EMPTY_BED",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E089",
+      "chapter": 11,
+      "category": "future",
+      "room": "H",
+      "trigger": "replay_v01_ch11",
+      "description": "Вторая копия V01 меняет реакцию Анны",
+      "sets_flag": "V01B_UNLOCKED",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E090",
+      "chapter": 11,
+      "category": "sound",
+      "room": "A",
+      "trigger": "return_ch11",
+      "description": "В соседней комнате кто-то долго моет руки",
+      "sets_flag": "A_WASHING",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E091",
+      "chapter": 11,
+      "category": "trace",
+      "room": "F",
+      "trigger": "return_ch11",
+      "description": "Костюм застёгнут изнутри",
+      "sets_flag": "F_SUIT_INSIDE",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E092",
+      "chapter": 11,
+      "category": "trace",
+      "room": "D",
+      "trigger": "return_ch11",
+      "description": "На экране мачта видна в помещении",
+      "sets_flag": "D_INDOOR_TOWER",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E093",
+      "chapter": 11,
+      "category": "sound",
+      "room": "H",
+      "trigger": "after_copy_choice",
+      "description": "Запись проигрывает конец до начала",
+      "sets_flag": "H_TAPE_OUT_OF_ORDER",
+      "priority": "optional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E094",
+      "chapter": 11,
+      "category": "threat",
+      "room": "L",
+      "trigger": "start_shutters",
+      "description": "Счётчик стоит за стеклом",
+      "sets_flag": "L_COUNTER_START",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E095",
+      "chapter": 11,
+      "category": "threat",
+      "room": "L",
+      "trigger": "wrong_shutter",
+      "description": "Счётчик сокращает расстояние на шаг",
+      "sets_flag": "L_COUNTER_STEP",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E096",
+      "chapter": 11,
+      "category": "threat",
+      "room": "L",
+      "trigger": "four_wrong_shutters",
+      "description": "Смерть и восстановление перед заслонками",
+      "sets_flag": "DEATH_SHUTTERS",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E097",
+      "chapter": 11,
+      "category": "threat",
+      "room": "L",
+      "trigger": "shutters_correct",
+      "description": "Счётчик отступает, много отпечатков рук",
+      "sets_flag": "L_COUNTER_RETREAT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E098",
+      "chapter": 11,
+      "category": "human",
+      "room": "H",
+      "trigger": "petr_letter_sent",
+      "description": "Письмо Сухова адресовано Оле, дата из 2028",
+      "sets_flag": "PETR_LETTER_DONE",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E099",
+      "chapter": 11,
+      "category": "radio",
+      "room": "D",
+      "trigger": "three_nodes_complete",
+      "description": "Белов спрашивает имя",
+      "sets_flag": "NAME_CHOICE",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E100",
+      "chapter": 11,
+      "category": "spatial",
+      "room": "C",
+      "trigger": "radio_choice_done",
+      "description": "Дневной свет на три секунды среди ночи",
+      "sets_flag": "C_DAYLIGHT_FLASH",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E101",
+      "chapter": 12,
+      "category": "spatial",
+      "room": "L",
+      "trigger": "final_gallery_enter",
+      "description": "Первое окно ночь",
+      "sets_flag": "L_WINDOW_NIGHT",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E102",
+      "chapter": 12,
+      "category": "spatial",
+      "room": "L",
+      "trigger": "inspect_second_window",
+      "description": "За вторым окном дневной 1978",
+      "sets_flag": "L_WINDOW_1978",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E103",
+      "chapter": 12,
+      "category": "spatial",
+      "room": "L",
+      "trigger": "inspect_third_window",
+      "description": "За третьим окном будущий проходящий оператор",
+      "sets_flag": "L_WINDOW_FUTURE",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E104",
+      "chapter": 12,
+      "category": "future",
+      "room": "M",
+      "trigger": "power_off_and_pin",
+      "description": "Монитор повторяет действия с задержкой",
+      "sets_flag": "M_MONITOR_DELAY",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E105",
+      "chapter": 12,
+      "category": "future",
+      "room": "M",
+      "trigger": "inspect_monitor_still",
+      "description": "Отражённый оператор закрывает дверь независимо от игрока",
+      "sets_flag": "M_MONITOR_OTHER",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E106",
+      "chapter": 12,
+      "category": "ghost",
+      "room": "P",
+      "trigger": "before_final_choice",
+      "description": "Поздний за створкой в позе аварии",
+      "sets_flag": "P_LATE_PERSON",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E107",
+      "chapter": 12,
+      "category": "radio",
+      "room": "P",
+      "trigger": "show_modes",
+      "description": "Голос Белова о билете и смерти",
+      "sets_flag": "P_BELOV_FINAL",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E108",
+      "chapter": 12,
+      "category": "choice",
+      "room": "P",
+      "trigger": "confirm_mode_A",
+      "description": "Запечатать контур, хроника пустых комнат",
+      "sets_flag": "ENDING_A",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E109",
+      "chapter": 12,
+      "category": "choice",
+      "room": "P",
+      "trigger": "confirm_mode_B",
+      "description": "Два оператора садятся за стол",
+      "sets_flag": "ENDING_B",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E110",
+      "chapter": 12,
+      "category": "choice",
+      "room": "P",
+      "trigger": "confirm_mode_C",
+      "description": "Признание уходит в аналоговый эфир",
+      "sets_flag": "ENDING_C",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E111",
+      "chapter": 12,
+      "category": "choice",
+      "room": "P",
+      "trigger": "confirm_mode_D",
+      "description": "Возвращается бытовой голос живого Сухова",
+      "sets_flag": "ENDING_D",
+      "priority": "conditional",
+      "once": true,
+      "defer_during_modal": true
+    },
+    {
+      "id": "E112",
+      "chapter": 12,
+      "category": "epilogue",
+      "room": "P",
+      "trigger": "ending_done",
+      "description": "После титров журнал следующей смены",
+      "sets_flag": "POST_CREDITS",
+      "priority": "mandatory",
+      "once": true,
+      "defer_during_modal": true
+    }
+  ],
+  "event_runtime": {
+    "single_fire": true,
+    "trigger_if_room_active": true,
+    "defer_while_ui_modal": true,
+    "priority_order": [
+      "mandatory",
+      "conditional",
+      "optional"
+    ],
+    "minimum_gap_seconds_for_optional_events": 65,
+    "mandatory_never_suppressed": true
+  },
+  "flags_registry": [
+    "AIRLOCK_SAFE",
+    "ANTENNA_REPAIRED",
+    "ARCHIVE_MESSAGE_SHOWN",
+    "A_CALENDAR_MARK",
+    "A_COLD_PILLOW",
+    "A_CUP_TURN",
+    "A_SECOND_DENT",
+    "A_SHOES_SHIFTED",
+    "A_TOMORROW_MARK",
+    "A_WASHING",
+    "BOX12_RELABELED",
+    "BUCKET_FALLEN",
+    "B_BOARD_RESET",
+    "B_BOARD_TWO",
+    "B_CHAIR_SCRAPE",
+    "B_CHILD_RECORDING",
+    "B_FALSE_KETTLE",
+    "B_MILK_SMELL",
+    "B_RECIPE_TWO",
+    "B_SPOON_DROP",
+    "B_THREE_TAPS",
+    "B_TWO_GHOSTS",
+    "CORES_LABELED",
+    "COUNTER_STEPS",
+    "COUNTER_TOWER",
+    "C_1978_THROUGH",
+    "C_AUDIO_DELAY",
+    "C_DAYLIGHT_FLASH",
+    "C_GHOST_STEPS",
+    "C_HIDDEN_DOOR",
+    "C_HIDDEN_WASHING",
+    "C_OZEROV_PASS",
+    "C_REVERSED_SNOW",
+    "C_WET_TOWEL",
+    "D03_TAKEN",
+    "D07_PRINTED",
+    "D13_FOUND",
+    "DEATH_AIRLOCK",
+    "DEATH_SHUTTERS",
+    "DRILL04_ID",
+    "D_CLOCK_JUMP",
+    "D_FOURTH_SIGNATURE",
+    "D_INDOOR_TOWER",
+    "D_LATE_HANDPRINT",
+    "D_LATE_MIRROR",
+    "D_WAVES_START",
+    "ENDING_A",
+    "ENDING_B",
+    "ENDING_C",
+    "ENDING_D",
+    "E_FALSE_POWER",
+    "FIFTH_CAN",
+    "FOUND_ACT_BOTH",
+    "FOUND_D02",
+    "FOUND_D03",
+    "FOUND_D04",
+    "FOUND_D14",
+    "F_SUIT_INSIDE",
+    "HAS_FUSE_3",
+    "HEARD_A01",
+    "HEARD_A02",
+    "H_1978_ENTER",
+    "H_1978_EXIT",
+    "H_1978_VOICES",
+    "H_ANNA_GLASS",
+    "H_BULB_GHOST",
+    "H_CHAIR_FALL",
+    "H_OZEROV_MIRROR",
+    "H_TAPE_OUT_OF_ORDER",
+    "I_BLANKET_BODY",
+    "I_DUPLICATE_HEART",
+    "I_EMPTY_BED",
+    "I_FOREHEAD_PRINT",
+    "I_PHONE_CALL",
+    "J_FALSE_BELOV",
+    "J_FROST_FACE",
+    "L_COUNTER_RETREAT",
+    "L_COUNTER_START",
+    "L_COUNTER_STEP",
+    "L_WINDOW_1978",
+    "L_WINDOW_FUTURE",
+    "L_WINDOW_NIGHT",
+    "M03_HANDPRINT",
+    "M03_MIRROR",
+    "M04_DOOR_OPEN",
+    "M04_GHOST",
+    "M04_GHOST_TALKED",
+    "M05_MIRROR_DOOR",
+    "M06_BELOV",
+    "M06_BELOV_TALK",
+    "M_MONITOR_DELAY",
+    "M_MONITOR_OTHER",
+    "NAME_CHOICE",
+    "N_CLOCK_BACK",
+    "N_EXIT",
+    "N_EXIT_WRONG",
+    "N_LATE_PERSON",
+    "N_SIGNATURE",
+    "P17_FOUND",
+    "P17_PRINTED",
+    "P17_SPECTRUM",
+    "PETR_LETTER_DONE",
+    "POST_CREDITS",
+    "POWER_BALANCED",
+    "P_BELOV_FINAL",
+    "P_LATE_PERSON",
+    "Q01_DONE",
+    "Q01_STARTED",
+    "Q02_DONE",
+    "Q03_DONE",
+    "Q04_DONE",
+    "Q05_DONE",
+    "Q06_DONE",
+    "Q07_DONE",
+    "Q08_DONE",
+    "Q09_DONE",
+    "Q10_DONE",
+    "Q11_DONE",
+    "Q12_DONE",
+    "RADIO_REPORT_SENT",
+    "RESTORED_V04",
+    "SECOND_PLATE_APPEARED",
+    "SIGNED_SHIFT",
+    "TEA_TUTORIAL",
+    "V01B_UNLOCKED",
+    "VHS_ASSEMBLED",
+    "WATCHED_V01",
+    "WATCHED_V02",
+    "WATCHED_V03"
+  ],
+  "initial_state": {
+    "CHAPTER": 1,
+    "WORLD_PHASE": 0,
+    "TAPE_CHOICE": "NONE",
+    "SECOND_PLATE": "UNSET",
+    "OBSERVER_COUNT": 1,
+    "FALSE_ACT_SIGNED": false,
+    "ENDING": "NONE",
+    "NAME_REPLY": "UNSET"
+  },
+  "ending_conditions": {
+    "A": {
+      "all": [],
+      "always_available": true,
+      "title": "АКТ ЗАКРЫТ"
+    },
+    "B": {
+      "all": [
+        "FOUND_ACT_BOTH",
+        "RESTORED_V04"
+      ],
+      "equals": {
+        "OBSERVER_COUNT": 2
+      },
+      "title": "ВТОРАЯ ТАРЕЛКА"
+    },
+    "C": {
+      "all": [
+        "FOUND_D02",
+        "FOUND_D03",
+        "FOUND_D04",
+        "FOUND_D14",
+        "RESTORED_V04"
+      ],
+      "in": {
+        "TAPE_CHOICE": [
+          "TRUTH",
+          "ARCHIVE"
+        ]
+      },
+      "title": "ПОКАЗАНИЯ"
+    },
+    "D": {
+      "all": [
+        "PETR_LETTER_DONE",
+        "WATCHED_V03"
+      ],
+      "equals": {
+        "TAPE_CHOICE": "PETR",
+        "FALSE_ACT_SIGNED": false
+      },
+      "title": "СЛЕДУЮЩАЯ СМЕНА"
+    }
+  },
+  "checkpoints": [
+    "Q02_DONE",
+    "Q04_DONE",
+    "Q06_DONE",
+    "before_airlock_pressure",
+    "Q08_DONE",
+    "Q10_DONE",
+    "Q11_DONE",
+    "before_final_confirmation"
+  ],
+  "non_negotiable": {
+    "never_delete_real_saves": true,
+    "no_improvised_lore": true,
+    "no_spontaneous_jumpscares": true,
+    "no_mandatory_horror_before_chapter3": true,
+    "show_real_media_load_failures": true,
+    "no_mandatory_network": true
+  }
+}

@@ -1,0 +1,1204 @@
+{
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 147,
+      "sha256": "f1738c4ade7979f807a5fbc4771fdadd676f71a12beeed8959a22b398b5b56f5"
+    },
+    {
+      "path": "README.md",
+      "size": 2393,
+      "sha256": "d47b75c7168498c195947ff82c79bd538e04419ad0fec5f64e9120ec5f1a3fdf"
+    },
+    {
+      "path": "game/index.html",
+      "size": 2125602,
+      "sha256": "a3223ef1bb6f91341a2d5b264ae047b9c37c453ed19117b843d0529349e23f3a"
+    },
+    {
+      "path": "game/README.txt",
+      "size": 671,
+      "sha256": "8c5e04e9a3770ab871b5f467f2c89a904a439f546d836574ca4adab09d8ad35f"
+    },
+    {
+      "path": "game/source-project.zip",
+      "size": 1118967,
+      "sha256": "f8c9beb452a0f56870650cb6fbe5dd802893b4b9e8fc5e461b68f2ad5fcb0c61"
+    },
+    {
+      "path": "docs/CODEX_TZ_PANORAMA_TIHAYA_VODA_STAGE1.txt",
+      "size": 21161,
+      "sha256": "9830c876bd66235fb4e1be43ac402a08db999ac176f94a08ce102c56b50709f4"
+    },
+    {
+      "path": "docs/TIHAYA_VODA_FULL_SCENARIO_CODEX_V2.zip",
+      "size": 141260,
+      "sha256": "5924dc54c13ad9a1acadca223a3c2f79ddf626e8a3e9032ad4516a7c2718d516"
+    },
+    {
+      "path": "docs/INDEPENDENT_QA.md",
+      "size": 5624,
+      "sha256": "1049054cf59c276232ee8c1d83da6e435c72aa22576533b7064c847aaf699216"
+    },
+    {
+      "path": "docs/ARCTIC_STATION_SCENARIO.txt",
+      "size": 102444,
+      "sha256": "6d99758ee92c73ea78f2960299d933b622f1eb26ca76240a6438b96194a61949"
+    },
+    {
+      "path": "release-snapshots/EDITOR_EXPORTED_GAME.zip",
+      "size": 2277475,
+      "sha256": "c823fb1d08ba236346a6a48d24eb5318267fbcb04402615fd9fb09443ae1778d"
+    },
+    {
+      "path": "release-snapshots/PROJECT.zip",
+      "size": 1118967,
+      "sha256": "f8c9beb452a0f56870650cb6fbe5dd802893b4b9e8fc5e461b68f2ad5fcb0c61"
+    },
+    {
+      "path": "release-snapshots/STUDIO_SOURCE.zip",
+      "size": 4452870,
+      "sha256": "16050c501de39d923683233f067f66ab3573a98d2ea1753700187fafeb4f7cee"
+    },
+    {
+      "path": "release-snapshots/GAME.zip",
+      "size": 2273123,
+      "sha256": "3b8204cc4a3bb78552e108453c8f05a3cb87991814e9a284a335584ab6263482"
+    },
+    {
+      "path": "game-project/README.txt",
+      "size": 297,
+      "sha256": "4058f0a6407de3de2da99642438d5795d3b2d4a24a4009bc3af61e94d806b319"
+    },
+    {
+      "path": "game-project/project.json",
+      "size": 586169,
+      "sha256": "d2675917ed119c333d41bc660f463e5e515fea7f72c051df9d402150cfb90b21"
+    },
+    {
+      "path": "codex-scripts/final_fixes.py",
+      "size": 1698,
+      "sha256": "18543b549bec878b3df19989f657493c121bbf5d79d40ca10f010a9026fc0a9f"
+    },
+    {
+      "path": "codex-scripts/build_content.py",
+      "size": 35469,
+      "sha256": "30b47913c4d751d544aa9ce037d311bbc4b604a559c37b291f3d797c2e211f62"
+    },
+    {
+      "path": "codex-scripts/browser-test.cjs",
+      "size": 11006,
+      "sha256": "3f6f4081cbd8101665b7a5f520d2240bed6a85ad0df83a8c18ac011debf9fbd4"
+    },
+    {
+      "path": "codex-scripts/final_browser_prepare.py",
+      "size": 2780,
+      "sha256": "2d046e33f8db16cf335748c908ff58c5b7ab9f30c473d8a9376b09ac105a72ce"
+    },
+    {
+      "path": "codex-scripts/refine.py",
+      "size": 3255,
+      "sha256": "8980f372eba84ab7c54466c47e59ed894bb0d2ef21eebb597de96cf2e9bdbc20"
+    },
+    {
+      "path": "codex-scripts/integrate.py",
+      "size": 6491,
+      "sha256": "29a4347dfd5900c9ce7bf26be9cb028f66a73b536e44668f6334edd7888c6b34"
+    },
+    {
+      "path": "codex-scripts/final-browser.cjs",
+      "size": 6421,
+      "sha256": "c9f922dad601d2b462de5c04df54f2fa64e81aa554f8db6d8894912098994094"
+    },
+    {
+      "path": "codex-scripts/verify.py",
+      "size": 2610,
+      "sha256": "4dda5d7932de7c6a36be94708a871f57074a315eb86089b4b9232ee4d3a9db4a"
+    },
+    {
+      "path": "codex-scripts/demo-roundtrip.json",
+      "size": 21353,
+      "sha256": "6d1260d88cdd131920c240a01946cc1a52d0b0aab6b22d35af99c56434a34d18"
+    },
+    {
+      "path": "codex-scripts/fix_core.py",
+      "size": 1015,
+      "sha256": "7855cd7e23f7c0c37f54a86f9c39496fc534674a8b9fcbfd8fb4eb2f1d6def06"
+    },
+    {
+      "path": "codex-scripts/test-flow.cjs",
+      "size": 9739,
+      "sha256": "9e37353f70f1db64bc3155e394b2498fe885ae30f584150f2c1122688447575f"
+    },
+    {
+      "path": "codex-scripts/package.py",
+      "size": 7435,
+      "sha256": "a9a19c7faf69d0e840f31625ecad03c8a2385778d9348f271b3f479fb554a3cc"
+    },
+    {
+      "path": "codex-scripts/create_probe.py",
+      "size": 784,
+      "sha256": "e825667d78601e75fd4fb083b6bd62a6fb78be5828afd04fc42ee7c2efb85c67"
+    },
+    {
+      "path": "codex-scripts/paths.py",
+      "size": 324,
+      "sha256": "4f71ee22d5cc826a223aca611f0489107b8a32bd9116ebfbeb08b40c2b461527"
+    },
+    {
+      "path": "codex-scripts/probe.cjs",
+      "size": 4490,
+      "sha256": "3564a01dfa43c722868685bc21b19fe8bccea1db37c9f115f30c0fa9450e3d4a"
+    },
+    {
+      "path": "codex-scripts/deliver.py",
+      "size": 21716,
+      "sha256": "f8a851dee30ee246b332ef0b3f5e027c3c8294b9e42a2ab4cffa4d0682996017"
+    },
+    {
+      "path": "codex-scripts/universalize.py",
+      "size": 3363,
+      "sha256": "55b60ad8539fdefc2729a05fbe56397144d8b8140c82f4c661256ccddc0b8b44"
+    },
+    {
+      "path": "reports/CONTENT_TEST_REPORT.json",
+      "size": 540,
+      "sha256": "33be38d1056c349382c3a6c582ffb6f2e4f9a699968095d8fb82bc59a9ea5323"
+    },
+    {
+      "path": "reports/adventure.json",
+      "size": 336607,
+      "sha256": "5882ccd8685389810b86b625db68615c15d910beca59a60de14f4bc7742c28d4"
+    },
+    {
+      "path": "reports/MISSING_ASSETS.tsv",
+      "size": 8727,
+      "sha256": "e30c3c5ff905f878e25ff87eaa30de60164bab139fceb785425c86b48f528abf"
+    },
+    {
+      "path": "reports/SHA256SUMS.txt",
+      "size": 414,
+      "sha256": "5fff08bda6c921c0b22c8cf2a5bc090dbabafd9139226f5991db4e5e45cb8a5e"
+    },
+    {
+      "path": "reports/CHECKPOINT_A.json",
+      "size": 40682,
+      "sha256": "5623a1de78b1abd3e46c993e22f2a0c4185b8ace46eca86c983d3c1b7f1947a1"
+    },
+    {
+      "path": "reports/MODEL_TEST_REPORT.json",
+      "size": 3052,
+      "sha256": "2782c542a57e3eb465f4a054f8b4e339ef7b95aaf410db2ad81b6ab0e2c0e65f"
+    },
+    {
+      "path": "reports/CHANGELOG.md",
+      "size": 6169,
+      "sha256": "34d29cd68e2c6010fde153c09d20a401aa7c11f4ada563baf5bcbf2704e3ce3e"
+    },
+    {
+      "path": "reports/FINAL_BROWSER_TEST_REPORT.json",
+      "size": 319,
+      "sha256": "cd09b6d97f076f6f5085399a962ad099560dc6f0d530ab659d6701ea41d2a04a"
+    },
+    {
+      "path": "reports/SAVE_BEFORE_B.json",
+      "size": 67070,
+      "sha256": "5d47629a22ea58ae37ea8651018f4e9bf228e33116f5340e6cb8947c36ffcd0d"
+    },
+    {
+      "path": "reports/SAVE_BEFORE_C.json",
+      "size": 67073,
+      "sha256": "ea2446353e3fa742d98f4739bd81b5a7e5fe17fdbde2511310caa798c51f0e54"
+    },
+    {
+      "path": "reports/BROWSER_TEST_REPORT.json",
+      "size": 1033,
+      "sha256": "434ee7c926b50080ee18214aa63c2c6b551919c4c7b6164e996524fb605fd680"
+    },
+    {
+      "path": "reports/EDITOR_PREVIEW.png",
+      "size": 91164,
+      "sha256": "ac73ec3036e8198fd4d29598f2ebf7d452cf1622305f329856db3e2f9889d795"
+    },
+    {
+      "path": "reports/CHECKPOINT_B.json",
+      "size": 40682,
+      "sha256": "552426f6dfab5cf12ebf6122f7e44795711921a667fabba3623c82e1bb71f206"
+    },
+    {
+      "path": "reports/CHECKPOINT_D.json",
+      "size": 40681,
+      "sha256": "5c00eb93e9cd90efd6191b3cc58c80667a17f3b115e45cdfe731ef60bc0c8689"
+    },
+    {
+      "path": "reports/CHECKPOINT_C.json",
+      "size": 40684,
+      "sha256": "226d6b4658002d6b3055fa5b4df51670c54024ad9a6d4f03d8b5571563a04e7a"
+    },
+    {
+      "path": "reports/SETUP.md",
+      "size": 7000,
+      "sha256": "fff21ed15ed7981b8b885b80bf2f26bf684abf210cee466dc05385f09d24264d"
+    },
+    {
+      "path": "reports/GAME_PREVIEW.png",
+      "size": 141445,
+      "sha256": "13515808e278a7163e7d57deb4567564118ac1b2f3cd5baaa209bc72134897ec"
+    },
+    {
+      "path": "reports/SAVE_BEFORE_A.json",
+      "size": 67086,
+      "sha256": "0e54ebf8834b1758e032fe2457d39bc7de9ce78bc450b5e68bd9fbe2e610598a"
+    },
+    {
+      "path": "reports/TEST_REPORT.md",
+      "size": 6349,
+      "sha256": "0a3e7cceb2d5f95eb83a5cc41fc918311eeb809853250709ce4311dee3b9b877"
+    },
+    {
+      "path": "reports/ENDING_PREVIEW.png",
+      "size": 154765,
+      "sha256": "c8813d61fa93778e7f3d9ef286296d1cb59e9eb93fa6dada32236d2a431212dc"
+    },
+    {
+      "path": "reports/SAVE_BEFORE_D.json",
+      "size": 67066,
+      "sha256": "102bde6ae78f2ab8e089b2729f3d2aefd4d229cbbe0fbc488db69c970046d56e"
+    },
+    {
+      "path": "game-editor/index.html",
+      "size": 2097452,
+      "sha256": "4cdc2d720890ea86174bfc4dc2f90477c363aa05cc64a7cd4831d177590be09f"
+    },
+    {
+      "path": "studio/index.html",
+      "size": 6086161,
+      "sha256": "c2ffee0359be40a3a6d893c7ba68afca15c5dbc9a6db00617b4ded4064a4d4cd"
+    },
+    {
+      "path": "studio/CHANGELOG.md",
+      "size": 6169,
+      "sha256": "34d29cd68e2c6010fde153c09d20a401aa7c11f4ada563baf5bcbf2704e3ce3e"
+    },
+    {
+      "path": "studio/README_RU_EN.txt",
+      "size": 2012,
+      "sha256": "fd790864b9f011d323b09a52e2129d5b3d611a798e63b7bcbf601b2055625d45"
+    },
+    {
+      "path": "studio/SETUP.md",
+      "size": 7000,
+      "sha256": "fff21ed15ed7981b8b885b80bf2f26bf684abf210cee466dc05385f09d24264d"
+    },
+    {
+      "path": "studio/TEST_REPORT.md",
+      "size": 6349,
+      "sha256": "0a3e7cceb2d5f95eb83a5cc41fc918311eeb809853250709ce4311dee3b9b877"
+    },
+    {
+      "path": "studio/integration/build_content.py",
+      "size": 35469,
+      "sha256": "30b47913c4d751d544aa9ce037d311bbc4b604a559c37b291f3d797c2e211f62"
+    },
+    {
+      "path": "studio/integration/integrate.py",
+      "size": 6491,
+      "sha256": "29a4347dfd5900c9ce7bf26be9cb028f66a73b536e44668f6334edd7888c6b34"
+    },
+    {
+      "path": "studio/integration/package.py",
+      "size": 7435,
+      "sha256": "a9a19c7faf69d0e840f31625ecad03c8a2385778d9348f271b3f479fb554a3cc"
+    },
+    {
+      "path": "studio/integration/paths.py",
+      "size": 202,
+      "sha256": "b2822345568ffb71f0ba618ff21909b41e48224bff85638f5bf2e16085d1d5af"
+    },
+    {
+      "path": "studio/integration/README.txt",
+      "size": 532,
+      "sha256": "b006c8b16ae809d7ed9dcdfb45844de80f2f5619eedcaf021fbc28953516b1db"
+    },
+    {
+      "path": "studio/source/DEMO_NOTES.txt",
+      "size": 229,
+      "sha256": "71f23ca7e390578e14d9879017ec54bc4e3bea7560a70f0a134ae1b6348b63b6"
+    },
+    {
+      "path": "studio/source/story-core.js",
+      "size": 11756,
+      "sha256": "6a89882064bee2475987aa6656f15232f2953f054ce3ae502ea16baa69985f75"
+    },
+    {
+      "path": "studio/source/JSZIP_LICENSE.markdown",
+      "size": 33753,
+      "sha256": "566c953c6090b1218ca6217dd7359d45dde46581968586dc607d59a78af6a9c4"
+    },
+    {
+      "path": "studio/source/story-editor.js",
+      "size": 17708,
+      "sha256": "9ae6ddbfac524f70942c494f7b9580f4ef8679a2c38d05690b6f2985f8e3ec45"
+    },
+    {
+      "path": "studio/source/rules-core.js",
+      "size": 12858,
+      "sha256": "ab1bb67d4ff15d78342a7801ad1080821f21d77165a8e50707d84826965d98c2"
+    },
+    {
+      "path": "studio/source/adventure-ui.js",
+      "size": 18172,
+      "sha256": "10eec2816fa7c3339b536d864dfb9448e40a2d6b524357a18c04b5b22786a1d3"
+    },
+    {
+      "path": "studio/source/adventure-core.js",
+      "size": 7519,
+      "sha256": "1433419c6021424b517f9f29670fa956e69eb33447495be9ffe527e858d74b6c"
+    },
+    {
+      "path": "studio/source/i18n.js",
+      "size": 81855,
+      "sha256": "c1e91792239b3225860f79824876941a3f7988d3fea3c934831a4fe79308108e"
+    },
+    {
+      "path": "studio/source/i18n-dictionary.json",
+      "size": 73872,
+      "sha256": "4bf29b91c7c44d30398065cdeadff3ab06b436b3cd737c56ddd28ec068f5829a"
+    },
+    {
+      "path": "studio/source/director-editor.js",
+      "size": 11022,
+      "sha256": "fb204c9587a3e42d4e2fdee9adc93d7e2ab54830f398603835801596719515c9"
+    },
+    {
+      "path": "studio/source/game-runtime.html",
+      "size": 43155,
+      "sha256": "ff7a7963f6c60d6be83273cfea5136e8ce9117a201ca2dcc4a4f274b3a7096f1"
+    },
+    {
+      "path": "studio/source/adventure-editor.js",
+      "size": 4033,
+      "sha256": "c98ca53cf7c554bdecc8e211668cc6cad90e11515f13491c3397041dc564ca54"
+    },
+    {
+      "path": "studio/source/director-runtime.js",
+      "size": 5133,
+      "sha256": "66495325707890a00ebb6a2cc183bf39b4ac4e0698d7cd7896d529e740a5d868"
+    },
+    {
+      "path": "studio/verification/browser-test.cjs",
+      "size": 11006,
+      "sha256": "3f6f4081cbd8101665b7a5f520d2240bed6a85ad0df83a8c18ac011debf9fbd4"
+    },
+    {
+      "path": "studio/verification/verify.py",
+      "size": 2610,
+      "sha256": "4dda5d7932de7c6a36be94708a871f57074a315eb86089b4b9232ee4d3a9db4a"
+    },
+    {
+      "path": "studio/verification/test-flow.cjs",
+      "size": 9739,
+      "sha256": "9e37353f70f1db64bc3155e394b2498fe885ae30f584150f2c1122688447575f"
+    },
+    {
+      "path": "studio/verification/README.txt",
+      "size": 293,
+      "sha256": "5510c000e65ac6fc229ecf659de44abe8051a665add318a4f204254d2114e516"
+    },
+    {
+      "path": "studio/content/PRODUCTION/05_FOUND_FOOTAGE_SHOTLIST.txt",
+      "size": 21289,
+      "sha256": "415bfe590b55e1f129495e0911eb75415e0ce1abf7265f11e6b662b41f136e50"
+    },
+    {
+      "path": "studio/content/PRODUCTION/09_ASSET_SLOTS.tsv",
+      "size": 8727,
+      "sha256": "e30c3c5ff905f878e25ff87eaa30de60164bab139fceb785425c86b48f528abf"
+    },
+    {
+      "path": "studio/content/PRODUCTION/10_HORROR_DIRECTION_AND_ROOMS.txt",
+      "size": 14637,
+      "sha256": "bd6b67f21263869b95c975baef372673f17f8ebd2fdc54c1f4f244a40e1b0b42"
+    },
+    {
+      "path": "studio/content/PRODUCTION/13_STATION_GRAPH_AND_INTERACTIONS.txt",
+      "size": 9067,
+      "sha256": "c36d683e9fdc164ddc9281d96b275c391fe35933dc5867015159c5eb253f4be0"
+    },
+    {
+      "path": "studio/content/PRODUCTION/02_QUEST_FLOW_AND_PUZZLES.txt",
+      "size": 23299,
+      "sha256": "b49e80aad273652149cecff45057d483cbb81ec70b8fe46c4e92ad5b2af80930"
+    },
+    {
+      "path": "studio/content/CANON/03_DOCUMENTS_FULLTEXT.txt",
+      "size": 31789,
+      "sha256": "1803bc24a83f1f26264e520ae305032941d5ac956f3c2391f76fc3e7ea6fad05"
+    },
+    {
+      "path": "studio/content/CANON/04_DIALOGUE_AND_AUDIO.txt",
+      "size": 22823,
+      "sha256": "7f6c5bfbd8f0a5addeb216b78f4db50a79076c37a1700d2caeb13e52eba09177"
+    },
+    {
+      "path": "studio/content/CANON/01_SCRIPT_DIRECTORS_CUT_V2.txt",
+      "size": 64499,
+      "sha256": "4218bc8dcb95541fa759333ed80b958be66672f49e8457b0db5b3d11e4dc4818"
+    },
+    {
+      "path": "studio/content/DATA/events_source.psv",
+      "size": 13581,
+      "sha256": "b6f324722a2554cd19f153d8e07062cf4e513892f759a823adf527890c0ed667"
+    },
+    {
+      "path": "studio/content/DATA/07_PROJECT_CONTENT_CONTRACT.json",
+      "size": 64660,
+      "sha256": "c074add511b28368356adedbd21d1298ba5e227b412aa8951b1a8e97b853cecd"
+    },
+    {
+      "path": "studio/content/DATA/06_DIRECTOR_EVENT_MATRIX.tsv",
+      "size": 14237,
+      "sha256": "55d8236afb59b0f20f765d7776731f8ac3eed50fa84d60982264654aa4ca790f"
+    },
+    {
+      "path": "studio/content/DATA/08_ROOM_VARIANTS.tsv",
+      "size": 7169,
+      "sha256": "3491df6df3b262e03e6cffc567dac75ca4388b32568a4191f599298c6e1b1ee2"
+    },
+    {
+      "path": "studio/content/DEV/11_ACCEPTANCE_TEST_MATRIX.tsv",
+      "size": 2199,
+      "sha256": "1ca058cef2b0855f87df9b1a7eac214ddac1761e3ad9335a66d3c9ea7afe342c"
+    },
+    {
+      "path": "studio/content/DEV/12_CODEX_MASTER_TASK.txt",
+      "size": 12410,
+      "sha256": "413fac1d580f06330d4a45ae0728fe6af4182544133bca1c42e6d4d26aa6770f"
+    },
+    {
+      "path": "studio/content/TIHAYA_VODA/adventure.json",
+      "size": 326873,
+      "sha256": "c65210579512754ef4fd6e075b9e7e6cae7936431cda1939d0a9b7c26b7c5d1c"
+    },
+    {
+      "path": "game-project/assets/sign_glass07.png",
+      "size": 5654,
+      "sha256": "57fa1ef0cbfe72c6790e67c96c7e8ad385198188aafab7ae8570038746bc2858"
+    },
+    {
+      "path": "game-project/assets/sign_CARDIOMATCH.png",
+      "size": 5239,
+      "sha256": "8860e1f110a45409531bed93c76ec804ec58ab1fe6b8914aa434eb67fcaf1001"
+    },
+    {
+      "path": "game-project/assets/sign_mirror06.png",
+      "size": 5796,
+      "sha256": "5c3ec5f6c1cd43bacc5d1d02ca196ea7325a3c4a284ed3d901589c35e8790586"
+    },
+    {
+      "path": "game-project/assets/sign_read_D26.png",
+      "size": 4858,
+      "sha256": "de675664820cb427596d058bc1a4c2a7ee22c9cc60ddc2918ea182227430b030"
+    },
+    {
+      "path": "game-project/assets/sign_read_D17.png",
+      "size": 4985,
+      "sha256": "38ba8ae3e4c28b7604e8a3fedf30141ffe4a6d1dfa2d9636911c90dc1ad839fc"
+    },
+    {
+      "path": "game-project/assets/sign_read_D16.png",
+      "size": 4989,
+      "sha256": "dc9a77c8e655924e3362eab4525f9737bf91a1e158c5eb5f00895818d8699121"
+    },
+    {
+      "path": "game-project/assets/sign_SPECTRUM_MATCH.png",
+      "size": 6549,
+      "sha256": "c9cd71faf8c1d7b1ba0915398fd5f81afdd5f320ac2dfa75e068b2015c659bee"
+    },
+    {
+      "path": "game-project/assets/sign_read_D14.png",
+      "size": 5516,
+      "sha256": "b3d02f49ffab953a41f6f81c536b59a5b52e557ea57f106f2ead19b520226559"
+    },
+    {
+      "path": "game-project/assets/sign_read_D29.png",
+      "size": 5374,
+      "sha256": "01c57f2550529a4edc084c8d2077806453dd57a16e7d2e2a2ef09b5411ac3306"
+    },
+    {
+      "path": "game-project/assets/sign_mirror04_away.png",
+      "size": 5777,
+      "sha256": "13b778e6208303a0fdd596e209f306e4579fa6fec9bbf1557b19d9c95f114d63"
+    },
+    {
+      "path": "game-project/assets/sign_COOKING.png",
+      "size": 4060,
+      "sha256": "8f1507f6334a972a8115047877cf24af5eda5267c19873c112d8c92aeefde682"
+    },
+    {
+      "path": "game-project/assets/sign_paper_tray.png",
+      "size": 4915,
+      "sha256": "943ec946f4d49f39809c127ca464943c9e0dacf8da368ac5fef537f3e9880e11"
+    },
+    {
+      "path": "game-project/assets/sign_read_D13.png",
+      "size": 5355,
+      "sha256": "befc61efdf06a4d92d3cfa9f7975957e05559c3e58c369be2ca3b1b666538b18"
+    },
+    {
+      "path": "game-project/assets/sign_hidden_enter.png",
+      "size": 6117,
+      "sha256": "273f0dbe109bad23bb653b84bed6e4dfc964694197cfc7c9db8e684a515562fc"
+    },
+    {
+      "path": "game-project/assets/sign_take_PUNCHCARD_DE.png",
+      "size": 5282,
+      "sha256": "329c967b5d2dd9c422837e1adfcdd4b15e88a7816e145290a58a9ce908fdabc0"
+    },
+    {
+      "path": "game-project/assets/sign_read_D22.png",
+      "size": 6786,
+      "sha256": "577b2d82fabc5d8a41c2932636aa2a5b6b251b2c43c1693bd5ed8bab50c619cb"
+    },
+    {
+      "path": "game-project/assets/sign_read_D27.png",
+      "size": 5573,
+      "sha256": "d4044e1655f0d39cf4019e854045932dc1a646e4aed0519c28a204728f7666d0"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V03.png",
+      "size": 3158,
+      "sha256": "dfb81c01b632c1671953506bde017cd0118f92521b99409301114ba0a1395b0c"
+    },
+    {
+      "path": "game-project/assets/sign_POWER_OFF.png",
+      "size": 5222,
+      "sha256": "3cfd350c1ac2741ef142b85172dabb21c6910816ebaa6e80acf4207d3b9f480a"
+    },
+    {
+      "path": "game-project/assets/sign_ice_3.png",
+      "size": 4648,
+      "sha256": "ad499b0a41d81083771580a670c6697e1a46ef4e7e6f523272c2e12b623c9b2f"
+    },
+    {
+      "path": "game-project/assets/sign_RADIO_TUNE.png",
+      "size": 5215,
+      "sha256": "a3d37ce8667c8d60f183d023199e889eb850e510b34243f16c6afce58d627355"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V05.png",
+      "size": 3838,
+      "sha256": "bb10fae4483253962c36f2d819892fc170278931f9db0c36198d22dd81419e40"
+    },
+    {
+      "path": "game-project/assets/sign_hidden_exit.png",
+      "size": 5863,
+      "sha256": "2a16eb18a173d50c4a6056660de7173b89ea6744c208bc486ea06d2ea0e8c397"
+    },
+    {
+      "path": "game-project/assets/sign_plate_choice.png",
+      "size": 4034,
+      "sha256": "55198c10b69ea7a3b9259bd92a2a99c3e431e30e4e3e6239f4874e3f1240cefe"
+    },
+    {
+      "path": "game-project/assets/sign_name_reply.png",
+      "size": 4298,
+      "sha256": "bf030bc44d2c2e811f8f571084e659c658f852a39601b9efb3a2f829ec5bc336"
+    },
+    {
+      "path": "game-project/assets/sign_handwriting_floor.png",
+      "size": 6293,
+      "sha256": "1e1e8760ee288339419d7bceed534e07ebcde0b6a605443d6995151b4740d09c"
+    },
+    {
+      "path": "game-project/assets/sign_wash_cup.png",
+      "size": 3956,
+      "sha256": "30660f7ab24a4392bc6a0a7b0da4af6d47171dbe27b9596d951770c002f313d4"
+    },
+    {
+      "path": "game-project/assets/sign_TIMELINE_SYNC.png",
+      "size": 5050,
+      "sha256": "0b27a1e03d71789f796162a61f0bc4a140e6f8e372569cdfdd8e53d44b718837"
+    },
+    {
+      "path": "game-project/assets/sign_false_act.png",
+      "size": 6932,
+      "sha256": "1da9f26eaf2923276a416126f0e4f137e199f3336c474a263dbfde325a45df00"
+    },
+    {
+      "path": "game-project/assets/sign_read_D15.png",
+      "size": 4533,
+      "sha256": "38472bb28ec1dc36eb2cf6f467368128262ae4bf1b11cefa6bb20d4018bf6e17"
+    },
+    {
+      "path": "game-project/assets/sign_read_D18.png",
+      "size": 4042,
+      "sha256": "468b81e0c46ce4b59576301717ba0ba545cee6871e7202dca27bf48668442386"
+    },
+    {
+      "path": "game-project/assets/sign_POWER_BASIC.png",
+      "size": 5054,
+      "sha256": "c4c9ad6c2ba16a62ffe14bc3680fef92dcfde9424143bdba8e6451718e0cb9a0"
+    },
+    {
+      "path": "game-project/assets/sign_count_cans.png",
+      "size": 6241,
+      "sha256": "2b284fb524514ee9639f69193b8df2fdf41caa1370cdedd29021a36732f8266b"
+    },
+    {
+      "path": "game-project/assets/sign_AIRLOCK_EQUALIZE.png",
+      "size": 6338,
+      "sha256": "557575d6ffdb496b1f8d4e5ae235809c8a7730a2c1a3993027d028c95224d07f"
+    },
+    {
+      "path": "game-project/assets/sign_mirror03.png",
+      "size": 7707,
+      "sha256": "ad30f704b36731b306c88c0d0c3556d7f3879899da89cd7b624dd34a585f02b1"
+    },
+    {
+      "path": "game-project/assets/sign_blanket11.png",
+      "size": 4282,
+      "sha256": "8c11347e0d160d06bab68c7a1e4c69844cc2ed3047f9f8dbe5c86a0ff887ef92"
+    },
+    {
+      "path": "game-project/assets/sign_read_D01.png",
+      "size": 4352,
+      "sha256": "4932b89089e23dcd3da93b4dfbd213be9d53cb30702e909169e6b6e73d70a775"
+    },
+    {
+      "path": "game-project/assets/sign_read_D06.png",
+      "size": 3878,
+      "sha256": "ab64b8ef9c3fe67647b2979702579bea295aed53133e819b87b85ef785b19afc"
+    },
+    {
+      "path": "game-project/assets/sign_TEA_SEQUENCE.png",
+      "size": 3653,
+      "sha256": "f4433faf2820c07efe7b78a96c0a2d6aac7d78f794cd37c4bd0449234db9d92d"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V01B.png",
+      "size": 7173,
+      "sha256": "07120f39903f1725c117117aae15787a6470938ff66aa53f40026264ad899258"
+    },
+    {
+      "path": "game-project/assets/sign_take_P17_SAMPLE.png",
+      "size": 6028,
+      "sha256": "5926c832b1771f6546955447f2cc9be062db7ddf33b28e30b2037a4401f795bf"
+    },
+    {
+      "path": "game-project/assets/sign_reversed_exit_arrow.png",
+      "size": 9090,
+      "sha256": "217bdc163625d6a4fdcb74d2fc259baaaadb6b47da06fa05e205df9b6de8c649"
+    },
+    {
+      "path": "game-project/assets/sign_take_SHUTTER_PIN.png",
+      "size": 5017,
+      "sha256": "4fb6821ee712f762a5e86eb110dc4cd4c0587f8bd9e7d1a967a9565fd6528137"
+    },
+    {
+      "path": "game-project/assets/sign_wet_towel.png",
+      "size": 4795,
+      "sha256": "defe11c30957ef73cd47d71e848e235a2ed09d457a76876d53b25e5f9a44eb30"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V09.png",
+      "size": 5677,
+      "sha256": "ff237f48d697a812d625d6e1801ba91566593320af88f64aa0f7743581ffe3bd"
+    },
+    {
+      "path": "game-project/assets/sign_read_D03.png",
+      "size": 5374,
+      "sha256": "992a38c8a414a72f3427dfdd60234c5b9141e1dfa898155f36e59ea3452f2fd5"
+    },
+    {
+      "path": "game-project/assets/sign_read_D12.png",
+      "size": 4851,
+      "sha256": "c2ab0c2ce40896f271347fd16122a7910f824da4c3545ba08dac46354fad8da2"
+    },
+    {
+      "path": "game-project/assets/sign_NODE_OBSERVER.png",
+      "size": 5294,
+      "sha256": "9d9a1f31e166fe7a1e555c145e8ba38726a9efd33871e3ca3fe6851c7bc3663b"
+    },
+    {
+      "path": "game-project/assets/sign_petr_letter.png",
+      "size": 10088,
+      "sha256": "9a2547b7562a405138f71c64066ff0457d7b4d7e641072c995d0042146ce25fb"
+    },
+    {
+      "path": "game-project/assets/sign_take_STORAGE_KEY.png",
+      "size": 6283,
+      "sha256": "cf0b49da8ff324d5261296459d075c38ffcaeab36811df9728d87d2d99dccbb3"
+    },
+    {
+      "path": "game-project/assets/sign_PIN_INSERT.png",
+      "size": 5799,
+      "sha256": "f805b2bb451f3f71f5acdf4d7c404c888503a03dc3f4c8d4c7ab482e8bf70e7d"
+    },
+    {
+      "path": "game-project/assets/sign_take_BADGE04.png",
+      "size": 6433,
+      "sha256": "724dcb033c3ccfd9822c2ee4b58837a5ca2ab4cf87c1726c160513fbe74137d4"
+    },
+    {
+      "path": "game-project/assets/sign_read_D10.png",
+      "size": 5609,
+      "sha256": "acd45bf42a2907d4e5402796ab1c7c5aa3d87aa824a7994eb86a02e813394ed8"
+    },
+    {
+      "path": "game-project/assets/sign_inner_door.png",
+      "size": 5464,
+      "sha256": "e1c37ab9b6af64a20b2b42806a733fb6fb04b48a9785f21d22c36e16169962ba"
+    },
+    {
+      "path": "game-project/assets/sign_outer_door.png",
+      "size": 6722,
+      "sha256": "a8694eaf1e68ec7c1c026917c6f0d2122b6ced330ac907720c8c7abe9d7bdcca"
+    },
+    {
+      "path": "game-project/assets/sign_watch_A02.png",
+      "size": 4785,
+      "sha256": "3b3c6dfa5dd572988404f880cec2f91ff332a9a1372c34e39af4de424ecaaeae"
+    },
+    {
+      "path": "game-project/assets/sign_OBSERVER_SELECT.png",
+      "size": 7879,
+      "sha256": "348f7bdd863ea9e9bee671722a5d5d6a2586887185f4a599f3fa943093e1494e"
+    },
+    {
+      "path": "game-project/assets/sign_take_ANTENNA_KEY.png",
+      "size": 4685,
+      "sha256": "2dc871a104f1b5d7f9873b20d7e5d05d12e7a03f9d86721749beaa7703703ef5"
+    },
+    {
+      "path": "game-project/assets/sign_ice_2.png",
+      "size": 4536,
+      "sha256": "358709fe7b084934a89419c4e769f9472dcf1e4643c75c870a27e2fea373e218"
+    },
+    {
+      "path": "game-project/assets/sign_read_D28.png",
+      "size": 4587,
+      "sha256": "55cafb8289b010cbf97c0707d697b9d45d523ce269aacebcdd39ff785843a029"
+    },
+    {
+      "path": "game-project/assets/sign_take_PUNCHCARD_RU.png",
+      "size": 5498,
+      "sha256": "1d250fe19a18149cc63fbac67826a38bae246614b524b6930db260ba57eb341b"
+    },
+    {
+      "path": "game-project/assets/sign_watch_A05.png",
+      "size": 3702,
+      "sha256": "71095780593a35c6cdbd626135c37d6a7caa60ab8354fe2ab4e9a799ad036dad"
+    },
+    {
+      "path": "game-project/assets/sign_exit_1978.png",
+      "size": 5376,
+      "sha256": "f9b4fb4955e9b651fb3cf3eb0fca95c78dc829ec215a6bfec1d9f3f8951b0baf"
+    },
+    {
+      "path": "game-project/assets/sign_read_D07.png",
+      "size": 4190,
+      "sha256": "1a98b0cc0d06894ba6e3a8a983362e44ab132048e84835d2967cf320db62d41d"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V08.png",
+      "size": 2902,
+      "sha256": "7c4a687a09a88811120e639721ca3c46e30a36e74cb5ebc9e1cd2265b8446c02"
+    },
+    {
+      "path": "game-project/assets/sign_flip_acts.png",
+      "size": 7016,
+      "sha256": "9f2c579a4d3b66bf980a0729d7e117a41772400108aeb5ca5deefcdb8a9204aa"
+    },
+    {
+      "path": "game-project/assets/sign_take_VHS_FRAGMENT_A.png",
+      "size": 5974,
+      "sha256": "f0c93a95f7f6baad496f02f81d69bbc15cfd90652569e90c6d625489d013e332"
+    },
+    {
+      "path": "game-project/assets/sign_read_D23.png",
+      "size": 6900,
+      "sha256": "7e5d84664c671613461d94a986ae8b8df425ee61662a44ba8f40720fea584e5e"
+    },
+    {
+      "path": "game-project/assets/sign_enter_1978.png",
+      "size": 6344,
+      "sha256": "7db0225c51fa9ff6156786ecbf3ab5a5a180cfc008f834a3f28c8117a998938c"
+    },
+    {
+      "path": "game-project/assets/sign_take_BEACON.png",
+      "size": 3694,
+      "sha256": "21b95dacef42c28c313566fc7b00b217331e4aa747d382a8003c9cd9bf935409"
+    },
+    {
+      "path": "game-project/assets/sign_backward_clock.png",
+      "size": 5636,
+      "sha256": "888e012d9b2bde8dd6fcd96aedb6e525dc1a4a40f041c3597ac657f487044c4a"
+    },
+    {
+      "path": "game-project/assets/sign_read_D25.png",
+      "size": 4766,
+      "sha256": "8da9956ab3af6f647a5b53da1385a8a56c51c4147bbdec9ed0921fda5ace5181"
+    },
+    {
+      "path": "game-project/assets/sign_read_D11.png",
+      "size": 4591,
+      "sha256": "b89493ee1582a17a5f9437d85379b6002340224023b9e38f2144c5c7e21f85d5"
+    },
+    {
+      "path": "game-project/assets/sign_mirror04.png",
+      "size": 7544,
+      "sha256": "52dc6b28742bdecd9c72808ac9b1f220fc4aee8f0ba6df914924353f640223bf"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V04.png",
+      "size": 3684,
+      "sha256": "9899e9eae19def37a35c071f93e4b3e4fa9c9e4ce38aedeeca867ec68ecee969"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V07.png",
+      "size": 4229,
+      "sha256": "17d85a42960db854bf1322010f2111db563b337443cd406b0dcf08bc25b7f6d6"
+    },
+    {
+      "path": "game-project/assets/sign_watch_A01.png",
+      "size": 5579,
+      "sha256": "487969e644d83b0a6393c942000cd5df56d1f982a7c09372dd67472fb702e0d7"
+    },
+    {
+      "path": "game-project/assets/sign_install_fuse3.png",
+      "size": 6302,
+      "sha256": "ef4458e9dd2ab08d9a65116a5b7e6ebb133d5a288089011eda9bab5e5b72f6ff"
+    },
+    {
+      "path": "game-project/assets/sign_leave_N.png",
+      "size": 5561,
+      "sha256": "edd5f1ea30545506f8ee8fabcebaa6fc4533836b59968d09ce51b9544503e4b6"
+    },
+    {
+      "path": "game-project/assets/sign_cabinet_message.png",
+      "size": 6353,
+      "sha256": "eed125843545743d0adb2bc9d5bc0c458175ddd96e3ea3cd0feed8b03ee28681"
+    },
+    {
+      "path": "game-project/assets/sign_SHUTTERS.png",
+      "size": 5709,
+      "sha256": "320678d03ab7d879a3fe66a34f04844c9ce53cccd0ca188bf5c7abbb882570a2"
+    },
+    {
+      "path": "game-project/assets/sign_watch_A04.png",
+      "size": 2578,
+      "sha256": "251f664e0d8f51c62b68732ce5bb251261f59b8f7d0d1629b9eec6aa9e27aeb1"
+    },
+    {
+      "path": "game-project/assets/sign_send_report.png",
+      "size": 5308,
+      "sha256": "19765563cd980af99e70e4b6d417292f0bb7e58ace20168f3e68bdfe1c7ed6b0"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V06.png",
+      "size": 4916,
+      "sha256": "918c9c46d5a63294a1198917a3b2eee42141a50827f7e3a01444957498615160"
+    },
+    {
+      "path": "game-project/assets/sign_take_VHS_FRAGMENT_B.png",
+      "size": 5606,
+      "sha256": "abee36553cc1c7163e02dd3cb6aa3afe7915e49687e32324fccdd6324e1321fe"
+    },
+    {
+      "path": "game-project/assets/sign_read_D21.png",
+      "size": 9422,
+      "sha256": "c2a7acf0f0d5708a8cb8b6614a38d5169084ae1a8949cea6dc4c7ac81c21bfff"
+    },
+    {
+      "path": "game-project/assets/sign_read_D05.png",
+      "size": 4791,
+      "sha256": "207113acec48db773cc88a492a8916765770def2a446fd6b10212789dcbbd4a3"
+    },
+    {
+      "path": "game-project/assets/sign_dinner_exit.png",
+      "size": 5539,
+      "sha256": "d8bd39773908847bc25f38905ee2c5a6cb3231c6de810e7e50d8665100e3a350"
+    },
+    {
+      "path": "game-project/assets/sign_NODE_MEMORY.png",
+      "size": 4838,
+      "sha256": "22cface5d6d8ec5826eb6036a35ec748c1fac563499ac332dc4deb70773cdada"
+    },
+    {
+      "path": "game-project/assets/sign_VHS_ASSEMBLE.png",
+      "size": 5245,
+      "sha256": "73c23454bf1c1af1fff5a41273418bc30ed14efbc7f408c2d8df346801b2bafc"
+    },
+    {
+      "path": "game-project/assets/sign_late10.png",
+      "size": 6199,
+      "sha256": "8e80c9102b1339ce0ba2f6526bd38f9632bca37f8c297650568297c29f961da2"
+    },
+    {
+      "path": "game-project/assets/sign_scan_uv.png",
+      "size": 6635,
+      "sha256": "730917e760e5d4230981993e742d6fca1c02ba7336efac1dff3456fb82ece750"
+    },
+    {
+      "path": "game-project/assets/sign_medic10.png",
+      "size": 7554,
+      "sha256": "7baaec15d9a0162187fa2781111cbb1fbf2f49f507df97bcda448433101575e9"
+    },
+    {
+      "path": "game-project/assets/sign_slippers.png",
+      "size": 4150,
+      "sha256": "7d107f0fab9afba99389e362785e3ebaac189253869c5f41a065a18b8fc747aa"
+    },
+    {
+      "path": "game-project/assets/sign_PUNCHCARD_OVERLAY.png",
+      "size": 5706,
+      "sha256": "f75e222bf336c85a739ca6049906c9985862e4beb9193584e0ae28e9eaabf71e"
+    },
+    {
+      "path": "game-project/assets/sign_FINAL_PANEL.png",
+      "size": 7486,
+      "sha256": "3af0f867254165c1409bb12f2a9721dcf84fa821a78eb046ae1af8c41d5c2142"
+    },
+    {
+      "path": "game-project/assets/sign_ice_1.png",
+      "size": 4286,
+      "sha256": "a28e861d953049a7b991869604c90dd3af87110b261ff901b814c8122e783468"
+    },
+    {
+      "path": "game-project/assets/sign_ANALOG_READINGS_OK.png",
+      "size": 5322,
+      "sha256": "4ae32e6844316d8f942c3a0a47a11143363d623bbfb58ecb6d73c420ac734f21"
+    },
+    {
+      "path": "game-project/assets/sign_take_VHS_V03.png",
+      "size": 6160,
+      "sha256": "f6706683b849446583cbf2c215c0f2973bbf9e81be384bbc2f9d1a69ed3a402d"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V10.png",
+      "size": 3363,
+      "sha256": "46c0691e28319251c1dd6ebc0836d0832fea9e70f96a9a146035cc7c48133c1b"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V11.png",
+      "size": 3371,
+      "sha256": "c833f5a214159cf79b27940f0fb879ac349315ba274767070bbdf21b49df48ed"
+    },
+    {
+      "path": "game-project/assets/sign_second_window.png",
+      "size": 4318,
+      "sha256": "82aa8cc02b2830f355a19dad3ba0c63aab07ecb76789233504ae42bfca091bcb"
+    },
+    {
+      "path": "game-project/assets/sign_sign_shift.png",
+      "size": 6100,
+      "sha256": "6260b24cc641243b962ddc8e0ce4be41828b289ddc8962f529e818e4f01cf90b"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V02.png",
+      "size": 5594,
+      "sha256": "536155f2051e543edf6483cf5693ec842d65d84e3823e864e1e13fb59d7b0428"
+    },
+    {
+      "path": "game-project/assets/sign_read_D20.png",
+      "size": 4474,
+      "sha256": "59ef96247d559466eced6a8edf1c0fd7e7ae8bf565baf586ae35f1a0469d5026"
+    },
+    {
+      "path": "game-project/assets/sign_reenter_1978.png",
+      "size": 5952,
+      "sha256": "d7826af9a155632bcb180dde9543eb8a4093300f00d2a44dde4fa1ed5b0f8cc4"
+    },
+    {
+      "path": "game-project/assets/sign_take_FUSE_3.png",
+      "size": 9437,
+      "sha256": "3fac2c5cd482f5ac8504f2c92c176ae0c7b6611afcfd01d27b44c2965a19d472"
+    },
+    {
+      "path": "game-project/assets/sign_read_D09.png",
+      "size": 5622,
+      "sha256": "df37f7a45765ddaac7a50df02b83440d8365d0f4bc89f62c20e0862e845ae931"
+    },
+    {
+      "path": "game-project/assets/sign_watch_A03.png",
+      "size": 3094,
+      "sha256": "0fc5fb24e1332c8622e44fef6f16358a1e81a39724031bfe968266efafb384b9"
+    },
+    {
+      "path": "game-project/assets/sign_ANTENNA.png",
+      "size": 5033,
+      "sha256": "30f77683de26c97f019860a6a5fe5a494eeb2b7f7428601d4fbc57dac4d81e53"
+    },
+    {
+      "path": "game-project/assets/sign_read_D02.png",
+      "size": 5833,
+      "sha256": "e76f88e9656a7a32dbe026f98c2dda7dceacca73ad78c0b0110d03300ac1b522"
+    },
+    {
+      "path": "game-project/assets/sign_watch_V01.png",
+      "size": 5462,
+      "sha256": "dc653fc822fab7dac95c1be19272fdddb963d331b7dce43c278498e155dcf99c"
+    },
+    {
+      "path": "game-project/assets/sign_mirror04_again.png",
+      "size": 5565,
+      "sha256": "9b359150c483e2c25c50bf12c8b5c7e321ca8e427948ed9448268f29f5f8047d"
+    },
+    {
+      "path": "game-project/assets/sign_WAVE_PHASE.png",
+      "size": 5573,
+      "sha256": "ac414982b48d0867cb52c8ca74ac2c6eabe1edf47cb3b03a138056be3bd5846c"
+    },
+    {
+      "path": "game-project/assets/sign_MICROSCOPE.png",
+      "size": 6163,
+      "sha256": "a72a12575b864ba1ba22ecd79d9cf63ce2a3686e49491ecc9d26fbf253df875c"
+    },
+    {
+      "path": "game-project/assets/sign_PLUMB_SEQ.png",
+      "size": 6895,
+      "sha256": "1d720dd82b6c037e145209abd26f68b0730a8c734c2c1ac70cf175933774137f"
+    },
+    {
+      "path": "game-project/assets/sign_NODE_POWER.png",
+      "size": 3978,
+      "sha256": "11c5c2d76ebe9846e46727d224790aeb7d1ba9c43b6d1d2ed4140f483a34f796"
+    },
+    {
+      "path": "game-project/assets/sign_take_FLASHLIGHT.png",
+      "size": 4342,
+      "sha256": "49f4263e1e651da2c40a5f43d21b91d7bfba176e0966fa715e9ea7d749aa84a8"
+    },
+    {
+      "path": "game-project/assets/sign_read_D04.png",
+      "size": 6826,
+      "sha256": "d1c6064b8d639d9e355d33e2ee13b314e10830073d3fcdc564451c68c6be45bc"
+    },
+    {
+      "path": "game-project/assets/sign_mirror04_third.png",
+      "size": 6999,
+      "sha256": "3c53491099383a129aac057cb66edb6db7fedcc23574e54ad80438ba3791b4ce"
+    },
+    {
+      "path": "game-project/assets/sign_calibration_plate.png",
+      "size": 8443,
+      "sha256": "25808720e36d1e6f1160e97886652866b4cb57b74cc1041e49b0683c783dc208"
+    },
+    {
+      "path": "game-project/assets/sign_read_D24.png",
+      "size": 5630,
+      "sha256": "cb56524b035374ce3f3e5175d8c99600332b4c5fd1b10ba1ff60ab83bbcd9ecb"
+    },
+    {
+      "path": "game-project/assets/sign_CORES_MARKING.png",
+      "size": 4384,
+      "sha256": "22e69aa41ae6da4cb9c7c329288ba6be4ce447aec38ec7c5eed5480fc2f6b646"
+    },
+    {
+      "path": "game-project/assets/sign_read_D08.png",
+      "size": 8612,
+      "sha256": "ac3492fd0cbe8c88cb42f46805f54780ba64d137b6955fa48c5a1cb8e2cf07dd"
+    },
+    {
+      "path": "game-project/assets/sign_third_window.png",
+      "size": 4169,
+      "sha256": "144a8f71d30d5b5f2373bf5f702480d77e1b3bb7694d7b8fa16b2e2d227ea2a8"
+    },
+    {
+      "path": "game-project/assets/sign_read_D19.png",
+      "size": 6148,
+      "sha256": "450249dbec971d8e10b52126ec469e44a6073896280316fcc53ce1d9989071bb"
+    },
+    {
+      "path": "game-project/assets/sign_mirror06_again.png",
+      "size": 5289,
+      "sha256": "4b030136620b37bd3e0b3c7212669dd8d581fdf90e3d00e478d8ce0d2ed8f7d6"
+    },
+    {
+      "path": "game-project/assets/sign_archive_return.png",
+      "size": 5544,
+      "sha256": "2e2fda07259ea039c1e9804caf91f3e118c02c492a4849d80db6bd4245316ccc"
+    },
+    {
+      "path": "game-project/rooms/O/original.png",
+      "size": 31105,
+      "sha256": "abc0ef2735472053a5812b7f0b0b60dc35b04cee411917e9404a56d1fa20663a"
+    },
+    {
+      "path": "game-project/rooms/P/original.png",
+      "size": 30333,
+      "sha256": "1546db359df6828c493e01833d741c516c310343791953d269ab3e5d54242317"
+    },
+    {
+      "path": "game-project/rooms/N/original.png",
+      "size": 29744,
+      "sha256": "090f376ff69093b2978ddf413f440bdaaa279e5dbbba5621eed5af8586a78f49"
+    },
+    {
+      "path": "game-project/rooms/L/original.png",
+      "size": 28202,
+      "sha256": "c3735d097cdb32533617cfd01e2676edabd102dcd8b95c251b557c44d5020c66"
+    },
+    {
+      "path": "game-project/rooms/M/original.png",
+      "size": 32001,
+      "sha256": "0cb0435497971ee73ea71833acf6b2adf012b67df517deb25710d71ded909bdb"
+    },
+    {
+      "path": "game-project/rooms/D/original.png",
+      "size": 30553,
+      "sha256": "8e1da29f07a0b085eb69155786238093d711089378ecf19514a04a5eb8c9f08b"
+    },
+    {
+      "path": "game-project/rooms/J/original.png",
+      "size": 28106,
+      "sha256": "df322e7aaf9266517ada56e533e3c1d3ef07bf4f847b5199cd18ddc66d5c995b"
+    },
+    {
+      "path": "game-project/rooms/A/original.png",
+      "size": 30811,
+      "sha256": "28d950a925583fcd40728156e570e116de6470a53c59c58bfada7f3dd6df028c"
+    },
+    {
+      "path": "game-project/rooms/H/original.png",
+      "size": 28987,
+      "sha256": "c25af3980fb6468ef953aa9bdd3d17908e21ab29a1cebdc31622867a11f75654"
+    },
+    {
+      "path": "game-project/rooms/E/original.png",
+      "size": 29577,
+      "sha256": "3357187e3c5e00c4055a484a0971dbb9ca84d1f22db244bd200ed43859ce8088"
+    },
+    {
+      "path": "game-project/rooms/K/original.png",
+      "size": 28493,
+      "sha256": "ec0f84e786c35944cb86a6519e8055c2812969033a996ae1f7ed859eb9dec94b"
+    },
+    {
+      "path": "game-project/rooms/I/original.png",
+      "size": 28824,
+      "sha256": "9c5194079ea170c8e303dfe5674ff1156ee86c7318e959a361b46fbb071230c4"
+    },
+    {
+      "path": "game-project/rooms/G/original.png",
+      "size": 30072,
+      "sha256": "a26999776a534e5cbffc390b6e5a0b55d5edaba80b292b6351fc28afc24e0529"
+    },
+    {
+      "path": "game-project/rooms/C/original.png",
+      "size": 28933,
+      "sha256": "03b6840ef6b3e36f474e06655b1d3c6c125f1a26479416051f889d63ac83deaa"
+    },
+    {
+      "path": "game-project/rooms/F/original.png",
+      "size": 28691,
+      "sha256": "fb4969309696670942de23030489d906afb8d56bd15410c0057cd45987098ba2"
+    },
+    {
+      "path": "game-project/rooms/B/original.png",
+      "size": 28793,
+      "sha256": "c49d9f0ac65bf715cdbe7e35a862575a57b75e803e6bf827a4ec40b1e576959d"
+    }
+  ]
+}

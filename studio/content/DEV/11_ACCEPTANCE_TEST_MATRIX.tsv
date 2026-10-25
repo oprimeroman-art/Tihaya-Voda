@@ -1,0 +1,26 @@
+test_id	steps	pass_condition
+LEGACY_01	Open 2.6/2.7-era old project; export and import	Old data preserved; audio points and timeline unchanged
+FLOW_01	New game through Q01–Q03	No horror forced before end Q02; first tape and mirror accessible
+FLOW_02	Q04 cooking and plate	Choice retained across save/load, scene not endlessly retriggered
+FLOW_03	Hidden room Q05	Exit always reachable from both local states
+FLOW_04	Q06 with missing audio assets	Fallback transcripts run and quest advances
+DANGER_01	Airlock wrong open	Short death and local reset, no loss of quest progress
+DANGER_02	Airlock correct route	No unavoidable death; door opens
+MEDIA_01	V01 missing actual file	Clearly labeled temporary storyboard, watch flag set only upon end
+MEDIA_02	V01 replay after Q11	Original A still available; second copy B optional
+FLOW_05	1978 archive	Swap to historic variant and return to modern with no softlock
+FLOW_06	Long corridor	Three clues enable exit regardless of examination order
+DANGER_03	Shutters fail four times	Returns to local checkpoint; previous nodes remain done
+SAVE_01	Save during parallel Q11 tasks	Flags, tape, observers and optional letter exact on reload
+ENDING_A	Only mandatory items collected	A always unlocks
+ENDING_B	Both acts and observer 2	B available and uses own ending
+ENDING_C	All historical docs + truth tape	C available and confession exact
+ENDING_D	Letter + V03 + Petr tape + no false act	D available and supports return
+ENDING_E	Miss one condition for B/C/D	Unavailable mode explains missing in-world prerequisites
+ENDING_F	Change tape before confirmation	Can adjust if not finalized; no irreversible accidental branch
+EVENT_01	Repeat entering H after V01	One-time message does not repeat on every visit
+EVENT_02	Pause during any minigame	No horror beat overlays interaction modal
+LOC_01	Disable audio or enable captions	All critical puzzle cues also visible/textual
+PACK_01	Export PROJECT.zip and GAME.zip	Retain scenario data; no external mandatory network
+TIME_01	Playtest first hour without skipping	Measure actual duration; compare with target not assumed
+EXPORT_01	Play game in browser	No uncaught JS errors; save persists after reload

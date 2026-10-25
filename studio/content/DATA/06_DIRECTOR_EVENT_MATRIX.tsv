@@ -1,0 +1,113 @@
+event_id	chapter	category	room	trigger	presentation	sets_flag	priority	once	defer_during_modal
+E001	1	normal	A	game_start	Гул дизеля и термос на столе	Q01_STARTED	mandatory	1	1
+E002	1	normal	B	inspect_kettle	Обычная инструкция по чайнику	TEA_TUTORIAL	mandatory	1	1
+E003	1	normal	D	signed_shift	Служебное подтверждение смены	SIGNED_SHIFT	mandatory	1	1
+E004	1	normal	F	take_fuse	Подсказка к щитовой	HAS_FUSE_3	mandatory	1	1
+E005	2	normal	E	power_basic_done	Тихий щелчок отключенного реле	POWER_BALANCED	mandatory	1	1
+E006	2	normal	G	cores_labeled	Обычная регистрация кернов	CORES_LABELED	mandatory	1	1
+E007	2	normal	D	radio_report_sent	Медленная печать отчёта	RADIO_REPORT_SENT	mandatory	1	1
+E008	2	trace	D	q02_done	Лист P-17 с завтрашней датой	P17_PRINTED	mandatory	1	1
+E009	3	trace	F	enter_after_p17	Табличка БЫТОВОЕ меняется на АРХИВ-12	BOX12_RELABELED	mandatory	1	1
+E010	3	trace	H	v01_end	На видео человек в нынешней куртке	WATCHED_V01	mandatory	1	1
+E011	3	loud_normal	C	exit_after_v01	Грохот упавшего ведра без угрозы	BUCKET_FALLEN	mandatory	1	1
+E012	3	trace	H	return_after_v01	Шкаф открыт, надпись о знакомстве	ARCHIVE_MESSAGE_SHOWN	mandatory	1	1
+E013	3	mirror	C	first_return_after_v01	Отражение показывает включённый фонарь	M03_MIRROR	optional	1	1
+E014	3	trace	C	second_look_after_m03	Влажный отпечаток с обратной стороны	M03_HANDPRINT	conditional	1	1
+E015	3	quiet	A	return_from_archive	Ботинки стоят ровнее чем были	A_SHOES_SHIFTED	optional	1	1
+E016	3	quiet	D	return_from_archive	Цифровые часы пропускают минуту	D_CLOCK_JUMP	optional	1	1
+E017	4	trace	F	inventory_check	Пятая банка с маркировкой 2028	FIFTH_CAN	mandatory	1	1
+E018	4	trace	B	cooked	На столе тёплая вторая тарелка	SECOND_PLATE_APPEARED	mandatory	1	1
+E019	4	mirror	B	inspect_sink_after_cooked	Анна в зеркале ест из пустой тарелки	M04_GHOST	mandatory	1	1
+E020	4	mirror	B	second_mirror_look	Анна просит закрыть дверь	M04_GHOST_TALKED	conditional	1	1
+E021	4	object	B	third_mirror_look	Отражение исчезает, дверь открыта	M04_DOOR_OPEN	conditional	1	1
+E022	4	sound	B	second_plate_left_and_reentry	Скрип второго стула	B_CHAIR_SCRAPE	conditional	1	1
+E023	4	sound	B	second_plate_removed_and_reentry	Три удара ложки о раковину	B_THREE_TAPS	conditional	1	1
+E024	4	sound	C	after_dinner_first_enter	Шаги женщины с ложкой за дверью	C_GHOST_STEPS	mandatory	1	1
+E025	4	trace	B	after_dinner_second_enter	Доска дежурств показывает двоих	B_BOARD_TWO	optional	1	1
+E026	4	trace	B	after_board_two_leave	Доска снова показывает одного	B_BOARD_RESET	conditional	1	1
+E027	4	quiet	A	after_dinner_reentry	Вторая вмятина на подушке	A_SECOND_DENT	optional	1	1
+E028	5	trace	G	p17_found	В морозильном ящике вода не замерзает	P17_FOUND	mandatory	1	1
+E029	5	spatial	G	spectrum_completed	Шлиф керна показывает пол коридора	P17_SPECTRUM	mandatory	1	1
+E030	5	mirror	G	microscope_completed	Отражение показывает дверь в коридоре	M05_MIRROR_DOOR	mandatory	1	1
+E031	5	spatial	C	return_from_microscope	Появилась дверь ТИХАЯ	C_HIDDEN_DOOR	mandatory	1	1
+E032	5	ghost	C	inspect_hidden_sink	Шорох рукавов и мытьё рук за стеной	C_HIDDEN_WASHING	optional	1	1
+E033	5	spatial	C	take_d03	Задняя дверь становится стеной, выход открывается напротив	D03_TAKEN	mandatory	1	1
+E034	5	sound	C	return_from_hidden	Звук хлопка запаздывает на 12 секунд	C_AUDIO_DELAY	mandatory	1	1
+E035	5	ghost	C	after_hidden_second_enter	Озеров проходит поперёк глухой двери	C_OZEROV_PASS	optional	1	1
+E036	5	trace	A	after_hidden_return	На календаре чужая отметка карандашом	A_CALENDAR_MARK	optional	1	1
+E037	6	sound	D	start_wave_minigame	Два канала голоса накладываются	D_WAVES_START	mandatory	1	1
+E038	6	future	D	wave_phase_success	Предупреждение из 2028	HEARD_A01	mandatory	1	1
+E039	6	future	D	play_second_signal	Запись собственного дыхания	HEARD_A02	mandatory	1	1
+E040	6	mirror	D	inspect_off_monitor_after_audio	Белов отражается в выключенном мониторе	M06_BELOV	optional	1	1
+E041	6	mirror	D	approach_monitor_after_m06	Отражение говорит Не сейчас	M06_BELOV_TALK	conditional	1	1
+E042	6	trace	D	both_signals_heard	Принтер выдаёт два взаимоисключающих акта	D07_PRINTED	mandatory	1	1
+E043	6	sound	I	first_entry_ch6	Отключённый телефон звонит один раз	I_PHONE_CALL	optional	1	1
+E044	6	trace	A	return_ch6	Подушка холодная, но смята	A_COLD_PILLOW	optional	1	1
+E045	6	sound	B	second_return_ch6	В чайнике слышно кипение без нагрева	B_FALSE_KETTLE	optional	1	1
+E046	7	outdoor	K	antenna_started	Силуэт у мачты без изменения расстояния	COUNTER_TOWER	mandatory	1	1
+E047	7	sound	K	repair_connector_two	Шаги приближаются без движения силуэта	COUNTER_STEPS	mandatory	1	1
+E048	7	outdoor	K	antenna_repaired	Свет мачты выключен, фигура исчезла	ANTENNA_REPAIRED	mandatory	1	1
+E049	7	threat	J	return_from_antenna	Голос Белова снаружи и настоящий голос по радио	J_FALSE_BELOV	mandatory	1	1
+E050	7	threat	J	open_outer_without_pressure	Счётчик входит, короткая смерть и чекпоинт	DEATH_AIRLOCK	conditional	1	1
+E051	7	mirror	J	inspect_frosted_glass	Овал дыхания и четыре ладони на стекле	J_FROST_FACE	optional	1	1
+E052	7	normal	J	pressure_verified	Внутренняя дверь безопасно открывается	AIRLOCK_SAFE	mandatory	1	1
+E053	7	trace	C	return_from_airlock	Следы снега ведут из спальни к шлюзу	C_REVERSED_SNOW	mandatory	1	1
+E054	7	sound	B	return_from_airlock	Запах подгоревшего молока и скрип посуды	B_MILK_SMELL	optional	1	1
+E055	7	trace	A	return_from_airlock	В календаре обведено 19 января	A_TOMORROW_MARK	optional	1	1
+E056	8	future	H	vhs_assembled	Склеенная плёнка несёт дату 2028	VHS_ASSEMBLED	mandatory	1	1
+E057	8	future	H	v02_end	Оператор на плёнке вытирает мокрые руки	WATCHED_V02	mandatory	1	1
+E058	8	ghost	H	turn_off_vhs	Анна проходит по отражению двери	H_ANNA_GLASS	mandatory	1	1
+E059	8	trace	C	exit_after_v02	Мокрое полотенце на полу	C_WET_TOWEL	mandatory	1	1
+E060	8	human	H	v03_end	Последнее бытовое послание Сухова дочери	WATCHED_V03	conditional	1	1
+E061	8	sound	B	after_v03_kitchen	Шаги ребёнка слышны только в записи из стены	B_CHILD_RECORDING	optional	1	1
+E062	8	trace	H	after_v02_second_visit	Оборванная обложка личной кассеты	D13_FOUND	optional	1	1
+E063	8	quiet	A	after_v02_second_visit	Кружка на столе повёрнута к пустому стулу	A_CUP_TURN	optional	1	1
+E064	9	archive	H	punchcard_solved	Получен индекс скважины 0-4	DRILL04_ID	mandatory	1	1
+E065	9	spatial	H	return_from_uv_scan	Архив сменяется на 1978 без монтажной вспышки	H_1978_ENTER	mandatory	1	1
+E066	9	ghost	H	enter_after_swap	Два инженера обсуждают сапоги	H_1978_VOICES	mandatory	1	1
+E067	9	mirror	H	inspect_calibration_plate	Озеров считает отражённых людей	H_OZEROV_MIRROR	mandatory	1	1
+E068	9	object	H	ozerov_count_four	Четвёртый стул падает в комнате	H_CHAIR_FALL	mandatory	1	1
+E069	9	spatial	H	close_old_cabinet	Возврат в современный архив	H_1978_EXIT	mandatory	1	1
+E070	9	trace	H	after_h1978_exit	Старый плафон продолжает светить без провода	H_BULB_GHOST	optional	1	1
+E071	9	sound	C	return_after_1978	Два голоса говорят мимо игрока	C_1978_THROUGH	optional	1	1
+E072	9	trace	D	after_1978_reentry	Принтер выдает пустой лист с четвёртой подписью	D_FOURTH_SIGNATURE	optional	1	1
+E073	10	body	I	patient_match_done	Две медицинские записи одной кардиограммы	I_DUPLICATE_HEART	mandatory	1	1
+E074	10	mirror	I	inspect_medic_cabinet	В зеркале отпечаток лба изнутри	I_FOREHEAD_PRINT	optional	1	1
+E075	10	future	D	v04_restored	На записи рычаг исправен и герой закрывает его	RESTORED_V04	mandatory	1	1
+E076	10	mirror	D	after_v04_end	Поздний отражается в чёрном экране	D_LATE_MIRROR	mandatory	1	1
+E077	10	mirror	D	turn_from_late_mirror	На стекле остаётся влажная ладонь	D_LATE_HANDPRINT	conditional	1	1
+E078	10	spatial	N	enter_long_corridor	Первый коридор, часы идут назад	N_CLOCK_BACK	mandatory	1	1
+E079	10	spatial	N	second_segment	Второй коридор, неверная табличка	N_EXIT_WRONG	mandatory	1	1
+E080	10	spatial	N	third_segment	На полу свежая чужая подпись	N_SIGNATURE	mandatory	1	1
+E081	10	ghost	N	three_clues_found	Поздний стоит в конце, не атакует	N_LATE_PERSON	mandatory	1	1
+E082	10	spatial	N	open_exit_after_clues	Возврат в обычный коридор	N_EXIT	mandatory	1	1
+E083	10	trace	B	after_n_first_entry	В рецепте указано На двоих	B_RECIPE_TWO	optional	1	1
+E084	11	puzzle	E	start_power_node	Цифровые числа подменены числом людей	E_FALSE_POWER	mandatory	1	1
+E085	11	ghost	B	first_visit_ch11	В зеркале сидят двое и обсуждают игрока	B_TWO_GHOSTS	mandatory	1	1
+E086	11	sound	B	after_two_ghosts	Ложка падает в пустую кружку	B_SPOON_DROP	conditional	1	1
+E087	11	body	I	first_visit_ch11	Тело дышит под покрывалом	I_BLANKET_BODY	mandatory	1	1
+E088	11	body	I	remove_blanket	Пустой матрас, дыхание внутри шкафа	I_EMPTY_BED	conditional	1	1
+E089	11	future	H	replay_v01_ch11	Вторая копия V01 меняет реакцию Анны	V01B_UNLOCKED	conditional	1	1
+E090	11	sound	A	return_ch11	В соседней комнате кто-то долго моет руки	A_WASHING	optional	1	1
+E091	11	trace	F	return_ch11	Костюм застёгнут изнутри	F_SUIT_INSIDE	optional	1	1
+E092	11	trace	D	return_ch11	На экране мачта видна в помещении	D_INDOOR_TOWER	optional	1	1
+E093	11	sound	H	after_copy_choice	Запись проигрывает конец до начала	H_TAPE_OUT_OF_ORDER	optional	1	1
+E094	11	threat	L	start_shutters	Счётчик стоит за стеклом	L_COUNTER_START	mandatory	1	1
+E095	11	threat	L	wrong_shutter	Счётчик сокращает расстояние на шаг	L_COUNTER_STEP	conditional	1	1
+E096	11	threat	L	four_wrong_shutters	Смерть и восстановление перед заслонками	DEATH_SHUTTERS	conditional	1	1
+E097	11	threat	L	shutters_correct	Счётчик отступает, много отпечатков рук	L_COUNTER_RETREAT	mandatory	1	1
+E098	11	human	H	petr_letter_sent	Письмо Сухова адресовано Оле, дата из 2028	PETR_LETTER_DONE	conditional	1	1
+E099	11	radio	D	three_nodes_complete	Белов спрашивает имя	NAME_CHOICE	mandatory	1	1
+E100	11	spatial	C	radio_choice_done	Дневной свет на три секунды среди ночи	C_DAYLIGHT_FLASH	mandatory	1	1
+E101	12	spatial	L	final_gallery_enter	Первое окно ночь	L_WINDOW_NIGHT	mandatory	1	1
+E102	12	spatial	L	inspect_second_window	За вторым окном дневной 1978	L_WINDOW_1978	mandatory	1	1
+E103	12	spatial	L	inspect_third_window	За третьим окном будущий проходящий оператор	L_WINDOW_FUTURE	mandatory	1	1
+E104	12	future	M	power_off_and_pin	Монитор повторяет действия с задержкой	M_MONITOR_DELAY	mandatory	1	1
+E105	12	future	M	inspect_monitor_still	Отражённый оператор закрывает дверь независимо от игрока	M_MONITOR_OTHER	mandatory	1	1
+E106	12	ghost	P	before_final_choice	Поздний за створкой в позе аварии	P_LATE_PERSON	mandatory	1	1
+E107	12	radio	P	show_modes	Голос Белова о билете и смерти	P_BELOV_FINAL	mandatory	1	1
+E108	12	choice	P	confirm_mode_A	Запечатать контур, хроника пустых комнат	ENDING_A	conditional	1	1
+E109	12	choice	P	confirm_mode_B	Два оператора садятся за стол	ENDING_B	conditional	1	1
+E110	12	choice	P	confirm_mode_C	Признание уходит в аналоговый эфир	ENDING_C	conditional	1	1
+E111	12	choice	P	confirm_mode_D	Возвращается бытовой голос живого Сухова	ENDING_D	conditional	1	1
+E112	12	epilogue	P	ending_done	После титров журнал следующей смены	POST_CREDITS	mandatory	1	1

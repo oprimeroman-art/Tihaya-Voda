@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": [
+    "Chrome direct file:// boot",
+    "DOM tea sequence: failure, reset, successful completion",
+    "LocalStorage save survives real page reload",
+    "Missing V01 full storyboard/onEnd; early close does not set watched",
+    "DOM ending A; pre-signature checkpoint preserved",
+    "DOM ending B; pre-signature checkpoint preserved",
+    "DOM ending C; pre-signature checkpoint preserved",
+    "DOM ending D; pre-signature checkpoint preserved",
+    "D epilogue returns to finale, credits and parameterized D30",
+    "Native PROJECT.zip import: 16 rooms and 112 timelines",
+    "Native export preserves all scenario data exactly",
+    "GAME.zip import through embedded source-project.zip",
+    "Native editor Compile Game produces ZIP",
+    "Existing tutorial imports and exports without adventure extension",
+    "Existing tutorial rules preview boots"
+  ],
+  "uncaughtErrors": [],
+  "environment": "Chrome headless on Windows; direct file://, 1440x1000. No authored audio/video assets present."
+}

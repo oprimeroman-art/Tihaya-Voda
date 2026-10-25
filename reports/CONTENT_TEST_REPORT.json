@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Native manifest: every room and image reference resolves in PROJECT.zip",
+    "30 document bodies and 53 dialogue/audio bodies match canonical source verbatim",
+    "All storyboard frames retain source text and timecodes",
+    "GAME.zip includes exact PROJECT.zip; no mandatory remote script dependencies",
+    "Editor-generated GAME.zip preserves scenario in embedded source project",
+    "Existing demo roundtrip: globals, story, spatial sound, timelines, room rules/exits unchanged"
+  ]
+}

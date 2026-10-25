@@ -1,0 +1,1435 @@
+{
+  "version": 1,
+  "project": "tihaya_voda_v2",
+  "chapter": 12,
+  "room": "P",
+  "flags": {
+    "CHAPTER": 12,
+    "WORLD_PHASE": 4,
+    "TAPE_CHOICE": "PETR",
+    "SECOND_PLATE": "LEFT",
+    "OBSERVER_COUNT": 1,
+    "FALSE_ACT_SIGNED": false,
+    "ENDING": "NONE",
+    "NAME_REPLY": "NO",
+    "Q01_STARTED": true,
+    "take_BADGE04": true,
+    "take_STORAGE_KEY": true,
+    "FOUND_D01": true,
+    "TEA_SEQUENCE": true,
+    "TEA_DONE": true,
+    "TEA_TUTORIAL": true,
+    "sign_shift": true,
+    "SIGNED_SHIFT": true,
+    "take_FUSE_3": true,
+    "HAS_FUSE_3": true,
+    "install_fuse3": true,
+    "Q01_DONE": true,
+    "FOUND_D28": true,
+    "POWER_BASIC": true,
+    "POWER_BALANCED": true,
+    "CORES_MARKING": true,
+    "CORES_LABELED": true,
+    "RADIO_TUNE": true,
+    "send_report": true,
+    "Q02_DONE": true,
+    "RADIO_REPORT_SENT": true,
+    "P17_PRINTED": true,
+    "BOX12_RELABELED": true,
+    "FOUND_D19": true,
+    "PLUMB_SEQ": true,
+    "WATCHED_V01": true,
+    "BUCKET_FALLEN": true,
+    "M03_MIRROR": true,
+    "mirror03": true,
+    "M03_HANDPRINT": true,
+    "A_SHOES_SHIFTED": true,
+    "D_CLOCK_JUMP": true,
+    "cabinet_message": true,
+    "ARCHIVE_MESSAGE_SHOWN": true,
+    "archive_return": true,
+    "Q03_DONE": true,
+    "FOUND_D20": true,
+    "count_cans": true,
+    "FIFTH_CAN": true,
+    "FOUND_D16": true,
+    "COOKING": true,
+    "COOKED": true,
+    "SECOND_PLATE_APPEARED": true,
+    "mirror04": true,
+    "M04_GHOST": true,
+    "mirror04_away": true,
+    "mirror04_again": true,
+    "M04_GHOST_TALKED": true,
+    "mirror04_third": true,
+    "M04_DOOR_OPEN": true,
+    "plate_choice": true,
+    "B_CHAIR_SCRAPE": true,
+    "B_BOARD_TWO": true,
+    "A_SECOND_DENT": true,
+    "dinner_exit": true,
+    "Q04_DONE": true,
+    "C_GHOST_STEPS": true,
+    "take_P17_SAMPLE": true,
+    "P17_FOUND": true,
+    "SPECTRUM_MATCH": true,
+    "P17_SPECTRUM": true,
+    "MICROSCOPE": true,
+    "P17_ANALYZED": true,
+    "M05_MIRROR_DOOR": true,
+    "FOUND_D06": true,
+    "C_HIDDEN_DOOR": true,
+    "hidden_enter": true,
+    "C_HIDDEN_WASHING": true,
+    "FOUND_D03": true,
+    "D03_TAKEN": true,
+    "hidden_exit": true,
+    "RETURNED_HIDDEN": true,
+    "Q05_DONE": true,
+    "C_AUDIO_DELAY": true,
+    "C_OZEROV_PASS": true,
+    "A_CALENDAR_MARK": true,
+    "A_COLD_PILLOW": true,
+    "I_PHONE_CALL": true,
+    "B_BOARD_RESET": true,
+    "B_FALSE_KETTLE": true,
+    "WAVE_PHASE": true,
+    "D_WAVES_START": true,
+    "HEARD_A02": true,
+    "HEARD_A01": true,
+    "D07_PRINTED": true,
+    "FOUND_D02": true,
+    "FOUND_D27": true,
+    "mirror06": true,
+    "M06_BELOV": true,
+    "mirror06_again": true,
+    "M06_BELOV_TALK": true,
+    "FOUND_D07": true,
+    "flip_acts": true,
+    "FOUND_ACT_BOTH": true,
+    "Q06_DONE": true,
+    "FOUND_D22": true,
+    "take_FLASHLIGHT": true,
+    "take_ANTENNA_KEY": true,
+    "take_BEACON": true,
+    "ice_1": true,
+    "COUNTER_TOWER": true,
+    "ice_2": true,
+    "ice_3": true,
+    "ANTENNA": true,
+    "K_COMMS_REPAIRED": true,
+    "COUNTER_STEPS": true,
+    "ANTENNA_REPAIRED": true,
+    "DEATHS": 2,
+    "glass07": true,
+    "DEATH_AIRLOCK": true,
+    "J_FROST_FACE": true,
+    "AIRLOCK_EQUALIZE": true,
+    "AIRLOCK_SAFE": true,
+    "inner_door": true,
+    "Q07_RETURN": true,
+    "Q07_DONE": true,
+    "C_REVERSED_SNOW": true,
+    "A_TOMORROW_MARK": true,
+    "B_MILK_SMELL": true,
+    "take_VHS_FRAGMENT_A": true,
+    "take_VHS_FRAGMENT_B": true,
+    "FOUND_D23": true,
+    "VHS_ASSEMBLE": true,
+    "VHS_ASSEMBLED": true,
+    "WATCHED_V02": true,
+    "H_ANNA_GLASS": true,
+    "FOUND_D13": true,
+    "FOUND_D29": true,
+    "FOUND_D05": true,
+    "D13_FOUND": true,
+    "take_VHS_V03": true,
+    "WATCHED_V03": true,
+    "petr_letter": true,
+    "PETR_LETTER_DONE": true,
+    "FOUND_D25": true,
+    "B_CHILD_RECORDING": true,
+    "A_CUP_TURN": true,
+    "wet_towel": true,
+    "Q08_DONE": true,
+    "C_WET_TOWEL": true,
+    "FOUND_D04": true,
+    "FOUND_D09": true,
+    "FOUND_D21": true,
+    "take_PUNCHCARD_RU": true,
+    "take_PUNCHCARD_DE": true,
+    "PUNCHCARD_OVERLAY": true,
+    "DRILL04_ID": true,
+    "scan_uv": true,
+    "enter_1978": true,
+    "H_1978_ENTER": true,
+    "H_1978_VOICES": true,
+    "FOUND_D08": true,
+    "FOUND_D12": true,
+    "calibration_plate": true,
+    "H_OZEROV_MIRROR": true,
+    "H_CHAIR_FALL": true,
+    "WATCHED_V06": true,
+    "WATCHED_V09": true,
+    "HEARD_A03": true,
+    "exit_1978": true,
+    "Q09_DONE": true,
+    "H_1978_EXIT": true,
+    "H_BULB_GHOST": true,
+    "C_1978_THROUGH": true,
+    "FOUND_D17": true,
+    "FOUND_D18": true,
+    "HEARD_A04": true,
+    "CARDIOMATCH": true,
+    "I_DUPLICATE_HEART": true,
+    "medic10": true,
+    "I_FOREHEAD_PRINT": true,
+    "D_FOURTH_SIGNATURE": true,
+    "TIMELINE_SYNC": true,
+    "RESTORED_V04": true,
+    "WATCHED_V04": true,
+    "D_LATE_MIRROR": true,
+    "late10": true,
+    "D_LATE_HANDPRINT": true,
+    "FOUND_D14": true,
+    "FOUND_D11": true,
+    "FOUND_D15": true,
+    "WATCHED_V08": true,
+    "handwriting_floor": true,
+    "N_SIGNATURE": true,
+    "backward_clock": true,
+    "N_CLOCK_BACK": true,
+    "reversed_exit_arrow": true,
+    "N_EXIT_WRONG": true,
+    "leave_N": true,
+    "EXIT_N_UNLOCKED": true,
+    "N_LATE_PERSON": true,
+    "N_EXIT": true,
+    "B_RECIPE_TWO": true,
+    "false_act": true,
+    "Q10_DONE": true,
+    "A_WASHING": true,
+    "F_SUIT_INSIDE": true,
+    "B_TWO_GHOSTS": true,
+    "B_SPOON_DROP": true,
+    "I_BLANKET_BODY": true,
+    "blanket11": true,
+    "I_EMPTY_BED": true,
+    "WATCHED_V01B": true,
+    "V01B_UNLOCKED": true,
+    "NODE_POWER": true,
+    "NODE_POWER_DONE": true,
+    "E_FALSE_POWER": true,
+    "NODE_MEMORY": true,
+    "NODE_MEMORY_DONE": true,
+    "H_TAPE_OUT_OF_ORDER": true,
+    "NODE_OBSERVER": true,
+    "NODE_OBSERVER_DONE": true,
+    "L_COUNTER_START": true,
+    "L_COUNTER_STEP": true,
+    "DEATH_SHUTTERS": true,
+    "SHUTTERS": true,
+    "SHUTTERS_SAFE": true,
+    "L_COUNTER_RETREAT": true,
+    "NAME_CHOICE": true,
+    "D_INDOOR_TOWER": true,
+    "name_reply": true,
+    "Q11_DONE": true,
+    "C_DAYLIGHT_FLASH": true,
+    "L_WINDOW_NIGHT": true,
+    "second_window": true,
+    "window_1978_seen": true,
+    "L_WINDOW_1978": true,
+    "third_window": true,
+    "L_WINDOW_FUTURE": true,
+    "POWER_OFF": true,
+    "take_SHUTTER_PIN": true,
+    "PIN_INSERT": true,
+    "M_MONITOR_DELAY": true,
+    "ANALOG_READINGS_OK": true,
+    "M_MONITOR_OTHER": true,
+    "OBSERVER_SELECT": true,
+    "P_LATE_PERSON": true
+  },
+  "inventory": [
+    "BADGE04",
+    "STORAGE_KEY",
+    "FUSE_3",
+    "VHS_V01",
+    "ARCHIVE_KEY",
+    "P17_SAMPLE",
+    "FLASHLIGHT",
+    "ANTENNA_KEY",
+    "BEACON",
+    "VHS_FRAGMENT_A",
+    "VHS_FRAGMENT_B",
+    "VHS_V03",
+    "PUNCHCARD_RU",
+    "PUNCHCARD_DE",
+    "SHUTTER_PIN"
+  ],
+  "documents": [
+    "D01",
+    "D28",
+    "D19",
+    "D20",
+    "D16",
+    "D06",
+    "D03",
+    "D02",
+    "D27",
+    "D07",
+    "D22",
+    "D23",
+    "D13",
+    "D29",
+    "D05",
+    "D25",
+    "D04",
+    "D09",
+    "D21",
+    "D08",
+    "D12",
+    "D17",
+    "D18",
+    "D14",
+    "D11",
+    "D15"
+  ],
+  "done": [
+    "take_BADGE04",
+    "take_STORAGE_KEY",
+    "read_D01",
+    "TEA_SEQUENCE",
+    "sign_shift",
+    "take_FUSE_3",
+    "install_fuse3",
+    "read_D28",
+    "POWER_BASIC",
+    "CORES_MARKING",
+    "RADIO_TUNE",
+    "send_report",
+    "read_D19",
+    "PLUMB_SEQ",
+    "watch_V01",
+    "mirror03",
+    "cabinet_message",
+    "archive_return",
+    "read_D20",
+    "count_cans",
+    "read_D16",
+    "COOKING",
+    "mirror04",
+    "mirror04_away",
+    "mirror04_again",
+    "mirror04_third",
+    "plate_choice",
+    "dinner_exit",
+    "take_P17_SAMPLE",
+    "SPECTRUM_MATCH",
+    "MICROSCOPE",
+    "read_D06",
+    "hidden_enter",
+    "read_D03",
+    "hidden_exit",
+    "WAVE_PHASE",
+    "watch_A02",
+    "watch_A01",
+    "read_D02",
+    "read_D27",
+    "mirror06",
+    "mirror06_again",
+    "read_D07",
+    "flip_acts",
+    "read_D22",
+    "take_FLASHLIGHT",
+    "take_ANTENNA_KEY",
+    "take_BEACON",
+    "ice_1",
+    "ice_2",
+    "ice_3",
+    "ANTENNA",
+    "glass07",
+    "AIRLOCK_EQUALIZE",
+    "inner_door",
+    "take_VHS_FRAGMENT_A",
+    "take_VHS_FRAGMENT_B",
+    "read_D23",
+    "VHS_ASSEMBLE",
+    "watch_V02",
+    "read_D13",
+    "read_D29",
+    "read_D05",
+    "take_VHS_V03",
+    "watch_V03",
+    "petr_letter",
+    "wet_towel",
+    "read_D04",
+    "read_D09",
+    "read_D21",
+    "take_PUNCHCARD_RU",
+    "take_PUNCHCARD_DE",
+    "PUNCHCARD_OVERLAY",
+    "scan_uv",
+    "enter_1978",
+    "read_D08",
+    "read_D12",
+    "calibration_plate",
+    "watch_V06",
+    "watch_V09",
+    "watch_A03",
+    "exit_1978",
+    "read_D17",
+    "read_D18",
+    "watch_A04",
+    "CARDIOMATCH",
+    "medic10",
+    "TIMELINE_SYNC",
+    "watch_V04",
+    "late10",
+    "read_D14",
+    "read_D11",
+    "read_D15",
+    "watch_V08",
+    "handwriting_floor",
+    "backward_clock",
+    "reversed_exit_arrow",
+    "leave_N",
+    "false_act",
+    "blanket11",
+    "watch_V01B",
+    "NODE_POWER",
+    "NODE_MEMORY",
+    "NODE_OBSERVER",
+    "SHUTTERS",
+    "name_reply",
+    "second_window",
+    "third_window",
+    "POWER_OFF",
+    "take_SHUTTER_PIN",
+    "PIN_INSERT",
+    "ANALOG_READINGS_OK",
+    "OBSERVER_SELECT"
+  ],
+  "fired": [
+    "E001",
+    "E002",
+    "E003",
+    "E004",
+    "E005",
+    "E006",
+    "E007",
+    "E008",
+    "E009",
+    "E010",
+    "E011",
+    "E013",
+    "E014",
+    "E015",
+    "E016",
+    "E012",
+    "E017",
+    "E018",
+    "E019",
+    "E020",
+    "E021",
+    "E022",
+    "E025",
+    "E027",
+    "E024",
+    "E028",
+    "E029",
+    "E030",
+    "E031",
+    "E032",
+    "E033",
+    "E034",
+    "E035",
+    "E036",
+    "E044",
+    "E043",
+    "E026",
+    "E045",
+    "E037",
+    "E039",
+    "E038",
+    "E042",
+    "E040",
+    "E041",
+    "E046",
+    "E047",
+    "E048",
+    "E049",
+    "E050",
+    "E051",
+    "E052",
+    "E053",
+    "E055",
+    "E054",
+    "E056",
+    "E058",
+    "E057",
+    "E062",
+    "E060",
+    "E098",
+    "E061",
+    "E063",
+    "E059",
+    "E064",
+    "E065",
+    "E066",
+    "E067",
+    "E068",
+    "E069",
+    "E070",
+    "E071",
+    "E073",
+    "E074",
+    "E072",
+    "E075",
+    "E076",
+    "E077",
+    "E080",
+    "E078",
+    "E079",
+    "E081",
+    "E082",
+    "E083",
+    "E090",
+    "E091",
+    "E085",
+    "E086",
+    "E087",
+    "E088",
+    "E089",
+    "E084",
+    "E093",
+    "E094",
+    "E095",
+    "E096",
+    "E097",
+    "E099",
+    "E092",
+    "E100",
+    "E101",
+    "E102",
+    "E103",
+    "E104",
+    "E105",
+    "E106"
+  ],
+  "pending": [
+    {
+      "id": "E107",
+      "due": 21910
+    }
+  ],
+  "journal": [
+    {
+      "id": "E001",
+      "text": "Гул дизеля и термос на столе",
+      "lines": [
+        {
+          "id": "DLG_001",
+          "chapter": "CH01",
+          "speaker": "БЕЛОВ",
+          "text": "«Маяк-девять, это берег. Слышишь меня? Не пугайся, если ответ задержится: тут у нас спутник временами ленивее мёрзлого кота. Так. Утренний обход. Сначала отопление, потом чай, потом остальное. Я бы на твоём месте поменял чай с отоплением, но инструкция написана людьми без сердца»."
+        }
+      ],
+      "time": 70
+    },
+    {
+      "id": "E002",
+      "text": "Обычная инструкция по чайнику",
+      "lines": [
+        {
+          "id": "DLG_002",
+          "chapter": "CH01",
+          "speaker": "БЕЛОВ",
+          "text": "«Там на чайнике синяя полоска. До неё воды налей. Выше — будет плеваться кипятком. Да, я знаю, что объясняю взрослому человеку чайник. У нас такая работа: объяснять, пока никто не обжёгся»."
+        }
+      ],
+      "time": 560
+    },
+    {
+      "id": "E003",
+      "text": "Служебное подтверждение смены",
+      "lines": [
+        {
+          "id": "DLG_003",
+          "chapter": "CH01",
+          "speaker": "БЕЛОВ",
+          "text": "«Отчёт вижу. Подпиши и сохрани. Из хорошего: в этом году хоть принтер бумагу не ест. Из плохого: дизель всё ещё наш. Давай его проверим»."
+        }
+      ],
+      "time": 840
+    },
+    {
+      "id": "E004",
+      "text": "Подсказка к щитовой",
+      "lines": [],
+      "time": 1120
+    },
+    {
+      "id": "E005",
+      "text": "Тихий щелчок отключенного реле",
+      "lines": [],
+      "time": 1540
+    },
+    {
+      "id": "E006",
+      "text": "Обычная регистрация кернов",
+      "lines": [
+        {
+          "id": "DLG_004",
+          "chapter": "CH02",
+          "speaker": "БЕЛОВ",
+          "text": "«Три керна, три карточки. Глубина важнее красивого цвета, учёные потом разберутся с остальным. Если вдруг что-то не совпадёт — не подгоняй. Пиши как есть»."
+        },
+        {
+          "id": "DLG_005",
+          "chapter": "CH02",
+          "speaker": "БЕЛОВ",
+          "text": "«Вот это мне нравится. Ровные наклейки, все номера читаются. В прошлую смену одна бирка была подписана “камень серый, красивый”. Иногда мне кажется, мы медленно катимся к первобытному искусству»."
+        }
+      ],
+      "time": 1820
+    },
+    {
+      "id": "E007",
+      "text": "Медленная печать отчёта",
+      "lines": [
+        {
+          "id": "DLG_006",
+          "chapter": "CH02",
+          "speaker": "БЕЛОВ",
+          "text": "«Генератор держит? Образцы внесены? Прекрасно. У тебя сегодня даже есть шанс пообедать вовремя. Не пользуйся им бездумно»."
+        }
+      ],
+      "time": 2170
+    },
+    {
+      "id": "E008",
+      "text": "Лист P-17 с завтрашней датой",
+      "lines": [
+        {
+          "id": "DLG_007",
+          "chapter": "CH03",
+          "speaker": "БЕЛОВ",
+          "text": "«Резервная строка? Пять секунд... У меня здесь её нет. Возможно, локальный шаблон. Карандашом пометь и проверь шкаф. Не надо ради одной бумажки ставить станцию на уши»."
+        }
+      ],
+      "time": 2240
+    },
+    {
+      "id": "E009",
+      "text": "Табличка БЫТОВОЕ меняется на АРХИВ-12",
+      "lines": [
+        {
+          "id": "DLG_008",
+          "chapter": "CH03",
+          "speaker": "БЕЛОВ",
+          "text": "«Ящик двенадцать? Он был запломбирован до списания. Ничего ломать не требуется — там есть накладная. Да, можешь посмотреть. Только то, что найдёшь, не отправляй пока по цифровой связи. Не знаю, почему. Это рекомендация из старого регламента»."
+        }
+      ],
+      "time": 2450
+    },
+    {
+      "id": "E010",
+      "text": "На видео человек в нынешней куртке",
+      "lines": [],
+      "time": 2870
+    },
+    {
+      "id": "E011",
+      "text": "Грохот упавшего ведра без угрозы",
+      "lines": [],
+      "time": 3010
+    },
+    {
+      "id": "E013",
+      "text": "Отражение показывает включённый фонарь",
+      "lines": [],
+      "time": 3080
+    },
+    {
+      "id": "E014",
+      "text": "Влажный отпечаток с обратной стороны",
+      "lines": [],
+      "time": 3220
+    },
+    {
+      "id": "E015",
+      "text": "Ботинки стоят ровнее чем были",
+      "lines": [],
+      "time": 3360
+    },
+    {
+      "id": "E016",
+      "text": "Цифровые часы пропускают минуту",
+      "lines": [],
+      "time": 3570
+    },
+    {
+      "id": "E012",
+      "text": "Шкаф открыт, надпись о знакомстве",
+      "lines": [
+        {
+          "id": "DLG_010",
+          "chapter": "CH03",
+          "speaker": "БЕЛОВ",
+          "text": "«Плёнка была? Угу. Ну... Архивов много, Анна всегда снимала всё подряд. Мне про шкаф не рассказывай, я не видел его изнутри. Да, именно это меня сейчас и беспокоит»."
+        },
+        {
+          "id": "DLG_011",
+          "chapter": "CH04",
+          "speaker": "БЕЛОВ",
+          "text": "«На станции предусмотрены обеды. Не надо смотреть на меня через радио — я понимаю, звучит неправдоподобно. Найди складскую ведомость и накормись. Я пока разберусь с заявкой лаборатории»."
+        }
+      ],
+      "time": 3850
+    },
+    {
+      "id": "E017",
+      "text": "Пятая банка с маркировкой 2028",
+      "lines": [],
+      "time": 4270
+    },
+    {
+      "id": "E018",
+      "text": "На столе тёплая вторая тарелка",
+      "lines": [
+        {
+          "id": "DLG_013",
+          "chapter": "CH04",
+          "speaker": "БЕЛОВ",
+          "text": "«Ты говоришь, стоит тарелка? Вторая? Я не... Подожди. Я не мог знать, что у тебя тарелки две. Я вообще ничего не спрашивал про еду. Сначала закончи отчёт, ладно?»"
+        },
+        {
+          "id": "DLG_014",
+          "chapter": "CH04",
+          "speaker": "БЕЛОВ",
+          "text": "«Понимаю, что прозвучало странно. Если есть вопросы по станции — задавай. Кроме того, сколько человек там за столом. Я сейчас не могу это проверить»."
+        }
+      ],
+      "time": 4620
+    },
+    {
+      "id": "E019",
+      "text": "Анна в зеркале ест из пустой тарелки",
+      "lines": [],
+      "time": 4760
+    },
+    {
+      "id": "E020",
+      "text": "Анна просит закрыть дверь",
+      "lines": [
+        {
+          "id": "DLG_012",
+          "chapter": "CH04",
+          "speaker": "АННА-ПРИЗРАК",
+          "text": "«Ты бы дверь прикрыл. Дует»."
+        }
+      ],
+      "time": 4970
+    },
+    {
+      "id": "E021",
+      "text": "Отражение исчезает, дверь открыта",
+      "lines": [],
+      "time": 5110
+    },
+    {
+      "id": "E022",
+      "text": "Скрип второго стула",
+      "lines": [],
+      "time": 5390
+    },
+    {
+      "id": "E025",
+      "text": "Доска дежурств показывает двоих",
+      "lines": [],
+      "time": 5460
+    },
+    {
+      "id": "E027",
+      "text": "Вторая вмятина на подушке",
+      "lines": [],
+      "time": 5670
+    },
+    {
+      "id": "E024",
+      "text": "Шаги женщины с ложкой за дверью",
+      "lines": [],
+      "time": 5880
+    },
+    {
+      "id": "E028",
+      "text": "В морозильном ящике вода не замерзает",
+      "lines": [
+        {
+          "id": "DLG_015",
+          "chapter": "CH05",
+          "speaker": "БЕЛОВ",
+          "text": "«В холодильном боксе справа должен быть пустой отсек. Пустой — это слово в описи. Я бы хотел, чтобы ты сверил его с тем, что действительно увидишь»."
+        }
+      ],
+      "time": 6090
+    },
+    {
+      "id": "E029",
+      "text": "Шлиф керна показывает пол коридора",
+      "lines": [],
+      "time": 6230
+    },
+    {
+      "id": "E030",
+      "text": "Отражение показывает дверь в коридоре",
+      "lines": [],
+      "time": 6370
+    },
+    {
+      "id": "E031",
+      "text": "Появилась дверь ТИХАЯ",
+      "lines": [],
+      "time": 6580
+    },
+    {
+      "id": "E032",
+      "text": "Шорох рукавов и мытьё рук за стеной",
+      "lines": [
+        {
+          "id": "DLG_016",
+          "chapter": "CH05",
+          "speaker": "ОЗЕРОВ-ЭХО",
+          "text": "«Секунду. Руки вытру. Секунду...»"
+        }
+      ],
+      "time": 6720
+    },
+    {
+      "id": "E033",
+      "text": "Задняя дверь становится стеной, выход открывается напротив",
+      "lines": [],
+      "time": 6860
+    },
+    {
+      "id": "E034",
+      "text": "Звук хлопка запаздывает на 12 секунд",
+      "lines": [
+        {
+          "id": "DLG_017",
+          "chapter": "CH05",
+          "speaker": "БЕЛОВ",
+          "text": "«Ты сейчас где? Нет, не “в коридоре” — на каком конце? У меня по твоим маячкам получается, что ты прошёл через шкаф. Мне это не нравится. Вернись к аналоговым приборам. Их хотя бы можно открыть и посмотреть, из чего они сделаны»."
+        }
+      ],
+      "time": 7000
+    },
+    {
+      "id": "E035",
+      "text": "Озеров проходит поперёк глухой двери",
+      "lines": [],
+      "time": 7070
+    },
+    {
+      "id": "E036",
+      "text": "На календаре чужая отметка карандашом",
+      "lines": [],
+      "time": 7210
+    },
+    {
+      "id": "E044",
+      "text": "Подушка холодная, но смята",
+      "lines": [],
+      "time": 7280
+    },
+    {
+      "id": "E043",
+      "text": "Отключённый телефон звонит один раз",
+      "lines": [],
+      "time": 7490
+    },
+    {
+      "id": "E026",
+      "text": "Доска снова показывает одного",
+      "lines": [],
+      "time": 7700
+    },
+    {
+      "id": "E045",
+      "text": "В чайнике слышно кипение без нагрева",
+      "lines": [],
+      "time": 7770
+    },
+    {
+      "id": "E037",
+      "text": "Два канала голоса накладываются",
+      "lines": [
+        {
+          "id": "DLG_018",
+          "chapter": "CH06",
+          "speaker": "БЕЛОВ",
+          "text": "«Современный канал хороший, только он честно пишет сто процентов даже тогда, когда никто тебя не слышит. Старый приёмник шумит, зато шумит по делу. Поверни ручку к отметке на схеме»."
+        }
+      ],
+      "time": 8050
+    },
+    {
+      "id": "E039",
+      "text": "Запись собственного дыхания",
+      "lines": [],
+      "time": 8190
+    },
+    {
+      "id": "E038",
+      "text": "Предупреждение из 2028",
+      "lines": [],
+      "time": 8330
+    },
+    {
+      "id": "E042",
+      "text": "Принтер выдаёт два взаимоисключающих акта",
+      "lines": [],
+      "time": 8400
+    },
+    {
+      "id": "E040",
+      "text": "Белов отражается в выключенном мониторе",
+      "lines": [],
+      "time": 8680
+    },
+    {
+      "id": "E041",
+      "text": "Отражение говорит Не сейчас",
+      "lines": [
+        {
+          "id": "DLG_019",
+          "chapter": "CH06",
+          "speaker": "БЕЛОВ",
+          "text": "«Не сейчас»."
+        },
+        {
+          "id": "DLG_020",
+          "chapter": "CH06",
+          "speaker": "БЕЛОВ",
+          "text": "«Маяк, повтори последнее. У меня тишина стояла секунд двадцать, хотя часы показывают, что ты всё время говорил. Да, я сам слышу, как звучит. Не трать на это время. Антенна у тебя обледенела»."
+        }
+      ],
+      "time": 8820
+    },
+    {
+      "id": "E046",
+      "text": "Силуэт у мачты без изменения расстояния",
+      "lines": [
+        {
+          "id": "DLG_021",
+          "chapter": "CH07",
+          "speaker": "БЕЛОВ",
+          "text": "«Фонарь. Ключ. Маяк. Если забудешь одно из трёх — не упорствуй, возвращайся. Там не приключение, там проклятая железка, которая обмерзает раз в неделю»."
+        }
+      ],
+      "time": 9590
+    },
+    {
+      "id": "E047",
+      "text": "Шаги приближаются без движения силуэта",
+      "lines": [],
+      "time": 9870
+    },
+    {
+      "id": "E048",
+      "text": "Свет мачты выключен, фигура исчезла",
+      "lines": [],
+      "time": 9940
+    },
+    {
+      "id": "E049",
+      "text": "Голос Белова снаружи и настоящий голос по радио",
+      "lines": [
+        {
+          "id": "DLG_022",
+          "chapter": "CH07",
+          "speaker": "ПОДМЕНА ГОЛОСА",
+          "text": "«Маяк. Открой. Тут руки уже не слушаются. Я не могу попасть пальцами по ручке. Ты слышишь? Это Белов»."
+        },
+        {
+          "id": "DLG_023",
+          "chapter": "CH07",
+          "speaker": "БЕЛОВ",
+          "text": "«Не открывай! Я у себя за столом на берегу. Это не я у двери. Три стрелки. Смотри на три стрелки. Я не знаю, кто просит, но я точно не там»."
+        }
+      ],
+      "time": 10080
+    },
+    {
+      "id": "E050",
+      "text": "Счётчик входит, короткая смерть и чекпоинт",
+      "lines": [],
+      "time": 10150
+    },
+    {
+      "id": "E051",
+      "text": "Овал дыхания и четыре ладони на стекле",
+      "lines": [],
+      "time": 10220
+    },
+    {
+      "id": "E052",
+      "text": "Внутренняя дверь безопасно открывается",
+      "lines": [
+        {
+          "id": "DLG_024",
+          "chapter": "CH07",
+          "speaker": "БЕЛОВ",
+          "text": "«Ты там? Скажи хоть что-нибудь... Ладно, не говори. Если внутренний замок открыт, просто вернись внутрь. Я запишу, что работа сделана. Я не собираюсь записывать остальное»."
+        }
+      ],
+      "time": 10360
+    },
+    {
+      "id": "E053",
+      "text": "Следы снега ведут из спальни к шлюзу",
+      "lines": [],
+      "time": 10500
+    },
+    {
+      "id": "E055",
+      "text": "В календаре обведено 19 января",
+      "lines": [],
+      "time": 10640
+    },
+    {
+      "id": "E054",
+      "text": "Запах подгоревшего молока и скрип посуды",
+      "lines": [],
+      "time": 10850
+    },
+    {
+      "id": "E056",
+      "text": "Склеенная плёнка несёт дату 2028",
+      "lines": [],
+      "time": 11340
+    },
+    {
+      "id": "E058",
+      "text": "Анна проходит по отражению двери",
+      "lines": [],
+      "time": 11480
+    },
+    {
+      "id": "E057",
+      "text": "Оператор на плёнке вытирает мокрые руки",
+      "lines": [
+        {
+          "id": "DLG_028",
+          "chapter": "CH08",
+          "speaker": "БЕЛОВ",
+          "text": "«Сухов оставил много записей. Я... Я не имел права решать, какие тебе смотреть. Ты держишься? Ладно. Не отвечай. Сам бы не ответил»."
+        }
+      ],
+      "time": 11550
+    },
+    {
+      "id": "E062",
+      "text": "Оборванная обложка личной кассеты",
+      "lines": [],
+      "time": 12110
+    },
+    {
+      "id": "E060",
+      "text": "Последнее бытовое послание Сухова дочери",
+      "lines": [],
+      "time": 12320
+    },
+    {
+      "id": "E098",
+      "text": "Письмо Сухова адресовано Оле, дата из 2028",
+      "lines": [],
+      "time": 12460
+    },
+    {
+      "id": "E061",
+      "text": "Шаги ребёнка слышны только в записи из стены",
+      "lines": [],
+      "time": 12670
+    },
+    {
+      "id": "E063",
+      "text": "Кружка на столе повёрнута к пустому стулу",
+      "lines": [],
+      "time": 12880
+    },
+    {
+      "id": "E059",
+      "text": "Мокрое полотенце на полу",
+      "lines": [],
+      "time": 13090
+    },
+    {
+      "id": "E064",
+      "text": "Получен индекс скважины 0-4",
+      "lines": [],
+      "time": 13650
+    },
+    {
+      "id": "E065",
+      "text": "Архив сменяется на 1978 без монтажной вспышки",
+      "lines": [],
+      "time": 14140
+    },
+    {
+      "id": "E066",
+      "text": "Два инженера обсуждают сапоги",
+      "lines": [
+        {
+          "id": "DLG_029",
+          "chapter": "CH09",
+          "speaker": "ИНЖЕНЕР 1, 1978",
+          "text": "«Сапоги-то в этот раз нормальные выдали?»"
+        },
+        {
+          "id": "DLG_030",
+          "chapter": "CH09",
+          "speaker": "ИНЖЕНЕР 2, 1978",
+          "text": "«Нормальные. Тесные только. Мать мне говорила: надень двое носков, на севере хуже не будет. А на деле...»"
+        },
+        {
+          "id": "DLG_031",
+          "chapter": "CH09",
+          "speaker": "ИНЖЕНЕР 1, 1978",
+          "text": "«Погоди. А кто сюда четвёртый стул принёс?»"
+        },
+        {
+          "id": "DLG_032",
+          "chapter": "CH09",
+          "speaker": "ИНЖЕНЕР 2, 1978",
+          "text": "«Да убери. Вечно суета в этой комнате»."
+        }
+      ],
+      "time": 14210
+    },
+    {
+      "id": "E067",
+      "text": "Озеров считает отражённых людей",
+      "lines": [],
+      "time": 14490
+    },
+    {
+      "id": "E068",
+      "text": "Четвёртый стул падает в комнате",
+      "lines": [],
+      "time": 14560
+    },
+    {
+      "id": "E069",
+      "text": "Возврат в современный архив",
+      "lines": [],
+      "time": 14910
+    },
+    {
+      "id": "E070",
+      "text": "Старый плафон продолжает светить без провода",
+      "lines": [],
+      "time": 14980
+    },
+    {
+      "id": "E071",
+      "text": "Два голоса говорят мимо игрока",
+      "lines": [],
+      "time": 15120
+    },
+    {
+      "id": "E073",
+      "text": "Две медицинские записи одной кардиограммы",
+      "lines": [],
+      "time": 15540
+    },
+    {
+      "id": "E074",
+      "text": "В зеркале отпечаток лба изнутри",
+      "lines": [],
+      "time": 15680
+    },
+    {
+      "id": "E072",
+      "text": "Принтер выдает пустой лист с четвёртой подписью",
+      "lines": [],
+      "time": 15890
+    },
+    {
+      "id": "E075",
+      "text": "На записи рычаг исправен и герой закрывает его",
+      "lines": [],
+      "time": 16030
+    },
+    {
+      "id": "E076",
+      "text": "Поздний отражается в чёрном экране",
+      "lines": [
+        {
+          "id": "DLG_035",
+          "chapter": "CH10",
+          "speaker": "БЕЛОВ",
+          "text": "«Мне передали твой рапорт. Там написано, что створка не открылась. Потом техник показал мне, что рычаг мог работать даже без сети. Я закрыл этот файл. Ты понимаешь? Просто убрал его в папку “Неполные данные”. Это мне казалось самым человеческим поступком. Удобно, а?»"
+        }
+      ],
+      "time": 16170
+    },
+    {
+      "id": "E077",
+      "text": "На стекле остаётся влажная ладонь",
+      "lines": [],
+      "time": 16310
+    },
+    {
+      "id": "E080",
+      "text": "На полу свежая чужая подпись",
+      "lines": [],
+      "time": 16870
+    },
+    {
+      "id": "E078",
+      "text": "Первый коридор, часы идут назад",
+      "lines": [],
+      "time": 17010
+    },
+    {
+      "id": "E079",
+      "text": "Второй коридор, неверная табличка",
+      "lines": [],
+      "time": 17150
+    },
+    {
+      "id": "E081",
+      "text": "Поздний стоит в конце, не атакует",
+      "lines": [],
+      "time": 17290
+    },
+    {
+      "id": "E082",
+      "text": "Возврат в обычный коридор",
+      "lines": [
+        {
+          "id": "DLG_036",
+          "chapter": "CH10",
+          "speaker": "БЕЛОВ",
+          "text": "«Если ты снова в коридоре, слышишь, не надо мне рассказывать, сколько там дверей. Мне очень хочется спорить с тобой о количестве дверей. А надо помнить другое: ты пока можешь выбирать, куда идёшь»."
+        }
+      ],
+      "time": 17360
+    },
+    {
+      "id": "E083",
+      "text": "В рецепте указано На двоих",
+      "lines": [],
+      "time": 17500
+    },
+    {
+      "id": "E090",
+      "text": "В соседней комнате кто-то долго моет руки",
+      "lines": [],
+      "time": 17780
+    },
+    {
+      "id": "E091",
+      "text": "Костюм застёгнут изнутри",
+      "lines": [],
+      "time": 17990
+    },
+    {
+      "id": "E085",
+      "text": "В зеркале сидят двое и обсуждают игрока",
+      "lines": [
+        {
+          "id": "DLG_041",
+          "chapter": "CH11",
+          "speaker": "АННА-ПРИЗРАК",
+          "text": "«Не говори ему. Он ещё не ел»."
+        }
+      ],
+      "time": 18200
+    },
+    {
+      "id": "E086",
+      "text": "Ложка падает в пустую кружку",
+      "lines": [],
+      "time": 18270
+    },
+    {
+      "id": "E087",
+      "text": "Тело дышит под покрывалом",
+      "lines": [],
+      "time": 18480
+    },
+    {
+      "id": "E088",
+      "text": "Пустой матрас, дыхание внутри шкафа",
+      "lines": [],
+      "time": 18620
+    },
+    {
+      "id": "E089",
+      "text": "Вторая копия V01 меняет реакцию Анны",
+      "lines": [],
+      "time": 18900
+    },
+    {
+      "id": "E084",
+      "text": "Цифровые числа подменены числом людей",
+      "lines": [],
+      "time": 19180
+    },
+    {
+      "id": "E093",
+      "text": "Запись проигрывает конец до начала",
+      "lines": [],
+      "time": 19460
+    },
+    {
+      "id": "E094",
+      "text": "Счётчик стоит за стеклом",
+      "lines": [],
+      "time": 19950
+    },
+    {
+      "id": "E095",
+      "text": "Счётчик сокращает расстояние на шаг",
+      "lines": [],
+      "time": 20020
+    },
+    {
+      "id": "E096",
+      "text": "Смерть и восстановление перед заслонками",
+      "lines": [],
+      "time": 20090
+    },
+    {
+      "id": "E097",
+      "text": "Счётчик отступает, много отпечатков рук",
+      "lines": [],
+      "time": 20230
+    },
+    {
+      "id": "E099",
+      "text": "Белов спрашивает имя",
+      "lines": [
+        {
+          "id": "DLG_043",
+          "chapter": "CH11",
+          "speaker": "БЕЛОВ",
+          "text": "«Все три узла ответили. Теперь у меня перед глазами одна строка: “оператор может завершить наблюдение”. Я не знаю, почему она появилась впервые. Возможно, потому что впервые кто-то сказал тебе правду до конца»."
+        },
+        {
+          "id": "DLG_037",
+          "chapter": "CH11",
+          "speaker": "БЕЛОВ",
+          "text": "«Маяк, ответь на вопрос. Не по инструкции. Ты помнишь, как тебя зовут?»"
+        }
+      ],
+      "time": 20440
+    },
+    {
+      "id": "E092",
+      "text": "На экране мачта видна в помещении",
+      "lines": [],
+      "time": 20510
+    },
+    {
+      "text": "БЕЛОВ",
+      "lines": [
+        {
+          "id": "DLG_038",
+          "chapter": "CH11",
+          "speaker": "БЕЛОВ",
+          "text": "«Хорошо. Не то чтобы хорошо... Но спасибо, что сказал. Я уже не уверен, что мог бы произнести своё имя, окажись на твоём месте»."
+        }
+      ]
+    },
+    {
+      "id": "E100",
+      "text": "Дневной свет на три секунды среди ночи",
+      "lines": [],
+      "time": 20650
+    },
+    {
+      "id": "E101",
+      "text": "Первое окно ночь",
+      "lines": [],
+      "time": 20860
+    },
+    {
+      "id": "E102",
+      "text": "За вторым окном дневной 1978",
+      "lines": [],
+      "time": 21000
+    },
+    {
+      "id": "E103",
+      "text": "За третьим окном будущий проходящий оператор",
+      "lines": [],
+      "time": 21140
+    },
+    {
+      "id": "E104",
+      "text": "Монитор повторяет действия с задержкой",
+      "lines": [],
+      "time": 21490
+    },
+    {
+      "id": "E105",
+      "text": "Отражённый оператор закрывает дверь независимо от игрока",
+      "lines": [],
+      "time": 21630
+    },
+    {
+      "id": "E106",
+      "text": "Поздний за створкой в позе аварии",
+      "lines": [],
+      "time": 21840
+    }
+  ],
+  "visits": {
+    "A": 7,
+    "C": 46,
+    "B": 8,
+    "D": 6,
+    "F": 5,
+    "E": 2,
+    "G": 3,
+    "H": 8,
+    "I": 4,
+    "J": 2,
+    "K": 1,
+    "N": 1,
+    "L": 2,
+    "M": 1,
+    "P": 1
+  },
+  "variants": {
+    "A": "A_NORMAL",
+    "B": "B_TWO_GHOSTS",
+    "C": "C_REVERSED_SNOW",
+    "D": "D_INDOOR_TOWER",
+    "E": "E_FALSE_DIGITAL",
+    "F": "F_SUIT_STANDING",
+    "G": "G_MIRROR_DOOR",
+    "H": "H_V01B",
+    "I": "I_EMPTY_BED",
+    "J": "J_SAFE",
+    "K": "K_TOWER_EMPTY",
+    "L": "L_THREE_WINDOWS",
+    "M": "M_DELAY_MONITOR",
+    "N": "N_LATE_EXIT",
+    "O": "O_1978",
+    "P": "P_FINAL_PANEL"
+  },
+  "errors": {
+    "SHUTTERS": 4
+  },
+  "progress": {},
+  "clock": 21910,
+  "lastOptional": 20510,
+  "ended": false,
+  "checkpoint": null
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "Native editor-exported GAME boots directly from file",
+    "Keyboard Enter activates focused interaction",
+    "Language toggle leaves authored Russian document verbatim",
+    "Authored room variant asset changes panorama; new game restores original"
+  ],
+  "uncaughtErrors": []
+}

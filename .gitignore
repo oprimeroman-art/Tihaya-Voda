@@ -1,11 +1,13 @@
+# Workstation and local test caches
+.git/
 node_modules/
 __pycache__/
 *.pyc
+.DS_Store
+Thumbs.db
 chrome-test/
 chrome-test-*/
 *.log
 *.tmp
 .env
 .env.*
-.DS_Store
-Thumbs.db
