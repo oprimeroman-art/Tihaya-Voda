@@ -12,6 +12,9 @@ on:
       - 'production/geometry/B_NORMAL/generate_hotspots.py'
       - 'production/geometry/B_NORMAL/verify_curved_hotspots.py'
       - 'production/geometry/B_NORMAL/audit_visibility.py'
+      - 'production/geometry/B_NORMAL/surface_details.py'
+      - 'production/geometry/B_NORMAL/light_transport.py'
+      - 'production/geometry/B_NORMAL/verify_surface_art.py'
       - 'codex-scripts/build_kitchen_preview.py'
       - 'studio/verification/kitchen-preview.test.cjs'
       - '.github/workflows/render-kitchen-360.yml'
@@ -36,6 +39,8 @@ jobs:
         run: python production/geometry/B_NORMAL/verify_kitchen.py
       - name: Verify curved props and candidate 360 hotspot mapping
         run: python production/geometry/B_NORMAL/verify_curved_hotspots.py
+      - name: Verify physical signage and cast light occlusion
+        run: python production/geometry/B_NORMAL/verify_surface_art.py
       - name: Render B_NORMAL true 360 geometry
         run: python production/geometry/B_NORMAL/render_kitchen360.py --width 2048 --out art/candidates/B_B_NORMAL_360_geometry.webp
       - name: Validate dimension and seam

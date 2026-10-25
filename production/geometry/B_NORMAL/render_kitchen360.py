@@ -8,6 +8,8 @@ import argparse
 from pathlib import Path
 import numpy as np
 import curved_geometry as curved
+import surface_details as signage
+import light_transport
 from PIL import Image
 
 SCENE=[]
@@ -333,6 +335,7 @@ def render(width=2048):
     u=(np.arange(width,dtype=np.float32)+.5)/width
     camera=np.array([0,1.65,0],dtype=np.float32)
     result=np.empty((height,width,3),dtype=np.uint8)
+    shadow_blockers=light_transport.blockers(SCENE)
     for y0 in range(0,height,36):
         yy=np.arange(y0,min(y0+36,height),dtype=np.float32)
         lat=((.5-(yy+.5)/height)*np.pi)[:,None]
@@ -361,7 +364,16 @@ def render(width=2048):
                 vec=np.array([lx,ly,lz],np.float32)-pt
                 dd=np.sum(vec*vec,axis=2)+.26
                 dot=np.maximum(0,np.sum(norm*vec,axis=2)/np.sqrt(dd))
-                illum+=power*dot/(dd+2)
+                direct=power*dot/(dd+2)
+                if name in light_transport.SHADOW_SURFACES:
+                    # Cast physical occlusion only for large receiver surfaces.
+                    # No change to geometry, story UVs, or object coordinates.
+                    jy,jx=np.nonzero(hit)
+                    if len(jy):
+                        uncovered=light_transport.visibility(
+                            pt[jy,jx],(lx,ly,lz),shadow_blockers,name)
+                        direct[jy,jx]*=uncovered
+                illum+=direct
             illum=np.clip(illum,.30,1.55)
             x,z=pt[...,0],pt[...,2]
             # Surface detail is evaluated in world space: it stays aligned when
@@ -454,6 +466,11 @@ def render(width=2048):
                 rgb[...,0]*=1.14
                 rgb[...,1]*=.995
                 rgb[...,2]*=.81
+            # Real printed signage is attached to the selected 3D surfaces,
+            # not overlayed on the screen or stored as a separate panorama.
+            if name in signage.PRINTED:
+                ink=signage.sampled_label(name,pt,lo,hi)
+                rgb=.09*rgb+.91*np.minimum(255,ink*lum[...,None])
             # Mild photographic toe; preserve detail without raising blacks.
             rgb=np.where(rgb<33,rgb*.85,rgb)
             if name=='mirror_glass':

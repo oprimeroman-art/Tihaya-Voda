@@ -23,7 +23,7 @@ def main():
     renderer.kitchen()
     obj['scene_objects']=len(renderer.SCENE)
     obj['curved_primitives']=len(renderer.CURVED)
-    obj['material_stage']='CC0_photographic_albedo_v5_curved_props_with_reflection'
+    obj['material_stage']='CC0_photoscans_with_3d_cast_shadows_and_Cyrillic_signs'
     obj['materials']=[{'id':name,'source':'https://polyhaven.com/a/'+name,'license':'CC0','md5':data[1]}
                       for name,data in TEXTURES.items()]
     obj['test']['ratio_2_to_1']=True
@@ -37,8 +37,10 @@ def main():
     obj['test']['candidate_3d_projected_hotspots']=11
     obj['test']['visible_interaction_rays']=11
     obj['test']['audio_A05_intercom_model']=True
+    obj['test']['cyrillic_signs_printed_on_real_world_geometry']=4
+    obj['test']['physical_furniture_shadow_rays']=True
     obj['remaining']=[
-      'Kettle, mug, plate and faucet now have true curved ray surfaces, but remaining furniture is still stylized',
+      'Station signs and direct occlusion shadows now render, but most furniture remains procedural low-poly art',
       '10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam',
       'Do not replace playable room B until art production approval'
     ]
