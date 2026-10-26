@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Composite existing authored transparent art into playable full-room variant panoramas."""
-import base64, json, re
+import base64, json, re, shutil
 from pathlib import Path
 from PIL import Image
 
@@ -12,9 +12,9 @@ GAME_HTML = ROOT / "game/index.html"
 EDITOR_HTML = ROOT / "game-editor/index.html"
 OUT = ROOT / "game-project/assets/variants"
 OVERLAYS = [
-    ("C", "C_MIRROR_LIGHT", "C_C_MIRROR_LIGHT.webp", "Отражение фонаря в зеркале"),
-    ("F", "F_ARCHIVE12", "F_F_ARCHIVE12.webp", "Табличка АРХИВ-12"),
-    ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "Приоткрытый шкаф и записка после V01"),
+    ("C", "C_MIRROR_LIGHT", "C_C_MIRROR_LIGHT.webp", "ÐÑÑÐ°Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¾Ð½Ð°ÑÑ Ð² Ð·ÐµÑÐºÐ°Ð»Ðµ"),
+    ("F", "F_ARCHIVE12", "F_F_ARCHIVE12.webp", "Ð¢Ð°Ð±Ð»Ð¸ÑÐºÐ° ÐÐ Ð¥ÐÐ-12"),
+    ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01"),
 ]
 
 def update_list(existing, item):
@@ -42,6 +42,24 @@ def main():
     game, _, _ = payload(html)
     OUT.mkdir(parents=True, exist_ok=True)
     generated = []
+    # Keep the two existing kitchen states in the editable project too; previously they were only embedded by the standalone build step.
+    for state, asset_id in (("B_SECOND_PLATE", "illustrated_B_SECOND_PLATE"), ("B_GHOST_MIRROR", "illustrated_B_GHOST_MIRROR")):
+        source = ROOT / "site-assets/kitchen-states" / (state + ".webp")
+        out_path = OUT / (asset_id + ".webp")
+        if not source.exists(): raise FileNotFoundError("Missing kitchen state art: " + state)
+        shutil.copyfile(source, out_path)
+        raw = out_path.read_bytes()
+        if raw[:4] != b"RIFF" or raw[8:12] != b"WEBP": raise ValueError("Invalid kitchen state asset: " + state)
+        value = {"mime": "image/webp", "data": base64.b64encode(raw).decode("ascii")}
+        if game.setdefault("assets", {}).get(asset_id) not in (None, value): raise ValueError("Conflicting kitchen asset: " + asset_id)
+        game["assets"][asset_id] = value
+        project_asset = {"id": asset_id, "name": state, "mime": "image/webp", "file": "assets/variants/" + out_path.name}
+        project["assets"] = update_list(project.get("assets", []), project_asset)
+        for collection in (adventure["rooms"], project["story"]["adventure"]["rooms"], game["story"]["adventure"]["rooms"]):
+            meta = next((r for r in collection if r["id"] == "B"), None)
+            if meta is None or state not in meta.get("variants", []): raise ValueError("Missing canonical kitchen variant " + state)
+            meta.setdefault("variantAssets", {})[state] = asset_id
+        generated.append((state, asset_id, len(raw)))
     for room, state, filename, name in OVERLAYS:
         base_path = ROOT / "game-project/rooms" / room / "original.png"
         overlay_path = ROOT / "art/overlays" / filename
@@ -86,9 +104,9 @@ def main():
             for state, asset_id, _ in generated:
                 value = game["assets"][asset_id]
                 editor_game.setdefault("assets", {})[asset_id] = value
-            for room, state, filename, name in OVERLAYS:
+            for room, state, aid in [("B","B_SECOND_PLATE","illustrated_B_SECOND_PLATE"),("B","B_GHOST_MIRROR","illustrated_B_GHOST_MIRROR")] + [(room,state,"composite_"+state.lower()) for room,state,filename,name in OVERLAYS]:
                 meta = next(r for r in editor_game["story"]["adventure"]["rooms"] if r["id"] == room)
-                meta.setdefault("variantAssets", {})[state] = "composite_" + state.lower()
+                meta.setdefault("variantAssets", {})[state] = aid
             EDITOR_HTML.write_text(patch_html(editor_html, editor_game), encoding="utf-8")
     print("PASS composed and embedded", len(generated), "room-state panoramas:", ", ".join(f"{s}={n}B" for s,_,n in generated))
 

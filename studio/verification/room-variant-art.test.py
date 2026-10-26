@@ -11,9 +11,9 @@ marker = "window.BUILT_GAME="
 assert html.count(marker) == 1
 pos = html.index(marker) + len(marker); pos += len(html[pos:]) - len(html[pos:].lstrip())
 game, _ = json.JSONDecoder().raw_decode(html[pos:])
-expected = [("C","C_MIRROR_LIGHT"),("F","F_ARCHIVE12"),("H","H_AFTER_V01")]
+expected = [("B","B_SECOND_PLATE"),("B","B_GHOST_MIRROR"),("C","C_MIRROR_LIGHT"),("F","F_ARCHIVE12"),("H","H_AFTER_V01")]
 for room, state in expected:
-    aid = "composite_" + state.lower()
+    aid = ("illustrated_" + state) if room == "B" else ("composite_" + state.lower())
     path = ROOT/"game-project/assets/variants"/(aid+".webp")
     assert path.exists() and path.read_bytes()[8:12] == b"WEBP"
     im = Image.open(path)
