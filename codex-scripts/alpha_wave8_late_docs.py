@@ -7,7 +7,7 @@ from xml.etree import ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = {
     "D24": ("read_D24", "A", 11, "ЖИЛОЙ МОДУЛЬ / ЛИЧНАЯ СТРАНИЦА БЕЗ НОМЕРА", "D24_personal_page", "D24_personal_page.svg", "73e3270565a720c81a1f5a7382eac6783739eeee6bc828fe42da1acecd7d3953", ("Я помню комнату с зелёным половиком.", "Но человеку за дверью я его должен")),
-    "D25": ("read_D25", "H", 8, "АРХИВ / КВИТАНЦИЯ ОТПРАВКИ ДЛЯ ОЛИ", "D25_outgoing_receipt", "D25_outgoing_receipt.svg", "04d908687fd2b361e67f9b819a5fd8d025681b8b2b6f7ec6c15111f34dd19e7a", ("Дата передачи: 21.01.2028.", "Дата приёма: 18.01.2026.", "ДОСТАВКА НЕ ПОДТВЕРЖДЕНА")),
+    "D25": ("read_D25", "H", 8, "АРХИВ / КВИТАНЦИЯ ОТПРАВКИ ДЛЯ ОЛИ", "D25_outgoing_receipt", "D25_outgoing_receipt.svg", "f2af4ca4b39063c9760755a232110e74db8ff0e6af2d759eb910c098b34fa920", ("Дата передачи: 21.01.2028.", "Дата приёма: 18.01.2026.", "ДОСТАВКА НЕ ПОДТВЕРЖДЕНА")),
     "D26": ("read_D26", "L", 12, "ГАЛЕРЕЯ / ЗАПИСКА ИРИНЫ НА ДВЕРИ", "D26_irina_door_note", "D26_irina_door_note.svg", "a176877f4596e1a34f4fd22eb223948abd77e477ad3781c397009dcd4acc4273", ("Я запустила повторное наблюдение.", "меня можно винить по имени")),
 }
 def apply_late_docs(payload, root=ROOT):

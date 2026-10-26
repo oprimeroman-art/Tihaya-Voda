@@ -41,6 +41,6 @@
   <text x="88" y="831">Мало. Но это было его, не моё».</text>
  </g>
  <path d="M86 854 Q145 862 206 854 T327 854" fill="none" stroke="#344355" stroke-width="1.2" opacity=".6"/>
- <text x="87" y="891" font-family="Courier New, monospace" font-size="15" fill="#65716b">КОПИЯ 02 · ПОДПИСЬ НЕ СВЕРЕНА</text>
+ <path d="M87 891H318" fill="none" stroke="#65716b" stroke-width="1" stroke-opacity=".35"/>
 </g>
 </svg>
