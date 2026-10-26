@@ -15,6 +15,8 @@ expected = {
     "B_B_TWO_GHOSTS.webp": (567, 522, 621, 564),
     "D_D_DOUBLE_ACTS.webp": (1714, 522, 1768, 564),
     "H_H_ANNA_GLASS.webp": (567, 409, 621, 451),
+    "G_G_P17.webp": (567, 409, 621, 451),
+    "G_G_MIRROR_DOOR.webp": (1132, 409, 1202, 451),
 }
 for filename, bounds in expected.items():
     path = ROOT / "art/overlays" / filename
@@ -30,7 +32,7 @@ marker = "window.BUILT_GAME="
 assert html.count(marker) == 1, "expected one standalone game payload"
 pos = html.index(marker) + len(marker)
 game, _ = json.JSONDecoder().raw_decode(html[pos:].lstrip())
-for state, room_id, asset_id in (("D_FALSE_MONITOR", "D", "composite_d_false_monitor"), ("D_LATE_MIRROR", "D", "composite_d_late_mirror"), ("B_TWO_GHOSTS", "B", "composite_b_two_ghosts"), ("D_DOUBLE_ACTS", "D", "composite_d_double_acts"), ("H_ANNA_GLASS", "H", "composite_h_anna_glass")):
+for state, room_id, asset_id in (("D_FALSE_MONITOR", "D", "composite_d_false_monitor"), ("D_LATE_MIRROR", "D", "composite_d_late_mirror"), ("B_TWO_GHOSTS", "B", "composite_b_two_ghosts"), ("D_DOUBLE_ACTS", "D", "composite_d_double_acts"), ("H_ANNA_GLASS", "H", "composite_h_anna_glass"), ("G_P17", "G", "composite_g_p17"), ("G_MIRROR_DOOR", "G", "composite_g_mirror_door")):
     composite = ROOT / "game-project/assets/variants" / f"{asset_id}.webp"
     assert composite.is_file(), f"missing playable composite: {composite.name}"
     image = Image.open(composite)
@@ -41,4 +43,4 @@ for state, room_id, asset_id in (("D_FALSE_MONITOR", "D", "composite_d_false_mon
         room = next(r for r in room_list if r["id"] == room_id)
         assert room.get("variantAssets", {}).get(state) == asset_id, f"variant not wired in {room_id}: {state}"
     assert any(a.get("id") == asset_id and a.get("file") == f"assets/variants/{asset_id}.webp" for a in project["assets"]), f"editable asset missing: {state}"
-print("PASS: B_TWO_GHOSTS, D_FALSE_MONITOR, D_DOUBLE_ACTS, D_LATE_MIRROR and H_ANNA_GLASS are calibrated, embedded, and mapped in the editor, story data, and standalone game.")
+print("PASS: B_TWO_GHOSTS, D_FALSE_MONITOR, D_DOUBLE_ACTS, D_LATE_MIRROR, H_ANNA_GLASS, G_P17 and G_MIRROR_DOOR are calibrated, embedded, and mapped in the editor, story data, and standalone game.")

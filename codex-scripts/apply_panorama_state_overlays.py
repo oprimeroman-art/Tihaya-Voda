@@ -20,6 +20,8 @@ OVERLAYS = [
     ("B", "B_TWO_GHOSTS", "B_B_TWO_GHOSTS.webp", "Два отражения в зеркале"),
     ("D", "D_DOUBLE_ACTS", "D_D_DOUBLE_ACTS.webp", "Дублирующиеся акты инцидента"),
     ("H", "H_ANNA_GLASS", "H_H_ANNA_GLASS.webp", "Отражение Анны в стекле"),
+    ("G", "G_P17", "G_G_P17.webp", "Образец P-17 в незамерзающей воде"),
+    ("G", "G_MIRROR_DOOR", "G_G_MIRROR_DOOR.webp", "Дверь в отражении линзы"),
 ]
 
 def update_list(existing, item):
@@ -52,6 +54,8 @@ def generate_first_act_state_overlays():
         "B_B_TWO_GHOSTS.webp": (0.29, 0.53, 54, 42, "twins"),
         "D_D_DOUBLE_ACTS.webp": (0.85, 0.53, 54, 42, "acts"),
         "H_H_ANNA_GLASS.webp": (0.29, 0.42, 54, 42, "anna"),
+        "G_G_P17.webp": (0.29, 0.42, 54, 42, "p17"),
+        "G_G_MIRROR_DOOR.webp": (0.57, 0.42, 70, 42, "door"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
@@ -71,6 +75,10 @@ def generate_first_act_state_overlays():
                     pixels[x, y] = (int(174 + 18 * glow), int(165 + 19 * glow), int(137 + 15 * glow), 255)
                 elif mode == "anna":
                     pixels[x, y] = (int(23 + 10 * glow), int(35 + 15 * glow), int(34 + 14 * glow), 255)
+                elif mode == "p17":
+                    pixels[x, y] = (int(23 + 22 * glow), int(37 + 27 * glow), int(40 + 30 * glow), 255)
+                elif mode == "door":
+                    pixels[x, y] = (int(6 + 6 * glow), int(13 + 13 * glow), int(15 + 15 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -122,6 +130,24 @@ def generate_first_act_state_overlays():
             draw.polygon([(cx-w*.24,h*.98),(cx-w*.21,h*.63),(cx-w*.12,h*.47),(cx+w*.12,h*.47),(cx+w*.22,h*.65),(cx+w*.25,h*.98)], fill=(91,122,111,100))
             draw.ellipse((w*.73,h*.38,w*.86,h*.67), fill=(162,183,161,70), outline=(205,218,196,95), width=1)
             draw.line((cx-w*.07,h*.28,cx+w*.07,h*.28), fill=(29,42,39,180), width=1)
+        elif mode == "p17":
+            # The cold-storage tray contains liquid water and a specimen that does not frost over.
+            draw.rectangle((2,4,w-3,h-4), fill=(26,43,46,255), outline=(123,154,153,210), width=1)
+            draw.rectangle((5,7,w-6,h-7), fill=(42,64,67,255), outline=(95,129,130,180), width=1)
+            draw.ellipse((w*.16,h*.26,w*.84,h*.73), fill=(112,139,136,255), outline=(198,219,208,220), width=1)
+            draw.line((w*.22,h*.44,w*.78,h*.42), fill=(221,241,225,240), width=2)
+            draw.line((w*.28,h*.55,w*.68,h*.57), fill=(26,74,77,230), width=1)
+            for dx,dy in ((.20,.19),(.76,.23),(.72,.78),(.27,.76)):
+                draw.ellipse((w*dx-1,h*dy-1,w*dx+2,h*dy+2), fill=(213,238,235,230))
+        elif mode == "door":
+            # The microscope/lens reflection contains a corridor door that is not behind the player.
+            draw.rectangle((2,2,w-3,h-3), fill=(8,15,17,255), outline=(101,129,120,160), width=1)
+            left,top,right,bottom=int(w*.31),int(h*.08),int(w*.70),int(h*.94)
+            draw.rectangle((left,top,right,bottom), fill=(28,43,40,255), outline=(168,188,161,235), width=2)
+            draw.rectangle((left+5,top+4,right-5,bottom-4), fill=(7,15,16,255))
+            draw.rectangle((left+9,top+7,right-9,bottom-7), fill=(117,135,105,95))
+            draw.line((w*.51,h*.16,w*.51,h*.86), fill=(204,214,181,180), width=1)
+            draw.ellipse((w*.61,h*.49,w*.64,h*.54), fill=(218,202,139,230))
         if mode in ("false", "mirror", "twins"):
             for y in range(2, h, 4):
                 draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
