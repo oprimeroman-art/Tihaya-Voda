@@ -160,6 +160,6 @@ def main():
   eh=editor_path.read_text(encoding='utf-8')
   if 'window.BUILT_GAME=' in eh:
    eg,_,_=parse_payload(eh);eg['rooms']=game['rooms'];eg['panoramas']=game['panoramas'];editor_path.write_text(patch(eh,eg),encoding='utf-8')
- qa_path.write_text(json.dumps({'schema':'campaign-panorama-pack-v1','projection':'equirectangular-360x180','room_count':16,'hotspot_uvs_changed':False,'rooms':qa},ensure_ascii=False,indent=2),encoding='utf-8')
+ qa_path=ROOT/'production/qa/campaign_panorama_pack_v1.json';qa_path.parent.mkdir(parents=True,exist_ok=True);qa_path.write_text(json.dumps({'schema':'campaign-panorama-pack-v1','projection':'equirectangular-360x180','room_count':16,'hotspot_uvs_changed':False,'rooms':qa},ensure_ascii=False,indent=2),encoding='utf-8')
  hashes={q['sha256'] for q in qa};assert len(hashes)>=15;print('PASS visual-only panorama pack',len(qa),'unique',len(hashes),'bytes',sum(q['bytes'] for q in qa))
 if __name__=='__main__':main()
