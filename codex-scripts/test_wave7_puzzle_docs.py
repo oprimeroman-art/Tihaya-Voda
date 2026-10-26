@@ -43,5 +43,5 @@ for doc_id, (action_id, room, chapter, prefix, art_id, filename, sha) in PUZZLE_
     for label in labels:
         assert label.encode("utf8") in raw, (doc_id, label)
 assert "const art=this.artData()?.action?.[id]" in html
-assert "const a=this.artData()?.document?.[d.id]" in html
+assert "documentView(parent,doc)" in html and "this.documentView(box,d)" in html
 print("PASS: D22/D23 canonical hints and art in original 16-room, 112-event game")
