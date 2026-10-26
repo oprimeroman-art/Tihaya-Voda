@@ -7280,7 +7280,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E019"
         },
         {
           "event_id": "E020",
@@ -7315,7 +7316,8 @@
               "speaker": "АННА-ПРИЗРАК",
               "text": "«Ты бы дверь прикрыл. Дует»."
             }
-          ]
+          ],
+          "timelineId": "E020"
         },
         {
           "event_id": "E021",
@@ -7409,7 +7411,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E023"
         },
         {
           "event_id": "E024",
@@ -7436,7 +7439,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E024"
         },
         {
           "event_id": "E025",
@@ -7759,7 +7763,8 @@
               "text": "«Ты сейчас где? Нет, не “в коридоре” — на каком конце? У меня по твоим маячкам получается, что ты прошёл через шкаф. Мне это не нравится. Вернись к аналоговым приборам. Их хотя бы можно открыть и посмотреть, из чего они сделаны»."
             }
           ],
-          "delay": 12
+          "delay": 12,
+          "timelineId": "E034"
         },
         {
           "event_id": "E035",
@@ -7896,7 +7901,8 @@
           },
           "effects": [],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E039"
         },
         {
           "event_id": "E040",
@@ -8241,7 +8247,8 @@
               "speaker": "БЕЛОВ",
               "text": "«Не открывай! Я у себя за столом на берегу. Это не я у двери. Три стрелки. Смотри на три стрелки. Я не знаю, кто просит, но я точно не там»."
             }
-          ]
+          ],
+          "timelineId": "E049"
         },
         {
           "event_id": "E050",
@@ -8297,7 +8304,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E051"
         },
         {
           "event_id": "E052",
@@ -8523,7 +8531,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E058"
         },
         {
           "event_id": "E059",
@@ -8577,7 +8586,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E060"
         },
         {
           "event_id": "E061",
@@ -8606,7 +8616,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E061"
         },
         {
           "event_id": "E062",
@@ -8835,7 +8846,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E068"
         },
         {
           "event_id": "E069",
@@ -9436,7 +9448,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E087"
         },
         {
           "event_id": "E088",
@@ -9530,7 +9543,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E090"
         },
         {
           "event_id": "E091",
@@ -9874,7 +9888,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E101"
         },
         {
           "event_id": "E102",
@@ -9963,7 +9978,8 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "timelineId": "E104"
         },
         {
           "event_id": "E105",
@@ -10340,112 +10356,112 @@
           "id": "S01",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s01.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S02",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s02.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S03",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s03.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S04",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s04.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S05",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s05.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S06",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s06.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S07",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s07.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S08",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s08.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S09",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s09.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S10",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s10.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S11",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s11.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S12",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s12.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S13",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s13.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S14",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s14.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S15",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s15.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "audio",
           "id": "S16",
           "usage": "spatial",
           "suggested_relative_path": "audio/spatial/s16.ogg",
-          "availability": "not supplied; design placeholder only"
+          "availability": "generated provisional synthetic design audio; not actor-recorded"
         },
         {
           "kind": "video",
@@ -16706,9 +16722,267 @@
       "file": "assets/sign_FINAL_PANEL.png"
     }
   ],
-  "audio": [],
+  "audio": [
+    {
+      "id": "S01",
+      "name": "Шаги за коридорной дверью",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s01.ogg"
+    },
+    {
+      "id": "S02",
+      "name": "Ложка в металлической мойке",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s02.ogg"
+    },
+    {
+      "id": "S03",
+      "name": "Вентилятор и запоздалый хлопок",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s03.ogg"
+    },
+    {
+      "id": "S04",
+      "name": "Дыхание за зеркалом",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s04.ogg"
+    },
+    {
+      "id": "S05",
+      "name": "Семейная запись за кухонной стеной",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s05.ogg"
+    },
+    {
+      "id": "S06",
+      "name": "Три удара в шлюз",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s06.ogg"
+    },
+    {
+      "id": "S07",
+      "name": "Перемотка без мотора",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s07.ogg"
+    },
+    {
+      "id": "S08",
+      "name": "Падение четвёртого стула",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s08.ogg"
+    },
+    {
+      "id": "S09",
+      "name": "Вдох под покрывалом",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s09.ogg"
+    },
+    {
+      "id": "S10",
+      "name": "Чайник за бетонной стеной",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s10.ogg"
+    },
+    {
+      "id": "S11",
+      "name": "Куртка за окном галереи",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s11.ogg"
+    },
+    {
+      "id": "S12",
+      "name": "Детский голос с кассеты",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s12.ogg"
+    },
+    {
+      "id": "S13",
+      "name": "Шаги за стеной жилого модуля",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s13.ogg"
+    },
+    {
+      "id": "S14",
+      "name": "Ветер в закрытом радиоканале",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s14.ogg"
+    },
+    {
+      "id": "S15",
+      "name": "Два касания одной ручки",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s15.ogg"
+    },
+    {
+      "id": "S16",
+      "name": "Еда в пустой кухне",
+      "mime": "audio/ogg",
+      "file": "audio/spatial/s16.ogg"
+    }
+  ],
   "videos": [],
-  "spatialSounds": [],
+  "spatialSounds": [
+    {
+      "id": "S01",
+      "name": "Шаги за коридорной дверью",
+      "roomId": "C",
+      "audioId": "S01",
+      "u": 0.18,
+      "volume": 0.43,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S02",
+      "name": "Ложка в металлической мойке",
+      "roomId": "B",
+      "audioId": "S02",
+      "u": 0.88,
+      "volume": 0.42,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S03",
+      "name": "Вентилятор и запоздалый хлопок",
+      "roomId": "C",
+      "audioId": "S03",
+      "u": 0.68,
+      "volume": 0.47,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S04",
+      "name": "Дыхание за зеркалом",
+      "roomId": "B",
+      "audioId": "S04",
+      "u": 0.43,
+      "volume": 0.29,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S05",
+      "name": "Семейная запись за кухонной стеной",
+      "roomId": "B",
+      "audioId": "S05",
+      "u": 0.96,
+      "volume": 0.24,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S06",
+      "name": "Три удара в шлюз",
+      "roomId": "J",
+      "audioId": "S06",
+      "u": 0.62,
+      "volume": 0.55,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S07",
+      "name": "Перемотка без мотора",
+      "roomId": "H",
+      "audioId": "S07",
+      "u": 0.31,
+      "volume": 0.34,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S08",
+      "name": "Падение четвёртого стула",
+      "roomId": "H",
+      "audioId": "S08",
+      "u": 0.76,
+      "volume": 0.52,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S09",
+      "name": "Вдох под покрывалом",
+      "roomId": "I",
+      "audioId": "S09",
+      "u": 0.55,
+      "volume": 0.31,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S10",
+      "name": "Чайник за бетонной стеной",
+      "roomId": "M",
+      "audioId": "S10",
+      "u": 0.83,
+      "volume": 0.31,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S11",
+      "name": "Куртка за окном галереи",
+      "roomId": "L",
+      "audioId": "S11",
+      "u": 0.14,
+      "volume": 0.33,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S12",
+      "name": "Детский голос с кассеты",
+      "roomId": "H",
+      "audioId": "S12",
+      "u": 0.39,
+      "volume": 0.3,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S13",
+      "name": "Шаги за стеной жилого модуля",
+      "roomId": "A",
+      "audioId": "S13",
+      "u": 0.91,
+      "volume": 0.32,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S14",
+      "name": "Ветер в закрытом радиоканале",
+      "roomId": "D",
+      "audioId": "S14",
+      "u": 0.73,
+      "volume": 0.37,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S15",
+      "name": "Два касания одной ручки",
+      "roomId": "J",
+      "audioId": "S15",
+      "u": 0.53,
+      "volume": 0.39,
+      "loop": false,
+      "autoplay": false
+    },
+    {
+      "id": "S16",
+      "name": "Еда в пустой кухне",
+      "roomId": "B",
+      "audioId": "S16",
+      "u": 0.46,
+      "volume": 0.25,
+      "loop": false,
+      "autoplay": false
+    }
+  ],
   "timelines": [
     {
       "id": "E001",
@@ -16933,8 +17207,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E019 · Анна в зеркале ест из пустой тарелки"
+          "type": "sound",
+          "value": "S16"
         }
       ]
     },
@@ -16945,8 +17219,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E020 · Анна просит закрыть дверь"
+          "type": "sound",
+          "value": "S04"
         }
       ]
     },
@@ -16981,8 +17255,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E023 · Три удара ложки о раковину"
+          "type": "sound",
+          "value": "S02"
         }
       ]
     },
@@ -16993,8 +17267,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E024 · Шаги женщины с ложкой за дверью"
+          "type": "sound",
+          "value": "S01"
         }
       ]
     },
@@ -17113,8 +17387,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E034 · Звук хлопка запаздывает на 12 секунд"
+          "type": "sound",
+          "value": "S03"
         }
       ]
     },
@@ -17173,8 +17447,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E039 · Запись собственного дыхания"
+          "type": "sound",
+          "value": "S14"
         }
       ]
     },
@@ -17293,8 +17567,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E049 · Голос Белова снаружи и настоящий голос по радио"
+          "type": "sound",
+          "value": "S06"
         }
       ]
     },
@@ -17317,8 +17591,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E051 · Овал дыхания и четыре ладони на стекле"
+          "type": "sound",
+          "value": "S15"
         }
       ]
     },
@@ -17401,8 +17675,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E058 · Анна проходит по отражению двери"
+          "type": "sound",
+          "value": "S07"
         }
       ]
     },
@@ -17425,8 +17699,13 @@
       "steps": [
         {
           "at": 0,
+          "type": "sound",
+          "value": "S12"
+        },
+        {
+          "at": 0,
           "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E060 · Последнее бытовое послание Сухова дочери"
+          "value": "«Папа, а у вас там ночь?»"
         }
       ]
     },
@@ -17437,8 +17716,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E061 · Шаги ребёнка слышны только в записи из стены"
+          "type": "sound",
+          "value": "S05"
         }
       ]
     },
@@ -17521,8 +17800,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E068 · Четвёртый стул падает в комнате"
+          "type": "sound",
+          "value": "S08"
         }
       ]
     },
@@ -17749,8 +18028,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E087 · Тело дышит под покрывалом"
+          "type": "sound",
+          "value": "S09"
         }
       ]
     },
@@ -17785,8 +18064,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E090 · В соседней комнате кто-то долго моет руки"
+          "type": "sound",
+          "value": "S13"
         }
       ]
     },
@@ -17917,8 +18196,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E101 · Первое окно ночь"
+          "type": "sound",
+          "value": "S11"
         }
       ]
     },
@@ -17953,8 +18232,8 @@
       "steps": [
         {
           "at": 0,
-          "type": "subtitle",
-          "value": "ОТСУТСТВУЕТ АССЕТ: E104 · Монитор повторяет действия с задержкой"
+          "type": "sound",
+          "value": "S10"
         }
       ]
     },

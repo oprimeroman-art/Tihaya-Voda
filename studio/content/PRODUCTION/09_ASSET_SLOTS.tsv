@@ -1,20 +1,20 @@
 kind	id	usage	suggested_relative_path	availability
-audio	S01	spatial	audio/spatial/s01.ogg	not supplied; design placeholder only
-audio	S02	spatial	audio/spatial/s02.ogg	not supplied; design placeholder only
-audio	S03	spatial	audio/spatial/s03.ogg	not supplied; design placeholder only
-audio	S04	spatial	audio/spatial/s04.ogg	not supplied; design placeholder only
-audio	S05	spatial	audio/spatial/s05.ogg	not supplied; design placeholder only
-audio	S06	spatial	audio/spatial/s06.ogg	not supplied; design placeholder only
-audio	S07	spatial	audio/spatial/s07.ogg	not supplied; design placeholder only
-audio	S08	spatial	audio/spatial/s08.ogg	not supplied; design placeholder only
-audio	S09	spatial	audio/spatial/s09.ogg	not supplied; design placeholder only
-audio	S10	spatial	audio/spatial/s10.ogg	not supplied; design placeholder only
-audio	S11	spatial	audio/spatial/s11.ogg	not supplied; design placeholder only
-audio	S12	spatial	audio/spatial/s12.ogg	not supplied; design placeholder only
-audio	S13	spatial	audio/spatial/s13.ogg	not supplied; design placeholder only
-audio	S14	spatial	audio/spatial/s14.ogg	not supplied; design placeholder only
-audio	S15	spatial	audio/spatial/s15.ogg	not supplied; design placeholder only
-audio	S16	spatial	audio/spatial/s16.ogg	not supplied; design placeholder only
+audio	S01	spatial	audio/spatial/s01.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S02	spatial	audio/spatial/s02.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S03	spatial	audio/spatial/s03.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S04	spatial	audio/spatial/s04.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S05	spatial	audio/spatial/s05.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S06	spatial	audio/spatial/s06.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S07	spatial	audio/spatial/s07.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S08	spatial	audio/spatial/s08.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S09	spatial	audio/spatial/s09.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S10	spatial	audio/spatial/s10.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S11	spatial	audio/spatial/s11.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S12	spatial	audio/spatial/s12.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S13	spatial	audio/spatial/s13.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S14	spatial	audio/spatial/s14.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S15	spatial	audio/spatial/s15.ogg	generated provisional synthetic design audio; not actor-recorded
+audio	S16	spatial	audio/spatial/s16.ogg	generated provisional synthetic design audio; not actor-recorded
 video	V01	found_footage	video/v01_walk_2023.mp4	not supplied; explicit text storyboard
 video	V02	found_footage	video/v02_sukhov_repair_2028.mp4	not supplied; explicit text storyboard
 video	V03	found_footage	video/v03_sukhov_olya.mp4	not supplied; explicit text storyboard

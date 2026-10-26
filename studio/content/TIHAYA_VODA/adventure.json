@@ -5946,7 +5946,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E019"
     },
     {
       "event_id": "E020",
@@ -5981,7 +5982,8 @@
           "speaker": "АННА-ПРИЗРАК",
           "text": "«Ты бы дверь прикрыл. Дует»."
         }
-      ]
+      ],
+      "timelineId": "E020"
     },
     {
       "event_id": "E021",
@@ -6075,7 +6077,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E023"
     },
     {
       "event_id": "E024",
@@ -6102,7 +6105,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E024"
     },
     {
       "event_id": "E025",
@@ -6425,7 +6429,8 @@
           "text": "«Ты сейчас где? Нет, не “в коридоре” — на каком конце? У меня по твоим маячкам получается, что ты прошёл через шкаф. Мне это не нравится. Вернись к аналоговым приборам. Их хотя бы можно открыть и посмотреть, из чего они сделаны»."
         }
       ],
-      "delay": 12
+      "delay": 12,
+      "timelineId": "E034"
     },
     {
       "event_id": "E035",
@@ -6562,7 +6567,8 @@
       },
       "effects": [],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E039"
     },
     {
       "event_id": "E040",
@@ -6907,7 +6913,8 @@
           "speaker": "БЕЛОВ",
           "text": "«Не открывай! Я у себя за столом на берегу. Это не я у двери. Три стрелки. Смотри на три стрелки. Я не знаю, кто просит, но я точно не там»."
         }
-      ]
+      ],
+      "timelineId": "E049"
     },
     {
       "event_id": "E050",
@@ -6963,7 +6970,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E051"
     },
     {
       "event_id": "E052",
@@ -7189,7 +7197,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E058"
     },
     {
       "event_id": "E059",
@@ -7243,7 +7252,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E060"
     },
     {
       "event_id": "E061",
@@ -7272,7 +7282,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E061"
     },
     {
       "event_id": "E062",
@@ -7501,7 +7512,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E068"
     },
     {
       "event_id": "E069",
@@ -8102,7 +8114,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E087"
     },
     {
       "event_id": "E088",
@@ -8196,7 +8209,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E090"
     },
     {
       "event_id": "E091",
@@ -8540,7 +8554,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E101"
     },
     {
       "event_id": "E102",
@@ -8629,7 +8644,8 @@
         }
       ],
       "horror": true,
-      "lines": []
+      "lines": [],
+      "timelineId": "E104"
     },
     {
       "event_id": "E105",
@@ -9006,112 +9022,112 @@
       "id": "S01",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s01.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S02",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s02.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S03",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s03.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S04",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s04.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S05",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s05.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S06",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s06.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S07",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s07.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S08",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s08.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S09",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s09.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S10",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s10.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S11",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s11.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S12",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s12.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S13",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s13.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S14",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s14.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S15",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s15.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "audio",
       "id": "S16",
       "usage": "spatial",
       "suggested_relative_path": "audio/spatial/s16.ogg",
-      "availability": "not supplied; design placeholder only"
+      "availability": "generated provisional synthetic design audio; not actor-recorded"
     },
     {
       "kind": "video",
