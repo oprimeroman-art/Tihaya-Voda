@@ -1404,7 +1404,8 @@
           "name": "Радиорубка",
           "variantAssets": {
             "D_FALSE_MONITOR": "composite_d_false_monitor",
-            "D_LATE_MIRROR": "composite_d_late_mirror"
+            "D_LATE_MIRROR": "composite_d_late_mirror",
+            "D_DOUBLE_ACTS": "composite_d_double_acts"
           }
         },
         {
@@ -1453,7 +1454,8 @@
           "default_variant": "H_NORMAL",
           "name": "Архив",
           "variantAssets": {
-            "H_AFTER_V01": "composite_h_after_v01"
+            "H_AFTER_V01": "composite_h_after_v01",
+            "H_ANNA_GLASS": "composite_h_anna_glass"
           }
         },
         {
@@ -16794,6 +16796,18 @@
       "name": "Два отражения в зеркале",
       "mime": "image/webp",
       "file": "assets/variants/composite_b_two_ghosts.webp"
+    },
+    {
+      "id": "composite_d_double_acts",
+      "name": "Дублирующиеся акты инцидента",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_d_double_acts.webp"
+    },
+    {
+      "id": "composite_h_anna_glass",
+      "name": "Отражение Анны в стекле",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_h_anna_glass.webp"
     }
   ],
   "audio": [
