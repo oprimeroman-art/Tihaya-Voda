@@ -12,6 +12,7 @@ on:
       - "codex-scripts/sync_embedded_engine.py"
       - "studio/content/TIHAYA_VODA/adventure.json"
       - ".github/workflows/wave9-pr-qa.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
