@@ -1,0 +1,18 @@
+name: Restore pre-media-generation commit
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Revert unintended generated-media commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git revert --no-edit a8c9d19c7e9b737f413cf67e7d506715a6df0a42
+          git push origin HEAD:main

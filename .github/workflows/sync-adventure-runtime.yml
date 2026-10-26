@@ -2,6 +2,12 @@ name: Synchronize adventure runtime
 
 on:
   workflow_dispatch:
+    inputs:
+      regenerate_media:
+        description: "Explicitly regenerate the supplied audio/video packs (normally leave false)"
+        required: false
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -17,7 +23,6 @@ on:
       - 'codex-scripts/alpha_wave10_kitchen_state.py'
       - 'codex-scripts/generate_kitchen_ghost_art.py'
       - 'codex-scripts/test_wave10_kitchen_state.py'
-      - '.github/workflows/sync-adventure-runtime.yml'
       - 'codex-scripts/sync_embedded_engine.py'
       - 'codex-scripts/audit_art_ready.py'
       - 'production/asset_manifest_q01_q03.json'
@@ -80,10 +85,19 @@ jobs:
           python -m pip install --disable-pip-version-check numpy soundfile pillow
           python3 codex-scripts/apply_existing_room_overlays.py
           python3 studio/verification/room-variant-art.test.py
-          python3 codex-scripts/generate_spatial_audio_pack.py
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
+            echo 'Explicit media regeneration requested.'
+            python3 codex-scripts/generate_spatial_audio_pack.py
+          else
+            echo 'Preserving user-supplied audio; generation is disabled for pushes and default manual runs.'
+          fi
           python3 studio/verification/spatial-audio-pack.test.py
-          if ! command -v ffmpeg >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
-          python3 codex-scripts/generate_found_footage_pack.py
+          if ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
+            python3 codex-scripts/generate_found_footage_pack.py
+          else
+            echo 'Preserving user-supplied video; generation is disabled for pushes and default manual runs.'
+          fi
           python3 studio/verification/found-footage-pack.test.py
           python3 studio/verification/campaign-integrity.test.py
           python3 codex-scripts/test_wave10_kitchen_state.py
