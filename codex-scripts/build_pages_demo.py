@@ -84,6 +84,9 @@ def main():
     # Canonical stockroom archive ledger and food inventory (chapters 3/4).
     from alpha_wave6_stockroom import apply_stockroom_props
     applied.update(apply_stockroom_props(payload,ROOT))
+    # Chapter 7 airlock and chapter 8 VHS hints: canonical actions, no new events.
+    from alpha_wave7_puzzle_docs import apply_puzzle_docs
+    applied.update(apply_puzzle_docs(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
