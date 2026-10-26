@@ -7,8 +7,12 @@ on:
       - "game/index.html"
       - "game-editor/index.html"
       - "site-assets/late-docs/**"
+      - "site-assets/kitchen-states/**"
       - "codex-scripts/alpha_wave9_document_props.py"
       - "codex-scripts/test_wave9_document_props.py"
+      - "codex-scripts/alpha_wave10_kitchen_state.py"
+      - "codex-scripts/generate_kitchen_ghost_art.py"
+      - "codex-scripts/test_wave10_kitchen_state.py"
       - "codex-scripts/build_pages_demo.py"
       - "codex-scripts/alpha_wave4_props.py"
       - "codex-scripts/sync_embedded_engine.py"
@@ -45,3 +49,5 @@ jobs:
           python3 codex-scripts/test_wave8_late_docs.py
       - name: Verify D27-D29 are embedded and rendered
         run: python3 codex-scripts/test_wave9_document_props.py
+      - name: Verify kitchen ghost-mirror scene state
+        run: python3 codex-scripts/test_wave10_kitchen_state.py

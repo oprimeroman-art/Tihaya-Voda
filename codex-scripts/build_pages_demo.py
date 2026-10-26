@@ -92,6 +92,9 @@ def main():
     applied.update(apply_late_docs(payload,ROOT))
     from alpha_wave9_document_props import apply_wave9
     applied.update(apply_wave9(payload,ROOT))
+    # Chapter 4: the already-authored sink event changes the actual kitchen panorama.
+    from alpha_wave10_kitchen_state import apply_wave10
+    applied.update(apply_wave10(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
