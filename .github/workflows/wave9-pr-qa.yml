@@ -8,6 +8,7 @@ on:
       - "codex-scripts/alpha_wave9_document_props.py"
       - "codex-scripts/test_wave9_document_props.py"
       - "codex-scripts/build_pages_demo.py"
+      - "codex-scripts/alpha_wave4_props.py"
       - "codex-scripts/sync_embedded_engine.py"
       - "studio/content/TIHAYA_VODA/adventure.json"
       - ".github/workflows/wave9-pr-qa.yml"

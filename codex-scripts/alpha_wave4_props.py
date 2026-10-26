@@ -123,14 +123,14 @@ def decorate_game_ui(html):
     html = html[:variant.end()] + 'this.updateArtHaunt();' + html[variant.end():]
     needle = 'const b=this.panel(a.label);this.currentAction=id;'
     if html.count(needle) != 1: raise ValueError('Action dialog opening changed')
-    html = html.replace(needle, needle + 'const art=this.artData()?.action?.[id];if(art)this.showArt(b,art);',1)
+    html = html.replace(needle, needle + 'const art=this.artData()?.action?.[id];if(art&&!this.data.illustratedProps?.document?.[a.document])this.showArt(b,art);',1)
     # The media action opens a new dialog; show artwork there as well.
     needle = 'b.append(warning);let t=0,started=false,frame=0,finished=false;'
     if html.count(needle)!=1:raise ValueError('Media scene layout changed')
     html=html.replace(needle,"b.append(warning);const ar=this.artData()?.action?.['watch_'+m.id];if(ar)this.showArt(b,ar);let t=0,started=false,frame=0,finished=false;",1)
     # Re-reading the authentic document from journal retains its illustration.
-    needle="const box=this.panel(d.title);box.append(el('pre',d.text));"
+    needle="const box=this.panel(d.title);this.documentView(box,d);"
     if html.count(needle)!=1:raise ValueError('Journal page reader changed')
-    html=html.replace(needle,"const box=this.panel(d.title);const a=this.artData()?.document?.[d.id];if(a)this.showArt(box,a);box.append(el('pre',d.text));",1)
+    # documentView owns the inline illustration; avoid a duplicate overlay.
     if html.count('updateArtHaunt()') != 2:raise ValueError('Haunting scene hook is absent')
     return html
