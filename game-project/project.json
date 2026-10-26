@@ -11110,8 +11110,8 @@
     {
       "id": "A",
       "name": "Жилой модуль",
-      "mime": "image/png",
-      "file": "rooms/A/original.png",
+      "mime": "image/webp",
+      "file": "rooms/A/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -11272,8 +11272,8 @@
     {
       "id": "B",
       "name": "Кухня",
-      "mime": "image/png",
-      "file": "rooms/B/original.png",
+      "mime": "image/webp",
+      "file": "rooms/B/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -11679,8 +11679,8 @@
     {
       "id": "C",
       "name": "Коридор",
-      "mime": "image/png",
-      "file": "rooms/C/original.png",
+      "mime": "image/webp",
+      "file": "rooms/C/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -12011,8 +12011,8 @@
     {
       "id": "D",
       "name": "Радиорубка",
-      "mime": "image/png",
-      "file": "rooms/D/original.png",
+      "mime": "image/webp",
+      "file": "rooms/D/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -12803,8 +12803,8 @@
     {
       "id": "E",
       "name": "Дизельная",
-      "mime": "image/png",
-      "file": "rooms/E/original.png",
+      "mime": "image/webp",
+      "file": "rooms/E/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -13000,8 +13000,8 @@
     {
       "id": "F",
       "name": "Склад",
-      "mime": "image/png",
-      "file": "rooms/F/original.png",
+      "mime": "image/webp",
+      "file": "rooms/F/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -13232,8 +13232,8 @@
     {
       "id": "G",
       "name": "Лаборатория",
-      "mime": "image/png",
-      "file": "rooms/G/original.png",
+      "mime": "image/webp",
+      "file": "rooms/G/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -13464,8 +13464,8 @@
     {
       "id": "H",
       "name": "Архив",
-      "mime": "image/png",
-      "file": "rooms/H/original.png",
+      "mime": "image/webp",
+      "file": "rooms/H/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -14641,8 +14641,8 @@
     {
       "id": "I",
       "name": "Медпункт",
-      "mime": "image/png",
-      "file": "rooms/I/original.png",
+      "mime": "image/webp",
+      "file": "rooms/I/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -14908,8 +14908,8 @@
     {
       "id": "J",
       "name": "Шлюз",
-      "mime": "image/png",
-      "file": "rooms/J/original.png",
+      "mime": "image/webp",
+      "file": "rooms/J/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15213,8 +15213,8 @@
     {
       "id": "K",
       "name": "Двор",
-      "mime": "image/png",
-      "file": "rooms/K/original.png",
+      "mime": "image/webp",
+      "file": "rooms/K/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15375,8 +15375,8 @@
     {
       "id": "L",
       "name": "Галерея",
-      "mime": "image/png",
-      "file": "rooms/L/original.png",
+      "mime": "image/webp",
+      "file": "rooms/L/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15540,8 +15540,8 @@
     {
       "id": "M",
       "name": "Скважинный блок",
-      "mime": "image/png",
-      "file": "rooms/M/original.png",
+      "mime": "image/webp",
+      "file": "rooms/M/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15740,8 +15740,8 @@
     {
       "id": "N",
       "name": "Длинный коридор",
-      "mime": "image/png",
-      "file": "rooms/N/original.png",
+      "mime": "image/webp",
+      "file": "rooms/N/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15902,8 +15902,8 @@
     {
       "id": "O",
       "name": "Архив · 1978",
-      "mime": "image/png",
-      "file": "rooms/O/original.png",
+      "mime": "image/webp",
+      "file": "rooms/O/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {
@@ -15919,8 +15919,8 @@
     {
       "id": "P",
       "name": "Нижняя камера",
-      "mime": "image/png",
-      "file": "rooms/P/original.png",
+      "mime": "image/webp",
+      "file": "rooms/P/panorama_v2.webp",
       "width": 2048,
       "height": 1024,
       "view": {

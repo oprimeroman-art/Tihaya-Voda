@@ -1,0 +1,152 @@
+{
+  "schema": "campaign-panorama-pack-v1",
+  "projection": "equirectangular-360x180",
+  "room_count": 16,
+  "hotspot_uvs_changed": false,
+  "rooms": [
+    {
+      "room": "A",
+      "file": "rooms/A/panorama_v2.webp",
+      "bytes": 208714,
+      "sha256": "cfcc7e6cf05a5b9d993dfa2a3d8de5f3f4f6cfeb5c13091366cf8922669448a7",
+      "hotspot_props": 4,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "B",
+      "file": "rooms/B/panorama_v2.webp",
+      "bytes": 287762,
+      "sha256": "978d71beb0033487d81e4cab66c34d081a9ff1bc7406980426dbe6171ba4e5b2",
+      "hotspot_props": 0,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "C",
+      "file": "rooms/C/panorama_v2.webp",
+      "bytes": 186250,
+      "sha256": "55618ced6076f7d9e148b7b669e93ccb72de110156be8b9473e3ae027e826835",
+      "hotspot_props": 8,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "D",
+      "file": "rooms/D/panorama_v2.webp",
+      "bytes": 274580,
+      "sha256": "e1c24c5d1ab70b09a90b20c852c984a2ac398bd7347e66fb4ad2c04d83f03305",
+      "hotspot_props": 18,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "E",
+      "file": "rooms/E/panorama_v2.webp",
+      "bytes": 209336,
+      "sha256": "753626af1394a665cd2c4f19c610857906b805bc43940be0b9c8ac32a082d901",
+      "hotspot_props": 5,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "F",
+      "file": "rooms/F/panorama_v2.webp",
+      "bytes": 269918,
+      "sha256": "6b0b043cf2a7bb70f32aaefb6a82b35dc7ece35648609493c3f6f82e50dfab18",
+      "hotspot_props": 6,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "G",
+      "file": "rooms/G/panorama_v2.webp",
+      "bytes": 191112,
+      "sha256": "4cf11f83446b90f9e1f380c875f6397e9398260c59dc381b377866677d8bdc5e",
+      "hotspot_props": 6,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "H",
+      "file": "rooms/H/panorama_v2.webp",
+      "bytes": 259236,
+      "sha256": "c43d89f50d4fc3ab441278527b41aeeebc4c9cb2131466b8b6f74f929223bc31",
+      "hotspot_props": 18,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "I",
+      "file": "rooms/I/panorama_v2.webp",
+      "bytes": 240136,
+      "sha256": "b773c7c17cb21b52ea7180e06a7302cc0459c02600fd712716b8811c478c14a0",
+      "hotspot_props": 7,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "J",
+      "file": "rooms/J/panorama_v2.webp",
+      "bytes": 158532,
+      "sha256": "ac4313980bf754b18e7169eb96223b4761967fd83efa15857cdb8091180bc036",
+      "hotspot_props": 8,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "K",
+      "file": "rooms/K/panorama_v2.webp",
+      "bytes": 288018,
+      "sha256": "c3c745ee99b7223a34babeb4ef6669a25336f4a45cc8ed7b0c27222f9971d0b8",
+      "hotspot_props": 4,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "L",
+      "file": "rooms/L/panorama_v2.webp",
+      "bytes": 165628,
+      "sha256": "1501c09a5c65f413c7c9d505828390d77d57516ffbe2a398df805a8e90d79cd0",
+      "hotspot_props": 4,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "M",
+      "file": "rooms/M/panorama_v2.webp",
+      "bytes": 153060,
+      "sha256": "3c1e0ceed3b8e3157fa0c0cea159410e443a2894b9aa664ff8485207789208a5",
+      "hotspot_props": 5,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "N",
+      "file": "rooms/N/panorama_v2.webp",
+      "bytes": 167954,
+      "sha256": "d745f49cd48a13aa6a2d77ed2901968336d6c68d11849da137586852a7269a7e",
+      "hotspot_props": 4,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "O",
+      "file": "rooms/O/panorama_v2.webp",
+      "bytes": 271956,
+      "sha256": "ff1e203feeee45891e7a46a7fe06cd76c2ae3842b546fb3d3b2a123976bfb8bb",
+      "hotspot_props": 0,
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "room": "P",
+      "file": "rooms/P/panorama_v2.webp",
+      "bytes": 209016,
+      "sha256": "d4476785f0e699f93e32b6a9cd0393e46c10e192d22f504edd858640d08880d3",
+      "hotspot_props": 1,
+      "width": 2048,
+      "height": 1024
+    }
+  ]
+}
