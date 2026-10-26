@@ -29,6 +29,8 @@ on:
       - 'codex-scripts/generate_found_footage_pack.py'
       - 'studio/verification/found-footage-pack.test.py'
       - 'studio/verification/campaign-integrity.test.py'
+      - 'codex-scripts/apply_existing_room_overlays.py'
+      - 'studio/verification/room-variant-art.test.py'
 
 permissions:
   contents: write
@@ -76,6 +78,8 @@ jobs:
           fi
           python3 codex-scripts/sync_standalone_document_art.py
           python -m pip install --disable-pip-version-check numpy soundfile pillow
+          python3 codex-scripts/apply_existing_room_overlays.py
+          python3 studio/verification/room-variant-art.test.py
           python3 codex-scripts/generate_spatial_audio_pack.py
           python3 studio/verification/spatial-audio-pack.test.py
           if ! command -v ffmpeg >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
@@ -89,7 +93,7 @@ jobs:
           node studio/verification/horror-gaze.test.cjs
       - name: Commit generated HTML changes to main
         run: |
-          git add game/index.html game-editor/index.html game-project/project.json game-project/audio/spatial/*.ogg game-project/video/found_footage/*.mp4 studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
+          git add game/index.html game-editor/index.html game-project/project.json game-project/audio/spatial/*.ogg game-project/video/found_footage/*.mp4 game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
           if git diff --cached --quiet; then
             echo 'Game and editor HTML are up to date.'
             exit 0
