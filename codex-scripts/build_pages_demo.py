@@ -81,6 +81,9 @@ def main():
     # Medical cards from canonical chapter 10: original documents, no new events.
     from alpha_wave5_medical import apply_medical_props
     applied.update(apply_medical_props(payload,ROOT))
+    # Canonical stockroom archive ledger and food inventory (chapters 3/4).
+    from alpha_wave6_stockroom import apply_stockroom_props
+    applied.update(apply_stockroom_props(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)

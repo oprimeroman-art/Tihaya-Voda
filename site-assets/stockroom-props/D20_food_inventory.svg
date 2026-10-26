@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="Инвентарная ведомость пищеблока с аномальной банкой 2028 года">
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ddd2b5"/><stop offset=".46" stop-color="#bfb195"/><stop offset="1" stop-color="#8d8067"/></linearGradient>
+<radialGradient id="stain"><stop stop-color="#644a31" stop-opacity=".3"/><stop offset="1" stop-color="#644a31" stop-opacity="0"/></radialGradient>
+<linearGradient id="ink" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#2a3535"/><stop offset="1" stop-color="#40443c"/></linearGradient>
+<filter id="grain" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence baseFrequency=".62" numOctaves="3" seed="19" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer></filter>
+<filter id="shadow"><feGaussianBlur stdDeviation="9"/></filter>
+<pattern id="rules" width="23" height="23" patternUnits="userSpaceOnUse"><path d="M0 22.5H720" stroke="#4d544d" stroke-opacity=".13" stroke-width=".7"/></pattern>
+</defs>
+<rect width="720" height="960" fill="#131719"/>
+<path d="M58 39L655 32L678 916L638 934L42 917L35 79Z" fill="#050505" opacity=".72" transform="translate(9 12)" filter="url(#shadow)"/>
+<path d="M58 39L655 32L678 916L638 934L42 917L35 79Z" fill="url(#paper)" stroke="#4d4539" stroke-width="3"/>
+<path d="M58 39L655 32L678 916L638 934L42 917L35 79Z" fill="#6a5943" filter="url(#grain)" opacity=".55"/>
+<ellipse cx="130" cy="164" rx="110" ry="90" fill="url(#stain)"/><ellipse cx="615" cy="765" rx="123" ry="148" fill="url(#stain)"/>
+<path d="M57 42L111 41L64 99L36 90Z" fill="#84765e" opacity=".67"/>
+<path d="M55 879Q328 863 666 892M68 76Q355 91 654 72" fill="none" stroke="#f4e6c7" stroke-opacity=".23" stroke-width="3"/>
+<circle cx="86" cy="92" r="9" fill="#4e4638" opacity=".35"/><circle cx="620" cy="84" r="8" fill="#4e4638" opacity=".25"/>
+<g fill="#273235" font-family="Georgia, 'DejaVu Serif', serif">
+<text x="98" y="106" font-size="17" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  letter-spacing="2">ПИЩЕБЛОК / СТАНЦИЯ МАЯК-9</text>
+<text x="98" y="182" font-size="45" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >ИНВЕНТАРЬ</text>
+<text x="100" y="223" font-size="24" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >ОСТАТКИ ПРОДУКТОВ</text>
+<text x="98" y="270" font-size="19" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >СВЕРКА НА 18.01.2026</text>
+<text x="526" y="269" font-size="20" fill="#813b30" font-family="Georgia, 'DejaVu Serif', serif"  >№ 04</text>
+<rect x="96" y="299" width="530" height="337" fill="#d7c9a9" fill-opacity=".3" stroke="#565748" stroke-width="1.8"/>
+<text x="115" y="332" font-size="16" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >НАИМЕНОВАНИЕ</text>
+<text x="515" y="332" font-size="16" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >ОСТАТОК</text>
+<path d="M108 344L616 344" fill="none" stroke="#484e45" stroke-width="2" opacity="1"/>
+<text x="118" y="387" font-size="21" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >Тушёнка</text>
+<text x="550" y="387" font-size="25" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >4</text>
+<path d="M108 399L613 399" fill="none" stroke="#666451" stroke-width="1" opacity="0.38"/>
+<text x="118" y="434" font-size="21" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >Гречка</text>
+<text x="550" y="434" font-size="25" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >2</text>
+<path d="M108 446L613 446" fill="none" stroke="#666451" stroke-width="1" opacity="0.38"/>
+<text x="118" y="481" font-size="21" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >Чай</text>
+<text x="550" y="481" font-size="25" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >1</text>
+<path d="M108 493L613 493" fill="none" stroke="#666451" stroke-width="1" opacity="0.38"/>
+<text x="118" y="528" font-size="21" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >Сахар</text>
+<text x="550" y="528" font-size="25" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >1</text>
+<path d="M108 540L613 540" fill="none" stroke="#666451" stroke-width="1" opacity="0.38"/>
+<text x="118" y="575" font-size="21" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif"  >Кофе растворимый</text>
+<text x="550" y="575" font-size="25" fill="#303838" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >0</text>
+<path d="M108 587L613 587" fill="none" stroke="#666451" stroke-width="1" opacity="0.38"/>
+<text x="111" y="620" font-size="17" fill="#554f41" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >К СПИСАНИЮ: ОДНА ПОРЦИЯ</text>
+<path d="M106 671L613 671L622 845L98 842Z" fill="#a5a08b" fill-opacity=".28" stroke="#77705b" stroke-dasharray="6 4"/>
+<text x="118" y="704" font-size="15" fill="#6d3e37" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" >ПРИМЕЧАНИЕ ОТ РУКИ</text>
+<text x="116" y="740" font-size="22" fill="#7d3c33" font-family="Georgia, 'DejaVu Serif', serif"  transform="rotate(-2 116 740)">В ведомости — четыре.</text>
+<text x="116" y="779" font-size="24" fill="#7d3c33" font-family="Georgia, 'DejaVu Serif', serif" font-weight="bold" transform="rotate(-2 116 779)">Фактически — ПЯТЬ.</text>
+<text x="118" y="815" font-size="19" fill="#7d3c33" font-family="Georgia, 'DejaVu Serif', serif"  transform="rotate(-1 118 815)">Банку с датой 2028 не трогать.</text>
+<g transform="translate(548 764) rotate(10)"><ellipse cx="0" cy="-34" rx="35" ry="10" fill="#6b6553" opacity=".3"/><path d="M-35 -34V22Q0 41 35 22V-34" fill="#746e5d" fill-opacity=".3" stroke="#5a5548" stroke-width="2"/><ellipse cx="0" cy="22" rx="35" ry="10" fill="none" stroke="#5a5548" stroke-width="2"/><text x="-26" y="7" font-size="21" fill="#86382d" font-weight="bold">2028</text><ellipse cx="0" cy="0" rx="54" ry="69" fill="none" stroke="#9b4132" stroke-width="4"/></g>
+</g>
+<path d="M88 124H626" stroke="#4c5148" stroke-width="2"/>
+<path d="M96 874L620 872" stroke="#514d40" stroke-width="1.2" opacity=".6"/>
+<text x="98" y="902" font-family="Georgia, serif" font-size="14" fill="#45433c" letter-spacing="2">МАЯК-9  /  ВНУТРЕННИЙ ДОКУМЕНТ</text>
+</svg>
