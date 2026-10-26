@@ -24,6 +24,8 @@ on:
       - 'art/overlays/**'
       - 'codex-scripts/generate_existing_room_overlays.py'
       - 'codex-scripts/test_existing_room_overlays.py'
+      - 'codex-scripts/generate_spatial_audio_pack.py'
+      - 'studio/verification/spatial-audio-pack.test.py'
 
 permissions:
   contents: write
@@ -70,6 +72,9 @@ jobs:
             python3 codex-scripts/sync_embedded_engine.py --check
           fi
           python3 codex-scripts/sync_standalone_document_art.py
+          python -m pip install --disable-pip-version-check numpy soundfile
+          python3 codex-scripts/generate_spatial_audio_pack.py
+          python3 studio/verification/spatial-audio-pack.test.py
           python3 codex-scripts/test_wave10_kitchen_state.py
           python3 studio/verification/standalone-html.test.py
           node studio/verification/horror-visuals.test.cjs
@@ -77,7 +82,7 @@ jobs:
           node studio/verification/horror-gaze.test.cjs
       - name: Commit generated HTML changes to main
         run: |
-          git add game/index.html game-editor/index.html
+          git add game/index.html game-editor/index.html game-project/project.json game-project/audio/spatial/*.ogg studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv
           if git diff --cached --quiet; then
             echo 'Game and editor HTML are up to date.'
             exit 0
