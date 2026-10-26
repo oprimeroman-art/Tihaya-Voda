@@ -9,8 +9,8 @@ old="function showSystem(page){if(!sessionReady)return;const next=page||(session
 new="function showSystem(page){if(!sessionReady)return;const next=page||(sessionStarted?'':'home');systemPage=next;sessionPaused=true;pauseStationAmbience();for(const c of directorChannels.values())"
 if s.count(old)!=1: raise SystemExit(f"showSystem match count {s.count(old)}")
 s=s.replace(old,new,1)
-old="function render(){queued=false;horrorPaint();"
-new="function render(){queued=false;if(sessionStarted&&!sessionPaused&&stationAmbience&&stationAmbienceRoom!==(roomId||'A'))startStationAmbience();horrorPaint();"
+old="function render(){queued=false;"
+new="function render(){queued=false;if(sessionStarted&&!sessionPaused&&stationAmbience&&stationAmbienceRoom!==(roomId||'A'))startStationAmbience();"
 if s.count(old)!=1: raise SystemExit(f"render match count {s.count(old)}")
 s=s.replace(old,new,1)
 p.write_text(s,encoding="utf-8")
