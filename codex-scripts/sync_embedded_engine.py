@@ -5,6 +5,8 @@ No new copies or releases. Run with --check to detect stale built files.
 """
 from pathlib import Path
 import sys
+import json
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS = (ROOT / "game/index.html", ROOT / "game-editor/index.html")
@@ -91,15 +93,34 @@ def synchronize(html):
     return html
 
 
+
+def synchronize_studio(html):
+    # Native export uses JSON-encoded module/template constants in Studio.
+    values = {
+        'STORY_SOURCE': (ROOT/'studio/source/story-core.js').read_text(encoding='utf-8-sig')+'\n'+CORE+'\n'+UI,
+        'GAME_TEMPLATE': RUNTIME,
+    }
+    for name,value in values.items():
+        m=re.search(r'window\.'+name+r'\s*=\s*',html)
+        if not m: raise ValueError('Missing Studio constant '+name)
+        start=m.end();_,n=json.JSONDecoder().raw_decode(html[start:])
+        html=html[:start]+json.dumps(value,ensure_ascii=False).replace('</script','<\\/script')+html[start+n:]
+    a='/* ADVENTURE_EXTENSION_BEGIN */';b='/* ADVENTURE_EXTENSION_END */'
+    if html.count(a)!=1 or html.count(b)!=1: raise ValueError('Missing Studio extension markers')
+    start=html.index(a);end=html.index(b,start)+len(b)
+    editor=(ROOT/'studio/source/adventure-editor.js').read_text(encoding='utf-8-sig')
+    return html[:start]+a+'\n'+CORE+'\n'+UI+'\n'+editor+'\n'+b+html[end:]
+
+
 def main():
     if len(sys.argv) > 2 or (len(sys.argv) == 2 and sys.argv[1] != "--check"):
         print("Usage: sync_embedded_engine.py [--check]", file=sys.stderr)
         return 2
     checking = "--check" in sys.argv
     stale = []
-    for path in OUTPUTS:
+    for path in (*OUTPUTS, ROOT/"studio/index.html"):
         old = path.read_text(encoding="utf-8-sig")
-        updated = synchronize(old)
+        updated = synchronize_studio(old) if path.name=="index.html" and path.parent.name=="studio" else synchronize(old)
         if updated == old:
             print(f"OK: {path.relative_to(ROOT)}")
         elif checking:

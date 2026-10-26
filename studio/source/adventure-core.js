@@ -48,7 +48,15 @@ class Engine {
  checkpoint(name){const snap=this.export();snap.checkpoint=null;this.state.checkpoint={name,state:snap};this.changed();}
  die(name){const old=this.state,cp=old.checkpoint;if(!cp)throw Error('Нет локального чекпоинта');this.state=copy(cp.state);this.state.checkpoint=cp;this.state.fired=[...new Set([...old.fired,...this.state.fired])];this.state.errors={...old.errors};this.state.journal=old.journal;this.state.pending=[...new Map([...this.state.pending,...old.pending].map(p=>[p.id,p])).values()].filter(p=>!this.state.fired.includes(p.id));this.state.flags.DEATHS=(old.flags.DEATHS||0)+1;this.modal=false;this.hooks.death?.(name);this.changed();}
  apply(fx=[]){for(const x of fx){if(x.set)Object.assign(this.state.flags,x.set);if(x.item&&!this.state.inventory.includes(x.item))this.state.inventory.push(x.item);if(x.document){if(!this.state.documents.includes(x.document))this.state.documents.push(x.document);this.state.flags['FOUND_'+x.document]=true;}
- if(x.dialogue){const line=this.data.dialogues.find(l=>l.id===x.dialogue);if(line){this.state.journal.push({text:line.speaker,lines:[line]});this.hooks.line?.(line);}}if(x.variant)Object.assign(this.state.variants,x.variant);if(x.signal)this.signal(x.signal);if(x.checkpoint)this.checkpoint(x.checkpoint);if(x.room)this.enter(x.room,true);if(x.death)this.die(x.death);if(x.ending){this.state.ended=x.ending;this.state.flags.ENDING=x.ending;this.state.flags.Q12_DONE=true;}}
+ if(x.dialogue){const line=this.data.dialogues.find(l=>l.id===x.dialogue);if(line){this.state.journal.push({text:line.speaker,lines:[line]});this.hooks.line?.(line);}}if(x.variant)Object.assign(this.state.variants,x.variant);if(x.signal)this.signal(x.signal);if(x.checkpoint)this.checkpoint(x.checkpoint);if(x.room)this.enter(x.room,true);if(x.death)this.die(x.death);if(x.ending){this.finishScenes(x.ending);this.state.ended=x.ending;this.state.flags.ENDING=x.ending;this.state.flags.Q12_DONE=true;}}
+ }
+ finishScenes(ending){
+  // A terminal scene belongs to the signed choice and commits atomically before
+  // ordinary event scheduling stops. Unrelated queued events remain stopped.
+  const events=new Map(this.data.events.map(e=>[e.id,e]));
+  for(const p of [...this.state.pending]){const e=events.get(p.id);if(!e||e.ending!==ending||this.state.fired.includes(e.id)||!test(e.when,this.state)||e.room&&e.room!==this.state.room)continue;
+   this.state.pending=this.state.pending.filter(x=>x.id!==e.id);this.state.fired.push(e.id);this.apply(e.effects);this.state.journal.push({id:e.id,ending,text:e.presentation,lines:e.lines||[],time:this.state.clock});
+  }
  }
  signal(name){if(this.state.ended)return;for(const e of this.data.events){if(!(Array.isArray(e.signal)?e.signal.includes(name):e.signal===name)||this.state.fired.includes(e.id)||this.state.pending.some(p=>p.id===e.id)||!test(e.when,this.state))continue;this.state.pending.push({id:e.id,due:this.state.clock+(e.delay||0)});}}
  flush(dt=0){this.state.clock+=Math.max(0,dt);if(this.modal||this.state.ended)return null;
