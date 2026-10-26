@@ -1401,7 +1401,10 @@
           ],
           "default_variant": "D_NORMAL",
           "name": "Радиорубка",
-          "variantAssets": {}
+          "variantAssets": {
+            "D_FALSE_MONITOR": "composite_d_false_monitor",
+            "D_LATE_MIRROR": "composite_d_late_mirror"
+          }
         },
         {
           "id": "E",
@@ -16772,6 +16775,18 @@
       "name": "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01",
       "mime": "image/webp",
       "file": "assets/variants/composite_h_after_v01.webp"
+    },
+    {
+      "id": "composite_d_false_monitor",
+      "name": "Ложное изображение в мониторе",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_d_false_monitor.webp"
+    },
+    {
+      "id": "composite_d_late_mirror",
+      "name": "Позднее отражение в экране",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_d_late_mirror.webp"
     }
   ],
   "audio": [

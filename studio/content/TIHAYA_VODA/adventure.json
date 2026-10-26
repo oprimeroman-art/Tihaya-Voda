@@ -67,7 +67,10 @@
       ],
       "default_variant": "D_NORMAL",
       "name": "Радиорубка",
-      "variantAssets": {}
+      "variantAssets": {
+        "D_FALSE_MONITOR": "composite_d_false_monitor",
+        "D_LATE_MIRROR": "composite_d_late_mirror"
+      }
     },
     {
       "id": "E",
