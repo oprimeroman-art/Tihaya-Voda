@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Composite existing authored transparent art into playable full-room variant panoramas."""
-import base64, json, re, shutil
+import base64, json, re, shutil, math
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -19,6 +19,7 @@ OVERLAYS = [
     ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01"),
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
     ("D", "D_LATE_MIRROR", "D_D_LATE_MIRROR.webp", "Позднее отражение в экране"),
+    ("D", "D_INDOOR_TOWER", "D_D_INDOOR_TOWER.webp", "Мачта видна на экране внутри помещения"),
     ("B", "B_TWO_GHOSTS", "B_B_TWO_GHOSTS.webp", "Два отражения в зеркале"),
     ("D", "D_DOUBLE_ACTS", "D_D_DOUBLE_ACTS.webp", "Дублирующиеся акты инцидента"),
     ("H", "H_ANNA_GLASS", "H_H_ANNA_GLASS.webp", "Отражение Анны в стекле"),
@@ -28,6 +29,10 @@ OVERLAYS = [
     ("F", "F_SUIT_STANDING", "F_F_SUIT_STANDING.webp", "Костюм стоит без человека снаружи"),
     ("J", "J_FALSE_BELOV", "J_J_FALSE_BELOV.webp", "Ложный Белов в коридоре"),
     ("K", "K_TOWER_SILHOUETTE", "K_K_TOWER_SILHOUETTE.webp", "Силуэт вышки за окном"),
+    ("N", "N_CLOCK", "N_N_CLOCK.webp", "Часы идут назад"),
+    ("N", "N_SIGN", "N_N_SIGN.webp", "Стрелка выхода направлена обратно"),
+    ("N", "N_HANDWRITING", "N_N_HANDWRITING.webp", "Чужая подпись на полу"),
+    ("N", "N_LATE_EXIT", "N_N_LATE_EXIT.webp", "Поздний стоит в конце коридора"),
 ]
 
 def update_list(existing, item):
@@ -68,11 +73,16 @@ def generate_story_state_overlays():
         "F_F_SUIT_STANDING.webp": (0.70, 0.53, 120, 360, "suit"),
         "J_J_FALSE_BELOV.webp": (0.41, 0.48, 120, 360, "belov"),
         "K_K_TOWER_SILHOUETTE.webp": (0.70, 0.42, 180, 260, "tower"),
+        "D_D_INDOOR_TOWER.webp": (0.57, 0.42, 70, 42, "tower_screen"),
+        "N_N_CLOCK.webp": (0.15, 0.42, 70, 42, "clock"),
+        "N_N_SIGN.webp": (0.29, 0.42, 70, 42, "reversed_sign"),
+        "N_N_HANDWRITING.webp": (0.43, 0.42, 80, 46, "handwriting"),
+        "N_N_LATE_EXIT.webp": (0.78, 0.46, 80, 220, "late"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
         x0, y0 = round(u * width - w / 2), round(v * height - h / 2)
-        transparent_modes = {"footprints", "suit", "belov", "tower"}
+        transparent_modes = {"footprints", "suit", "belov", "tower", "late"}
         panel = Image.new("RGBA", (w, h), (0, 0, 0, 0) if mode in transparent_modes else (0, 0, 0, 255))
         pixels = panel.load()
         for y in range(h):
@@ -98,6 +108,14 @@ def generate_story_state_overlays():
                     pixels[x, y] = (int(24 + 13 * glow), int(34 + 15 * glow), int(33 + 14 * glow), 255)
                 elif mode == "digital":
                     pixels[x, y] = (int(5 + 8 * glow), int(19 + 23 * glow), int(20 + 24 * glow), 255)
+                elif mode == "clock":
+                    pixels[x, y] = (int(15 + 12 * glow), int(25 + 15 * glow), int(26 + 15 * glow), 255)
+                elif mode == "reversed_sign":
+                    pixels[x, y] = (int(7 + 5 * glow), int(32 + 15 * glow), int(27 + 13 * glow), 255)
+                elif mode == "handwriting":
+                    pixels[x, y] = (int(18 + 8 * glow), int(25 + 10 * glow), int(25 + 10 * glow), 255)
+                elif mode == "tower_screen":
+                    pixels[x, y] = (int(4 + 5 * glow), int(12 + 12 * glow), int(14 + 14 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -256,6 +274,57 @@ def generate_story_state_overlays():
             draw.line((w*.50,h*.12,w*.20,h*.32),fill=edge,width=1);draw.line((w*.50,h*.12,w*.80,h*.32),fill=edge,width=1)
             draw.ellipse((w*.465,h*.025,w*.535,h*.075),fill=(217,61,47,235),outline=(238,127,95,190),width=1)
             draw.line((w*.25,h*.96,w*.75,h*.96),fill=(25,35,36,210),width=2)
+        elif mode == "tower_screen":
+            # The radio-room monitor shows a mast standing inside the building.
+            draw.rectangle((2,2,w-3,h-3),fill=(3,10,12,255),outline=(91,119,113,235),width=2)
+            draw.line((w*.08,h*.20,w*.92,h*.20),fill=(47,79,74,170),width=1)
+            draw.line((w*.50,h*.12,w*.30,h*.88),fill=(141,168,153,210),width=2)
+            draw.line((w*.50,h*.12,w*.70,h*.88),fill=(141,168,153,210),width=2)
+            for yy,span in ((.35,.10),(.54,.15),(.73,.20)):
+                draw.line((w*(.5-span),h*yy,w*(.5+span),h*yy),fill=(126,151,139,195),width=1)
+            draw.line((w*.40,h*.35,w*.60,h*.54),fill=(88,121,113,190),width=1)
+            draw.line((w*.60,h*.35,w*.40,h*.54),fill=(88,121,113,190),width=1)
+            draw.ellipse((w*.465,h*.08,w*.535,h*.20),fill=(217,61,47,230))
+        elif mode == "clock":
+            # The clock hands and outer arrow run counter to the expected direction.
+            cx,cy=w*.50,h*.50;radius=min(w,h)*.34
+            draw.ellipse((cx-radius,cy-radius,cx+radius,cy+radius),fill=(7,13,15,255),outline=(156,174,159,230),width=2)
+            for i in range(12):
+                angle=2*math.pi*i/12-math.pi/2;inner=radius*.76;outer=radius*.92
+                draw.line((cx+math.cos(angle)*inner,cy+math.sin(angle)*inner,cx+math.cos(angle)*outer,cy+math.sin(angle)*outer),fill=(196,207,183,210),width=1)
+            draw.line((cx,cy,cx-radius*.64,cy-radius*.10),fill=(220,215,174,235),width=2)
+            draw.line((cx,cy,cx+radius*.18,cy+radius*.70),fill=(205,216,195,220),width=2)
+            draw.ellipse((cx-2,cy-2,cx+2,cy+2),fill=(225,219,184,255))
+            draw.arc((cx-radius*1.08,cy-radius*1.08,cx+radius*1.08,cy+radius*1.08),195,310,fill=(111,178,159,170),width=1)
+            draw.polygon([(cx-radius*.86,cy+radius*.57),(cx-radius*.72,cy+radius*.64),(cx-radius*.77,cy+radius*.43)],fill=(111,178,159,180))
+        elif mode == "reversed_sign":
+            # The exit sign is legible as a wrong-way arrow even at panorama scale.
+            draw.rectangle((2,3,w-3,h-4),fill=(7,23,22,255),outline=(101,170,145,235),width=2)
+            draw.rectangle((6,7,w-7,h-8),outline=(52,108,89,200),width=1)
+            cy=h*.51
+            draw.line((w*.78,cy,w*.24,cy),fill=(156,230,184,240),width=4)
+            draw.polygon([(w*.12,cy),(w*.33,h*.24),(w*.33,h*.78)],fill=(156,230,184,245))
+            draw.line((w*.68,h*.28,w*.82,h*.28),fill=(102,177,142,150),width=1)
+            draw.line((w*.68,h*.73,w*.82,h*.73),fill=(102,177,142,150),width=1)
+        elif mode == "handwriting":
+            # Fresh handwriting appears scratched into a dark floor-level surface.
+            draw.rectangle((2,2,w-3,h-3),fill=(16,23,24,245),outline=(87,105,100,200),width=1)
+            draw.line((w*.06,h*.72,w*.94,h*.70),fill=(66,80,77,180),width=1)
+            strokes=[[(w*.10,h*.55),(w*.18,h*.22),(w*.25,h*.57),(w*.31,h*.31),(w*.37,h*.54)],[(w*.42,h*.49),(w*.48,h*.24),(w*.54,h*.58),(w*.60,h*.34),(w*.67,h*.51)],[(w*.72,h*.53),(w*.79,h*.25),(w*.86,h*.56),(w*.91,h*.37)]]
+            for pts in strokes:
+                draw.line(pts,fill=(202,215,191,210),width=2)
+                for x,y in pts[1:-1]:draw.ellipse((x-1,y-1,x+2,y+2),fill=(224,232,209,200))
+            draw.line((w*.15,h*.82,w*.40,h*.77),fill=(116,137,124,150),width=1)
+        elif mode == "late":
+            # Late stands at the far end of the corridor, still and non-aggressive.
+            shadow=Image.new("RGBA",panel.size,(0,0,0,0));sd=ImageDraw.Draw(shadow,"RGBA")
+            sd.ellipse((w*.28,h*.04,w*.72,h*.24),fill=(177,198,185,40))
+            sd.polygon([(w*.18,h*.98),(w*.26,h*.34),(w*.36,h*.22),(w*.64,h*.22),(w*.74,h*.34),(w*.82,h*.98)],fill=(131,151,145,52))
+            panel=Image.alpha_composite(panel,shadow.filter(ImageFilter.GaussianBlur(8)))
+            draw=ImageDraw.Draw(panel,"RGBA")
+            draw.ellipse((w*.39,h*.05,w*.61,h*.19),fill=(13,20,22,225),outline=(142,159,149,140),width=1)
+            draw.polygon([(w*.31,h*.25),(w*.42,h*.19),(w*.58,h*.19),(w*.69,h*.25),(w*.77,h*.47),(w*.67,h*.58),(w*.64,h*.98),(w*.53,h*.98),(w*.50,h*.66),(w*.47,h*.98),(w*.36,h*.98),(w*.33,h*.58),(w*.23,h*.47)],fill=(16,23,25,215),outline=(113,132,125,135))
+            draw.line((w*.50,h*.25,w*.50,h*.75),fill=(100,120,112,140),width=1)
         if mode in ("false", "mirror", "twins"):
             for y in range(2, h, 4):
                 draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
