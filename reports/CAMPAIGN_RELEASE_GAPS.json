@@ -2,7 +2,7 @@
   "chapters": 12,
   "rooms": 16,
   "actions": 128,
-  "inventoryArt": 14,
+  "inventoryArt": 15,
   "missingInventoryArt": [],
   "missingDocumentArt": [],
   "endingImages": 4,
@@ -22,14 +22,6 @@
     {
       "room": "C",
       "variant": "C_DAYLIGHT"
-    },
-    {
-      "room": "H",
-      "variant": "H_1978"
-    },
-    {
-      "room": "H",
-      "variant": "H_V01B"
     },
     {
       "room": "I",
