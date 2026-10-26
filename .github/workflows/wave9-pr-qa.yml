@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - "studio/source/adventure-ui.js"
+      - "game/index.html"
+      - "game-editor/index.html"
       - "site-assets/late-docs/**"
       - "codex-scripts/alpha_wave9_document_props.py"
       - "codex-scripts/test_wave9_document_props.py"
@@ -11,6 +13,7 @@ on:
       - "codex-scripts/alpha_wave4_props.py"
       - "codex-scripts/sync_embedded_engine.py"
       - "codex-scripts/sync_document_ui.py"
+      - "codex-scripts/sync_standalone_document_art.py"
       - "studio/content/TIHAYA_VODA/adventure.json"
       - ".github/workflows/wave9-pr-qa.yml"
 permissions:
@@ -27,7 +30,9 @@ jobs:
         with:
           node-version: "22"
       - name: Sync shared UI into standalone game and editor
-        run: python3 codex-scripts/sync_document_ui.py
+        run: |
+          python3 codex-scripts/sync_document_ui.py
+          python3 codex-scripts/sync_standalone_document_art.py
       - name: Build illustrated preview from existing game
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Check player runtime regressions

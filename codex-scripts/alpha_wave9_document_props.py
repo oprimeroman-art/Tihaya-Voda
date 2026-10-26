@@ -16,7 +16,9 @@ def apply_wave9(payload, root=ROOT):
         raise ValueError("Canonical room/event/document counts changed")
     actions = {a["id"]: a for a in adventure["actions"]}
     docs = {d["id"]: d for d in adventure["documents"]}
-    art = adventure["illustratedProps"]
+    art = adventure.setdefault("illustratedProps", {})
+    for key in ("image", "action", "document"):
+        art.setdefault(key, {})
     for doc_id, (action_id, room, chapter, title, art_id, filename, expected_sha, fragments) in DOCS.items():
         action = actions[action_id]
         if action.get("room") != room or action.get("document") != doc_id or action.get("when", {}).get("min") != chapter:
@@ -34,9 +36,14 @@ def apply_wave9(payload, root=ROOT):
         for node in svg.iter():
             if node.tag.endswith("script") or any(k.lower().endswith(("href", "onload", "onclick", "onerror")) for k in node.attrib):
                 raise ValueError("External or executable SVG content prohibited: " + filename)
-        if art_id in art["image"] or action_id in art["action"] or doc_id in art["document"]:
-            raise ValueError("Refusing to overwrite existing illustration mapping: " + doc_id)
-        art["image"][art_id] = "data:image/svg+xml;base64," + base64.b64encode(raw).decode("ascii")
+        uri = "data:image/svg+xml;base64," + base64.b64encode(raw).decode("ascii")
+        existing = (art["image"].get(art_id), art["action"].get(action_id), art["document"].get(doc_id))
+        expected = (uri, art_id, art_id)
+        if any(value is not None for value in existing):
+            if existing == expected:
+                continue
+            raise ValueError("Conflicting existing illustration mapping: " + doc_id)
+        art["image"][art_id] = uri
         art["action"][action_id] = art_id
         art["document"][doc_id] = art_id
     return {"late_document_art_wave9": len(DOCS)}

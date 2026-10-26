@@ -12,4 +12,4 @@ These SVG props supplement canonical documents in the existing adventure. They d
 - `D28_generator_bus_panel.svg`: load-distribution panel illustrating existing bus limits, diesel room, chapters 2/11.
 - `D29_anna_draft.svg`: unsent draft beside a camera-frame prop, archive, chapters 8–9.
 
-The Pages build embeds these SVGs as data URIs in the existing adventure payload, so they work offline and add no runtime network requests. The shared adventure UI renders the illustration when reading a document and from the saved journal. Canonical document text remains visible and authoritative.
+The build embeds the SVGs as data URIs in both the offline `game/index.html` payload and the public Pages preview, so they work offline and add no runtime network requests. The shared adventure UI renders the illustration when reading a document and from the saved journal. Canonical document text remains visible and authoritative.
