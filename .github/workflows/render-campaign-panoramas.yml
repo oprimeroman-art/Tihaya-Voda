@@ -6,6 +6,8 @@ on:
     paths:
       - 'production/geometry/CAMPAIGN/render_campaign360.py'
       - 'codex-scripts/apply_panorama_state_overlays.py'
+      - 'game-project/project.json'
+      - 'studio/content/TIHAYA_VODA/adventure.json'
       - 'production/geometry/B_NORMAL/render_kitchen360.py'
       - 'production/geometry/B_NORMAL/curved_geometry.py'
       - 'production/geometry/B_NORMAL/light_transport.py'
@@ -14,6 +16,7 @@ on:
       - 'art/materials/cc0/**'
       - 'studio/verification/found-footage-pack.test.py'
       - 'studio/verification/monitor-variant-art.test.py'
+      - 'studio/verification/campaign-story-graph.test.cjs'
       - '.github/workflows/render-campaign-panoramas.yml'
 permissions:
   contents: write
@@ -61,6 +64,7 @@ jobs:
           python3 studio/verification/campaign-panorama-pack.test.py
           python3 studio/verification/room-variant-art.test.py
           python3 studio/verification/monitor-variant-art.test.py
+          node studio/verification/campaign-story-graph.test.cjs
           python3 studio/verification/campaign-integrity.test.py
           python3 studio/verification/spatial-audio-pack.test.py
           python3 studio/verification/found-footage-pack.test.py

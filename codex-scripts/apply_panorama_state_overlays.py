@@ -13,6 +13,7 @@ EDITOR_HTML = ROOT / "game-editor/index.html"
 OUT = ROOT / "game-project/assets/variants"
 OVERLAYS = [
     ("C", "C_MIRROR_LIGHT", "C_C_MIRROR_LIGHT.webp", "ÐÑÑÐ°Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¾Ð½Ð°ÑÑ Ð² Ð·ÐµÑÐºÐ°Ð»Ðµ"),
+    ("C", "C_HIDDEN_DOOR", "C_C_HIDDEN_DOOR.webp", "Скрытая дверь в коридоре"),
     ("F", "F_ARCHIVE12", "F_F_ARCHIVE12.webp", "Ð¢Ð°Ð±Ð»Ð¸ÑÐºÐ° ÐÐ Ð¥ÐÐ-12"),
     ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01"),
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
@@ -56,6 +57,7 @@ def generate_first_act_state_overlays():
         "H_H_ANNA_GLASS.webp": (0.29, 0.42, 54, 42, "anna"),
         "G_G_P17.webp": (0.29, 0.42, 54, 42, "p17"),
         "G_G_MIRROR_DOOR.webp": (0.57, 0.42, 70, 42, "door"),
+        "C_C_HIDDEN_DOOR.webp": (0.43, 0.48, 170, 260, "hidden_door"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
@@ -79,6 +81,8 @@ def generate_first_act_state_overlays():
                     pixels[x, y] = (int(23 + 22 * glow), int(37 + 27 * glow), int(40 + 30 * glow), 255)
                 elif mode == "door":
                     pixels[x, y] = (int(6 + 6 * glow), int(13 + 13 * glow), int(15 + 15 * glow), 255)
+                elif mode == "hidden_door":
+                    pixels[x, y] = (int(24 + 13 * glow), int(34 + 15 * glow), int(33 + 14 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -148,6 +152,16 @@ def generate_first_act_state_overlays():
             draw.rectangle((left+9,top+7,right-9,bottom-7), fill=(117,135,105,95))
             draw.line((w*.51,h*.16,w*.51,h*.86), fill=(204,214,181,180), width=1)
             draw.ellipse((w*.61,h*.49,w*.64,h*.54), fill=(218,202,139,230))
+        elif mode == "hidden_door":
+            # A full-height door appears in a wall that was continuous in the normal corridor.
+            draw.rectangle((2,2,w-3,h-3), fill=(38,47,45,255), outline=(132,148,135,245), width=3)
+            draw.rectangle((10,9,w-11,h-10), fill=(20,29,29,255), outline=(78,95,88,230), width=2)
+            draw.rectangle((19,19,w-20,h-20), outline=(101,116,105,150), width=1)
+            draw.rectangle((w*.13,h*.10,w*.86,h*.43), outline=(89,105,96,120), width=1)
+            draw.rectangle((w*.13,h*.48,w*.86,h*.89), outline=(89,105,96,120), width=1)
+            draw.line((w*.80,h*.12,w*.80,h*.90), fill=(154,168,151,180), width=2)
+            draw.ellipse((w*.72,h*.50,w*.76,h*.53), fill=(197,177,121,240))
+            draw.line((w*.10,h*.98,w*.90,h*.98), fill=(178,194,163,150), width=2)
         if mode in ("false", "mirror", "twins"):
             for y in range(2, h, 4):
                 draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
@@ -218,6 +232,8 @@ def main():
                 raise ValueError(f"Missing canonical variant {state}")
             meta.setdefault("variantAssets", {})[state] = asset_id
         generated.append((state, asset_id, len(raw)))
+    project.setdefault("story", {})["adventure"] = adventure
+    game.setdefault("story", {})["adventure"] = adventure
     PROJECT.write_text(json.dumps(project, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     ADVENTURE.write_text(json.dumps(adventure, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if REPORT.parent.exists():
@@ -233,6 +249,7 @@ def main():
             for room, state, aid in [("B","B_SECOND_PLATE","illustrated_B_SECOND_PLATE"),("B","B_GHOST_MIRROR","illustrated_B_GHOST_MIRROR")] + [(room,state,"composite_"+state.lower()) for room,state,filename,name in OVERLAYS]:
                 meta = next(r for r in editor_game["story"]["adventure"]["rooms"] if r["id"] == room)
                 meta.setdefault("variantAssets", {})[state] = aid
+            editor_game.setdefault("story", {})["adventure"] = adventure
             EDITOR_HTML.write_text(patch_html(editor_html, editor_game), encoding="utf-8")
     print("PASS composed and embedded", len(generated), "room-state panoramas:", ", ".join(f"{s}={n}B" for s,_,n in generated))
 

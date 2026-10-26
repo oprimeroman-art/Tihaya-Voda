@@ -3,6 +3,10 @@
 const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
 const ROOT=path.resolve(__dirname,'../..');const data=JSON.parse(fs.readFileSync(path.join(ROOT,'studio/content/TIHAYA_VODA/adventure.json'),'utf8'));const project=JSON.parse(fs.readFileSync(path.join(ROOT,'game-project/project.json'),'utf8'));const {Engine}=require('../source/adventure-core.js');
 const roomIds=new Set(data.rooms.map(r=>r.id));assert.equal(roomIds.size,16,'room IDs must be unique');
+const variantSets=new Map(data.rooms.map(room=>[room.id,new Set(room.variants||[])]));
+function checkVariants(owner,effects=[]){for(const fx of effects){if(!fx.variant)continue;for(const [room,variant] of Object.entries(fx.variant)){assert(variantSets.get(room)?.has(variant),`${owner} selects undeclared variant ${room}:${variant}`);}}}
+for(const action of data.actions){checkVariants(`action ${action.id}`,action.effects);for(const option of action.options||[])checkVariants(`action ${action.id} option`,option.effects);}
+for(const event of data.events)checkVariants(`event ${event.id}`,event.effects);for(const hook of data.onEnter||[])checkVariants(`onEnter ${hook.room}`,hook.effects);
 const actions=new Map(data.actions.map(a=>[a.id,a]));assert.equal(actions.size,128,'action IDs must be unique');
 const hotspots=[];for(const room of project.rooms){assert(roomIds.has(room.id),'project room absent from story: '+room.id);for(const o of room.objects||[]){const key=o.tourKey||'';if(key.startsWith('ga:'))hotspots.push({room:room.id,id:o.id,action:key.slice(3)});}}
 assert.equal(hotspots.length,128,'each action must have a matching hotspot');const mapped=new Set(hotspots.map(h=>h.action));assert.equal(mapped.size,128,'hotspot action mappings must be unique');for(const h of hotspots){assert(actions.has(h.action),`${h.room}/${h.id} points to missing action ${h.action}`);assert.equal(actions.get(h.action).room,h.room,`${h.action} room must match hotspot room`);}
