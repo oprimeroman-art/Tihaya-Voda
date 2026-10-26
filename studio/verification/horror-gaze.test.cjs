@@ -9,7 +9,7 @@ const runtime=fs.readFileSync(path.join(R,'studio/source/game-runtime.html'),'ut
 const a=runtime.indexOf('/* HORROR_VISUALS_BEGIN'), b=runtime.indexOf('/* HORROR_VISUALS_END */',a);
 assert(a>=0&&b>a,'The visuals module must be present');
 const visuals=runtime.slice(a,b+'/* HORROR_VISUALS_END */'.length);
-const story=JSON.parse(fs.readFileSync(path.join(R,'game-project/project.json'),'utf8')).story.adventure;
+const story=JSON.parse(fs.readFileSync(path.join(R,'studio/content/TIHAYA_VODA/adventure.json'),'utf8'));
 const state={flags:{Q02_DONE:true},progress:{},variants:{B:'B_GHOST_MIRROR',H:'H_NORMAL',J:'J_NORMAL'}};
 const atmosphere={dataset:{},style:{}},figure={style:{}},canvas={style:{}};
 let point={x:500,y:500},saves=0;const appliedVariants=[];
