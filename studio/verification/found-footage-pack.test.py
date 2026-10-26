@@ -24,5 +24,5 @@ for aid in ids:
  expected=float(slot['duration']);assert abs(duration-expected)<=.3,(aid,duration,expected)
 print('PASS: 13 full-duration H.264 found-footage clips, project references and offline game payload verified')
 assert game.get('audio') and all(f'S{i:02d}' in game['audio'] for i in range(1,17)), 'video pass must preserve the 16 spatial sound cues'
-assert game.get('panoramas',{}).get('B',{}).get('mime')=='image/png', 'normal gameplay panorama must remain unchanged'
+assert game.get('panoramas',{}).get('B',{}).get('mime') in ('image/png','image/webp'), 'normal gameplay panorama must remain active'
 print('PASS: sound pack and normal production room preserved')

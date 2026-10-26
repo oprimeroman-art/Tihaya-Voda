@@ -1,0 +1,38 @@
+name: Verify campaign logic
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'studio/content/TIHAYA_VODA/adventure.json'
+      - 'game-project/project.json'
+      - 'studio/source/adventure-core.js'
+      - 'studio/verification/campaign-story-graph.test.cjs'
+      - 'studio/verification/adventure-pending.test.cjs'
+      - 'studio/verification/adventure-rooms.test.cjs'
+      - 'studio/verification/adventure-saves.test.cjs'
+      - 'studio/verification/horror-cues.test.cjs'
+      - 'studio/verification/horror-gaze.test.cjs'
+      - '.github/workflows/verify-campaign-logic.yml'
+permissions:
+  contents: read
+jobs:
+  gameplay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify campaign action graph and all endings
+        run: node studio/verification/campaign-story-graph.test.cjs
+      - name: Verify event scheduling and room transitions
+        run: |
+          node studio/verification/adventure-pending.test.cjs
+          node studio/verification/adventure-rooms.test.cjs
+          node studio/verification/adventure-saves.test.cjs
+      - name: Verify horror cue and gaze state persistence
+        run: |
+          node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
