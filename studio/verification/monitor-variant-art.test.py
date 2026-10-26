@@ -63,4 +63,11 @@ for state, room_id, asset_id in (("D_FALSE_MONITOR", "D", "composite_d_false_mon
 for label, story in (("canonical", adventure), ("editable", project["story"]["adventure"]), ("standalone", game["story"]["adventure"]), ("editor", editor_game["story"]["adventure"])):
     action = next(a for a in story["actions"] if a["id"] == "hidden_enter")
     assert any(fx.get("variant", {}).get("C") == "C_HIDDEN_DOOR" for fx in action.get("effects", [])), f"hidden-door transition mismatch in {label} payload"
+for label, story in (("canonical", adventure), ("editable", project["story"]["adventure"]), ("standalone", game["story"]["adventure"]), ("editor", editor_game["story"]["adventure"])):
+    for rid, state, needs_gaze in (("B", "B_GHOST_MIRROR", True), ("D", "D_LATE_MIRROR", True), ("F", "F_SUIT_STANDING", False), ("G", "G_MIRROR_DOOR", True), ("H", "H_ANNA_GLASS", True)):
+        room = next(r for r in story["rooms"] if r["id"] == rid)
+        profile = room.get("visualProfiles", {}).get(state, {})
+        assert profile.get("figure") is False, f"duplicate CSS silhouette not disabled: {label}/{state}"
+        if needs_gaze:
+            assert profile.get("gazePoint") and profile.get("dismissTo"), f"art gaze dismissal not wired: {label}/{state}"
 print("PASS: eleven authored room-state variants are calibrated, embedded, and mapped in the editor, story data, and standalone game.")

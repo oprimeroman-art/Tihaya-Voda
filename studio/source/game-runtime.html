@@ -217,18 +217,31 @@ function horrorPaint(dt=0){
  }
  const gazeKey=roomId+':'+variant;
  if(horrorGazeKey!==gazeKey){horrorGazeKey=gazeKey;horrorGazeHold=0;}
- if(!profile.figure){horrorGazeActive=false;figure.style.display='none';return;}
- const customGaze=meta?.visualProfiles?.[variant]?.gaze;
+ const visualProfile=meta?.visualProfiles?.[variant];
+ // Authored panorama apparitions can use a gaze point to dismiss the image state without a duplicate CSS figure.
+ const artDismiss=profile.strength>0&&sessionStarted&&!sessionPaused&&!visualProfile?.disabled&&!!visualProfile?.dismissTo&&!!visualProfile?.gazePoint;
+ if(!profile.figure&&!artDismiss){horrorGazeActive=false;horrorGazeHold=0;figure.style.display='none';return;}
+ const customGaze=visualProfile?.gaze;
  const delay=customGaze===false?0:Number.isFinite(customGaze)&&customGaze>0?
   Math.max(.25,Math.min(4,customGaze)):(HORROR_GAZE_TIMING[variant]||0);
  const seen=!!state?.progress?.seenApparitions?.[gazeKey];
  horrorGazeActive=delay>0&&!seen;
- if(seen){figure.style.opacity='0';return;}
- const point=project(profile.figure);
+ if(seen){
+  figure.style.opacity='0';figure.style.display='none';
+  if(artDismiss&&state?.variants&&state.variants[roomId]!==visualProfile.dismissTo){
+   state.variants[roomId]=visualProfile.dismissTo;
+   if(typeof adventureApplyVariant==='function')adventureApplyVariant(roomId,visualProfile.dismissTo);
+   horrorAppliedKey='';horrorGazeKey='';horrorGazeHold=0;scheduleGameSave();
+  }
+  return;
+ }
+ const target=profile.figure||visualProfile.gazePoint;
+ const point=project(target);
  if(!point){horrorGazeHold=0;figure.style.display='none';return;}
- figure.style.display='block';
- figure.style.left=point.x+'px';figure.style.top=point.y+'px';
- figure.style.scale=String(profile.figure.scale||1);
+ if(profile.figure){
+  figure.style.display='block';figure.style.left=point.x+'px';figure.style.top=point.y+'px';
+  figure.style.scale=String(profile.figure.scale||1);
+ }else{figure.style.display='none';}
  if(dt>0&&delay&&!adventurePlayer?.engine?.modal){
   const gazing=Math.abs(point.x-innerWidth/2)<Math.min(innerWidth*.16,220)&&
    Math.abs(point.y-innerHeight/2)<Math.min(innerHeight*.22,165);
@@ -236,10 +249,16 @@ function horrorPaint(dt=0){
   if(horrorGazeHold>=delay){
    const records=state.progress.seenApparitions||(state.progress.seenApparitions={});
    records[gazeKey]=true;horrorGazeActive=false;
+   if(artDismiss&&state?.variants){
+    state.variants[roomId]=visualProfile.dismissTo;
+    if(typeof adventureApplyVariant==='function')adventureApplyVariant(roomId,visualProfile.dismissTo);
+    horrorAppliedKey='';horrorGazeKey='';horrorGazeHold=0;
+    figure.style.opacity='0';figure.style.display='none';scheduleGameSave();return;
+   }
    figure.style.opacity='0';scheduleGameSave();return;
   }
  }
- figure.style.opacity=String(Math.min(.8,.35+profile.strength));
+ if(profile.figure)figure.style.opacity=String(Math.min(.8,.35+profile.strength));
 }
 /* HORROR_VISUALS_END */
 /* HORROR_CUES_BEGIN: non-random one-shot event direction, never serialized */
