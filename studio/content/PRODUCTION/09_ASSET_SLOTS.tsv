@@ -15,19 +15,19 @@ audio	S13	spatial	audio/spatial/s13.ogg	generated provisional synthetic design a
 audio	S14	spatial	audio/spatial/s14.ogg	generated provisional synthetic design audio; not actor-recorded
 audio	S15	spatial	audio/spatial/s15.ogg	generated provisional synthetic design audio; not actor-recorded
 audio	S16	spatial	audio/spatial/s16.ogg	generated provisional synthetic design audio; not actor-recorded
-video	V01	found_footage	video/v01_walk_2023.mp4	not supplied; explicit text storyboard
-video	V02	found_footage	video/v02_sukhov_repair_2028.mp4	not supplied; explicit text storyboard
-video	V03	found_footage	video/v03_sukhov_olya.mp4	not supplied; explicit text storyboard
-video	V04	found_footage	video/v04_incident17.mp4	not supplied; explicit text storyboard
-video	V05	found_footage	video/v05_commission_2009.mp4	not supplied; explicit text storyboard
-video	V06	found_footage	video/v06_ozerov_reel.mp4	not supplied; explicit text storyboard
-video	V07	found_footage	video/v07_lastshift_2028.mp4	not supplied; explicit text storyboard
-video	V08	found_footage	video/v08_personnel.mp4	not supplied; explicit text storyboard
-video	V09	found_footage	video/v09_mirror_lab.mp4	not supplied; explicit text storyboard
-video	V10	found_footage	video/v10_belov_office.mp4	not supplied; explicit text storyboard
-video	V11	found_footage	video/v11_irina_record.mp4	not supplied; explicit text storyboard
-video	V12	found_footage	video/v12_for_olya.mp4	not supplied; explicit text storyboard
-video	V01B	alternate_tape	video/v01b_walk_other.mp4	not supplied; separate variant
+video	V01	found_footage	video/found_footage/v01.mp4	generated procedural found-footage clip; silent; not live-action
+video	V02	found_footage	video/found_footage/v02.mp4	generated procedural found-footage clip; silent; not live-action
+video	V03	found_footage	video/found_footage/v03.mp4	generated procedural found-footage clip; silent; not live-action
+video	V04	found_footage	video/found_footage/v04.mp4	generated procedural found-footage clip; silent; not live-action
+video	V05	found_footage	video/found_footage/v05.mp4	generated procedural found-footage clip; silent; not live-action
+video	V06	found_footage	video/found_footage/v06.mp4	generated procedural found-footage clip; silent; not live-action
+video	V07	found_footage	video/found_footage/v07.mp4	generated procedural found-footage clip; silent; not live-action
+video	V08	found_footage	video/found_footage/v08.mp4	generated procedural found-footage clip; silent; not live-action
+video	V09	found_footage	video/found_footage/v09.mp4	generated procedural found-footage clip; silent; not live-action
+video	V10	found_footage	video/found_footage/v10.mp4	generated procedural found-footage clip; silent; not live-action
+video	V11	found_footage	video/found_footage/v11.mp4	generated procedural found-footage clip; silent; not live-action
+video	V12	found_footage	video/found_footage/v12.mp4	generated procedural found-footage clip; silent; not live-action
+video	V01B	alternate_tape	video/found_footage/v01b.mp4	generated procedural found-footage clip; silent; not live-action
 panorama	A_NORMAL	room_variant	panoramas/A_NORMAL.webp	not supplied; labeled production placeholder
 panorama	A_SECOND_PILLOW	room_variant	panoramas/A_SECOND_PILLOW.webp	not supplied; labeled production placeholder
 panorama	A_LATE	room_variant	panoramas/A_LATE.webp	not supplied; labeled production placeholder
