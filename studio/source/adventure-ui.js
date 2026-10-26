@@ -6,7 +6,7 @@ const CSS=`
 .ga-root{position:fixed;inset:0;z-index:125;pointer-events:none;font:15px/1.55 'Segoe UI',sans-serif;color:#e6edf1}
 .ga-panel{pointer-events:auto;background:#111d24f5;border:1px solid #607581;border-radius:12px;padding:16px;box-shadow:0 12px 50px #0004}
 .ga-actions{position:absolute;left:18px;top:126px;width:min(350px,32vw);max-height:calc(100vh - 150px);overflow:auto}
-.ga-nav{position:absolute;right:18px;top:18px;width:245px;max-height:calc(100vh - 40px);overflow:auto}
+.ga-nav{position:absolute;right:18px;top:74px;width:245px;max-height:calc(100vh - 92px);overflow:auto}
 .ga-root h2{font-size:18px;margin:0 0 10px}.ga-root h3{font-size:13px;letter-spacing:.07em;color:#a5c1cc;margin:14px 0 7px}
 .ga-root button,.ga-root select,.ga-root input{font:inherit;color:inherit;border:1px solid #6a818e;border-radius:7px;background:#23343e;padding:10px;min-height:43px}
 .ga-root button{cursor:pointer;text-align:left}.ga-root button:hover:not(:disabled){background:#355263}.ga-root button:focus-visible{outline:3px solid #efd689;outline-offset:2px}.ga-root button:disabled{opacity:.6;cursor:default}
@@ -54,8 +54,9 @@ class UI{
  b.append(el('h3','ЗАПИСИ'));for(const m of this.data.media.filter(m=>s.flags['WATCHED_'+m.id]||s.flags['HEARD_'+m.id]))this.button(b,m.id+' · '+m.title,()=>this.playMedia(m,null));
  b.append(el('h3','НАБЛЮДЕНИЯ И ЭФИР'));for(const entry of s.journal){b.append(el('p',entry.text));for(const l of entry.lines||[])b.append(el('div',l.speaker+'\n'+l.text,'ga-caption'));}
  b.append(el('h3','ВЫПОЛНЕННЫЕ ЗАДАЧИ'));for(const q of this.data.quests.filter(q=>s.flags[q.id+'_DONE']))b.append(el('p','✓ '+q.title));this.button(b,'Закрыть',()=>this.close());}
+ artData(){return this.data.illustratedProps||null;}
  showArt(parent,id){const src=this.data.illustratedProps?.image?.[id];if(!src)return;const img=el('img');img.className='ga-document-art';img.alt='Сюжетный предмет';img.src=src;img.onerror=()=>img.remove();parent.append(img);}
- openAction(id){const a=this.engine.begin(id);if(!a)return;const b=this.panel(a.label);this.currentAction=id;const item=a.effects?.find(f=>f.item)?.item;const art=this.data.illustratedProps?.action?.[id]||this.data.illustratedProps?.item?.[item];if(art&&a.template!=='media'&&!this.data.illustratedProps?.document?.[a.document])this.showArt(b,art);
+ openAction(id){const a=this.engine.begin(id);if(!a)return;const b=this.panel(a.label);this.currentAction=id;const item=a.effects?.find(f=>f.item)?.item;const art=this.artData()?.action?.[id]||this.data.illustratedProps?.item?.[item];if(art&&a.template!=='media'&&!this.data.illustratedProps?.document?.[a.document])this.showArt(b,art);
  if(a.template==='media'){this.playMedia(this.data.media.find(m=>m.id===a.media),a);return;}
  if(a.template==='document'){this.documentView(b,this.data.documents.find(d=>d.id===a.document));this.button(b,a.readLabel||'Сохранить в журнале',()=>this.submit(a,null));}
  else if(a.template==='choice'||a.template==='sequence_choice'){if(a.text)b.append(el('pre',a.text));for(const op of a.options){const valid=api.test(op.when,this.engine.state);this.button(b,op.label,()=>{if(a.confirm)this.confirmAction(a,op.value,op.label);else this.submit(a,op.value);},!valid);if(!valid)b.append(el('p',op.locked,'ga-muted'));}}
