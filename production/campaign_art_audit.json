@@ -1,0 +1,583 @@
+{
+  "scope": "all 12 chapters, 16 rooms, declared variants, inventory, documents and endings",
+  "variants": [
+    {
+      "room": "A",
+      "variant": "A_NORMAL",
+      "file": "rooms/A/approved_illustrated.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "A",
+      "variant": "A_SECOND_PILLOW",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "A",
+      "variant": "A_LATE",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "B",
+      "variant": "B_NORMAL",
+      "file": "rooms/B/approved_illustrated.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "B",
+      "variant": "B_SECOND_PLATE",
+      "file": "assets/variants/illustrated_B_SECOND_PLATE.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "B",
+      "variant": "B_GHOST_MIRROR",
+      "file": "assets/variants/illustrated_B_GHOST_MIRROR.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "B",
+      "variant": "B_TWO_GHOSTS",
+      "file": "assets/variants/composite_b_two_ghosts.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "B",
+      "variant": "B_LATE",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "C",
+      "variant": "C_NORMAL",
+      "file": "rooms/C/approved_illustrated.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "C",
+      "variant": "C_MIRROR_LIGHT",
+      "file": "assets/variants/composite_c_mirror_light.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "C",
+      "variant": "C_HIDDEN_DOOR",
+      "file": "assets/variants/composite_c_hidden_door.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "C",
+      "variant": "C_REVERSED_SNOW",
+      "file": "assets/variants/composite_c_reversed_snow.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "C",
+      "variant": "C_DAYLIGHT",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "D",
+      "variant": "D_NORMAL",
+      "file": "assets/approved-rooms/illustrated_D_NORMAL.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "D",
+      "variant": "D_FALSE_MONITOR",
+      "file": "assets/approved-rooms/illustrated_D_FALSE_MONITOR.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "D",
+      "variant": "D_DOUBLE_ACTS",
+      "file": "assets/approved-rooms/illustrated_D_FALSE_MONITOR.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "D",
+      "variant": "D_LATE_MIRROR",
+      "file": "assets/approved-rooms/illustrated_D_LATE_MIRROR.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "D",
+      "variant": "D_INDOOR_TOWER",
+      "file": "assets/approved-rooms/illustrated_D_LATE_MIRROR.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "E",
+      "variant": "E_NORMAL",
+      "file": "rooms/E/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "E",
+      "variant": "E_FALSE_DIGITAL",
+      "file": "assets/variants/composite_e_false_digital.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "F",
+      "variant": "F_NORMAL",
+      "file": "assets/approved-rooms/illustrated_F_NORMAL.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "F",
+      "variant": "F_ARCHIVE12",
+      "file": "assets/approved-rooms/illustrated_F_ARCHIVE12.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "F",
+      "variant": "F_SUIT_STANDING",
+      "file": "assets/approved-rooms/illustrated_F_SUIT_STANDING.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "G",
+      "variant": "G_NORMAL",
+      "file": "rooms/G/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "G",
+      "variant": "G_P17",
+      "file": "assets/variants/composite_g_p17.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "G",
+      "variant": "G_MIRROR_DOOR",
+      "file": "assets/variants/composite_g_mirror_door.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "H",
+      "variant": "H_NORMAL",
+      "file": "assets/approved-rooms/illustrated_H_NORMAL.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "H",
+      "variant": "H_AFTER_V01",
+      "file": "assets/approved-rooms/illustrated_H_AFTER_V01.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "H",
+      "variant": "H_ANNA_GLASS",
+      "file": "assets/approved-rooms/illustrated_H_ANNA_GLASS.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "H",
+      "variant": "H_1978",
+      "file": "assets/approved-rooms/illustrated_H_AFTER_V01.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "H",
+      "variant": "H_V01B",
+      "file": "assets/approved-rooms/illustrated_H_ANNA_GLASS.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "I",
+      "variant": "I_NORMAL",
+      "file": "rooms/I/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "I",
+      "variant": "I_COVERED_BODY",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "I",
+      "variant": "I_EMPTY_BED",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "J",
+      "variant": "J_NORMAL",
+      "file": "rooms/J/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "J",
+      "variant": "J_FALSE_BELOV",
+      "file": "assets/variants/composite_j_false_belov.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "J",
+      "variant": "J_SAFE",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "K",
+      "variant": "K_NORMAL",
+      "file": "rooms/K/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "K",
+      "variant": "K_TOWER_SILHOUETTE",
+      "file": "assets/variants/composite_k_tower_silhouette.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "K",
+      "variant": "K_TOWER_EMPTY",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "L",
+      "variant": "L_NORMAL",
+      "file": "rooms/L/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "L",
+      "variant": "L_SHUTTER_DANGER",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "L",
+      "variant": "L_THREE_WINDOWS",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "M",
+      "variant": "M_NORMAL",
+      "file": "rooms/M/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "M",
+      "variant": "M_DELAY_MONITOR",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "M",
+      "variant": "M_FINAL",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "N",
+      "variant": "N_CLOCK",
+      "file": "assets/variants/composite_n_clock.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "N",
+      "variant": "N_SIGN",
+      "file": "assets/variants/composite_n_sign.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "N",
+      "variant": "N_HANDWRITING",
+      "file": "assets/variants/composite_n_handwriting.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "N",
+      "variant": "N_LATE_EXIT",
+      "file": "assets/variants/composite_n_late_exit.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "N",
+      "variant": "N_NORMAL",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "O",
+      "variant": "O_1978",
+      "file": "rooms/O/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "P",
+      "variant": "P_FINAL_PANEL",
+      "file": "rooms/P/panorama_v2.webp",
+      "status": "file_present_visual_qa_required"
+    },
+    {
+      "room": "P",
+      "variant": "P_END_A",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "P",
+      "variant": "P_END_B",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "P",
+      "variant": "P_END_C",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    },
+    {
+      "room": "P",
+      "variant": "P_END_D",
+      "file": null,
+      "status": "distinct_art_missing_uses_base_fallback"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "BADGE04",
+      "art_present": true
+    },
+    {
+      "id": "STORAGE_KEY",
+      "art_present": true
+    },
+    {
+      "id": "FUSE_3",
+      "art_present": true
+    },
+    {
+      "id": "VHS_V01",
+      "art_present": true
+    },
+    {
+      "id": "P17_SAMPLE",
+      "art_present": true
+    },
+    {
+      "id": "FLASHLIGHT",
+      "art_present": true
+    },
+    {
+      "id": "ANTENNA_KEY",
+      "art_present": true
+    },
+    {
+      "id": "BEACON",
+      "art_present": true
+    },
+    {
+      "id": "VHS_FRAGMENT_A",
+      "art_present": true
+    },
+    {
+      "id": "VHS_FRAGMENT_B",
+      "art_present": true
+    },
+    {
+      "id": "PUNCHCARD_RU",
+      "art_present": true
+    },
+    {
+      "id": "PUNCHCARD_DE",
+      "art_present": true
+    },
+    {
+      "id": "VHS_V03",
+      "art_present": true
+    },
+    {
+      "id": "SHUTTER_PIN",
+      "art_present": true
+    },
+    {
+      "id": "ARCHIVE_KEY",
+      "art_present": true
+    }
+  ],
+  "documents": [
+    {
+      "id": "D01",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D02",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D03",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D04",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D05",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D06",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D07",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D08",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D09",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D10",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D11",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D12",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D13",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D14",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D15",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D16",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D17",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D18",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D19",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D20",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D21",
+      "readable_text": true,
+      "illustration": false
+    },
+    {
+      "id": "D22",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D23",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D24",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D25",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D26",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D27",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D28",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D29",
+      "readable_text": true,
+      "illustration": true
+    },
+    {
+      "id": "D30",
+      "readable_text": true,
+      "illustration": false
+    }
+  ],
+  "endings": [
+    {
+      "id": "A",
+      "art_present": true
+    },
+    {
+      "id": "B",
+      "art_present": true
+    },
+    {
+      "id": "C",
+      "art_present": true
+    },
+    {
+      "id": "D",
+      "art_present": true
+    }
+  ],
+  "limitations": [
+    "File presence does not establish correct panorama projection, matching hotspot placement or visual quality.",
+    "Automated routes do not establish human pacing or artistic completion."
+  ]
+}
