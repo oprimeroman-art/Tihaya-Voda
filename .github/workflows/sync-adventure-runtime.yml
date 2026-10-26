@@ -74,7 +74,7 @@ jobs:
             python3 codex-scripts/sync_embedded_engine.py --check
           fi
           python3 codex-scripts/sync_standalone_document_art.py
-          python -m pip install --disable-pip-version-check numpy soundfile
+          python -m pip install --disable-pip-version-check numpy soundfile pillow
           python3 codex-scripts/generate_spatial_audio_pack.py
           python3 studio/verification/spatial-audio-pack.test.py
           if ! command -v ffmpeg >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
