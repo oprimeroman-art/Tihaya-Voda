@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - game/index.html
+      - studio/index.html
       - studio/verification/player-runtime-regressions.py
       - site-assets/illustrated/**
       - site-assets/alpha-wave2/**

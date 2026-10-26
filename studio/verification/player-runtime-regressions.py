@@ -2,7 +2,7 @@
 """Static regression guard for the exported player and Studio runtime."""
 from pathlib import Path
 
-paths = [Path("game/index.html")]
+paths = [Path("game/index.html"), Path("studio/index.html")]
 if Path("_site/index.html").exists():
     paths.append(Path("_site/index.html"))
 checks = {
