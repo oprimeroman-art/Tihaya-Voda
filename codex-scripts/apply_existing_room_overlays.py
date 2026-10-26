@@ -61,7 +61,8 @@ def main():
             meta.setdefault("variantAssets", {})[state] = asset_id
         generated.append((state, asset_id, len(raw)))
     for room, state, filename, name in OVERLAYS:
-        base_path = ROOT / "game-project/rooms" / room / "original.png"
+        base_path = ROOT / "game-project/rooms" / room / "panorama_v2.webp"
+        if not base_path.exists(): base_path = ROOT / "game-project/rooms" / room / "original.png"
         overlay_path = ROOT / "art/overlays" / filename
         if not base_path.exists() or not overlay_path.exists():
             raise FileNotFoundError(f"Missing source art for {room}/{state}")

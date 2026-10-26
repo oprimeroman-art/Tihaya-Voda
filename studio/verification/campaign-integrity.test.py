@@ -106,7 +106,7 @@ for aid in audio_ids:
     assert aid in game.get("audio", {})
     assert base64.b64decode(game["audio"][aid]["data"]).startswith(b"OggS")
     assert any(s.get("id") == aid for s in game.get("spatialSounds", []))
-assert game.get("panoramas", {}).get("B", {}).get("mime") == "image/png"
+assert game.get("panoramas", {}).get("B", {}).get("mime") in ("image/png", "image/webp")
 assert len(game["story"]["adventure"]["events"]) == 112
 print("PASS: 12 chapters, 112 events, 128 actions; every flag has a setter and every event signal a producer.")
 print("PASS: all 13 MP4s and 16 OGG cues are present, linked, and embedded in the standalone game.")

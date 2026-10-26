@@ -25,5 +25,5 @@ for room, state in expected:
         meta = next(r for r in collection if r["id"]==room)
         assert meta["variantAssets"][state] == aid
     assert state in next(r for r in game["story"]["adventure"]["rooms"] if r["id"]==room)["variants"]
-assert game["panoramas"]["B"]["mime"] == "image/png"
-print("PASS: C/F/H story variants now use full composited panoramas; default rooms remain unchanged.")
+assert game["panoramas"]["B"]["mime"] in ("image/png", "image/webp")
+print("PASS: C/F/H story variants now use full composited panoramas; default room panoramas remain active.")

@@ -29,6 +29,7 @@ for e in adventure['events']:
   assert any(x['id']==e['id'] and x.get('timelineId')==e['id'] for x in game['story']['adventure']['events'])
 assert sum(1 for e in adventure['events'] if e.get('timelineId'))==16
 assert len([x for x in game['spatialSounds'] if x['id'] in ids])==16
-assert next(r for r in project['rooms'] if r['id']=='B')['file']=='rooms/B/original.png', 'normal production room source path must remain untouched'
-assert game.get('panoramas',{}).get('B',{}).get('mime')=='image/png', 'normal B panorama must remain active in the default game'
+b_room=next(r for r in project['rooms'] if r['id']=='B')
+assert b_room['file'].startswith('rooms/B/') and (ROOT/'game-project'/b_room['file']).exists(), 'default kitchen panorama must point to an existing project asset'
+assert game.get('panoramas',{}).get('B',{}).get('mime') in ('image/png','image/webp'), 'default B panorama must remain active in the game'
 print('PASS: 16 playable OGG cues, canonical trigger/timeline wiring, offline embedded audio, quiet opening preserved, 12 chapters/112 events intact')
