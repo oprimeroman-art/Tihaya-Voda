@@ -8,6 +8,10 @@ on:
       - 'studio/source/adventure-core.js'
       - 'studio/source/adventure-ui.js'
       - 'studio/source/game-runtime.html'
+      - 'studio/source/story-core.js'
+      - 'studio/source/rules-core.js'
+      - 'studio/source/i18n.js'
+      - 'codex-scripts/sync_document_ui.py'
       - 'codex-scripts/sync_embedded_engine.py'
       - 'codex-scripts/audit_art_ready.py'
       - 'production/asset_manifest_q01_q03.json'
@@ -26,6 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
       - name: Run story engine regression checks
         run: |
           node studio/verification/adventure-pending.test.cjs
@@ -33,10 +38,24 @@ jobs:
           node studio/verification/adventure-rooms.test.cjs
       - name: Report first art wave readiness (nonblocking before actual art production)
         run: python3 codex-scripts/audit_art_ready.py
-      - name: Update existing offline game and editor
+      - name: Update existing offline game and editor without overwriting unrelated runtime fixes
+        shell: bash
         run: |
-          python3 codex-scripts/sync_embedded_engine.py
-          python3 codex-scripts/sync_embedded_engine.py --check
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            changed="$(git diff --name-only "$GITHUB_EVENT_BEFORE" "$GITHUB_SHA")"
+            if grep -Eq '^(studio/source/adventure-core\.js|studio/source/game-runtime\.html|studio/source/story-core\.js|studio/source/rules-core\.js|studio/source/i18n\.js|codex-scripts/sync_embedded_engine\.py)$' <<< "$changed"; then
+              echo 'Core/runtime source changed; using full synchronizer.'
+              python3 codex-scripts/sync_embedded_engine.py
+              python3 codex-scripts/sync_embedded_engine.py --check
+            else
+              echo 'Only shared UI or supporting assets changed; preserving the rest of the shipped runtime.'
+              python3 codex-scripts/sync_document_ui.py
+            fi
+          else
+            python3 codex-scripts/sync_embedded_engine.py
+            python3 codex-scripts/sync_embedded_engine.py --check
+          fi
           python3 studio/verification/standalone-html.test.py
           node studio/verification/horror-visuals.test.cjs
           node studio/verification/horror-cues.test.cjs

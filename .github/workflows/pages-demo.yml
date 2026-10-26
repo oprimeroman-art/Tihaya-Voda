@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Sync shared UI into standalone game and editor
-        run: python3 codex-scripts/sync_embedded_engine.py
+        run: python3 codex-scripts/sync_document_ui.py
       - name: Reconstruct illustrated chapters, props and existing story
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Check player runtime regressions

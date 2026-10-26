@@ -10,9 +10,9 @@ on:
       - "codex-scripts/build_pages_demo.py"
       - "codex-scripts/alpha_wave4_props.py"
       - "codex-scripts/sync_embedded_engine.py"
+      - "codex-scripts/sync_document_ui.py"
       - "studio/content/TIHAYA_VODA/adventure.json"
       - ".github/workflows/wave9-pr-qa.yml"
-  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: "22"
       - name: Sync shared UI into standalone game and editor
-        run: python3 codex-scripts/sync_embedded_engine.py
+        run: python3 codex-scripts/sync_document_ui.py
       - name: Build illustrated preview from existing game
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Check player runtime regressions
