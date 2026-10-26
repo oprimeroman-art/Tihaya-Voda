@@ -59,6 +59,8 @@ def audit() -> dict:
     room_map = {r['id']:r for r in game['rooms']}
     issues = []
     accepted = 0
+    overlay_ready = 0
+    overlay_missing = 0
     uncalibrated = 0
     for scene in spec['canonical_rooms']:
         id = scene['room_id']
@@ -86,11 +88,15 @@ def audit() -> dict:
         room=next(r for r in spec['canonical_rooms'] if r['room_id']==variant['room'])
         v=next(e for e in room['changed_variants'] if e['id']==variant['variant'])
         if not (ROOT/v['asset_path']).is_file():
+            overlay_missing += 1
             issues.append('Missing overlay '+v['asset_path'])
+        else:
+            overlay_ready += 1
     if uncalibrated:
         issues.append(f'{uncalibrated} hotspot corners still require visual calibration')
     return {'base_panorama_ready':accepted,'base_panorama_needed':8,
-            'overlay_needed':len(spec['required_variant_assets']),
+            'overlay_ready':overlay_ready,'overlay_needed':len(spec['required_variant_assets']),
+            'overlay_missing':overlay_missing,
             'uncalibrated_hotspots':uncalibrated,'issues':issues,
             'ready':not issues}
 
@@ -104,7 +110,7 @@ def main():
     if args.json:
         print(json.dumps(report,ensure_ascii=False,indent=2))
     else:
-        print(f"Panoramas: {report['base_panorama_ready']}/{report['base_panorama_needed']}; overlays needed: {report['overlay_needed']}; hotspot calibration pending: {report['uncalibrated_hotspots']}")
+        print(f"Panoramas: {report['base_panorama_ready']}/{report['base_panorama_needed']}; overlays: {report['overlay_ready']}/{report['overlay_needed']} (missing {report['overlay_missing']}); hotspot calibration pending: {report['uncalibrated_hotspots']}")
         for issue in report['issues']:
             print('PENDING:',issue)
         print('PRODUCTION_READY:',report['ready'])

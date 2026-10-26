@@ -21,6 +21,9 @@ on:
       - 'codex-scripts/sync_embedded_engine.py'
       - 'codex-scripts/audit_art_ready.py'
       - 'production/asset_manifest_q01_q03.json'
+      - 'art/overlays/**'
+      - 'codex-scripts/generate_existing_room_overlays.py'
+      - 'codex-scripts/test_existing_room_overlays.py'
 
 permissions:
   contents: write
@@ -42,7 +45,7 @@ jobs:
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-saves.test.cjs
           node studio/verification/adventure-rooms.test.cjs
-      - name: Report first art wave readiness (nonblocking before actual art production)
+      - name: Report Q01-Q03 production art readiness
         run: python3 codex-scripts/audit_art_ready.py
       - name: Update existing offline game and editor without overwriting unrelated runtime fixes
         shell: bash
