@@ -28,6 +28,7 @@ on:
       - 'studio/verification/spatial-audio-pack.test.py'
       - 'codex-scripts/generate_found_footage_pack.py'
       - 'studio/verification/found-footage-pack.test.py'
+      - 'studio/verification/campaign-integrity.test.py'
 
 permissions:
   contents: write
@@ -80,6 +81,7 @@ jobs:
           if ! command -v ffmpeg >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
           python3 codex-scripts/generate_found_footage_pack.py
           python3 studio/verification/found-footage-pack.test.py
+          python3 studio/verification/campaign-integrity.test.py
           python3 codex-scripts/test_wave10_kitchen_state.py
           python3 studio/verification/standalone-html.test.py
           node studio/verification/horror-visuals.test.cjs
