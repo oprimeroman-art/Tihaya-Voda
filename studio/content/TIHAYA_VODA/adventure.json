@@ -65,7 +65,9 @@
       "default_variant": "C_NORMAL",
       "name": "Коридор",
       "variantAssets": {
-        "C_MIRROR_LIGHT": "composite_c_mirror_light"
+        "C_MIRROR_LIGHT": "composite_c_mirror_light",
+        "C_HIDDEN_DOOR": "composite_c_hidden_door",
+        "C_REVERSED_SNOW": "composite_c_reversed_snow"
       }
     },
     {
@@ -104,7 +106,9 @@
       ],
       "default_variant": "E_NORMAL",
       "name": "Дизельная",
-      "variantAssets": {}
+      "variantAssets": {
+        "E_FALSE_DIGITAL": "composite_e_false_digital"
+      }
     },
     {
       "id": "F",
@@ -116,7 +120,8 @@
       "default_variant": "F_NORMAL",
       "name": "Склад",
       "variantAssets": {
-        "F_ARCHIVE12": "composite_f_archive12"
+        "F_ARCHIVE12": "composite_f_archive12",
+        "F_SUIT_STANDING": "composite_f_suit_standing"
       },
       "visualProfiles": {
         "F_SUIT_STANDING": {
