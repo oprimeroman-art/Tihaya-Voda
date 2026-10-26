@@ -1,0 +1,56 @@
+name: Render campaign 360 panoramas
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'production/geometry/CAMPAIGN/render_campaign360.py'
+      - 'production/geometry/B_NORMAL/render_kitchen360.py'
+      - 'production/geometry/B_NORMAL/curved_geometry.py'
+      - 'production/geometry/B_NORMAL/light_transport.py'
+      - 'production/geometry/B_NORMAL/surface_details.py'
+      - 'art/candidates/B_B_NORMAL_360_geometry.webp'
+      - 'art/materials/cc0/**'
+      - '.github/workflows/render-campaign-panoramas.yml'
+permissions:
+  contents: write
+concurrency:
+  group: campaign-panorama-build
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install renderer dependencies
+        run: python -m pip install --disable-pip-version-check numpy pillow
+      - name: Render 16 distinct 360-degree room panoramas
+        run: python3 production/geometry/CAMPAIGN/render_campaign360.py --width 2048
+      - name: Composite existing authored state art
+        run: python3 codex-scripts/apply_existing_room_overlays.py
+      - name: Validate visual pack and existing media wiring
+        run: |
+          python3 studio/verification/campaign-panorama-pack.test.py
+          python3 studio/verification/room-variant-art.test.py
+          python3 studio/verification/campaign-integrity.test.py
+          python3 studio/verification/spatial-audio-pack.test.py
+          python3 studio/verification/found-footage-pack.test.py
+          python3 codex-scripts/test_wave10_kitchen_state.py
+          python3 studio/verification/standalone-html.test.py
+          node studio/verification/horror-visuals.test.cjs
+          node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
+      - name: Commit generated visual assets and playable game
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add game/index.html game-editor/index.html game-project/project.json game-project/rooms/*/panorama_v2.webp game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/adventure.json reports/MISSING_ASSETS.tsv production/qa/campaign_panorama_pack_v1.json
+          if git diff --cached --quiet; then echo 'No panorama changes'; exit 0; fi
+          git commit -m 'art: render distinct 360 campaign panoramas'
+          git push origin HEAD:main
