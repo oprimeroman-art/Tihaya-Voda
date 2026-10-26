@@ -8,6 +8,8 @@ on:
       - 'game-project/project.json'
       - 'studio/source/adventure-core.js'
       - 'studio/verification/campaign-story-graph.test.cjs'
+      - 'studio/verification/campaign-complete.test.cjs'
+      - 'studio/verification/campaign-route.cjs'
       - 'studio/verification/adventure-pending.test.cjs'
       - 'studio/verification/adventure-rooms.test.cjs'
       - 'studio/verification/adventure-saves.test.cjs'
@@ -26,7 +28,9 @@ jobs:
         with:
           node-version: '22'
       - name: Verify campaign action graph and all endings
-        run: node studio/verification/campaign-story-graph.test.cjs
+        run: |
+          node studio/verification/campaign-story-graph.test.cjs
+          node studio/verification/campaign-complete.test.cjs
       - name: Verify event scheduling and room transitions
         run: |
           node studio/verification/adventure-pending.test.cjs

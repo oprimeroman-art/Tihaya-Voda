@@ -1,0 +1,66 @@
+{
+  "method": "built-in image_gen",
+  "shared_prompt": "Final realistic painted Soviet polar station inventory cutout; one object, three-quarter top-down, worn materials, muted cold gray and amber, upper-left soft light, true transparent background, no caption or UI.",
+  "items": [
+    {
+      "id": "BADGE04",
+      "subject": "a worn Soviet station operator identification badge, dull metal clip, aged laminated off-white card, printed large black number 04, no portrait"
+    },
+    {
+      "id": "STORAGE_KEY",
+      "subject": "a single old brass storage cupboard key with a short blade and small plain oval tag, scratched and tarnished"
+    },
+    {
+      "id": "FUSE_3",
+      "subject": "a single old ceramic and brass high current cylindrical fuse, chipped cream ceramic body, darkened metal contacts"
+    },
+    {
+      "id": "P17_SAMPLE",
+      "subject": "one sealed glass laboratory vial of dark blue liquid, frosted condensation, worn plain white specimen label marked P-17, metal screw cap"
+    },
+    {
+      "id": "FLASHLIGHT",
+      "subject": "a rugged old black and olive Soviet hand flashlight, cylindrical metal housing, large round glass lens, worn grip"
+    },
+    {
+      "id": "ANTENNA_KEY",
+      "subject": "a heavy steel open ended antenna adjustment spanner, corroded edge, thick squared handle"
+    },
+    {
+      "id": "BEACON",
+      "subject": "a portable orange and olive emergency radio locator beacon with folded short antenna, carrying strap and one small red indicator"
+    },
+    {
+      "id": "VHS_FRAGMENT_A",
+      "subject": "a broken left half of a black VHS cassette shell with one exposed tape reel and a short strip of magnetic tape"
+    },
+    {
+      "id": "VHS_FRAGMENT_B",
+      "subject": "a broken right half of a black VHS cassette shell with one exposed tape reel and a short strip of magnetic tape"
+    },
+    {
+      "id": "PUNCHCARD_RU",
+      "subject": "a cream punched computer card, clipped top left corner, exact rows of rectangular holes, tiny red pencil marks, aged paper, no readable words"
+    },
+    {
+      "id": "PUNCHCARD_DE",
+      "subject": "an aged pale gray punched computer card, clipped top right corner, exact rows of rectangular holes at different positions, small blue pencil marks, no readable words"
+    },
+    {
+      "id": "VHS_V01",
+      "subject": "a complete black VHS cassette with worn off-white paper label, large handwritten 01"
+    },
+    {
+      "id": "VHS_V03",
+      "subject": "a complete black VHS cassette with aged off-white paper label, a handwritten 03 and a small personal folded paper note tucked beneath its edge"
+    },
+    {
+      "id": "SHUTTER_PIN",
+      "subject": "one heavy steel mechanical shutter locking pin, cylindrical shaft and circular retaining loop, scratches and old grease"
+    },
+    {
+      "id": "ARCHIVE_KEY",
+      "subject": "Small dull nickel Soviet archive cabinet key, circular bow, double-bit blade, dark red Bakelite tag; true transparent background."
+    }
+  ]
+}

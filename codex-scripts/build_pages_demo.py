@@ -75,6 +75,7 @@ def main():
     # Stockroom F: canonical puzzle/notes with three storyboard variants.
     from alpha_wave3 import apply_wave3
     applied.update(apply_wave3(payload,ROOT))
+    original_props=json.loads(json.dumps(payload['story']['adventure'].get('illustratedProps',{})))
     # Canonical story objects and narrative anomaly art, without changing quest logic.
     from alpha_wave4_props import apply_wave4_props, decorate_game_ui
     applied.update(apply_wave4_props(payload,ROOT))
@@ -95,6 +96,11 @@ def main():
     # Chapter 4: the already-authored sink event changes the actual kitchen panorama.
     from alpha_wave10_kitchen_state import apply_wave10
     applied.update(apply_wave10(payload,ROOT))
+    # Retain campaign inventory/ending art already attached to the canonical build.
+    props=payload['story']['adventure'].setdefault('illustratedProps',{})
+    for kind,mapping in original_props.items():
+        target=props.setdefault(kind,{})
+        for key,value in mapping.items():target.setdefault(key,value)
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
