@@ -17,6 +17,7 @@ OVERLAYS = [
     ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01"),
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
     ("D", "D_LATE_MIRROR", "D_D_LATE_MIRROR.webp", "Позднее отражение в экране"),
+    ("B", "B_TWO_GHOSTS", "B_B_TWO_GHOSTS.webp", "Два отражения в зеркале"),
 ]
 
 def update_list(existing, item):
@@ -37,8 +38,8 @@ def patch_html(html, game):
     encoded = json.dumps(game, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     return html[:pos] + encoded + html[pos + end:]
 
-def generate_monitor_state_overlays():
-    """Create deterministic transparent inserts aligned to D-room monitor UVs."""
+def generate_first_act_state_overlays():
+    """Create deterministic transparent inserts aligned to existing first-act mirror/monitor UVs."""
     overlay_dir = ROOT / "art/overlays"
     overlay_dir.mkdir(parents=True, exist_ok=True)
     width, height = 2048, 1024
@@ -46,6 +47,7 @@ def generate_monitor_state_overlays():
     states = {
         "D_D_FALSE_MONITOR.webp": (0.29, 0.42, 54, 42, "false"),
         "D_D_LATE_MIRROR.webp": (0.57, 0.42, 70, 42, "mirror"),
+        "B_B_TWO_GHOSTS.webp": (0.29, 0.53, 54, 42, "twins"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
@@ -59,6 +61,8 @@ def generate_monitor_state_overlays():
                 glow = max(0, 1 - nx * 0.78 - ny * 0.42)
                 if mode == "false":
                     pixels[x, y] = (int(7 + 8 * glow), int(16 + 26 * glow), int(19 + 31 * glow), 255)
+                elif mode == "twins":
+                    pixels[x, y] = (int(21 + 15 * glow), int(28 + 18 * glow), int(27 + 17 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -72,7 +76,7 @@ def generate_monitor_state_overlays():
             draw.polygon([(w*.44,h*.87),(w*.46,h*.54),(w*.48,h*.45),(w*.53,h*.45),(w*.56,h*.57),(w*.59,h*.87)], fill=(1,4,6,255))
             draw.line((w*.06,h*.22,w*.30,h*.22), fill=(110,155,145,100), width=1)
             draw.line((w*.72,h*.73,w*.94,h*.73), fill=(110,155,145,75), width=1)
-        else:
+        elif mode == "mirror":
             # A reflection too close to fit the physical room; a second offset frame ghosts it.
             cx = w * .52
             ghost = Image.new("RGBA", panel.size, (0,0,0,0)); gd = ImageDraw.Draw(ghost, "RGBA")
@@ -83,6 +87,14 @@ def generate_monitor_state_overlays():
             draw = ImageDraw.Draw(panel, "RGBA")
             draw.ellipse((cx+w*.06,h*.08,cx+w*.20,h*.36), fill=(106,138,132,50))
             draw.polygon([(cx-w*.06,h*.95),(cx-w*.02,h*.58),(cx+w*.07,h*.42),(cx+w*.18,h*.48),(cx+w*.23,h*.95)], fill=(112,143,137,35))
+        else:
+            # Two distinct silhouettes in one mirror; the second is offset like an impossible reflection.
+            for cx, alpha, scale in ((w*.34, 115, .72), (w*.68, 80, .88)):
+                head_w = w*.12*scale; head_h = h*.27*scale
+                draw.ellipse((cx-head_w/2,h*.12,cx+head_w/2,h*.12+head_h), fill=(5,9,10,alpha), outline=(172,190,174,70), width=1)
+                shoulder_y = h*.12+head_h
+                draw.polygon([(cx-w*.15*scale,h*.96),(cx-w*.13*scale,shoulder_y+h*.08),(cx-w*.07*scale,shoulder_y),(cx+w*.07*scale,shoulder_y),(cx+w*.14*scale,shoulder_y+h*.09),(cx+w*.16*scale,h*.96)], fill=(4,8,9,alpha))
+            draw.line((w*.5,h*.06,w*.5,h*.93), fill=(188,202,188,40), width=1)
         for y in range(2, h, 4):
             draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
         if mode == "false":
@@ -101,7 +113,7 @@ def main():
     game, _, _ = payload(html)
     OUT.mkdir(parents=True, exist_ok=True)
     generated = []
-    generate_monitor_state_overlays()
+    generate_first_act_state_overlays()
     # Keep the two existing kitchen states in the editable project too; previously they were only embedded by the standalone build step.
     for state, asset_id in (("B_SECOND_PLATE", "illustrated_B_SECOND_PLATE"), ("B_GHOST_MIRROR", "illustrated_B_GHOST_MIRROR")):
         source = ROOT / "site-assets/kitchen-states" / (state + ".webp")

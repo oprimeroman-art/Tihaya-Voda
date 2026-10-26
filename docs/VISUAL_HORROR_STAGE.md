@@ -66,6 +66,6 @@ GitHub Actions обновляет существующие HTML после из�
 
 ## First-act monitor reflections
 
-The visual-only panorama build now generates two deterministic 2048×1024 transparent screen inserts from the existing D-room hotspot UVs: `D_FALSE_MONITOR` shows a second corridor inside the dead CRT; `D_LATE_MIRROR` shows a delayed human reflection that does not fit the room. The physical monitor bezel remains visible. Both composites are wired through `variantAssets` into the editable project, editor payload, and standalone `game/index.html`. They are presentation-only: no audio or video is generated or modified.
+The visual-only panorama build now generates two deterministic 2048×1024 transparent screen inserts from the existing D-room hotspot UVs: `D_FALSE_MONITOR` shows a second corridor inside the dead CRT; `D_LATE_MIRROR` shows a delayed human reflection that does not fit the room; `B_TWO_GHOSTS` adds two distinct silhouettes to the kitchen sink mirror. The physical monitor bezel remains visible. All three composites are wired through `variantAssets` into the editable project, editor payload, and standalone `game/index.html`. They are presentation-only: no audio or video is generated or modified.
 
 Regression: `python3 studio/verification/monitor-variant-art.test.py`.
