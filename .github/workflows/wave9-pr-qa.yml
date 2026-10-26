@@ -35,6 +35,7 @@ jobs:
           node-version: "22"
       - name: Sync shared UI into standalone game and editor
         run: |
+          python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_document_ui.py
           python3 codex-scripts/sync_standalone_document_art.py
       - name: Build illustrated preview from existing game
