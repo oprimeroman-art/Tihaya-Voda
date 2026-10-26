@@ -40,10 +40,10 @@ vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureAppl
  const window={GagarinAdventure:{}};
  vm.runInNewContext(ui,{window,document:{},console});
  const calls=[];
- const uiMock={endingShown:true,close(){calls.push('close')},engine:{load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
+ const uiMock={endingShown:true,close(){calls.push('close')},engine:{normalize(s){calls.push('normalize:'+s.room);return s},load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
  window.GagarinAdventure.UI.prototype.load.call(uiMock,{room:'B'});
  assert.equal(uiMock.root.hidden,false);
- assert.deepEqual(calls,['close','load:B','sync']);
+ assert.deepEqual(calls,['normalize:B','close','load:B','sync']);
  const reflectionSource=runtime.slice(runtime.indexOf('function adventureReflectState(){'),runtime.indexOf(begin));
  const currentObj={tourKey:'ga:work',visible:false};
  const staleObj={tourKey:'ga:future',visible:true};
