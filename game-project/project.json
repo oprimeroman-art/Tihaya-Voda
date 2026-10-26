@@ -1429,6 +1429,9 @@
               },
               "gaze": 0.9,
               "dismissTo": "D_NORMAL"
+            },
+            "D_INDOOR_TOWER": {
+              "figure": false
             }
           }
         },
@@ -1535,9 +1538,7 @@
           ],
           "default_variant": "J_NORMAL",
           "name": "Шлюз",
-          "variantAssets": {
-            "J_FALSE_BELOV": "composite_j_false_belov"
-          },
+          "variantAssets": {},
           "visualProfiles": {
             "J_FALSE_BELOV": {
               "figure": false,
@@ -1559,9 +1560,7 @@
           ],
           "default_variant": "K_NORMAL",
           "name": "Двор",
-          "variantAssets": {
-            "K_TOWER_SILHOUETTE": "composite_k_tower_silhouette"
-          },
+          "variantAssets": {},
           "visualProfiles": {
             "K_TOWER_SILHOUETTE": {
               "figure": false,
@@ -1602,11 +1601,23 @@
             "N_CLOCK",
             "N_SIGN",
             "N_HANDWRITING",
-            "N_LATE_EXIT"
+            "N_LATE_EXIT",
+            "N_NORMAL"
           ],
           "default_variant": "N_CLOCK",
           "name": "Длинный коридор",
-          "variantAssets": {}
+          "variantAssets": {},
+          "visualProfiles": {
+            "N_LATE_EXIT": {
+              "figure": false,
+              "gazePoint": {
+                "u": 0.78,
+                "v": 0.46
+              },
+              "gaze": 1.5,
+              "dismissTo": "N_NORMAL"
+            }
+          }
         },
         {
           "id": "O",
@@ -16927,18 +16938,6 @@
       "name": "Костюм стоит без человека снаружи",
       "mime": "image/webp",
       "file": "assets/variants/composite_f_suit_standing.webp"
-    },
-    {
-      "id": "composite_j_false_belov",
-      "name": "Ложный Белов в коридоре",
-      "mime": "image/webp",
-      "file": "assets/variants/composite_j_false_belov.webp"
-    },
-    {
-      "id": "composite_k_tower_silhouette",
-      "name": "Силуэт вышки за окном",
-      "mime": "image/webp",
-      "file": "assets/variants/composite_k_tower_silhouette.webp"
     }
   ],
   "audio": [

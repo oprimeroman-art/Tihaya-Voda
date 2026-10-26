@@ -47,6 +47,12 @@ assert(appliedVariants.some(([room,variant])=>room==='J'&&variant==='J_NORMAL'))
 ctx.roomId='K';restored.state.variants.K='K_TOWER_SILHOUETTE';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'none');
 for(let i=0;i<9;i++)gaze.paint(.15);assert.equal(restored.state.variants.K,'K_TOWER_EMPTY');assert.equal(restored.state.progress.seenApparitions['K:K_TOWER_SILHOUETTE'],true);
 assert(appliedVariants.some(([room,variant])=>room==='K'&&variant==='K_TOWER_EMPTY'));
+// The final apparition in the long corridor can be watched until it disappears into an empty corridor.
+ctx.roomId='N';restored.state.variants.N='N_LATE_EXIT';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'none');
+for(let i=0;i<11;i++)gaze.paint(.15);assert.equal(restored.state.variants.N,'N_NORMAL');assert.equal(restored.state.progress.seenApparitions['N:N_LATE_EXIT'],true);
+assert(appliedVariants.some(([room,variant])=>room==='N'&&variant==='N_NORMAL'));
+// The indoor-tower monitor is authored art, not a second CSS apparition.
+ctx.roomId='D';restored.state.variants.D='D_INDOOR_TOWER';gaze.paint();assert.equal(figure.style.display,'none');assert.equal(gaze.active,false);
 // The legacy CSS fallback remains available for states without an authored visual profile.
 const jRoom=story.rooms.find(r=>r.id==='J');const jProfile=jRoom.visualProfiles.J_FALSE_BELOV;delete jRoom.visualProfiles.J_FALSE_BELOV;
 delete restored.state.progress.seenApparitions['J:J_FALSE_BELOV'];ctx.roomId='J';restored.state.variants.J='J_FALSE_BELOV';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'block');
