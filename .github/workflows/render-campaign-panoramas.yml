@@ -35,6 +35,9 @@ jobs:
         run: python3 production/geometry/CAMPAIGN/render_campaign360.py --width 2048
       - name: Composite existing authored state art
         run: python3 codex-scripts/apply_panorama_state_overlays.py
+      - name: Install ffprobe for non-destructive video validation
+        run: |
+          if ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
       - name: Validate visual pack and existing media wiring
         run: |
           python3 studio/verification/campaign-panorama-pack.test.py
