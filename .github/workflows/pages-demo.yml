@@ -14,6 +14,7 @@ on:
       - site-assets/medical-props/**
       - site-assets/stockroom-props/**
       - site-assets/airlock-archive-props/**
+      - site-assets/late-docs/**
       - codex-scripts/alpha_wave2.py
       - codex-scripts/alpha_wave3.py
       - codex-scripts/alpha_wave4_props.py
@@ -22,6 +23,8 @@ on:
       - codex-scripts/test_wave6_stockroom.py
       - codex-scripts/test_wave5_medical.py
       - codex-scripts/alpha_wave7_puzzle_docs.py
+      - codex-scripts/alpha_wave8_late_docs.py
+      - codex-scripts/test_wave8_late_docs.py
       - codex-scripts/test_wave7_puzzle_docs.py
       - codex-scripts/build_pages_demo.py
       - .github/workflows/pages-demo.yml
@@ -62,6 +65,8 @@ jobs:
         run: python3 codex-scripts/test_wave6_stockroom.py
       - name: Verify canonical airlock and VHS documents in built game
         run: python3 codex-scripts/test_wave7_puzzle_docs.py
+      - name: Verify late-chapter document art in built game
+        run: python3 codex-scripts/test_wave8_late_docs.py
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="Личная рукописная страница без номера">
+<defs>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee5c9"/><stop offset=".48" stop-color="#d8cba9"/><stop offset="1" stop-color="#b9a985"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#504632" stop-opacity=".34"/><stop offset=".12" stop-color="#fff" stop-opacity=".08"/><stop offset=".9" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#453b2b" stop-opacity=".32"/></linearGradient>
+ <filter id="grain" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".62" numOctaves="3" seed="24" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".12"/></feComponentTransfer></filter>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="13"/></filter>
+ <pattern id="fibres" width="23" height="31" patternUnits="userSpaceOnUse"><path d="M2 7h8 M15 22h5 M5 29h3" stroke="#75674d" stroke-opacity=".12" stroke-width=".8"/></pattern>
+</defs>
+<rect width="720" height="960" fill="#18252a"/>
+<path d="M54 49 L665 35 L679 918 L45 929 Z" fill="#000" opacity=".42" filter="url(#shadow)"/>
+<g transform="rotate(-.8 360 480)">
+ <path d="M50 39 L661 31 L675 914 L43 926 Z" fill="url(#paper)" stroke="#8b7d60" stroke-width="2"/>
+ <path d="M50 39 L661 31 L675 914 L43 926 Z" fill="url(#edge)"/>
+ <path d="M50 39 L661 31 L675 914 L43 926 Z" fill="url(#fibres)" opacity=".8"/>
+ <path d="M50 39 L661 31 L675 914 L43 926 Z" fill="#5d4d33" filter="url(#grain)" opacity=".42"/>
+ <path d="M605 33 L661 31 L663 93 Q632 77 605 33Z" fill="#a99b79" opacity=".65"/>
+ <path d="M605 33 Q631 68 663 93" fill="none" stroke="#7b6c50" stroke-opacity=".6" stroke-width="1.4"/>
+ <ellipse cx="535" cy="150" rx="70" ry="47" fill="#6d7350" opacity=".12" transform="rotate(-13 535 150)"/>
+ <g transform="translate(476 72)" opacity=".64" stroke="#4c5545" stroke-width="2" fill="none">
+  <path d="M0 76 L8 18 L118 14 L126 76 Z M8 18 L44 0 L118 14 M44 0 L45 61 M0 76 L126 76"/>
+  <rect x="18" y="43" width="91" height="20" fill="#78835a" stroke="#6b744d" opacity=".7"/>
+  <path d="M18 43h91 M23 47h80 M26 53h75 M30 58h68" stroke="#a7ae80" stroke-width="1.1"/>
+  <path d="M18 63v6 M109 63v6 M62 43v20" stroke-width="1.2"/>
+ </g>
+ <g fill="#263447" font-family="Segoe Print, Comic Sans MS, cursive" font-style="italic" font-size="23">
+  <text x="88" y="205">Я помню комнату с зелёным</text>
+  <text x="88" y="244">половиком. Это точно не эта комната.</text>
+  <text x="88" y="301">Я помню, как ждал, что мне</text>
+  <text x="88" y="340">кто-нибудь скажет, что делать.</text>
+  <text x="88" y="397">Мне всегда проще с инструкцией:</text>
+  <text x="88" y="436">если всё расписано, значит</text>
+  <text x="88" y="475">ответственность не моя.</text>
+  <text x="88" y="532">В тот день у рычага инструкция</text>
+  <text x="88" y="571">закончилась. Я сделал то, что</text>
+  <text x="88" y="610">выбрал сам. Потом сказал, что</text>
+  <text x="88" y="649">рычаг не работал.</text>
+  <text x="88" y="706">Ни один из этих листов не</text>
+  <text x="88" y="745">объясняет, почему я всё ещё</text>
+  <text x="88" y="784">могу поставить чайник.</text>
+  <text x="88" y="841">Но человеку за дверью я его должен.</text>
+ </g>
+ <path d="M90 858 Q204 864 319 859 T548 858" fill="none" stroke="#2c3948" stroke-width="1.1" opacity=".45"/>
+ <path d="M54 906 Q186 899 292 906" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
+</g>
+</svg>

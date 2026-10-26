@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="Рукописная записка Ирины, прикреплённая к двери галереи">
+<defs>
+ <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#34474d"/><stop offset=".5" stop-color="#202e34"/><stop offset="1" stop-color="#46565a"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9e4d4"/><stop offset=".48" stop-color="#d8d1bd"/><stop offset="1" stop-color="#b8b09a"/></linearGradient>
+ <filter id="grain" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" seed="26" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer></filter>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="13"/></filter>
+ <pattern id="metal" width="48" height="64" patternUnits="userSpaceOnUse"><path d="M0 0H48 M0 63H48" stroke="#a3b2b1" stroke-opacity=".08"/><path d="M9 0V64" stroke="#111c22" stroke-opacity=".14"/></pattern>
+</defs>
+<rect width="720" height="960" fill="url(#steel)"/>
+<rect x="28" y="22" width="664" height="916" rx="10" fill="url(#metal)" stroke="#66777a" stroke-width="3"/>
+<g fill="#152229" stroke="#7d8a8b" stroke-width="2"><circle cx="55" cy="52" r="10"/><circle cx="665" cy="52" r="10"/><circle cx="55" cy="908" r="10"/><circle cx="665" cy="908" r="10"/></g>
+<g opacity=".24" fill="#d9e7e5"><ellipse cx="91" cy="177" rx="20" ry="65"/><ellipse cx="627" cy="744" rx="24" ry="91"/><ellipse cx="116" cy="790" rx="16" ry="53"/></g>
+<path d="M68 72 L650 57 L663 884 L57 897 Z" fill="#000" opacity=".48" filter="url(#shadow)"/>
+<g transform="rotate(-.7 360 480)">
+ <path d="M64 65 L649 58 L662 884 L56 897 Z" fill="url(#paper)" stroke="#9b927e" stroke-width="2"/>
+ <path d="M64 65 L649 58 L662 884 L56 897 Z" fill="#6a5c43" filter="url(#grain)" opacity=".35"/>
+ <path d="M64 65 L649 58 L662 884 L56 897 Z" fill="#53634f" opacity=".07"/>
+ <path d="M64 65 L649 58 L662 884 L56 897 Z" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="8"/>
+ <g transform="rotate(-4 140 93)"><path d="M83 60 L204 58 L211 123 L88 127 Z" fill="#839a9b" opacity=".78"/><path d="M93 67L200 65L204 115L96 119Z" fill="#b5c6c1" opacity=".24"/></g>
+ <g transform="rotate(3 590 96)"><path d="M529 53 L649 55 L645 119 L524 115 Z" fill="#81979a" opacity=".75"/><path d="M537 61L641 63L638 111L532 108Z" fill="#c0d0cc" opacity=".22"/></g>
+ <g fill="#263a4a" font-family="Segoe Print, Comic Sans MS, cursive" font-style="italic" font-size="22">
+  <text x="95" y="178">Раньше мне казалось: достаточно</text>
+  <text x="95" y="217">доказать, что решение можно</text>
+  <text x="95" y="256">отменить, — и оно перестанет</text>
+  <text x="95" y="295">быть сделанным.</text>
+  <text x="95" y="354">Я не понимала разницы между</text>
+  <text x="95" y="393">приборным следом и человеком.</text>
+  <text x="95" y="452">Если ты дошёл до двери, ты не</text>
+  <text x="95" y="491">обязан исправлять нас всех.</text>
+  <text x="95" y="530">Ты обязан только не называть</text>
+  <text x="95" y="569">случайностью то, что сделал</text>
+  <text x="95" y="608">намеренно.</text>
+  <text x="95" y="667">Я запустила повторное наблюдение.</text>
+  <text x="95" y="706">Этого не требовал ни один прибор.</text>
+  <text x="95" y="765">Если за это нужно кого-то винить —</text>
+  <text x="95" y="804">меня можно винить по имени.</text>
+ </g>
+ <path d="M95 830 Q170 839 255 831" fill="none" stroke="#2d4051" stroke-width="1.5" opacity=".55"/>
+ <text x="492" y="850" font-family="Segoe Print, Comic Sans MS, cursive" font-size="29" font-style="italic" fill="#263a4a">Ирина</text>
+ <path d="M488 857 Q548 865 604 852" fill="none" stroke="#263a4a" stroke-width="1.8" opacity=".7"/>
+</g>
+</svg>

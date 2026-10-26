@@ -87,6 +87,9 @@ def main():
     # Chapter 7 airlock and chapter 8 VHS hints: canonical actions, no new events.
     from alpha_wave7_puzzle_docs import apply_puzzle_docs
     applied.update(apply_puzzle_docs(payload,ROOT))
+    # Late chapter 11–12 canonical document props; text and story logic remain unchanged.
+    from alpha_wave8_late_docs import apply_late_docs
+    applied.update(apply_late_docs(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)
