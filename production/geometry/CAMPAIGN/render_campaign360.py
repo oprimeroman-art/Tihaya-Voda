@@ -123,15 +123,38 @@ def add_hotspot_props(r,room):
   if cs:groups[(round(sum(float(c['u']) for c in cs)/len(cs),3),round(sum(float(c['v']) for c in cs)/len(cs),3))].append(o)
  count=0
  for i,((u,v),obs) in enumerate(sorted(groups.items())):
-  phi=(u-.5)*2*math.pi;dx=math.sin(phi);dz=-math.cos(phi);tx=2.91/max(abs(dx),1e-4);tz=2.42/max(abs(dz),1e-4);t=min(tx,tz);x=dx*t;z=dz*t;y=max(.38,min(2.38,1.65+t*math.tan((.5-v)*math.pi)))
-  names=' '.join(str(o.get('name',''))+' '+str(o.get('id','')) for o in obs).lower();kind='paper' if any(k in names for k in ('journal','document','letter','note','запис','журнал','документ','письм','протокол','лист','акт','карточ','рапорт','досье')) else 'glass' if any(k in names for k in ('mirror','зеркал','отраж')) else 'steel'
-  title='hotspot_'+r+'_'+str(i);R.signage.PRINTED[title]=(str(obs[0].get('name') or obs[0].get('id') or 'ОБЪЕКТ')[:22].upper(),NAMES[r],[f'ОБЪЕКТ {i+1}','СЛУЖЕБНАЯ МАРКИРОВКА'],'red' if i%4==0 else 'blue')
+  names=' '.join(str(o.get('name',''))+' '+str(o.get('id','')) for o in obs).lower()
+  if any(k in names for k in ('journal','document','letter','note','запис','журнал','документ','письм','протокол','лист','акт','карточ','рапорт','досье')):kind='paper'
+  elif any(k in names for k in ('mirror','зеркал','отраж')):kind='mirror'
+  elif any(k in names for k in ('взять','take_','badge','key','ключ','бейдж','fragment','фрагмент','pin','штифт','sample','проба','punchcard','перфолист')):kind='item'
+  elif any(k in names for k in ('watch_','видео','кассет','vhs','play','проигрыв','плёнк','пленк','media')):kind='media'
+  else:kind='panel'
+  title='hotspot_'+r+'_'+str(i);accent=PALETTE[r][3]
+  # Do not print action/object names into the static panorama: hidden objects and later clues must stay hidden.
+  if kind=='paper':R.signage.PRINTED[title]=('СЛУЖЕБНАЯ ЗАПИСЬ',NAMES[r],['МАЯК-9','НЕ ВЫНОСИТЬ'],'red' if i%4==0 else 'blue')
+  phi=(u-.5)*2*math.pi;dx=math.sin(phi);dz=-math.cos(phi);tx=2.91/max(abs(dx),1e-4);tz=2.42/max(abs(dz),1e-4);t=min(tx,tz);x=dx*t;z=dz*t;y=max(.38,min(2.38,1.65+t*math.tan((.5-v)*math.pi)));
   if tx<tz:
-   xx=(1 if x>0 else -1)*2.88;box(title,(xx-.035,y-.19,z-.29),(xx+.035,y+.19,z+.29),(191,184,151) if kind=='paper' else (48,60,58),kind)
-   if kind!='paper':box(title+'_screen',(xx-.045,y-.12,z-.22),(xx+.045,y+.12,z+.22),(14,31,32),'glass')
+   side=1 if x>0 else -1;xx=side*2.88
+   if kind=='paper':
+    box(title+'_back',(xx-.045,y-.20,z-.24),(xx+.045,y+.20,z+.24),(91,79,56),'wood');box(title,(xx-.055,y-.17,z-.21),(xx+.055,y+.17,z+.21),(196,189,161),'paper')
+   elif kind=='mirror':
+    box(title+'_frame',(xx-.06,y-.22,z-.29),(xx+.06,y+.22,z+.29),(123,132,116),'steel');box(title,(xx-.065,y-.18,z-.25),(xx+.065,y+.18,z+.25),(66,103,110),'glass')
+   elif kind=='item':
+    box(title+'_shelf',(xx-.11,y-.18,z-.23),(xx+.10,y-.13,z+.23),(89,78,55),'wood');box(title,(xx-.10,y-.12,z-.14),(xx+.10,y+.07,z+.14),(145,134,100),'enamel')
+   else:
+    box(title+'_body',(xx-.045,y-.20,z-.29),(xx+.045,y+.20,z+.29),(43,55,53),'steel');box(title,(xx-.055,y-.12,z-.22),(xx+.055,y+.11,z+.22),(14,28,30),'glass')
+    for j in range(2):box(title+'_scan'+str(j),(xx-.06,y-.06+j*.07,z-.18),(xx+.06,y-.045+j*.07,z+.18),accent,'glass')
   else:
-   zz=(1 if z>0 else -1)*2.39;box(title,(x-.29,y-.19,zz-.035),(x+.29,y+.19,zz+.035),(191,184,151) if kind=='paper' else (48,60,58),kind)
-   if kind!='paper':box(title+'_screen',(x-.22,y-.12,zz-.045),(x+.22,y+.12,zz+.045),(14,31,32),'glass')
+   side=1 if z>0 else -1;zz=side*2.39
+   if kind=='paper':
+    box(title+'_back',(x-.24,y-.20,zz-.045),(x+.24,y+.20,zz+.045),(91,79,56),'wood');box(title,(x-.21,y-.17,zz-.055),(x+.21,y+.17,zz+.055),(196,189,161),'paper')
+   elif kind=='mirror':
+    box(title+'_frame',(x-.31,y-.22,zz-.06),(x+.31,y+.22,zz+.06),(123,132,116),'steel');box(title,(x-.27,y-.18,zz-.065),(x+.27,y+.18,zz+.065),(66,103,110),'glass')
+   elif kind=='item':
+    box(title+'_shelf',(x-.23,y-.18,zz-.11),(x+.23,y-.13,zz+.11),(89,78,55),'wood');box(title,(x-.14,y-.12,zz-.09),(x+.14,y+.07,zz+.09),(145,134,100),'enamel')
+   else:
+    box(title+'_body',(x-.31,y-.20,zz-.045),(x+.31,y+.20,zz+.045),(43,55,53),'steel');box(title,(x-.23,y-.12,zz-.055),(x+.23,y+.11,zz+.055),(14,28,30),'glass')
+    for j in range(2):box(title+'_scan'+str(j),(x-.18,y-.06+j*.07,zz-.06),(x+.18,y-.045+j*.07,zz+.06),accent,'glass')
   count+=1
  return count
 
