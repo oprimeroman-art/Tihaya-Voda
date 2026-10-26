@@ -5,11 +5,45 @@ The artwork is a 2:1, offline WebP scene variant for the existing B_GHOST_MIRROR
 story state. It introduces no gameplay objects or narrative changes.
 """
 from pathlib import Path
+import argparse
 import hashlib
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'site-assets/kitchen-states/B_GHOST_MIRROR.webp'
+parser=argparse.ArgumentParser()
+parser.add_argument('--state',choices=['B_SECOND_PLATE','B_GHOST_MIRROR'],default='B_GHOST_MIRROR')
+STATE=parser.parse_args().state
+OUT=ROOT/'site-assets/kitchen-states'/f'{STATE}.webp'
+if STATE == 'B_SECOND_PLATE':
+    # The precursor is a controlled earlier state of the same painted scene.
+    # Start from the final state and repaint only the mirror glass, plate centre,
+    # and impossible shadow; all room geometry, lighting and wear stay identical.
+    from PIL import ImageDraw
+    source=ROOT/'site-assets/kitchen-states/B_GHOST_MIRROR.webp'
+    if not source.exists(): raise FileNotFoundError('Generate B_GHOST_MIRROR.webp first')
+    im=Image.open(source).convert('RGBA')
+    d=ImageDraw.Draw(im,'RGBA')
+    d.rounded_rectangle((765,190,1315,465),radius=4,fill=(66,88,91,255))
+    rng=np.random.default_rng(197804)
+    for i in range(22):
+        xx=int(rng.integers(775,1300)); yy=int(rng.integers(200,450)); rr=int(rng.integers(10,48))
+        d.ellipse((xx-rr,yy-rr,xx+rr,yy+rr),fill=(159,178,168,int(rng.integers(4,18))))
+    d.line((790,232,1290,202),fill=(211,220,203,34),width=3)
+    d.line((820,405,1280,373),fill=(191,207,194,26),width=4)
+    # Repaint the right plate as plain scratched enamel, with no face reflection.
+    d.ellipse((1128,629,1352,711),fill=(12,20,22,230))
+    d.ellipse((1137,634,1343,706),fill=(184,189,170,245),outline=(223,222,198,190),width=4)
+    d.ellipse((1163,642,1317,698),fill=(69,82,80,245),outline=(112,127,119,180),width=3)
+    d.arc((1165,645,1315,695),195,330,fill=(220,215,188,110),width=3)
+    # The spoon's shadow now sits directly below the spoon instead of drifting away.
+    d.line((1290,675,1368,704),fill=(57,69,68,255),width=12)
+    d.line((1302,659,1360,677),fill=(9,16,19,150),width=6)
+    OUT.parent.mkdir(parents=True,exist_ok=True)
+    out=im.convert('RGB').filter(ImageFilter.GaussianBlur(.2))
+    out.save(OUT,'WEBP',quality=91,method=6)
+    raw=OUT.read_bytes()
+    print('WROTE',OUT,'size',len(raw),'sha256',hashlib.sha256(raw).hexdigest(),'dimensions',out.size)
+    raise SystemExit(0)
 W,H=2048,1024
 rng=np.random.default_rng(197804)
 y,x=np.mgrid[0:H,0:W]
@@ -81,17 +115,18 @@ md.line((20,225,540,190),fill=(207,215,193,36),width=4)
 md.line((60,42,420,18),fill=(211,221,205,30),width=3)
 # Ghostly Anna: hair/shoulders/head and a hand lifted toward an absent plate.
 # Her body dissolves into the reflection's vertical water stains.
-md.ellipse((240,66,326,164),fill=(22,32,35,220))
-md.ellipse((251,77,314,145),fill=(174,177,157,210))
-md.pieslice((235,58,331,170),180,360,fill=(18,27,31,240))
-md.polygon([(218,160),(252,137),(313,139),(350,178),(372,285),(186,285)],fill=(30,42,44,225))
-md.polygon([(270,148),(290,148),(300,204),(284,222),(264,200)],fill=(185,183,157,105))
-md.line((213,188,173,225,214,238),fill=(166,178,160,200),width=12)
-md.ellipse((203,232,229,246),fill=(190,189,163,185))
-md.line((304,188,340,215,360,205),fill=(157,172,155,190),width=10)
-# Face has only two dark, uncertain marks; no gore or explicit monster features.
-md.ellipse((265,111,272,119),fill=(18,27,30,235)); md.ellipse((296,109,303,117),fill=(18,27,30,235))
-md.line((276,134,294,132),fill=(89,94,83,180),width=3)
+if STATE == 'B_GHOST_MIRROR':
+    md.ellipse((240,66,326,164),fill=(22,32,35,220))
+    md.ellipse((251,77,314,145),fill=(174,177,157,210))
+    md.pieslice((235,58,331,170),180,360,fill=(18,27,31,240))
+    md.polygon([(218,160),(252,137),(313,139),(350,178),(372,285),(186,285)],fill=(30,42,44,225))
+    md.polygon([(270,148),(290,148),(300,204),(284,222),(264,200)],fill=(185,183,157,105))
+    md.line((213,188,173,225,214,238),fill=(166,178,160,200),width=12)
+    md.ellipse((203,232,229,246),fill=(190,189,163,185))
+    md.line((304,188,340,215,360,205),fill=(157,172,155,190),width=10)
+    # Face has only two dark, uncertain marks; no gore or explicit monster features.
+    md.ellipse((265,111,272,119),fill=(18,27,30,235)); md.ellipse((296,109,303,117),fill=(18,27,30,235))
+    md.line((276,134,294,132),fill=(89,94,83,180),width=3)
 mirror=mirror.filter(ImageFilter.GaussianBlur(1.4)); im.alpha_composite(mirror,(mx0,my0))
 d=ImageDraw.Draw(im,'RGBA')
 # Finger marks and a narrow crack in the glass.
@@ -117,10 +152,10 @@ def plate(cx,cy,rx,ry,ghost=False):
  else:
   d.arc((cx-rx+24,cy-ry+13,cx+rx-24,cy+ry-13),190,330,fill=(220,215,188,110),width=3)
 plate(720,680,115,43,False)
-plate(1240,670,112,41,True)
+plate(1240,670,112,41,STATE == 'B_GHOST_MIRROR')
 # A spoon suspended just above the empty plate, with a shadow that doesn't match.
 d.line((1304,628,1360,654),fill=(191,196,177,235),width=9);d.ellipse((1350,645,1382,662),fill=(186,193,175,220))
-d.line((1290,675,1368,704),fill=(9,16,19,160),width=8)
+d.line((1290,675,1368,704) if STATE == 'B_GHOST_MIRROR' else (1302,659,1360,677),fill=(9,16,19,160),width=8)
 # Cold vapor at table level; soft, low opacity wisps.
 fog=Image.new('RGBA',(W,H),(0,0,0,0));fd=ImageDraw.Draw(fog,'RGBA')
 for i in range(20):
