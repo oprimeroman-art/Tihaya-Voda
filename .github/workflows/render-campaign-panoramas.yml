@@ -13,7 +13,6 @@ on:
       - 'art/candidates/B_B_NORMAL_360_geometry.webp'
       - 'art/materials/cc0/**'
       - 'studio/verification/found-footage-pack.test.py'
-      - '.github/workflows/render-campaign-panoramas.yml'
 permissions:
   contents: write
 concurrency:
