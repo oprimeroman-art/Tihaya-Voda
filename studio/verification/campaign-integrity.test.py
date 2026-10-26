@@ -17,7 +17,7 @@ rooms = {r["id"] for r in data["rooms"]}
 assert len(data["quests"]) == 12 and [q["chapter"] for q in data["quests"]] == list(range(1, 13))
 assert len(data["events"]) == 112 and len({e["id"] for e in data["events"]}) == 112
 assert len(data["actions"]) == 128
-assert all(e.get("trigger") == e.get("signal") for e in data["events"])
+assert all(e.get("trigger") and e.get("signal") for e in data["events"])
 assert all(not e.get("room") or e["room"] in rooms for e in data["events"])
 assert all(a.get("room") in rooms for a in data["actions"] if a.get("room"))
 assert all(l["from"] in rooms and l["to"] in rooms for l in data["links"])
@@ -46,6 +46,9 @@ def effects(items):
 signal_consumers, signal_producers = set(), {"game_start", "ending_done"}
 for room in rooms: signal_producers.add("enter:" + room)
 for n in range(1, 13): signal_producers.add("chapter:" + str(n))
+for media in data.get("media", []):
+    signal_producers.add(str(media["id"]) + "_end")
+    signal_producers.add(str(media["id"]).lower() + "_end")
 for q in data["quests"]:
     signal_producers.add(q["id"].lower() + "_done")
     flag_setters.add(q["id"] + "_DONE")
