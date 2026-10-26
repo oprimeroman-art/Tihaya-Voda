@@ -36,7 +36,10 @@
       ],
       "default_variant": "B_NORMAL",
       "name": "Кухня",
-      "variantAssets": {}
+      "variantAssets": {
+        "B_SECOND_PLATE": "illustrated_B_SECOND_PLATE",
+        "B_GHOST_MIRROR": "illustrated_B_GHOST_MIRROR"
+      }
     },
     {
       "id": "C",
