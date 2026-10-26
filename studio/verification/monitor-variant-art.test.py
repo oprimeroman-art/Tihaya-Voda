@@ -50,4 +50,7 @@ for state, room_id, asset_id in (("D_FALSE_MONITOR", "D", "composite_d_false_mon
         room = next(r for r in room_list if r["id"] == room_id)
         assert room.get("variantAssets", {}).get(state) == asset_id, f"variant not wired in {room_id}: {state}"
     assert any(a.get("id") == asset_id and a.get("file") == f"assets/variants/{asset_id}.webp" for a in project["assets"]), f"editable asset missing: {state}"
-print("PASS: B_TWO_GHOSTS, D_FALSE_MONITOR, D_DOUBLE_ACTS, D_LATE_MIRROR, H_ANNA_GLASS, G_P17, G_MIRROR_DOOR and C_HIDDEN_DOOR are calibrated, embedded, and mapped in the editor, story data, and standalone game.")
+for label, story in (("canonical", adventure), ("editable", project["story"]["adventure"]), ("standalone", game["story"]["adventure"]), ("editor", editor_game["story"]["adventure"])):
+    action = next(a for a in story["actions"] if a["id"] == "hidden_enter")
+    assert any(fx.get("variant", {}).get("C") == "C_HIDDEN_DOOR" for fx in action.get("effects", [])), f"hidden-door transition mismatch in {label} payload"
+print("PASS: seven first-act/lab variants and C_HIDDEN_DOOR are calibrated, embedded, and mapped in the editor, story data, and standalone game.")
