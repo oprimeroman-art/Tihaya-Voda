@@ -80,8 +80,9 @@
     }
   },
   "remaining": [
-    "Station signs and direct occlusion shadows now render, but most furniture remains procedural low-poly art",
-    "10 candidate hotspots require in-browser visual approval; watch_A05 has no authored physical prop; plate_choice crosses the longitude seam",
+    "Station signs and direct occlusion shadows render; most furniture remains procedural low-poly art",
+    "All 11 3D-projected hotspot centres are visible in the geometric pre-screen; candidate quads still require in-browser visual approval and interaction testing",
+    "watch_A05 is mapped to the physical intercom; plate_choice is split safely at the longitude seam",
     "Do not replace playable room B until art production approval"
   ],
   "material_stage": "CC0_photoscans_with_3d_cast_shadows_and_Cyrillic_signs",
