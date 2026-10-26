@@ -1,0 +1,81 @@
+name: Campaign working build and browser QA
+on:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: Run full browser routes in addition to model, save and export checks
+        type: boolean
+        default: true
+  push:
+    branches: [work/full-campaign]
+concurrency:
+  group: campaign-working-build
+  cancel-in-progress: true
+permissions:
+  contents: write
+jobs:
+  campaign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Synchronize canonical project, Studio and both players
+        run: |
+          python3 codex-scripts/sync_approved_room_art.py
+          python3 codex-scripts/sync_campaign_art.py
+          python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/sync_embedded_engine.py --check
+      - name: Verify story routes, terminal scenes and old saves
+        run: |
+          node studio/verification/test-flow.cjs
+          node studio/verification/ending-scenes.test.cjs
+          node studio/verification/ui-load-safety.test.cjs
+          node studio/verification/adventure-pending.test.cjs
+          node studio/verification/adventure-rooms.test.cjs
+          node studio/verification/adventure-saves.test.cjs
+          node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
+          node studio/verification/horror-visuals.test.cjs
+          python3 studio/verification/standalone-html.test.py
+          python3 studio/verification/campaign-integrity.test.py
+          python3 studio/verification/player-runtime-regressions.py
+      - name: Package current working build
+        run: |
+          python3 codex-scripts/audit_campaign_release.py
+          python3 codex-scripts/package_campaign.py
+      - name: Retain synchronized outputs on the working branch
+        env:
+          WORK_BRANCH: ${{ github.ref_name }}
+        run: |
+          git add game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms game/index.html game/source-project.zip game-editor/index.html game-project/project.json game-project/assets/documents studio/index.html studio/content/TIHAYA_VODA/adventure.json reports/adventure.json reports/CAMPAIGN_RELEASE_GAPS.json reports/MODEL_TEST_REPORT.json reports/CHECKPOINT_*.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'build: synchronize full campaign working artifacts'
+            git push origin "HEAD:$WORK_BRANCH"
+          fi
+      - name: Upload playable working build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tihaya-Voda-Working-Build
+          path: dist/Tihaya-Voda-Working-Build.zip
+          retention-days: 30
+      - name: Install Chromium for actual full-player routes
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.browser }}
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: Play all four routes through visible controls
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.browser }}
+        run: node studio/verification/campaign-browser.test.cjs
+      - name: Upload browser evidence even when a route fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tihaya-Voda-Browser-QA
+          path: reports/campaign-browser/
+          if-no-files-found: ignore
+          retention-days: 30

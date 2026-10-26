@@ -1,7 +1,8 @@
 const fs=require('fs'),assert=require('assert/strict'),path=require('path');
-const root='C:/Users/user/Desktop/TIHAYA_VODA_CODEX_PACK_V2';
-const {Engine,test}=require(root+'/Gagarin_Panorama_Studio_2_8_RU_EN_OFFLINE/Gagarin_Panorama_Studio_2_8/source/adventure-core.js');
-const data=JSON.parse(fs.readFileSync(root+'/TIHAYA_VODA/adventure.json','utf8'));
+const root=path.resolve(__dirname,'../..');
+const out=path.join(root,'reports');
+const {Engine,test}=require(root+'/studio/source/adventure-core.js');
+const data=JSON.parse(fs.readFileSync(root+'/studio/content/TIHAYA_VODA/adventure.json','utf8'));
 let e=new Engine(data),count=0,seen=new Set(),checks=[];
 function drain(){let ev;for(let i=0;i<150;i++){ev=e.flush(70);if(!ev)break;seen.add(ev.id);} }
 function go(dest){if(e.state.room===dest)return;const queue=[[e.state.room,[]]],visited=new Set();let route;
@@ -37,7 +38,7 @@ for(const mode of ['A','B','C','D']){
  doA('SHUTTERS');doA('name_reply');chapter(12);doA('second_window');doA('third_window');doA('POWER_OFF');doA('take_SHUTTER_PIN');doA('PIN_INSERT');doA('ANALOG_READINGS_OK');doA('OBSERVER_SELECT');
  if(mode==='C'){doA('NODE_MEMORY','PETR');let c=data.actions.find(a=>a.id==='FINAL_PANEL').options.find(o=>o.value==='C');assert(!test(c.when,e.state));doA('NODE_MEMORY','ARCHIVE');assert(test(c.when,e.state));checks.push('Tape can change after panel preparation, before signature');}
  doA('FINAL_PANEL',mode);assert.equal(e.state.ended,mode);assert.equal(e.state.checkpoint.name,'before_final_confirmation');assert.equal(e.state.checkpoint.state.ended,false);assert(!e.state.checkpoint.state.done.includes('FINAL_PANEL'));e.signal('ending_done');drain();checks.push('ENDING_'+mode+' reached through actions');
- fs.writeFileSync(path.join(__dirname,'../outputs','CHECKPOINT_'+mode+'.json'),JSON.stringify(e.state.checkpoint.state,null,2));
+ fs.writeFileSync(path.join(out,'CHECKPOINT_'+mode+'.json'),JSON.stringify(e.state.checkpoint.state,null,2));
 }
 // Baseline route has no requirement on optional media for A.
 const minimal=new Engine(data);minimal.load(branch);for(const k of ['WATCHED_V03','PETR_LETTER_DONE','FOUND_D04','FOUND_ACT_BOTH'])delete minimal.state.flags[k];assert(test(data.actions.find(a=>a.id==='FINAL_PANEL').options[0].when,minimal.state));checks.push('Ending A has no optional-evidence condition');
@@ -51,7 +52,7 @@ go('C');doA('cabinet_message');
 for(const id of ['archive_return','read_D20','count_cans','COOKING','plate_choice','dinner_exit','take_P17_SAMPLE','SPECTRUM_MATCH','MICROSCOPE','hidden_enter','read_D03','hidden_exit','WAVE_PHASE','watch_A01','watch_A02','read_D07','flip_acts','take_FLASHLIGHT','take_ANTENNA_KEY','take_BEACON','ice_1','ice_2','ice_3','ANTENNA','AIRLOCK_EQUALIZE','inner_door','take_VHS_FRAGMENT_A','take_VHS_FRAGMENT_B','VHS_ASSEMBLE','watch_V02','wet_towel','read_D09','take_PUNCHCARD_RU','take_PUNCHCARD_DE','PUNCHCARD_OVERLAY','scan_uv','enter_1978','read_D08','read_D12','calibration_plate','exit_1978','read_D17','read_D18','CARDIOMATCH','TIMELINE_SYNC','watch_V04','backward_clock','reversed_exit_arrow','handwriting_floor','leave_N','false_act','NODE_POWER','NODE_MEMORY','NODE_OBSERVER','SHUTTERS','name_reply','second_window','POWER_OFF','take_SHUTTER_PIN','PIN_INSERT','ANALOG_READINGS_OK','OBSERVER_SELECT'])doA(id);
 assert(!e.state.flags.WATCHED_V03&&!e.state.flags.PETR_LETTER_DONE&&!e.state.flags.FOUND_D04);doA('FINAL_PANEL','A');assert.equal(e.state.ended,'A');checks.push('Fresh mandatory-only route reaches A with no V03, Petr letter or D04');
 for(const mode of ['B','C','D']){
- const snapshot=JSON.parse(fs.readFileSync(path.join(__dirname,'../outputs','CHECKPOINT_'+mode+'.json'),'utf8'));
+ const snapshot=JSON.parse(fs.readFileSync(path.join(out,'CHECKPOINT_'+mode+'.json'),'utf8'));
  const option=data.actions.find(a=>a.id==='FINAL_PANEL').options.find(o=>o.value===mode);assert(test(option.when,snapshot));
  for(const key of option.when.all||[]){const bad=structuredClone(snapshot);bad.flags[key]=false;assert(!test(option.when,bad),mode+' missing '+key);}
  for(const [key,value] of Object.entries(option.when.eq||{})){const bad=structuredClone(snapshot);bad.flags[key]=typeof value==='boolean'?!value:typeof value==='number'?99:'NONE';assert(!test(option.when,bad),mode+' mismatched '+key);}
@@ -59,4 +60,4 @@ for(const mode of ['B','C','D']){
  checks.push('Each individual missing condition locks '+mode+' with authored explanation');
 }
 const result={passed:true,actions:count,checks,eventsObserved:[...seen].sort(),eventsNotObserved:data.events.filter(x=>!seen.has(x.id)).map(x=>x.id),note:'Deterministic model route tests. Does not measure human play time or validate missing artistic media.'};
-fs.writeFileSync(path.join(__dirname,'../outputs','MODEL_TEST_REPORT.json'),JSON.stringify(result,null,2));console.log(JSON.stringify({passed:true,actions:count,checks:checks.length,eventsObserved:seen.size,eventsNotObserved:result.eventsNotObserved}));
+fs.writeFileSync(path.join(out,'MODEL_TEST_REPORT.json'),JSON.stringify(result,null,2));console.log(JSON.stringify({passed:true,actions:count,checks:checks.length,eventsObserved:seen.size,eventsNotObserved:result.eventsNotObserved}));

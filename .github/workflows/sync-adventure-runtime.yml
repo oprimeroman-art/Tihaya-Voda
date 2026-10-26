@@ -2,12 +2,6 @@ name: Synchronize adventure runtime
 
 on:
   workflow_dispatch:
-    inputs:
-      regenerate_media:
-        description: "Explicitly regenerate the supplied audio/video packs (normally leave false)"
-        required: false
-        type: boolean
-        default: false
   push:
     branches: [main]
     paths:
@@ -91,27 +85,17 @@ jobs:
             python3 codex-scripts/sync_embedded_engine.py --check
           fi
           python3 codex-scripts/sync_standalone_document_art.py
+          python3 codex-scripts/sync_approved_room_art.py
+          python3 codex-scripts/sync_campaign_art.py
           python -m pip install --disable-pip-version-check numpy soundfile pillow
           python3 codex-scripts/apply_panorama_state_overlays.py
           python3 studio/verification/room-variant-art.test.py
           python3 studio/verification/monitor-variant-art.test.py
           node studio/verification/campaign-story-graph.test.cjs
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
-            echo 'Explicit media regeneration requested.'
-            python3 codex-scripts/generate_spatial_audio_pack.py
-          else
-            echo 'Preserving user-supplied audio; generation is disabled for pushes and default manual runs.'
-          fi
+          echo 'User supplies audio and video. Media generation is disabled.'
           python3 studio/verification/spatial-audio-pack.test.py
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
-            python3 codex-scripts/generate_found_footage_pack.py
-          else
-            echo 'Preserving user-supplied video; generation is disabled for pushes and default manual runs.'
-          fi
           video_validation_required=false
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
-            video_validation_required=true
-          elif [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
             video_changed_paths="$(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA")"
             if grep -Eq '^game-project/video/found_footage/.*[.]mp4$' <<< "$video_changed_paths"; then
               video_validation_required=true
@@ -134,12 +118,9 @@ jobs:
           node studio/verification/horror-visuals.test.cjs
           node studio/verification/horror-cues.test.cjs
           node studio/verification/horror-gaze.test.cjs
-      - name: Commit generated HTML changes to main
+      - name: Commit generated HTML changes to the selected branch
         run: |
-          git add game/index.html game-editor/index.html game-project/project.json game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
-            git add game-project/audio/spatial/*.ogg game-project/video/found_footage/*.mp4
-          fi
+          git add game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms/*.webp studio/index.html game/index.html game-editor/index.html game-project/project.json game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
           if git diff --cached --quiet; then
             echo 'Game and editor HTML are up to date.'
             exit 0
@@ -147,4 +128,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'build: synchronize adventure engine in game and editor'
-          git push origin HEAD:main
+          git push origin "HEAD:$GITHUB_REF_NAME"

@@ -62,6 +62,6 @@ continued[0]();
 assert.deepEqual(triggered,['E019'],'cue runs once when scene is dismissed');
 UI.prototype.close.call(mock);assert.deepEqual(triggered,['E019'],'closing again cannot replay');
 assert(runtime.includes('function resetGame(){horrorCueStop();'));
-assert(runtime.includes('async function loadGameSave(data){horrorCueStop();'));
+assert(runtime.includes('async function loadGameSave(data){validateSave(data);horrorCueStop();'));
 assert(runtime.includes('cue:horrorCueStart'));
 console.log('PASS: '+eligible+' cinematic scenes, gated warmup, pause/resume, room exits, expiry, save/reset, UI close');

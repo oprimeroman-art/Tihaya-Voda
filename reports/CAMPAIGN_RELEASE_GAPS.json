@@ -1,0 +1,579 @@
+{
+  "chapters": 12,
+  "rooms": 16,
+  "actions": 128,
+  "inventoryArt": 15,
+  "missingInventoryArt": [],
+  "missingDocumentArt": [],
+  "endingImages": 4,
+  "variantsWithoutAuthoredPanorama": [
+    {
+      "room": "A",
+      "variant": "A_SECOND_PILLOW"
+    },
+    {
+      "room": "A",
+      "variant": "A_LATE"
+    },
+    {
+      "room": "B",
+      "variant": "B_LATE"
+    },
+    {
+      "room": "C",
+      "variant": "C_DAYLIGHT"
+    },
+    {
+      "room": "I",
+      "variant": "I_COVERED_BODY"
+    },
+    {
+      "room": "I",
+      "variant": "I_EMPTY_BED"
+    },
+    {
+      "room": "J",
+      "variant": "J_SAFE"
+    },
+    {
+      "room": "K",
+      "variant": "K_TOWER_EMPTY"
+    },
+    {
+      "room": "L",
+      "variant": "L_SHUTTER_DANGER"
+    },
+    {
+      "room": "L",
+      "variant": "L_THREE_WINDOWS"
+    },
+    {
+      "room": "M",
+      "variant": "M_DELAY_MONITOR"
+    },
+    {
+      "room": "M",
+      "variant": "M_FINAL"
+    },
+    {
+      "room": "N",
+      "variant": "N_NORMAL"
+    }
+  ],
+  "objectsStillUsingSignArt": [
+    {
+      "room": "A",
+      "object": "obj_take_BADGE04"
+    },
+    {
+      "room": "A",
+      "object": "obj_take_STORAGE_KEY"
+    },
+    {
+      "room": "A",
+      "object": "obj_read_D24"
+    },
+    {
+      "room": "A",
+      "object": "obj_slippers"
+    },
+    {
+      "room": "B",
+      "object": "obj_TEA_SEQUENCE"
+    },
+    {
+      "room": "B",
+      "object": "obj_COOKING"
+    },
+    {
+      "room": "B",
+      "object": "obj_plate_choice"
+    },
+    {
+      "room": "B",
+      "object": "obj_read_D01"
+    },
+    {
+      "room": "B",
+      "object": "obj_read_D16"
+    },
+    {
+      "room": "B",
+      "object": "obj_watch_A05"
+    },
+    {
+      "room": "B",
+      "object": "obj_wash_cup"
+    },
+    {
+      "room": "B",
+      "object": "obj_mirror04"
+    },
+    {
+      "room": "B",
+      "object": "obj_mirror04_away"
+    },
+    {
+      "room": "B",
+      "object": "obj_mirror04_again"
+    },
+    {
+      "room": "B",
+      "object": "obj_mirror04_third"
+    },
+    {
+      "room": "C",
+      "object": "obj_archive_return"
+    },
+    {
+      "room": "C",
+      "object": "obj_dinner_exit"
+    },
+    {
+      "room": "C",
+      "object": "obj_hidden_enter"
+    },
+    {
+      "room": "C",
+      "object": "obj_hidden_exit"
+    },
+    {
+      "room": "C",
+      "object": "obj_wet_towel"
+    },
+    {
+      "room": "C",
+      "object": "obj_false_act"
+    },
+    {
+      "room": "C",
+      "object": "obj_read_D03"
+    },
+    {
+      "room": "C",
+      "object": "obj_mirror03"
+    },
+    {
+      "room": "D",
+      "object": "obj_sign_shift"
+    },
+    {
+      "room": "D",
+      "object": "obj_RADIO_TUNE"
+    },
+    {
+      "room": "D",
+      "object": "obj_send_report"
+    },
+    {
+      "room": "D",
+      "object": "obj_WAVE_PHASE"
+    },
+    {
+      "room": "D",
+      "object": "obj_watch_A01"
+    },
+    {
+      "room": "D",
+      "object": "obj_watch_A02"
+    },
+    {
+      "room": "D",
+      "object": "obj_flip_acts"
+    },
+    {
+      "room": "D",
+      "object": "obj_TIMELINE_SYNC"
+    },
+    {
+      "room": "D",
+      "object": "obj_watch_V04"
+    },
+    {
+      "room": "D",
+      "object": "obj_name_reply"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D02"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D07"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D11"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D14"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D15"
+    },
+    {
+      "room": "D",
+      "object": "obj_read_D27"
+    },
+    {
+      "room": "D",
+      "object": "obj_watch_V08"
+    },
+    {
+      "room": "D",
+      "object": "obj_watch_V10"
+    },
+    {
+      "room": "D",
+      "object": "obj_paper_tray"
+    },
+    {
+      "room": "D",
+      "object": "obj_mirror06"
+    },
+    {
+      "room": "D",
+      "object": "obj_mirror06_again"
+    },
+    {
+      "room": "D",
+      "object": "obj_late10"
+    },
+    {
+      "room": "E",
+      "object": "obj_install_fuse3"
+    },
+    {
+      "room": "E",
+      "object": "obj_POWER_BASIC"
+    },
+    {
+      "room": "E",
+      "object": "obj_NODE_POWER"
+    },
+    {
+      "room": "E",
+      "object": "obj_read_D10"
+    },
+    {
+      "room": "E",
+      "object": "obj_read_D28"
+    },
+    {
+      "room": "F",
+      "object": "obj_take_FUSE_3"
+    },
+    {
+      "room": "F",
+      "object": "obj_PLUMB_SEQ"
+    },
+    {
+      "room": "F",
+      "object": "obj_count_cans"
+    },
+    {
+      "room": "F",
+      "object": "obj_read_D05"
+    },
+    {
+      "room": "F",
+      "object": "obj_read_D19"
+    },
+    {
+      "room": "F",
+      "object": "obj_read_D20"
+    },
+    {
+      "room": "G",
+      "object": "obj_CORES_MARKING"
+    },
+    {
+      "room": "G",
+      "object": "obj_take_P17_SAMPLE"
+    },
+    {
+      "room": "G",
+      "object": "obj_SPECTRUM_MATCH"
+    },
+    {
+      "room": "G",
+      "object": "obj_MICROSCOPE"
+    },
+    {
+      "room": "G",
+      "object": "obj_scan_uv"
+    },
+    {
+      "room": "G",
+      "object": "obj_read_D06"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V01"
+    },
+    {
+      "room": "H",
+      "object": "obj_cabinet_message"
+    },
+    {
+      "room": "H",
+      "object": "obj_take_VHS_FRAGMENT_A"
+    },
+    {
+      "room": "H",
+      "object": "obj_take_VHS_FRAGMENT_B"
+    },
+    {
+      "room": "H",
+      "object": "obj_VHS_ASSEMBLE"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V02"
+    },
+    {
+      "room": "H",
+      "object": "obj_take_VHS_V03"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V03"
+    },
+    {
+      "room": "H",
+      "object": "obj_take_PUNCHCARD_RU"
+    },
+    {
+      "room": "H",
+      "object": "obj_take_PUNCHCARD_DE"
+    },
+    {
+      "room": "H",
+      "object": "obj_PUNCHCARD_OVERLAY"
+    },
+    {
+      "room": "H",
+      "object": "obj_enter_1978"
+    },
+    {
+      "room": "H",
+      "object": "obj_calibration_plate"
+    },
+    {
+      "room": "H",
+      "object": "obj_exit_1978"
+    },
+    {
+      "room": "H",
+      "object": "obj_reenter_1978"
+    },
+    {
+      "room": "H",
+      "object": "obj_NODE_MEMORY"
+    },
+    {
+      "room": "H",
+      "object": "obj_petr_letter"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D04"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D08"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D09"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D12"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D13"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D21"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D23"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D25"
+    },
+    {
+      "room": "H",
+      "object": "obj_read_D29"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V01B"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V05"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V06"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V07"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V09"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_V11"
+    },
+    {
+      "room": "H",
+      "object": "obj_watch_A03"
+    },
+    {
+      "room": "I",
+      "object": "obj_CARDIOMATCH"
+    },
+    {
+      "room": "I",
+      "object": "obj_NODE_OBSERVER"
+    },
+    {
+      "room": "I",
+      "object": "obj_read_D17"
+    },
+    {
+      "room": "I",
+      "object": "obj_read_D18"
+    },
+    {
+      "room": "I",
+      "object": "obj_watch_A04"
+    },
+    {
+      "room": "I",
+      "object": "obj_medic10"
+    },
+    {
+      "room": "I",
+      "object": "obj_blanket11"
+    },
+    {
+      "room": "J",
+      "object": "obj_take_FLASHLIGHT"
+    },
+    {
+      "room": "J",
+      "object": "obj_take_ANTENNA_KEY"
+    },
+    {
+      "room": "J",
+      "object": "obj_take_BEACON"
+    },
+    {
+      "room": "J",
+      "object": "obj_AIRLOCK_EQUALIZE"
+    },
+    {
+      "room": "J",
+      "object": "obj_outer_door"
+    },
+    {
+      "room": "J",
+      "object": "obj_inner_door"
+    },
+    {
+      "room": "J",
+      "object": "obj_read_D22"
+    },
+    {
+      "room": "J",
+      "object": "obj_glass07"
+    },
+    {
+      "room": "K",
+      "object": "obj_ice_1"
+    },
+    {
+      "room": "K",
+      "object": "obj_ice_2"
+    },
+    {
+      "room": "K",
+      "object": "obj_ice_3"
+    },
+    {
+      "room": "K",
+      "object": "obj_ANTENNA"
+    },
+    {
+      "room": "L",
+      "object": "obj_SHUTTERS"
+    },
+    {
+      "room": "L",
+      "object": "obj_second_window"
+    },
+    {
+      "room": "L",
+      "object": "obj_third_window"
+    },
+    {
+      "room": "L",
+      "object": "obj_read_D26"
+    },
+    {
+      "room": "M",
+      "object": "obj_POWER_OFF"
+    },
+    {
+      "room": "M",
+      "object": "obj_take_SHUTTER_PIN"
+    },
+    {
+      "room": "M",
+      "object": "obj_PIN_INSERT"
+    },
+    {
+      "room": "M",
+      "object": "obj_ANALOG_READINGS_OK"
+    },
+    {
+      "room": "M",
+      "object": "obj_OBSERVER_SELECT"
+    },
+    {
+      "room": "N",
+      "object": "obj_backward_clock"
+    },
+    {
+      "room": "N",
+      "object": "obj_reversed_exit_arrow"
+    },
+    {
+      "room": "N",
+      "object": "obj_handwriting_floor"
+    },
+    {
+      "room": "N",
+      "object": "obj_leave_N"
+    },
+    {
+      "room": "P",
+      "object": "obj_FINAL_PANEL"
+    }
+  ],
+  "releaseReady": false,
+  "reason": "Full browser routes and visual staging are not certified; sign-art interactions and unmatched variants still require production review."
+}

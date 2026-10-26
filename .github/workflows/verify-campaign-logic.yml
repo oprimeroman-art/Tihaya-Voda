@@ -1,6 +1,11 @@
 name: Verify campaign logic
 on:
   workflow_dispatch:
+    inputs:
+      verify_editor:
+        description: Run native Studio import/export verification only
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -18,6 +23,7 @@ permissions:
   contents: read
 jobs:
   gameplay:
+    if: ${{ !inputs.verify_editor }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -36,3 +42,49 @@ jobs:
         run: |
           node studio/verification/horror-cues.test.cjs
           node studio/verification/horror-gaze.test.cjs
+
+  editor:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.verify_editor }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare canonical native project
+        run: |
+          python3 codex-scripts/sync_approved_room_art.py
+          python3 codex-scripts/sync_campaign_art.py
+          python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/package_campaign.py
+      - name: Prepare browser
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: Import and export through Studio controls
+        run: node studio/verification/campaign-editor-browser.cjs
+      - name: Verify exported game and embedded source against canon
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile,json,io
+          root=Path('.')
+          expected=json.loads((root/'game-project/project.json').read_text())['story']['adventure']
+          with zipfile.ZipFile('reports/editor-browser/EDITOR_PROJECT.zip') as z:
+              assert json.loads(z.read('project.json'))['story']['adventure']==expected
+          with zipfile.ZipFile('reports/editor-browser/EDITOR_GAME.zip') as z:
+              html=z.read('index.html').decode('utf-8-sig')
+              payload,_=json.JSONDecoder().raw_decode(html.split('window.BUILT_GAME=',1)[1])
+              assert payload['story']['adventure']==expected
+              with zipfile.ZipFile(io.BytesIO(z.read('source-project.zip'))) as inner:
+                  assert json.loads(inner.read('project.json'))['story']['adventure']==expected
+          print('PASS: exported project, game and embedded source preserve exact canonical story and all artwork')
+          PY
+      - name: Upload editor exports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tihaya-Voda-Studio-Roundtrip
+          path: reports/editor-browser/
+          if-no-files-found: ignore
