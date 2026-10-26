@@ -57,8 +57,14 @@ jobs:
       - name: Composite existing authored state art
         run: python3 codex-scripts/apply_panorama_state_overlays.py
       - name: Install ffprobe for non-destructive video validation
+        timeout-minutes: 3
         run: |
-          if ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y ffmpeg; fi
+          if ! command -v ffprobe >/dev/null 2>&1; then
+            if ! timeout 120s sudo apt-get update -qq -o Acquire::Retries=1 -o Acquire::http::Timeout=15 -o Acquire::https::Timeout=15; then
+              echo 'Package index refresh timed out; attempting installation with cached indexes.'
+            fi
+            sudo apt-get install -y ffmpeg
+          fi
       - name: Validate visual pack and existing media wiring
         run: |
           python3 studio/verification/campaign-panorama-pack.test.py
