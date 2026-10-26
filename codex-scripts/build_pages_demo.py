@@ -90,6 +90,8 @@ def main():
     # Late chapter 11–12 canonical document props; text and story logic remain unchanged.
     from alpha_wave8_late_docs import apply_late_docs
     applied.update(apply_late_docs(payload,ROOT))
+    from alpha_wave9_document_props import apply_wave9
+    applied.update(apply_wave9(payload,ROOT))
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)

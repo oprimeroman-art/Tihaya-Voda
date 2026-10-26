@@ -7,6 +7,7 @@ on:
       - game/index.html
       - studio/index.html
       - studio/verification/player-runtime-regressions.py
+      - studio/source/adventure-ui.js
       - site-assets/illustrated/**
       - site-assets/alpha-wave2/**
       - site-assets/alpha-wave3/**
@@ -25,6 +26,8 @@ on:
       - codex-scripts/alpha_wave7_puzzle_docs.py
       - codex-scripts/alpha_wave8_late_docs.py
       - codex-scripts/test_wave8_late_docs.py
+      - codex-scripts/alpha_wave9_document_props.py
+      - codex-scripts/test_wave9_document_props.py
       - codex-scripts/test_wave7_puzzle_docs.py
       - codex-scripts/build_pages_demo.py
       - .github/workflows/pages-demo.yml
@@ -42,6 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Sync shared UI into standalone game and editor
+        run: python3 codex-scripts/sync_document_ui.py
       - name: Reconstruct illustrated chapters, props and existing story
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Check player runtime regressions
@@ -67,6 +72,8 @@ jobs:
         run: python3 codex-scripts/test_wave7_puzzle_docs.py
       - name: Verify late-chapter document art in built game
         run: python3 codex-scripts/test_wave8_late_docs.py
+      - name: Verify D27-D29 document art and UI rendering
+        run: python3 codex-scripts/test_wave9_document_props.py
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

@@ -1,0 +1,42 @@
+name: Wave 9 document art QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "studio/source/adventure-ui.js"
+      - "site-assets/late-docs/**"
+      - "codex-scripts/alpha_wave9_document_props.py"
+      - "codex-scripts/test_wave9_document_props.py"
+      - "codex-scripts/build_pages_demo.py"
+      - "codex-scripts/alpha_wave4_props.py"
+      - "codex-scripts/sync_embedded_engine.py"
+      - "codex-scripts/sync_document_ui.py"
+      - "studio/content/TIHAYA_VODA/adventure.json"
+      - ".github/workflows/wave9-pr-qa.yml"
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Sync shared UI into standalone game and editor
+        run: python3 codex-scripts/sync_document_ui.py
+      - name: Build illustrated preview from existing game
+        run: python3 codex-scripts/build_pages_demo.py --output _site
+      - name: Check player runtime regressions
+        run: python3 studio/verification/player-runtime-regressions.py
+      - name: Verify existing document art waves
+        run: |
+          python3 codex-scripts/test_wave5_medical.py
+          python3 codex-scripts/test_wave6_stockroom.py
+          python3 codex-scripts/test_wave7_puzzle_docs.py
+          python3 codex-scripts/test_wave8_late_docs.py
+      - name: Verify D27-D29 are embedded and rendered
+        run: python3 codex-scripts/test_wave9_document_props.py

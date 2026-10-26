@@ -1,12 +1,15 @@
-# Late-game document art — wave 8
+# Late-game document art — waves 8–9
 
-These are visual props for the existing canonical documents D24, D25 and D26.
-The actual document text remains the verbatim source in story.adventure and is
-rendered by the existing UI. No new action, quest, flag, event, or ending is added.
+These SVG props supplement canonical documents in the existing adventure. They do not replace authoritative text in `studio/content/TIHAYA_VODA/adventure.json`, and they add no actions, quests, flags, events, or endings.
 
-- D24: unnumbered handwritten confession page, living module, chapter 11.
-- D25: outgoing-mail receipt with the canon's intentionally conflicting dates,
-  archive, optional chapter 11.
-- D26: handwritten note taped to a cold metal door, gallery, chapter 12.
+## Wave 8 — existing props
+- `D24_personal_page.svg`: unnumbered handwritten confession page, living module, chapter 11.
+- `D25_outgoing_receipt.svg`: outgoing-mail receipt with intentionally conflicting dates, archive, optional chapter 11.
+- `D26_irina_door_note.svg`: handwritten note taped to a cold metal door, gallery, chapter 12.
 
-The art is supplemental. The in-game canonical text is authoritative.
+## Wave 9 — integrated props
+- `D27_radio_transmission.svg`: archival radio transcript with waveform for the 2028 Mayak-9 emergency call, chapter 6.
+- `D28_generator_bus_panel.svg`: load-distribution panel illustrating existing bus limits, diesel room, chapters 2/11.
+- `D29_anna_draft.svg`: unsent draft beside a camera-frame prop, archive, chapters 8–9.
+
+The Pages build embeds these SVGs as data URIs in the existing adventure payload, so they work offline and add no runtime network requests. The shared adventure UI renders the illustration when reading a document and from the saved journal. Canonical document text remains visible and authoritative.
