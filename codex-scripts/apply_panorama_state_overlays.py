@@ -14,6 +14,7 @@ OUT = ROOT / "game-project/assets/variants"
 OVERLAYS = [
     ("C", "C_MIRROR_LIGHT", "C_C_MIRROR_LIGHT.webp", "ÐÑÑÐ°Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¾Ð½Ð°ÑÑ Ð² Ð·ÐµÑÐºÐ°Ð»Ðµ"),
     ("C", "C_HIDDEN_DOOR", "C_C_HIDDEN_DOOR.webp", "Скрытая дверь в коридоре"),
+    ("C", "C_REVERSED_SNOW", "C_C_REVERSED_SNOW.webp", "Следы снега против направления движения"),
     ("F", "F_ARCHIVE12", "F_F_ARCHIVE12.webp", "Ð¢Ð°Ð±Ð»Ð¸ÑÐºÐ° ÐÐ Ð¥ÐÐ-12"),
     ("H", "H_AFTER_V01", "H_H_AFTER_V01.webp", "ÐÑÐ¸Ð¾ÑÐºÑÑÑÑÐ¹ ÑÐºÐ°Ñ Ð¸ Ð·Ð°Ð¿Ð¸ÑÐºÐ° Ð¿Ð¾ÑÐ»Ðµ V01"),
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
@@ -23,6 +24,8 @@ OVERLAYS = [
     ("H", "H_ANNA_GLASS", "H_H_ANNA_GLASS.webp", "Отражение Анны в стекле"),
     ("G", "G_P17", "G_G_P17.webp", "Образец P-17 в незамерзающей воде"),
     ("G", "G_MIRROR_DOOR", "G_G_MIRROR_DOOR.webp", "Дверь в отражении линзы"),
+    ("E", "E_FALSE_DIGITAL", "E_E_FALSE_DIGITAL.webp", "Цифры заменяются силуэтами людей"),
+    ("F", "F_SUIT_STANDING", "F_F_SUIT_STANDING.webp", "Костюм стоит без человека снаружи"),
 ]
 
 def update_list(existing, item):
@@ -43,7 +46,7 @@ def patch_html(html, game):
     encoded = json.dumps(game, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     return html[:pos] + encoded + html[pos + end:]
 
-def generate_first_act_state_overlays():
+def generate_story_state_overlays():
     """Create deterministic transparent inserts aligned to existing first-act mirror/monitor UVs."""
     overlay_dir = ROOT / "art/overlays"
     overlay_dir.mkdir(parents=True, exist_ok=True)
@@ -58,14 +61,20 @@ def generate_first_act_state_overlays():
         "G_G_P17.webp": (0.29, 0.42, 54, 42, "p17"),
         "G_G_MIRROR_DOOR.webp": (0.57, 0.42, 70, 42, "door"),
         "C_C_HIDDEN_DOOR.webp": (0.43, 0.48, 170, 260, "hidden_door"),
+        "C_C_REVERSED_SNOW.webp": (0.50, 0.82, 2048, 180, "footprints"),
+        "E_E_FALSE_DIGITAL.webp": (0.43, 0.42, 70, 42, "digital"),
+        "F_F_SUIT_STANDING.webp": (0.70, 0.53, 120, 360, "suit"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
         x0, y0 = round(u * width - w / 2), round(v * height - h / 2)
-        panel = Image.new("RGBA", (w, h), (0, 0, 0, 255))
+        transparent_modes = {"footprints", "suit"}
+        panel = Image.new("RGBA", (w, h), (0, 0, 0, 0) if mode in transparent_modes else (0, 0, 0, 255))
         pixels = panel.load()
         for y in range(h):
             for x in range(w):
+                if mode in transparent_modes:
+                    continue
                 nx = abs(x / max(1, w - 1) - 0.5) * 2
                 ny = abs(y / max(1, h - 1) - 0.5) * 2
                 glow = max(0, 1 - nx * 0.78 - ny * 0.42)
@@ -83,6 +92,8 @@ def generate_first_act_state_overlays():
                     pixels[x, y] = (int(6 + 6 * glow), int(13 + 13 * glow), int(15 + 15 * glow), 255)
                 elif mode == "hidden_door":
                     pixels[x, y] = (int(24 + 13 * glow), int(34 + 15 * glow), int(33 + 14 * glow), 255)
+                elif mode == "digital":
+                    pixels[x, y] = (int(5 + 8 * glow), int(19 + 23 * glow), int(20 + 24 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -162,6 +173,50 @@ def generate_first_act_state_overlays():
             draw.line((w*.80,h*.12,w*.80,h*.90), fill=(154,168,151,180), width=2)
             draw.ellipse((w*.72,h*.50,w*.76,h*.53), fill=(197,177,121,240))
             draw.line((w*.10,h*.98,w*.90,h*.98), fill=(178,194,163,150), width=2)
+        elif mode == "digital":
+            # A dead power panel shows people where its numeric readout should be.
+            draw.rectangle((2,2,w-3,h-3), fill=(4,13,15,255), outline=(88,132,121,220), width=2)
+            draw.line((w*.06,h*.24,w*.94,h*.24), fill=(62,105,97,150), width=1)
+            for cx, alpha in ((w*.28,220),(w*.50,235),(w*.72,190)):
+                draw.ellipse((cx-w*.07,h*.32,cx+w*.07,h*.58), fill=(117,220,174,alpha))
+                draw.polygon([(cx-w*.12,h*.92),(cx-w*.10,h*.66),(cx-w*.06,h*.57),(cx+w*.06,h*.57),(cx+w*.10,h*.66),(cx+w*.12,h*.92)], fill=(87,180,145,alpha))
+        elif mode == "footprints":
+            # Snow prints lead across the floor toward the airlock, against the expected direction.
+            glow_layer=Image.new("RGBA",panel.size,(0,0,0,0));gd=ImageDraw.Draw(glow_layer,"RGBA")
+            steps=[(520,137,1.0),(625,121,.96),(735,119,.92),(840,102,.86),(950,99,.80),(1060,82,.74),(1170,79,.68),(1270,62,.62),(1365,58,.56),(1450,42,.50)]
+            for idx,(cx,cy,scale) in enumerate(steps):
+                fw,fh=24*scale,42*scale
+                # Alternate left/right, with the toe pointed along the corridor path.
+                cx += (-5 if idx%2==0 else 5)
+                gd.ellipse((cx-fw/2,cy-fh/2,cx+fw/2,cy+fh/2),fill=(171,211,216,72),outline=(218,238,232,95),width=1)
+                gd.ellipse((cx-fw*.30,cy-fh*.48,cx+fw*.30,cy-fh*.18),fill=(205,229,230,82))
+            panel=Image.alpha_composite(panel,glow_layer.filter(ImageFilter.GaussianBlur(5)))
+            draw=ImageDraw.Draw(panel,"RGBA")
+            for idx,(cx,cy,scale) in enumerate(steps):
+                fw,fh=24*scale,42*scale;cx += (-5 if idx%2==0 else 5)
+                draw.ellipse((cx-fw/2,cy-fh/2,cx+fw/2,cy+fh/2),fill=(173,210,214,85),outline=(220,236,228,135),width=1)
+                draw.ellipse((cx-fw*.28,cy-fh*.48,cx+fw*.28,cy-fh*.18),fill=(212,233,232,105))
+                for tread in range(3):
+                    yy=cy-fh*.05+tread*fh*.16
+                    draw.line((cx-fw*.22,yy,cx+fw*.22,yy),fill=(64,109,115,105),width=1)
+        elif mode == "suit":
+            # An empty pressure suit stands upright; the visor is opaque and the fastening is inside.
+            shadow=Image.new("RGBA",panel.size,(0,0,0,0));sd=ImageDraw.Draw(shadow,"RGBA")
+            sd.ellipse((w*.24,h*.03,w*.76,h*.23),fill=(180,203,190,35))
+            sd.polygon([(w*.14,h*.98),(w*.17,h*.33),(w*.31,h*.20),(w*.69,h*.20),(w*.83,h*.34),(w*.86,h*.98)],fill=(137,162,151,48))
+            panel=Image.alpha_composite(panel,shadow.filter(ImageFilter.GaussianBlur(8)))
+            draw=ImageDraw.Draw(panel,"RGBA")
+            draw.ellipse((w*.37,h*.03,w*.63,h*.18),fill=(15,23,23,205),outline=(157,177,161,150),width=2)
+            draw.arc((w*.40,h*.05,w*.60,h*.17),180,350,fill=(205,218,195,130),width=1)
+            draw.polygon([(w*.43,h*.17),(w*.57,h*.17),(w*.61,h*.24),(w*.39,h*.24)],fill=(29,41,39,220))
+            draw.polygon([(w*.28,h*.24),(w*.39,h*.20),(w*.61,h*.20),(w*.72,h*.24),(w*.82,h*.39),(w*.73,h*.49),(w*.69,h*.72),(w*.64,h*.98),(w*.53,h*.98),(w*.50,h*.73),(w*.47,h*.98),(w*.35,h*.98),(w*.31,h*.72),(w*.27,h*.49),(w*.18,h*.39)],fill=(20,30,29,205),outline=(148,167,151,125))
+            draw.line((w*.50,h*.24,w*.50,h*.72),fill=(170,187,165,150),width=2)
+            draw.line((w*.34,h*.33,w*.66,h*.33),fill=(104,131,118,170),width=2)
+            draw.rectangle((w*.36,h*.40,w*.46,h*.47),fill=(62,80,73,170),outline=(153,172,154,120),width=1)
+            draw.line((w*.34,h*.54,w*.65,h*.54),fill=(98,124,111,130),width=1)
+            draw.ellipse((w*.67,h*.40,w*.72,h*.45),outline=(175,192,173,150),width=1)
+            for x in (w*.31,w*.69):
+                draw.line((x,h*.39,x+( -4 if x<w*.5 else 4),h*.62),fill=(147,165,150,130),width=2)
         if mode in ("false", "mirror", "twins"):
             for y in range(2, h, 4):
                 draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
@@ -181,7 +236,7 @@ def main():
     game, _, _ = payload(html)
     OUT.mkdir(parents=True, exist_ok=True)
     generated = []
-    generate_first_act_state_overlays()
+    generate_story_state_overlays()
     # Keep the two existing kitchen states in the editable project too; previously they were only embedded by the standalone build step.
     for state, asset_id in (("B_SECOND_PLATE", "illustrated_B_SECOND_PLATE"), ("B_GHOST_MIRROR", "illustrated_B_GHOST_MIRROR")):
         source = ROOT / "site-assets/kitchen-states" / (state + ".webp")
