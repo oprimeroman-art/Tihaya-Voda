@@ -84,7 +84,8 @@
       "variantAssets": {
         "D_FALSE_MONITOR": "composite_d_false_monitor",
         "D_LATE_MIRROR": "composite_d_late_mirror",
-        "D_DOUBLE_ACTS": "composite_d_double_acts"
+        "D_DOUBLE_ACTS": "composite_d_double_acts",
+        "D_INDOOR_TOWER": "composite_d_indoor_tower"
       },
       "visualProfiles": {
         "D_LATE_MIRROR": {
@@ -95,6 +96,9 @@
           },
           "gaze": 0.9,
           "dismissTo": "D_NORMAL"
+        },
+        "D_INDOOR_TOWER": {
+          "figure": false
         }
       }
     },
@@ -268,11 +272,28 @@
         "N_CLOCK",
         "N_SIGN",
         "N_HANDWRITING",
-        "N_LATE_EXIT"
+        "N_LATE_EXIT",
+        "N_NORMAL"
       ],
       "default_variant": "N_CLOCK",
       "name": "Длинный коридор",
-      "variantAssets": {}
+      "variantAssets": {
+        "N_CLOCK": "composite_n_clock",
+        "N_SIGN": "composite_n_sign",
+        "N_HANDWRITING": "composite_n_handwriting",
+        "N_LATE_EXIT": "composite_n_late_exit"
+      },
+      "visualProfiles": {
+        "N_LATE_EXIT": {
+          "figure": false,
+          "gazePoint": {
+            "u": 0.78,
+            "v": 0.46
+          },
+          "gaze": 1.5,
+          "dismissTo": "N_NORMAL"
+        }
+      }
     },
     {
       "id": "O",
