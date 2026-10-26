@@ -33,7 +33,23 @@ jobs:
           python-version: '3.12'
       - name: Install renderer dependencies
         run: python -m pip install --disable-pip-version-check numpy pillow
+      - name: Decide whether base panoramas need rerendering
+        id: base_render
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || -z "$EVENT_BEFORE" || "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            echo "render=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA")"
+          if grep -Eq '^(production/geometry/CAMPAIGN/render_campaign360.py|production/geometry/B_NORMAL/|art/materials/cc0/|art/candidates/B_B_NORMAL_360_geometry\.webp)$' <<< "$changed"; then
+            echo "render=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "render=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Render 16 distinct 360-degree room panoramas
+        if: steps.base_render.outputs.render == 'true'
         run: python3 production/geometry/CAMPAIGN/render_campaign360.py --width 2048
       - name: Composite existing authored state art
         run: python3 codex-scripts/apply_panorama_state_overlays.py

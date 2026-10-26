@@ -42,14 +42,14 @@ def generate_monitor_state_overlays():
     overlay_dir = ROOT / "art/overlays"
     overlay_dir.mkdir(parents=True, exist_ok=True)
     width, height = 2048, 1024
+    # Width follows the actual rendered wall panel: side-wall monitor is narrower than the rear-wall screen.
     states = {
-        "D_D_FALSE_MONITOR.webp": (0.24, 0.34, "false"),
-        "D_D_LATE_MIRROR.webp": (0.52, 0.62, "mirror"),
+        "D_D_FALSE_MONITOR.webp": (0.29, 0.42, 54, 42, "false"),
+        "D_D_LATE_MIRROR.webp": (0.57, 0.42, 70, 42, "mirror"),
     }
-    for filename, (u0, u1, mode) in states.items():
-        x0, x1 = round(u0 * width) + 12, round(u1 * width) - 12
-        y0, y1 = round(0.3825 * height) + 7, round(0.4575 * height) - 7
-        w, h = x1 - x0, y1 - y0
+    for filename, (u, v, panel_width, panel_height, mode) in states.items():
+        w, h = panel_width, panel_height
+        x0, y0 = round(u * width - w / 2), round(v * height - h / 2)
         panel = Image.new("RGBA", (w, h), (0, 0, 0, 255))
         pixels = panel.load()
         for y in range(h):

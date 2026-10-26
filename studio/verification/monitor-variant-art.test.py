@@ -10,8 +10,8 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 module.generate_monitor_state_overlays()
 expected = {
-    "D_D_FALSE_MONITOR.webp": (504, 399, 684, 461),
-    "D_D_LATE_MIRROR.webp": (1077, 399, 1258, 461),
+    "D_D_FALSE_MONITOR.webp": (567, 409, 621, 451),
+    "D_D_LATE_MIRROR.webp": (1132, 409, 1202, 451),
 }
 for filename, bounds in expected.items():
     path = ROOT / "art/overlays" / filename
