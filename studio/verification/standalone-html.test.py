@@ -4,7 +4,7 @@ import re
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
-for rel in ('game/index.html', 'game-editor/index.html'):
+for rel in ('game/index.html', 'game-editor/index.html', 'studio/index.html'):
     html = (ROOT / rel).read_text(encoding='utf-8')
     scripts = re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>', html, flags=re.DOTALL | re.IGNORECASE)
     if len(scripts) < 5:

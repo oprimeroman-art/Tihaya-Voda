@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "ending": "A",
+      "interactions": 114,
+      "saveReload": true,
+      "credits": true,
+      "newGame": true,
+      "browserErrors": []
+    },
+    {
+      "ending": "B",
+      "interactions": 114,
+      "saveReload": true,
+      "credits": true,
+      "newGame": true,
+      "browserErrors": []
+    },
+    {
+      "ending": "C",
+      "interactions": 114,
+      "saveReload": true,
+      "credits": true,
+      "newGame": true,
+      "browserErrors": []
+    },
+    {
+      "ending": "D",
+      "interactions": 114,
+      "saveReload": true,
+      "credits": true,
+      "newGame": true,
+      "browserErrors": []
+    }
+  ],
+  "note": "Automated DOM clicks; event waiting accelerated through engine.flush. Not human pacing or fear assessment."
+}

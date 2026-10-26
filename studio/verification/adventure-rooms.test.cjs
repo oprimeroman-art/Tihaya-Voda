@@ -40,7 +40,7 @@ vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureAppl
  const window={GagarinAdventure:{}};
  vm.runInNewContext(ui,{window,document:{},console});
  const calls=[];
- const uiMock={endingShown:true,close(){calls.push('close')},engine:{load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
+ const uiMock={endingShown:true,close(){calls.push('close')},engine:{normalize(s){return s},load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
  window.GagarinAdventure.UI.prototype.load.call(uiMock,{room:'B'});
  assert.equal(uiMock.root.hidden,false);
  assert.deepEqual(calls,['close','load:B','sync']);

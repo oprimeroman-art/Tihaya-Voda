@@ -1,0 +1,62 @@
+name: Build full campaign candidate
+on:
+  workflow_dispatch:
+  push:
+    branches: ['work/full-campaign-release']
+permissions:
+  contents: write
+concurrency:
+  group: campaign-candidate-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assemble approved art and shared UI without modifying media
+        run: |
+          python3 codex-scripts/sync_approved_room_art.py
+          python3 codex-scripts/sync_campaign_art.py
+          python3 codex-scripts/sync_document_ui.py
+          python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/audit_campaign_art.py
+      - name: Verify complete routes and save compatibility
+        run: |
+          node studio/verification/campaign-complete.test.cjs
+          node studio/verification/campaign-story-graph.test.cjs
+          node studio/verification/adventure-pending.test.cjs
+          node studio/verification/adventure-rooms.test.cjs
+          node studio/verification/adventure-saves.test.cjs
+          node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
+          python3 studio/verification/campaign-integrity.test.py
+          python3 studio/verification/standalone-html.test.py
+      - name: Keep built project and offline exports on this branch
+        run: |
+          git add game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms/*.webp production/campaign_art_audit.json studio/index.html studio/content/TIHAYA_VODA/adventure.json game-project/project.json game/index.html game-editor/index.html
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'build: embed campaign artwork and shared UI in offline exports'
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
+      - name: Package playable candidate
+        run: |
+          mkdir -p dist/GAME dist/EDITOR
+          cp game/index.html dist/GAME/index.html
+          cp studio/index.html dist/EDITOR/index.html
+          (cd game-project && zip -qr ../dist/PROJECT.zip .)
+          cp reports/WORK_PROGRESS.md dist/READ_ME.md
+          cp studio/verification/campaign-route.cjs dist/CAMPAIGN_ROUTE.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Tihaya-Voda-Campaign-Candidate
+          path: dist/
+          retention-days: 30
