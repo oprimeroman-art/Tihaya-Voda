@@ -19,7 +19,7 @@ def verify(path):
  assert art["mime"]=="image/webp"
  raw=base64.b64decode(art["data"],validate=True)
  assert raw[:4]==b"RIFF" and raw[8:12]==b"WEBP" and hashlib.sha256(raw).hexdigest()==EXPECTED
- assert "ga-illustrated-haunt" in html and "function adventureApplyVariant" in html
+ assert "function adventureApplyVariant" in html and "B_GHOST_MIRROR" in html and "illustrated_B_GHOST_MIRROR" in html
  print("PASS",path.relative_to(ROOT),"kitchen ghost-mirror state embedded",len(raw),"bytes")
 verify(ROOT/"game/index.html")
 verify(ROOT/"game-editor/index.html")
