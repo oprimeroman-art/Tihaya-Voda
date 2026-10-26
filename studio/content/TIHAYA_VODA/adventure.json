@@ -106,7 +106,10 @@
       ],
       "default_variant": "G_NORMAL",
       "name": "Лаборатория",
-      "variantAssets": {}
+      "variantAssets": {
+        "G_P17": "composite_g_p17",
+        "G_MIRROR_DOOR": "composite_g_mirror_door"
+      }
     },
     {
       "id": "H",

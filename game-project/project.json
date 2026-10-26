@@ -1440,7 +1440,10 @@
           ],
           "default_variant": "G_NORMAL",
           "name": "Лаборатория",
-          "variantAssets": {}
+          "variantAssets": {
+            "G_P17": "composite_g_p17",
+            "G_MIRROR_DOOR": "composite_g_mirror_door"
+          }
         },
         {
           "id": "H",
@@ -16808,6 +16811,18 @@
       "name": "Отражение Анны в стекле",
       "mime": "image/webp",
       "file": "assets/variants/composite_h_anna_glass.webp"
+    },
+    {
+      "id": "composite_g_p17",
+      "name": "Образец P-17 в незамерзающей воде",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_g_p17.webp"
+    },
+    {
+      "id": "composite_g_mirror_door",
+      "name": "Дверь в отражении линзы",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_g_mirror_door.webp"
     }
   ],
   "audio": [
