@@ -8,10 +8,10 @@ const common=`take_BADGE04 take_STORAGE_KEY read_D01 TEA_SEQUENCE sign_shift tak
 const final=`SHUTTERS name_reply second_window third_window POWER_OFF take_SHUTTER_PIN PIN_INSERT ANALOG_READINGS_OK OBSERVER_SELECT`.split(' ');
 let page,checks=[],errors=[],actionCount=0;
 const state=()=>page.evaluate(()=>adventurePlayer.snapshot());
-async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.click({timeout:5000});}
+async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.click({timeout:10000,noWaitAfter:true});}
 async function drain(){for(let i=0;i<35;i++){
  await page.clock.runFor(200);
- const cont=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await cont.count()){await cont.click();continue;}
+ const cont=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await cont.count()){await cont.click({noWaitAfter:true});continue;}
  if(await page.locator('.ga-dialog').count())return;
  const s=await state();const pending=s.pending.map(p=>({p,e:story.events.find(e=>e.id===p.id)})).filter(({e})=>e&&(!e.room||e.room===s.room)&&test(e.when,s)&&e.priority!=='optional');
  if(!pending.length)return;const wait=Math.max(0,Math.min(...pending.map(({p})=>p.due))-s.clock);await page.clock.runFor(Math.ceil(wait*1000)+200);
@@ -19,17 +19,17 @@ async function drain(){for(let i=0;i<35;i++){
 async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[s.room,[]]],seen=new Set(),route;
  while(queue.length){const[r,steps]=queue.shift();if(r===dest){route=steps;break;}if(seen.has(r))continue;seen.add(r);for(const l of story.links.filter(l=>l.from===r&&test(l.when,s)))queue.push([l.to,[...steps,l.to]]);}
  assert(route,`No route ${s.room} to ${dest}, chapter ${s.chapter}`);
- for(const r of route){await drain();await page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}).click();await drain();}
+ for(const r of route){await drain();await page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}).click({noWaitAfter:true});await drain();}
 }
-async function action(id,value){const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}).click();await drain();
+async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}).click({noWaitAfter:true});await drain();
  // Start-signal scenes may precede the instrument, which reopens after Continue.
  const box=page.locator('.ga-dialog');
  if(a.template==='media'){
-   for(let i=0;i<100;i++){const finish=box.getByRole('button',{name:'Завершить просмотр',exact:true});if(await finish.count()){await finish.click();break;}await box.getByRole('button',{name:'Следующий фрагмент · текстовый режим',exact:true}).click();if(i===99)throw Error('Media cannot finish '+id);}
- }else if(a.template==='document')await box.getByRole('button',{name:a.readLabel||'Сохранить в журнале',exact:true}).click();
+   for(let i=0;i<100;i++){const finish=box.getByRole('button',{name:'Завершить просмотр',exact:true});if(await finish.count()){await finish.click({noWaitAfter:true});break;}await box.getByRole('button',{name:'Следующий фрагмент · текстовый режим',exact:true}).click({noWaitAfter:true});if(i===99)throw Error('Media cannot finish '+id);}
+ }else if(a.template==='document')await box.getByRole('button',{name:a.readLabel||'Сохранить в журнале',exact:true}).click({noWaitAfter:true});
  else if(['choice','sequence_choice'].includes(a.template)){
-  const op=a.options.find(o=>String(o.value)===String(value??a.options[0].value));await box.getByRole('button',{name:op.label,exact:true}).click();if(a.confirm)await button('Подтвердить'+(a.template==='sequence_choice'?' и подписать':''));
- }else if(['sequence','order'].includes(a.template)){for(const token of a.answer)await box.getByRole('button',{name:String(token),exact:true}).click();}
+  const op=a.options.find(o=>String(o.value)===String(value??a.options[0].value));await box.getByRole('button',{name:op.label,exact:true}).click({noWaitAfter:true});if(a.confirm)await button('Подтвердить'+(a.template==='sequence_choice'?' и подписать':''));
+ }else if(['sequence','order'].includes(a.template)){for(const token of a.answer)await box.getByRole('button',{name:String(token),exact:true}).click({noWaitAfter:true});}
  else if(a.answer){for(let i=0;i<a.fields.length;i++){const f=a.fields[i];const field=box.locator('label').nth(i).locator('input,select');if(f.options)await field.selectOption(String(a.answer[i]));else await field.fill(String(a.answer[i]));}await button(a.template==='triple_dial'?'КОНТРОЛЬ':'Проверить');}
  else{await button('Выполнить');if(a.confirm)await button('Подтвердить');}
  actionCount++;await drain();assert((await state()).done.includes(id),'Action did not complete '+id);
