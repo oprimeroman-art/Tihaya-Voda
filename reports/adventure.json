@@ -38,7 +38,8 @@
       "name": "Кухня",
       "variantAssets": {
         "B_SECOND_PLATE": "illustrated_B_SECOND_PLATE",
-        "B_GHOST_MIRROR": "illustrated_B_GHOST_MIRROR"
+        "B_GHOST_MIRROR": "illustrated_B_GHOST_MIRROR",
+        "B_TWO_GHOSTS": "composite_b_two_ghosts"
       }
     },
     {

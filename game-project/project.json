@@ -1372,7 +1372,8 @@
           "name": "Кухня",
           "variantAssets": {
             "B_SECOND_PLATE": "illustrated_B_SECOND_PLATE",
-            "B_GHOST_MIRROR": "illustrated_B_GHOST_MIRROR"
+            "B_GHOST_MIRROR": "illustrated_B_GHOST_MIRROR",
+            "B_TWO_GHOSTS": "composite_b_two_ghosts"
           }
         },
         {
@@ -16787,6 +16788,12 @@
       "name": "Позднее отражение в экране",
       "mime": "image/webp",
       "file": "assets/variants/composite_d_late_mirror.webp"
+    },
+    {
+      "id": "composite_b_two_ghosts",
+      "name": "Два отражения в зеркале",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_b_two_ghosts.webp"
     }
   ],
   "audio": [
