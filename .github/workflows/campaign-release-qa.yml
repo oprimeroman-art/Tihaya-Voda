@@ -1,6 +1,11 @@
 name: Campaign working build and browser QA
 on:
   workflow_dispatch:
+    inputs:
+      browser:
+        description: Run full browser routes in addition to model, save and export checks
+        type: boolean
+        default: true
   push:
     branches: [work/full-campaign]
 concurrency:
@@ -27,6 +32,7 @@ jobs:
         run: |
           node studio/verification/test-flow.cjs
           node studio/verification/ending-scenes.test.cjs
+          node studio/verification/ui-load-safety.test.cjs
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-rooms.test.cjs
           node studio/verification/adventure-saves.test.cjs
@@ -58,10 +64,12 @@ jobs:
           path: dist/Tihaya-Voda-Working-Build.zip
           retention-days: 30
       - name: Install Chromium for actual full-player routes
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.browser }}
         run: |
           npm install --no-save --no-package-lock playwright
           npx playwright install --with-deps chromium
       - name: Play all four routes through visible controls
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.browser }}
         run: node studio/verification/campaign-browser.test.cjs
       - name: Upload browser evidence even when a route fails
         if: always()
