@@ -15,6 +15,10 @@ checks = {
     "fallback render preserves viewport aspect": "const scale=Math.min(1,750/w,430/h);scratch.width=Math.max(1,Math.round(w*scale));scratch.height=Math.max(1,Math.round(h*scale));",
     "reset releases WebGL textures": "function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}",
     "flashlight stays available in adventure mode": "torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';",
+    "adaptive station ambience is implemented": "function startStationAmbience()",
+    "ambience respects master volume": "const prefs=audioSettings?.master??55",
+    "ambience suspends on pause": "pauseStationAmbience();for(const c of directorChannels.values())",
+    "ambience changes only when room changes": "stationAmbienceRoom!==(roomId||'A')",
 }
 for path in paths:
     source = path.read_text(encoding="utf-8")
