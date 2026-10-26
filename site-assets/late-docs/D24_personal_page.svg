@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="Личная рукописная страница без номера">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960" viewBox="0 0 720 960" role="img" aria-label="Личная рукописная страница без номера">
 <defs>
  <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee5c9"/><stop offset=".48" stop-color="#d8cba9"/><stop offset="1" stop-color="#b9a985"/></linearGradient>
  <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#504632" stop-opacity=".34"/><stop offset=".12" stop-color="#fff" stop-opacity=".08"/><stop offset=".9" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#453b2b" stop-opacity=".32"/></linearGradient>

@@ -6,9 +6,9 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
-    "D24": ("read_D24", "A", 11, "D24_personal_page", "03f77edc820d6265f83cef79fb60a5d94dc50ab038dcf3a735ead104504ae4b9"),
-    "D25": ("read_D25", "H", 8, "D25_outgoing_receipt", "4558001b117633ca8f575296125022727131655947441b307b3c4df58013183c"),
-    "D26": ("read_D26", "L", 12, "D26_irina_door_note", "4c37a8e8c9d44ebcf4f91a06c27a19f6b9bfd66cba33f64485ee6b15a1aff6e0"),
+    "D24": ("read_D24", "A", 11, "D24_personal_page", "73e3270565a720c81a1f5a7382eac6783739eeee6bc828fe42da1acecd7d3953"),
+    "D25": ("read_D25", "H", 8, "D25_outgoing_receipt", "04d908687fd2b361e67f9b819a5fd8d025681b8b2b6f7ec6c15111f34dd19e7a"),
+    "D26": ("read_D26", "L", 12, "D26_irina_door_note", "a176877f4596e1a34f4fd22eb223948abd77e477ad3781c397009dcd4acc4273"),
 }
 html = (ROOT / "_site/index.html").read_text(encoding="utf-8")
 marker = "window.BUILT_GAME="
@@ -30,6 +30,7 @@ for doc_id, (action_id, room, chapter, art_id, sha) in EXPECTED.items():
     assert hashlib.sha256(raw).hexdigest() == sha
     root = ET.fromstring(raw)
     assert root.tag == "{http://www.w3.org/2000/svg}svg"
+    assert root.attrib.get("width") == "720" and root.attrib.get("height") == "960"
     assert not any(node.tag.endswith("script") for node in root.iter())
 assert "ga-art-figure" in html and "Сюжетная иллюстрация" in html
 print("PASS D24/D25/D26 artwork attached to canonical actions and journal; 16 rooms, 112 events, 30 documents preserved")
