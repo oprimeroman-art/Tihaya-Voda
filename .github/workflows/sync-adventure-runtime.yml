@@ -44,6 +44,7 @@ on:
       - 'codex-scripts/apply_existing_room_overlays.py'
       - 'codex-scripts/apply_panorama_state_overlays.py'
       - 'studio/verification/room-variant-art.test.py'
+      - '.github/workflows/sync-adventure-runtime.yml'
 
 permissions:
   contents: write
@@ -102,18 +103,31 @@ jobs:
             echo 'Preserving user-supplied audio; generation is disabled for pushes and default manual runs.'
           fi
           python3 studio/verification/spatial-audio-pack.test.py
-          if ! command -v ffprobe >/dev/null 2>&1; then
-            if ! timeout 60s sudo apt-get update -qq -o Acquire::Retries=1 -o Acquire::http::Timeout=15 -o Acquire::https::Timeout=15; then
-              echo 'Package index refresh timed out; attempting installation with cached indexes.'
-            fi
-            timeout 60s sudo apt-get install -y ffmpeg
-          fi
           if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
             python3 codex-scripts/generate_found_footage_pack.py
           else
             echo 'Preserving user-supplied video; generation is disabled for pushes and default manual runs.'
           fi
-          python3 studio/verification/found-footage-pack.test.py
+          video_validation_required=false
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.regenerate_media }}" == "true" ]]; then
+            video_validation_required=true
+          elif [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            video_changed_paths="$(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA")"
+            if grep -Eq '^game-project/video/found_footage/.*[.]mp4$' <<< "$video_changed_paths"; then
+              video_validation_required=true
+            fi
+          fi
+          if [[ "$video_validation_required" == true ]]; then
+            if ! command -v ffprobe >/dev/null 2>&1; then
+              if ! timeout 120s sudo apt-get update -qq -o Acquire::Retries=1 -o Acquire::http::Timeout=15 -o Acquire::https::Timeout=15; then
+                echo 'Package index refresh timed out; attempting installation with cached indexes.'
+              fi
+              timeout 240s sudo apt-get install -y ffmpeg
+            fi
+            python3 studio/verification/found-footage-pack.test.py
+          else
+            echo 'Skipping ffprobe/video validation because no video files changed; preserving existing media.'
+          fi
           python3 studio/verification/campaign-integrity.test.py
           python3 codex-scripts/test_wave10_kitchen_state.py
           python3 studio/verification/standalone-html.test.py
