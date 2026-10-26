@@ -1383,7 +1383,9 @@
           ],
           "default_variant": "C_NORMAL",
           "name": "Коридор",
-          "variantAssets": {}
+          "variantAssets": {
+            "C_MIRROR_LIGHT": "composite_c_mirror_light"
+          }
         },
         {
           "id": "D",
@@ -1417,7 +1419,9 @@
           ],
           "default_variant": "F_NORMAL",
           "name": "Склад",
-          "variantAssets": {}
+          "variantAssets": {
+            "F_ARCHIVE12": "composite_f_archive12"
+          }
         },
         {
           "id": "G",
@@ -1441,7 +1445,9 @@
           ],
           "default_variant": "H_NORMAL",
           "name": "Архив",
-          "variantAssets": {}
+          "variantAssets": {
+            "H_AFTER_V01": "composite_h_after_v01"
+          }
         },
         {
           "id": "I",
@@ -16733,6 +16739,24 @@
       "name": "Выбрать режим и поставить подпись",
       "mime": "image/png",
       "file": "assets/sign_FINAL_PANEL.png"
+    },
+    {
+      "id": "composite_c_mirror_light",
+      "name": "Отражение фонаря в зеркале",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_c_mirror_light.webp"
+    },
+    {
+      "id": "composite_f_archive12",
+      "name": "Табличка АРХИВ-12",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_f_archive12.webp"
+    },
+    {
+      "id": "composite_h_after_v01",
+      "name": "Приоткрытый шкаф и записка после V01",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_h_after_v01.webp"
     }
   ],
   "audio": [
