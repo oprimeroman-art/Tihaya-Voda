@@ -42,6 +42,7 @@ on:
       - 'studio/verification/found-footage-pack.test.py'
       - 'studio/verification/campaign-integrity.test.py'
       - 'codex-scripts/apply_existing_room_overlays.py'
+      - 'codex-scripts/apply_panorama_state_overlays.py'
       - 'studio/verification/room-variant-art.test.py'
 
 permissions:

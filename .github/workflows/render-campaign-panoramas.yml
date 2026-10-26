@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - 'production/geometry/CAMPAIGN/render_campaign360.py'
-      - 'codex-scripts/apply_panorama_state_overlays.py'
       - 'production/geometry/B_NORMAL/render_kitchen360.py'
       - 'production/geometry/B_NORMAL/curved_geometry.py'
       - 'production/geometry/B_NORMAL/light_transport.py'
