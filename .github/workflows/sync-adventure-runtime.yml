@@ -12,6 +12,7 @@ on:
       - 'studio/source/rules-core.js'
       - 'studio/source/i18n.js'
       - 'codex-scripts/sync_document_ui.py'
+      - '.github/workflows/sync-adventure-runtime.yml'
       - 'codex-scripts/sync_embedded_engine.py'
       - 'codex-scripts/audit_art_ready.py'
       - 'production/asset_manifest_q01_q03.json'
