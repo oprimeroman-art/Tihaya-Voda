@@ -18,6 +18,8 @@ OVERLAYS = [
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
     ("D", "D_LATE_MIRROR", "D_D_LATE_MIRROR.webp", "Позднее отражение в экране"),
     ("B", "B_TWO_GHOSTS", "B_B_TWO_GHOSTS.webp", "Два отражения в зеркале"),
+    ("D", "D_DOUBLE_ACTS", "D_D_DOUBLE_ACTS.webp", "Дублирующиеся акты инцидента"),
+    ("H", "H_ANNA_GLASS", "H_H_ANNA_GLASS.webp", "Отражение Анны в стекле"),
 ]
 
 def update_list(existing, item):
@@ -48,6 +50,8 @@ def generate_first_act_state_overlays():
         "D_D_FALSE_MONITOR.webp": (0.29, 0.42, 54, 42, "false"),
         "D_D_LATE_MIRROR.webp": (0.57, 0.42, 70, 42, "mirror"),
         "B_B_TWO_GHOSTS.webp": (0.29, 0.53, 54, 42, "twins"),
+        "D_D_DOUBLE_ACTS.webp": (0.85, 0.53, 54, 42, "acts"),
+        "H_H_ANNA_GLASS.webp": (0.29, 0.42, 54, 42, "anna"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
@@ -63,6 +67,10 @@ def generate_first_act_state_overlays():
                     pixels[x, y] = (int(7 + 8 * glow), int(16 + 26 * glow), int(19 + 31 * glow), 255)
                 elif mode == "twins":
                     pixels[x, y] = (int(21 + 15 * glow), int(28 + 18 * glow), int(27 + 17 * glow), 255)
+                elif mode == "acts":
+                    pixels[x, y] = (int(174 + 18 * glow), int(165 + 19 * glow), int(137 + 15 * glow), 255)
+                elif mode == "anna":
+                    pixels[x, y] = (int(23 + 10 * glow), int(35 + 15 * glow), int(34 + 14 * glow), 255)
                 else:
                     pixels[x, y] = (int(5 + 7 * glow), int(13 + 15 * glow), int(17 + 18 * glow), 255)
         draw = ImageDraw.Draw(panel, "RGBA")
@@ -87,7 +95,7 @@ def generate_first_act_state_overlays():
             draw = ImageDraw.Draw(panel, "RGBA")
             draw.ellipse((cx+w*.06,h*.08,cx+w*.20,h*.36), fill=(106,138,132,50))
             draw.polygon([(cx-w*.06,h*.95),(cx-w*.02,h*.58),(cx+w*.07,h*.42),(cx+w*.18,h*.48),(cx+w*.23,h*.95)], fill=(112,143,137,35))
-        else:
+        elif mode == "twins":
             # Two distinct silhouettes in one mirror; the second is offset like an impossible reflection.
             for cx, alpha, scale in ((w*.34, 115, .72), (w*.68, 80, .88)):
                 head_w = w*.12*scale; head_h = h*.27*scale
@@ -95,8 +103,28 @@ def generate_first_act_state_overlays():
                 shoulder_y = h*.12+head_h
                 draw.polygon([(cx-w*.15*scale,h*.96),(cx-w*.13*scale,shoulder_y+h*.08),(cx-w*.07*scale,shoulder_y),(cx+w*.07*scale,shoulder_y),(cx+w*.14*scale,shoulder_y+h*.09),(cx+w*.16*scale,h*.96)], fill=(4,8,9,alpha))
             draw.line((w*.5,h*.06,w*.5,h*.93), fill=(188,202,188,40), width=1)
-        for y in range(2, h, 4):
-            draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
+        elif mode == "acts":
+            # Two nearly identical paper records overlap; duplicated red seals are the anomaly.
+            draw.rectangle((2,2,w-3,h-3), fill=(188,179,150,255), outline=(71,65,53,230), width=1)
+            draw.rectangle((5,4,w-7,h-5), outline=(104,94,75,150), width=1)
+            for row in range(5):
+                yy=7+row*6
+                draw.line((7,yy,w-7,yy), fill=(66,67,58,145 if row<4 else 90), width=1)
+            draw.ellipse((w*.12,h*.12,w*.42,h*.50), outline=(142,37,32,210), width=2)
+            draw.ellipse((w*.54,h*.16,w*.84,h*.54), outline=(142,37,32,170), width=2)
+            draw.line((w*.15,h*.28,w*.37,h*.28), fill=(142,37,32,200), width=1)
+            draw.line((w*.57,h*.32,w*.79,h*.32), fill=(142,37,32,160), width=1)
+        elif mode == "anna":
+            # A pale face and a hand appear only in the cabinet glass, without a jump-scare flash.
+            draw.rectangle((2,2,w-3,h-3), outline=(125,158,146,110), width=1)
+            cx=w*.52
+            draw.ellipse((cx-w*.13,h*.09,cx+w*.12,h*.50), fill=(139,162,145,95), outline=(194,208,186,120), width=1)
+            draw.polygon([(cx-w*.24,h*.98),(cx-w*.21,h*.63),(cx-w*.12,h*.47),(cx+w*.12,h*.47),(cx+w*.22,h*.65),(cx+w*.25,h*.98)], fill=(91,122,111,100))
+            draw.ellipse((w*.73,h*.38,w*.86,h*.67), fill=(162,183,161,70), outline=(205,218,196,95), width=1)
+            draw.line((cx-w*.07,h*.28,cx+w*.07,h*.28), fill=(29,42,39,180), width=1)
+        if mode in ("false", "mirror", "twins"):
+            for y in range(2, h, 4):
+                draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
         if mode == "false":
             bloom = Image.new("RGBA", panel.size, (0,0,0,0)); bd = ImageDraw.Draw(bloom, "RGBA")
             bd.ellipse((w*.25,h*.05,w*.78,h*.98), fill=(95,145,130,24))
