@@ -1389,7 +1389,8 @@
           "name": "Коридор",
           "variantAssets": {
             "C_MIRROR_LIGHT": "composite_c_mirror_light",
-            "C_HIDDEN_DOOR": "composite_c_hidden_door"
+            "C_HIDDEN_DOOR": "composite_c_hidden_door",
+            "C_REVERSED_SNOW": "composite_c_reversed_snow"
           }
         },
         {
@@ -1417,7 +1418,9 @@
           ],
           "default_variant": "E_NORMAL",
           "name": "Дизельная",
-          "variantAssets": {}
+          "variantAssets": {
+            "E_FALSE_DIGITAL": "composite_e_false_digital"
+          }
         },
         {
           "id": "F",
@@ -1429,7 +1432,8 @@
           "default_variant": "F_NORMAL",
           "name": "Склад",
           "variantAssets": {
-            "F_ARCHIVE12": "composite_f_archive12"
+            "F_ARCHIVE12": "composite_f_archive12",
+            "F_SUIT_STANDING": "composite_f_suit_standing"
           }
         },
         {
@@ -16778,6 +16782,12 @@
       "file": "assets/variants/composite_c_hidden_door.webp"
     },
     {
+      "id": "composite_c_reversed_snow",
+      "name": "Следы снега против направления движения",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_c_reversed_snow.webp"
+    },
+    {
       "id": "composite_f_archive12",
       "name": "Ð¢Ð°Ð±Ð»Ð¸ÑÐºÐ° ÐÐ Ð¥ÐÐ-12",
       "mime": "image/webp",
@@ -16830,6 +16840,18 @@
       "name": "Дверь в отражении линзы",
       "mime": "image/webp",
       "file": "assets/variants/composite_g_mirror_door.webp"
+    },
+    {
+      "id": "composite_e_false_digital",
+      "name": "Цифры заменяются силуэтами людей",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_e_false_digital.webp"
+    },
+    {
+      "id": "composite_f_suit_standing",
+      "name": "Костюм стоит без человека снаружи",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_f_suit_standing.webp"
     }
   ],
   "audio": [
