@@ -13,6 +13,7 @@ on:
       - 'art/candidates/B_B_NORMAL_360_geometry.webp'
       - 'art/materials/cc0/**'
       - 'studio/verification/found-footage-pack.test.py'
+      - 'studio/verification/monitor-variant-art.test.py'
       - '.github/workflows/render-campaign-panoramas.yml'
 permissions:
   contents: write
@@ -43,6 +44,7 @@ jobs:
         run: |
           python3 studio/verification/campaign-panorama-pack.test.py
           python3 studio/verification/room-variant-art.test.py
+          python3 studio/verification/monitor-variant-art.test.py
           python3 studio/verification/campaign-integrity.test.py
           python3 studio/verification/spatial-audio-pack.test.py
           python3 studio/verification/found-footage-pack.test.py
