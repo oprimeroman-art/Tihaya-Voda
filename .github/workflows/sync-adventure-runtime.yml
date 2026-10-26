@@ -47,6 +47,8 @@ jobs:
           node studio/verification/adventure-rooms.test.cjs
       - name: Report Q01-Q03 production art readiness
         run: python3 codex-scripts/audit_art_ready.py
+      - name: Verify required existing-room overlays
+        run: python3 codex-scripts/test_existing_room_overlays.py
       - name: Update existing offline game and editor without overwriting unrelated runtime fixes
         shell: bash
         env:
