@@ -1388,7 +1388,8 @@
           "default_variant": "C_NORMAL",
           "name": "Коридор",
           "variantAssets": {
-            "C_MIRROR_LIGHT": "composite_c_mirror_light"
+            "C_MIRROR_LIGHT": "composite_c_mirror_light",
+            "C_HIDDEN_DOOR": "composite_c_hidden_door"
           }
         },
         {
@@ -2689,7 +2690,7 @@
             },
             {
               "variant": {
-                "C": "C_HIDDEN"
+                "C": "C_HIDDEN_DOOR"
               }
             },
             {
@@ -16769,6 +16770,12 @@
       "name": "ÐÑÑÐ°Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¾Ð½Ð°ÑÑ Ð² Ð·ÐµÑÐºÐ°Ð»Ðµ",
       "mime": "image/webp",
       "file": "assets/variants/composite_c_mirror_light.webp"
+    },
+    {
+      "id": "composite_c_hidden_door",
+      "name": "Скрытая дверь в коридоре",
+      "mime": "image/webp",
+      "file": "assets/variants/composite_c_hidden_door.webp"
     },
     {
       "id": "composite_f_archive12",

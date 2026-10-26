@@ -54,7 +54,8 @@
       "default_variant": "C_NORMAL",
       "name": "Коридор",
       "variantAssets": {
-        "C_MIRROR_LIGHT": "composite_c_mirror_light"
+        "C_MIRROR_LIGHT": "composite_c_mirror_light",
+        "C_HIDDEN_DOOR": "composite_c_hidden_door"
       }
     },
     {
