@@ -35,6 +35,12 @@ def main():
         svg=f'<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="{height}" viewBox="0 0 1100 {height}"><rect width="1100" height="{height}" fill="#dcd7c8"/><rect x="26" y="26" width="1048" height="{height-52}" fill="none" stroke="#9a9588"/><path d="M66 136H1034" stroke="#5c696b"/><g font-family="monospace"><text x="78" y="92" font-size="24" fill="#596365">МАЯК-9 / АРХИВ / {doc["id"]}</text>{text}</g></svg>'
         file=directory/(doc['id']+'.svg');file.write_text(svg)
         key='canonical_'+doc['id'];art['image'][key]='data:image/svg+xml;base64,'+base64.b64encode(svg.encode()).decode();art['document'][doc['id']]=key
+    known={item['id'] for item in d['items']}
+    for action in d['actions']:
+        for fx in action.get('effects',[]):
+            if fx.get('item') and fx['item'] not in known:
+                d['items'].append({'id':fx['item'],'pickup_room':action['room'],'type':'quest_item','persistent_across_checkpoints':True});known.add(fx['item'])
+    d['endingScenes']=json.loads((ROOT/'production/ending-scenes.json').read_text())
     d['inventoryArt']={}
     for item in d['items']:
         image=ROOT/f'game-project/assets/items/{item["id"]}.webp'

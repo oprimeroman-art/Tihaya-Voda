@@ -19,6 +19,7 @@ jobs:
           node-version: '22'
       - name: Synchronize canonical project, Studio and both players
         run: |
+          python3 codex-scripts/sync_approved_room_art.py
           python3 codex-scripts/sync_campaign_art.py
           python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_embedded_engine.py --check
@@ -43,7 +44,7 @@ jobs:
         env:
           WORK_BRANCH: ${{ github.ref_name }}
         run: |
-          git add game/index.html game/source-project.zip game-editor/index.html game-project/project.json game-project/assets/documents studio/index.html studio/content/TIHAYA_VODA/adventure.json reports/adventure.json reports/CAMPAIGN_RELEASE_GAPS.json reports/MODEL_TEST_REPORT.json reports/CHECKPOINT_*.json
+          git add game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms game/index.html game/source-project.zip game-editor/index.html game-project/project.json game-project/assets/documents studio/index.html studio/content/TIHAYA_VODA/adventure.json reports/adventure.json reports/CAMPAIGN_RELEASE_GAPS.json reports/MODEL_TEST_REPORT.json reports/CHECKPOINT_*.json
           if ! git diff --cached --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

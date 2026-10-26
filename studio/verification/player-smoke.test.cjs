@@ -15,7 +15,7 @@ const root=path.resolve(__dirname,'../..'),dir=path.join(root,'reports/player-sm
   const option=await p.evaluate(m=>adventurePlayer.data.actions.find(a=>a.id==='FINAL_PANEL').options.find(o=>o.value===m).label,mode);
   await p.locator('.ga-dialog').getByRole('button',{name:option,exact:true}).click({noWaitAfter:true});await p.getByRole('button',{name:'Подтвердить и подписать',exact:true}).click({noWaitAfter:true});
   await p.waitForFunction(m=>adventurePlayer.engine.state.ended===m,mode);
-  await p.getByRole('button',{name:'Титры',exact:true}).waitFor();assert(await p.locator('.ga-dialog img').evaluate(i=>i.complete&&i.naturalWidth>0));
+  for(let i=0;i<3;i++)await p.getByRole('button',{name:'Продолжить финал',exact:true}).click({noWaitAfter:true});await p.getByRole('button',{name:'Титры',exact:true}).waitFor();assert(await p.locator('.ga-dialog img').evaluate(i=>i.complete&&i.naturalWidth>0));
   await p.screenshot({path:path.join(dir,'ending-'+mode+'.png')});await p.getByRole('button',{name:'Титры',exact:true}).click({noWaitAfter:true});await p.getByRole('button',{name:'Следующая проверка',exact:true}).click({noWaitAfter:true});
   assert(await p.evaluate(()=>adventurePlayer.engine.state.flags.POST_CREDITS));checks.push(mode+': real renderer, legacy save imported, signed mode, image loaded, credits and postcredits');await p.close();console.log(checks.at(-1));
  }

@@ -16,12 +16,13 @@ async function drain(){for(let i=0;i<35;i++){
  const s=await state();const pending=s.pending.map(p=>({p,e:story.events.find(e=>e.id===p.id)})).filter(({e})=>e&&(!e.room||e.room===s.room)&&test(e.when,s)&&e.priority!=='optional');
  if(!pending.length)return;const wait=Math.max(0,Math.min(...pending.map(({p})=>p.due))-s.clock);await page.clock.runFor(Math.ceil(wait*1000)+200);
  }throw Error('Event queue did not settle');}
+async function sceneSafeClick(locator){for(let i=0;i<15;i++){try{await locator.click({timeout:1200,noWaitAfter:true});return;}catch(error){const c=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(!await c.count())throw error;await c.click({noWaitAfter:true});await drain();}}throw Error('Repeated scene interruptions');}
 async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[s.room,[]]],seen=new Set(),route;
  while(queue.length){const[r,steps]=queue.shift();if(r===dest){route=steps;break;}if(seen.has(r))continue;seen.add(r);for(const l of story.links.filter(l=>l.from===r&&test(l.when,s)))queue.push([l.to,[...steps,l.to]]);}
  assert(route,`No route ${s.room} to ${dest}, chapter ${s.chapter}`);
- for(const r of route){await drain();await page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}).click({noWaitAfter:true});await drain();}
+ for(const r of route){await drain();await sceneSafeClick(page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}));await drain();}
 }
-async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}).click({noWaitAfter:true});await drain();
+async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await sceneSafeClick(page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}));await drain();
  // Start-signal scenes may precede the instrument, which reopens after Continue.
  const box=page.locator('.ga-dialog');
  if(a.template==='media'){
@@ -49,7 +50,7 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
   await action('FINAL_PANEL',mode);assert.equal((await state()).ended,mode);
   await page.clock.runFor(300);assert(await page.getByRole('dialog',{name:story.endings[mode].title,exact:true}).count());
   const img=page.locator('.ga-dialog img');assert.equal(await img.count(),1);assert(await img.evaluate(i=>i.complete&&i.naturalWidth>0));
-  await page.screenshot({path:path.join(out,`ending-${mode}.png`)});await button('Титры');await button('Следующая проверка');assert((await state()).flags.POST_CREDITS);
+  await page.screenshot({path:path.join(out,`ending-${mode}.png`)});for(let i=0;i<3;i++)await button('Продолжить финал');await button('Титры');await button('Следующая проверка');assert((await state()).flags.POST_CREDITS);
   checks.push(`Ending ${mode}, illustration, credits and postcredits`);
   await button('Загрузить до панели');await button('Загрузить');assert.equal((await state()).ended,false);assert(!(await state()).done.includes('FINAL_PANEL'));
   await page.close();
