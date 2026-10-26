@@ -201,7 +201,18 @@
       ],
       "default_variant": "J_NORMAL",
       "name": "Шлюз",
-      "variantAssets": {}
+      "variantAssets": {},
+      "visualProfiles": {
+        "J_FALSE_BELOV": {
+          "figure": false,
+          "gazePoint": {
+            "u": 0.41,
+            "v": 0.48
+          },
+          "gaze": 1.1,
+          "dismissTo": "J_NORMAL"
+        }
+      }
     },
     {
       "id": "K",
@@ -212,7 +223,18 @@
       ],
       "default_variant": "K_NORMAL",
       "name": "Двор",
-      "variantAssets": {}
+      "variantAssets": {},
+      "visualProfiles": {
+        "K_TOWER_SILHOUETTE": {
+          "figure": false,
+          "gazePoint": {
+            "u": 0.7,
+            "v": 0.42
+          },
+          "gaze": 1.25,
+          "dismissTo": "K_TOWER_EMPTY"
+        }
+      }
     },
     {
       "id": "L",

@@ -40,8 +40,17 @@ ctx.adventurePlayer.engine.state=restored.state;gaze.paint();assert.equal(restor
 // A different authored apparition is independent and gaze-dismissable.
 ctx.roomId='H';restored.state.variants.H='H_ANNA_GLASS';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'none');
 for(let i=0;i<9;i++)gaze.paint(.15);assert.equal(restored.state.variants.H,'H_NORMAL');assert(appliedVariants.some(([room,variant])=>room==='H'&&variant==='H_NORMAL'));assert.equal(restored.state.progress.seenApparitions['H:H_ANNA_GLASS'],true);
-// The remaining unillustrated Belov apparition keeps its procedural figure and gaze fade.
-ctx.roomId='J';restored.state.variants.J='J_FALSE_BELOV';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'block');
+// The authored Belov and tower images dismiss to their normal/empty variants.
+ctx.roomId='J';restored.state.variants.J='J_FALSE_BELOV';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'none');
+for(let i=0;i<8;i++)gaze.paint(.15);assert.equal(restored.state.variants.J,'J_NORMAL');assert.equal(restored.state.progress.seenApparitions['J:J_FALSE_BELOV'],true);
+assert(appliedVariants.some(([room,variant])=>room==='J'&&variant==='J_NORMAL'));
+ctx.roomId='K';restored.state.variants.K='K_TOWER_SILHOUETTE';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'none');
+for(let i=0;i<9;i++)gaze.paint(.15);assert.equal(restored.state.variants.K,'K_TOWER_EMPTY');assert.equal(restored.state.progress.seenApparitions['K:K_TOWER_SILHOUETTE'],true);
+assert(appliedVariants.some(([room,variant])=>room==='K'&&variant==='K_TOWER_EMPTY'));
+// The legacy CSS fallback remains available for states without an authored visual profile.
+const jRoom=story.rooms.find(r=>r.id==='J');const jProfile=jRoom.visualProfiles.J_FALSE_BELOV;delete jRoom.visualProfiles.J_FALSE_BELOV;
+delete restored.state.progress.seenApparitions['J:J_FALSE_BELOV'];ctx.roomId='J';restored.state.variants.J='J_FALSE_BELOV';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'block');
 for(let i=0;i<8;i++)gaze.paint(.15);assert.equal(restored.state.progress.seenApparitions['J:J_FALSE_BELOV'],true);assert.equal(figure.style.opacity,'0');
+jRoom.visualProfiles.J_FALSE_BELOV=jProfile;
 assert(runtime.includes('if(horrorGazeActive&&sessionStarted&&!sessionPaused)horrorPaint(dt);'));
-console.log('PASS: authored image gaze dismissal, no duplicate CSS figures, save persistence, independent rooms, placeholder gaze fade, pause/modal and calm intro');
+console.log('PASS: authored image gaze dismissal, no duplicate CSS figures, save persistence, independent rooms, legacy CSS fallback, pause/modal and calm intro');

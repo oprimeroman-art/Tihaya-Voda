@@ -1,4 +1,4 @@
-/* Regression checks for authored panorama states plus the remaining procedural apparition. */
+/* Regression checks for authored panorama states plus the legacy CSS fallback. */
 'use strict';
 const assert=require('node:assert/strict');
 const {readFileSync}=require('node:fs');
@@ -32,19 +32,19 @@ for(const meta of data.rooms){
  assert.equal(horrorProfile(meta,meta.default_variant,{flags:{Q02_DONE:true}}).strength,0,
     meta.id+': normal room stays normal');
 }
-for(const [rid,v] of [['B','B_GHOST_MIRROR'],['H','H_ANNA_GLASS'],['F','F_SUIT_STANDING'],['D','D_LATE_MIRROR'],['G','G_MIRROR_DOOR']]){
+for(const [rid,v] of [['B','B_GHOST_MIRROR'],['H','H_ANNA_GLASS'],['F','F_SUIT_STANDING'],['D','D_LATE_MIRROR'],['G','G_MIRROR_DOOR'],['J','J_FALSE_BELOV'],['K','K_TOWER_SILHOUETTE']]){
  const val=p(rid,v);const custom=room(rid).visualProfiles?.[v];
  assert(val.strength>0,'authored apparition still needs atmosphere: '+v);
  assert.equal(val.figure,null,'authored art must not get a duplicate CSS silhouette: '+v);
  assert.equal(custom?.figure,false,'explicitly suppress CSS figure: '+v);
  if(v!=='F_SUIT_STANDING')assert(custom.gazePoint&&custom.dismissTo,'authored apparition must be gaze-dismissable: '+v);
 }
-for(const [rid,v] of [['J','J_FALSE_BELOV'],['K','K_TOWER_SILHOUETTE']])assert(p(rid,v).figure,'unillustrated apparition keeps its procedural placeholder: '+v);
 assert.equal(p('H','H_1978').signal,'temporal');
 assert.equal(p('L','L_SHUTTER_DANGER').signal,'severe');
-assert.equal(p('J','J_FALSE_BELOV').figure.u,.41);
+assert.equal(p('J','J_FALSE_BELOV').figure,null);
 let cold=p('J','J_FALSE_BELOV');
 assert(cold.strength<.5,'avoid large disruptive brightness jumps');
+const belovProfile=room('J').visualProfiles.J_FALSE_BELOV;delete room('J').visualProfiles.J_FALSE_BELOV;
 horrorPaint();
 assert.equal(cells.layer.style.opacity,'0');
 assert.equal(cells.figure.style.display,'none');
@@ -61,6 +61,7 @@ globals.sessionPaused=false;
 globals.adventurePlayer.engine.state.variants.J='J_NORMAL';horrorPaint();
 assert.equal(cells.layer.style.opacity,'0');
 assert.equal(cells.figure.style.display,'none');
+room('J').visualProfiles.J_FALSE_BELOV=belovProfile;
 const custom={default_variant:'normal',visualProfiles:{custom:{signal:'temporal',strength:.5,figure:{u:.2,v:.6}}}};
 assert.equal(horrorProfile(custom,'custom',{flags:{Q02_DONE:true}}).strength,.5);
 assert.equal(horrorProfile({...custom,visualProfiles:{custom:{disabled:true}}},'custom',{flags:{Q02_DONE:true}}).strength,0);

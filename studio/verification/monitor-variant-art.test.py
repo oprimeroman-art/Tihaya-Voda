@@ -21,6 +21,8 @@ expected = {
     "C_C_REVERSED_SNOW.webp": None,
     "E_E_FALSE_DIGITAL.webp": (846, 409, 916, 451),
     "F_F_SUIT_STANDING.webp": None,
+    "J_J_FALSE_BELOV.webp": None,
+    "K_K_TOWER_SILHOUETTE.webp": None,
 }
 for filename, bounds in expected.items():
     path = ROOT / "art/overlays" / filename
@@ -35,6 +37,10 @@ for filename, bounds in expected.items():
         assert bbox[0] < 600 and bbox[2] > 1400 and bbox[1] >= 750 and bbox[3] <= 930, f"snow tracks must stay on the floor: {bbox}"
     elif filename == "F_F_SUIT_STANDING.webp":
         assert 1370 <= bbox[0] < bbox[2] <= 1500 and 355 <= bbox[1] < bbox[3] <= 730, f"suit apparition escaped its corner: {bbox}"
+    elif filename == "J_J_FALSE_BELOV.webp":
+        assert 760 <= bbox[0] < bbox[2] <= 920 and 300 <= bbox[1] < bbox[3] <= 690, f"Belov apparition escaped its corridor position: {bbox}"
+    elif filename == "K_K_TOWER_SILHOUETTE.webp":
+        assert 1320 <= bbox[0] < bbox[2] <= 1535 and 290 <= bbox[1] < bbox[3] <= 570, f"tower silhouette escaped its skyline window: {bbox}"
 
 project = json.loads((ROOT / "game-project/project.json").read_text(encoding="utf-8"))
 adventure = json.loads((ROOT / "studio/content/TIHAYA_VODA/adventure.json").read_text(encoding="utf-8"))
@@ -70,4 +76,4 @@ for label, story in (("canonical", adventure), ("editable", project["story"]["ad
         assert profile.get("figure") is False, f"duplicate CSS silhouette not disabled: {label}/{state}"
         if needs_gaze:
             assert profile.get("gazePoint") and profile.get("dismissTo"), f"art gaze dismissal not wired: {label}/{state}"
-print("PASS: eleven authored room-state variants are calibrated, embedded, and mapped in the editor, story data, and standalone game.")
+print("PASS: thirteen generated room-state overlays are calibrated, embedded, and mapped in the editor, story data, and standalone game.")

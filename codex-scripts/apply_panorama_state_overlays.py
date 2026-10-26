@@ -26,6 +26,8 @@ OVERLAYS = [
     ("G", "G_MIRROR_DOOR", "G_G_MIRROR_DOOR.webp", "Дверь в отражении линзы"),
     ("E", "E_FALSE_DIGITAL", "E_E_FALSE_DIGITAL.webp", "Цифры заменяются силуэтами людей"),
     ("F", "F_SUIT_STANDING", "F_F_SUIT_STANDING.webp", "Костюм стоит без человека снаружи"),
+    ("J", "J_FALSE_BELOV", "J_J_FALSE_BELOV.webp", "Ложный Белов в коридоре"),
+    ("K", "K_TOWER_SILHOUETTE", "K_K_TOWER_SILHOUETTE.webp", "Силуэт вышки за окном"),
 ]
 
 def update_list(existing, item):
@@ -64,11 +66,13 @@ def generate_story_state_overlays():
         "C_C_REVERSED_SNOW.webp": (0.50, 0.82, 2048, 180, "footprints"),
         "E_E_FALSE_DIGITAL.webp": (0.43, 0.42, 70, 42, "digital"),
         "F_F_SUIT_STANDING.webp": (0.70, 0.53, 120, 360, "suit"),
+        "J_J_FALSE_BELOV.webp": (0.41, 0.48, 120, 360, "belov"),
+        "K_K_TOWER_SILHOUETTE.webp": (0.70, 0.42, 180, 260, "tower"),
     }
     for filename, (u, v, panel_width, panel_height, mode) in states.items():
         w, h = panel_width, panel_height
         x0, y0 = round(u * width - w / 2), round(v * height - h / 2)
-        transparent_modes = {"footprints", "suit"}
+        transparent_modes = {"footprints", "suit", "belov", "tower"}
         panel = Image.new("RGBA", (w, h), (0, 0, 0, 0) if mode in transparent_modes else (0, 0, 0, 255))
         pixels = panel.load()
         for y in range(h):
@@ -217,6 +221,41 @@ def generate_story_state_overlays():
             draw.ellipse((w*.67,h*.40,w*.72,h*.45),outline=(175,192,173,150),width=1)
             for x in (w*.31,w*.69):
                 draw.line((x,h*.39,x+( -4 if x<w*.5 else 4),h*.62),fill=(147,165,150,130),width=2)
+        elif mode == "belov":
+            # The corridor figure resembles a person only at a glance; the face has no stable features.
+            shadow=Image.new("RGBA",panel.size,(0,0,0,0));sd=ImageDraw.Draw(shadow,"RGBA")
+            sd.ellipse((w*.28,h*.02,w*.72,h*.22),fill=(190,207,196,42))
+            sd.polygon([(w*.18,h*.98),(w*.22,h*.31),(w*.34,h*.20),(w*.66,h*.20),(w*.78,h*.31),(w*.82,h*.98)],fill=(132,152,145,52))
+            panel=Image.alpha_composite(panel,shadow.filter(ImageFilter.GaussianBlur(10)))
+            draw=ImageDraw.Draw(panel,"RGBA")
+            draw.ellipse((w*.39,h*.025,w*.61,h*.17),fill=(18,23,24,225),outline=(154,167,156,130),width=1)
+            draw.rectangle((w*.43,h*.15,w*.57,h*.23),fill=(22,28,29,230))
+            draw.polygon([(w*.32,h*.23),(w*.42,h*.20),(w*.58,h*.20),(w*.68,h*.23),(w*.78,h*.42),(w*.71,h*.53),(w*.66,h*.71),(w*.63,h*.98),(w*.53,h*.98),(w*.50,h*.70),(w*.47,h*.98),(w*.37,h*.98),(w*.34,h*.71),(w*.29,h*.53),(w*.22,h*.42)],fill=(17,23,25,225),outline=(119,138,132,150))
+            draw.polygon([(w*.32,h*.26),(w*.50,h*.31),(w*.68,h*.26),(w*.63,h*.36),(w*.37,h*.36)],fill=(39,48,47,220))
+            draw.line((w*.50,h*.33,w*.50,h*.86),fill=(106,127,121,155),width=1)
+            draw.rectangle((w*.39,h*.40,w*.46,h*.46),outline=(145,160,149,135),width=1)
+            draw.line((w*.41,h*.09,w*.59,h*.09),fill=(139,151,144,85),width=1)
+            # A long shadow points the wrong way for the corridor lighting.
+            draw.polygon([(w*.58,h*.79),(w*.95,h*.91),(w*.97,h*.96),(w*.56,h*.87)],fill=(4,8,10,85))
+        elif mode == "tower":
+            # A distant lattice tower appears beyond the antenna-room window, with one red beacon.
+            glow=Image.new("RGBA",panel.size,(0,0,0,0));gd=ImageDraw.Draw(glow,"RGBA")
+            gd.ellipse((w*.42,h*.015,w*.58,h*.12),fill=(213,54,43,90))
+            panel=Image.alpha_composite(panel,glow.filter(ImageFilter.GaussianBlur(10)))
+            draw=ImageDraw.Draw(panel,"RGBA")
+            top=(w*.50,h*.045);left=(w*.25,h*.96);right=(w*.75,h*.96)
+            line=(26,37,39,205);edge=(137,157,153,125)
+            draw.line((top,left),fill=line,width=3);draw.line((top,right),fill=line,width=3)
+            draw.line((w*.39,h*.40,w*.61,h*.40),fill=line,width=2)
+            draw.line((w*.34,h*.58,w*.66,h*.58),fill=line,width=2)
+            draw.line((w*.29,h*.77,w*.71,h*.77),fill=line,width=2)
+            draw.line((w*.39,h*.40,w*.61,h*.58),fill=edge,width=2);draw.line((w*.61,h*.40,w*.39,h*.58),fill=edge,width=2)
+            draw.line((w*.34,h*.58,w*.66,h*.77),fill=edge,width=2);draw.line((w*.66,h*.58,w*.34,h*.77),fill=edge,width=2)
+            draw.line((w*.44,h*.23,w*.56,h*.23),fill=line,width=2);draw.line((w*.43,h*.26,w*.57,h*.26),fill=line,width=1)
+            draw.line((w*.50,h*.04,w*.50,h*.96),fill=edge,width=2)
+            draw.line((w*.50,h*.12,w*.20,h*.32),fill=edge,width=1);draw.line((w*.50,h*.12,w*.80,h*.32),fill=edge,width=1)
+            draw.ellipse((w*.465,h*.025,w*.535,h*.075),fill=(217,61,47,235),outline=(238,127,95,190),width=1)
+            draw.line((w*.25,h*.96,w*.75,h*.96),fill=(25,35,36,210),width=2)
         if mode in ("false", "mirror", "twins"):
             for y in range(2, h, 4):
                 draw.line((0,y,w,y), fill=(143,180,166,18 if mode == "mirror" else 12), width=1)
