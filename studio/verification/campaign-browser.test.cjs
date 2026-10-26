@@ -37,7 +37,9 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
 (async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--allow-file-access-from-files']});try{
  for(const mode of 'ABCD'){
  page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
- await page.clock.install();await page.goto(require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
+ const harness=process.env.CAMPAIGN_UI_HARNESS==='1';let entry=path.join(ROOT,'game/index.html');
+ if(harness){entry=path.join(out,'ui-harness.html');const core=fs.readFileSync(path.join(ROOT,'studio/source/adventure-core.js'),'utf8'),ui=fs.readFileSync(path.join(ROOT,'studio/source/adventure-ui.js'),'utf8');fs.writeFileSync(entry,'<!doctype html><meta charset="utf-8"><button id="new">Новая игра</button><script>'+core+'\n'+ui+'</script><script>let currentRoom='+JSON.stringify(story.startRoom)+';const adventurePlayer=new GagarinAdventure.UI('+JSON.stringify(story)+',{room:()=>currentRoom,go:r=>{currentRoom=r},newGame:()=>adventurePlayer.reset()});document.getElementById("new").onclick=()=>adventurePlayer.reset();</script>');}
+ await page.clock.install();await page.goto(require('node:url').pathToFileURL(entry).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
  for(const id of common)await action(id,id==='false_act'?'NO':undefined);
  assert.equal((await state()).chapter,11);checks.push('New game through chapters 1–11 using visible controls');
  // All branching is played through the same actual game; checkpoints are the player-facing restore control.
@@ -52,5 +54,5 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
   await button('Загрузить до панели');await button('Загрузить');assert.equal((await state()).ended,false);assert(!(await state()).done.includes('FINAL_PANEL'));
   await page.close();
  }
- assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,actionCount,checks,errors},null,2));console.log(JSON.stringify({passed:true,actionCount,checks}));
+ assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,harness:process.env.CAMPAIGN_UI_HARNESS==='1',actionCount,checks,errors},null,2));console.log(JSON.stringify({passed:true,actionCount,checks}));
 }catch(e){if(page)await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:false,actionCount,checks,errors,error:e.stack},null,2));console.error(e.stack);process.exitCode=1;}finally{await browser.close();}})();

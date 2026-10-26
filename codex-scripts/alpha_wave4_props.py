@@ -93,6 +93,8 @@ def decorate_game_ui(html):
     All data lives in BUILT_GAME and is offline; no network fetches. Standard
     text and button behavior remains unchanged. Fail loudly if Studio changes.
     """
+    if ' showArt(parent,src,' in html:
+        return html  # Shared canonical UI now renders its own illustrated props.
     marker = 'class UI{\n constructor(data,hooks={})'
     assert html.count(marker) == 1, 'Adventure UI template changed'
     helpers = '''class UI{\n artData(){return this.data.illustratedProps||null;}\n showArt(box,id){
