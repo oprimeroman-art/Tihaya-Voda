@@ -321,7 +321,7 @@ function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanorama
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:bytesBase64(a.data,a.mime)}:null;}});
- const torchToggle=$('toggle');if(torchToggle){torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';document.body.append(torchToggle);}
+ const torchToggle=$('toggle');if(torchToggle){torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';torchToggle.style.left='auto';torchToggle.style.bottom='auto';torchToggle.style.width='auto';torchToggle.style.maxWidth='calc(100vw - 28px)';torchToggle.style.zIndex='8';document.body.append(torchToggle);}
  $('right').style.display='none';$('footer').style.display='none';storyPlayer.questBox.style.display='none';
 }
 function boot(){try{
