@@ -1,7 +1,7 @@
 name: Production shift alpha QA
 on:
   push:
-    branches: [work/stable-alpha-2026-10-27]
+    branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27]
     paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**']
   workflow_dispatch:
 permissions:
