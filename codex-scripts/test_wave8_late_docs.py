@@ -34,5 +34,5 @@ for doc_id, (action_id, room, chapter, art_id, sha) in EXPECTED.items():
     assert not any(node.tag.endswith("script") for node in root.iter())
     if doc_id == "D25":
         assert "КОПИЯ 02" not in raw.decode("utf-8")
-assert "ga-art-figure" in html and "Сюжетная иллюстрация" in html
+assert "ga-document-art" in html and "documentView(parent,doc)" in html
 print("PASS D24/D25/D26 artwork attached to canonical actions and journal; 16 rooms, 112 events, 30 documents preserved")
