@@ -90,6 +90,11 @@ def synchronize(html):
     html = replace_between(html, RUNTIME, "function tick(ts){", "requestAnimationFrame(tick);boot();")
     html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
+    # Pause-control layout is part of the runtime contract, including old exports.
+    quick_css = re.search(r"#gs-quick\{[^}]*\}", RUNTIME)
+    if quick_css is None or len(re.findall(r"#gs-quick\{[^}]*\}", html)) != 1:
+        raise ValueError("Expected one pause-control style rule")
+    html = re.sub(r"#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
     return html
 
 
