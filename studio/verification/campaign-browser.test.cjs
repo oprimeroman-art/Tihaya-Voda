@@ -25,6 +25,14 @@ async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[
 async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await sceneSafeClick(page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}));await drain();
  // Start-signal scenes may precede the instrument, which reopens after Continue.
  const box=page.locator('.ga-dialog');
+ if(a.template==='document'){
+  const doc=story.documents.find(d=>d.id===a.document);assert.equal(await box.locator('pre').last().textContent(),doc.text,'canonical document text '+a.document);
+  const art=story.illustratedProps?.image?.[story.illustratedProps?.document?.[a.document]];
+  if(art){const img=box.locator('img');assert.equal(await img.count(),1);assert.equal(await img.getAttribute('src'),art);await img.evaluate(i=>i.decode());}
+ }
+ const item=a.effects?.find(e=>e.item)?.item;
+ if(item&&story.inventoryArt?.[item]){const img=box.locator('img').last();assert.equal(await img.getAttribute('src'),story.inventoryArt[item]);await img.evaluate(i=>i.decode());}
+
  if(a.template==='media'){
    for(let i=0;i<100;i++){const finish=box.getByRole('button',{name:'Завершить просмотр',exact:true});if(await finish.count()){await finish.click({noWaitAfter:true});break;}await box.getByRole('button',{name:'Следующий фрагмент · текстовый режим',exact:true}).click({noWaitAfter:true});if(i===99)throw Error('Media cannot finish '+id);}
  }else if(a.template==='document')await box.getByRole('button',{name:a.readLabel||'Сохранить в журнале',exact:true}).click({noWaitAfter:true});
@@ -41,7 +49,16 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
  const harness=process.env.CAMPAIGN_UI_HARNESS==='1';let entry=path.join(ROOT,'game/index.html');
  if(harness){entry=path.join(out,'ui-harness.html');const core=fs.readFileSync(path.join(ROOT,'studio/source/adventure-core.js'),'utf8'),ui=fs.readFileSync(path.join(ROOT,'studio/source/adventure-ui.js'),'utf8');fs.writeFileSync(entry,'<!doctype html><meta charset="utf-8"><button id="new">Новая игра</button><script>'+core+'\n'+ui+'</script><script>let currentRoom='+JSON.stringify(story.startRoom)+';const adventurePlayer=new GagarinAdventure.UI('+JSON.stringify(story)+',{room:()=>currentRoom,go:r=>{currentRoom=r},newGame:()=>adventurePlayer.reset()});document.getElementById("new").onclick=()=>adventurePlayer.reset();</script>');}
  await page.clock.install();await page.goto(require('node:url').pathToFileURL(entry).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
- for(const id of common)await action(id,id==='false_act'?'NO':undefined);
+ let didReload=false;
+ for(const id of common){await action(id,id==='false_act'?'NO':undefined);
+  if(!didReload&&(await state()).chapter===6){const before=await state();await page.locator('.ga-nav').getByRole('button',{name:'Сохранить',exact:true}).click();await page.reload();await page.clock.runFor(1000);await button('Продолжить');await drain();const after=await state();for(const key of ['chapter','inventory','documents','done'])assert.deepEqual(after[key],before[key],key+' survives reload');didReload=true;checks.push(mode+': save/reload through player menu');}
+ }
+ await page.locator('.ga-actions').getByRole('button',{name:'Журнал и инвентарь',exact:true}).click();
+ const actualInventory=(await state()).inventory;
+ assert.equal(await page.locator('.ga-item').count(),actualInventory.length);
+ assert.equal(await page.locator('.ga-item img').count(),actualInventory.length,'each acquired item has art');
+ for(const img of await page.locator('.ga-item img').all())await img.evaluate(i=>i.decode());
+ await button('Закрыть');checks.push(mode+': all acquired inventory art decoded');
  assert.equal((await state()).chapter,11);checks.push('New game through chapters 1–11 using visible controls');
  // All branching is played through the same actual game; checkpoints are the player-facing restore control.
  await action('NODE_POWER');await action('NODE_MEMORY',mode==='D'?'PETR':'TRUTH');await action('NODE_OBSERVER',mode==='B'?2:1);

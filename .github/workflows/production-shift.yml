@@ -1,0 +1,90 @@
+name: Production shift alpha QA
+on:
+  push:
+    branches: [work/stable-alpha-2026-10-27]
+    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Record original audiovisual checksums
+        run: |
+          find game-project -type f \( -name '*.mp4' -o -name '*.ogg' -o -name '*.wav' -o -name '*.mp3' -o -name '*.webm' \) -print0 | sort -z | xargs -0 sha256sum > /tmp/media-before.sha256
+      - name: Install verification dependencies
+        run: |
+          python -m pip install pillow numpy soundfile
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Synchronize existing runtime and approved artwork
+        run: |
+          python codex-scripts/sync_embedded_engine.py
+          python codex-scripts/sync_embedded_engine.py --check
+          python codex-scripts/sync_standalone_document_art.py
+          python codex-scripts/sync_approved_room_art.py
+          python codex-scripts/sync_campaign_art.py
+      - name: Build and verify actual publication
+        run: |
+          python codex-scripts/build_pages_demo.py --output _site
+          python studio/verification/player-runtime-regressions.py
+          python codex-scripts/test_wave5_medical.py
+          python codex-scripts/test_wave6_stockroom.py
+          python codex-scripts/test_wave7_puzzle_docs.py
+          python codex-scripts/test_wave8_late_docs.py
+          python codex-scripts/test_wave9_document_props.py
+          python codex-scripts/test_wave10_kitchen_state.py
+      - name: Verify logic, save migration, terminal scenes and packaging
+        run: |
+          node studio/verification/adventure-pending.test.cjs
+          node studio/verification/adventure-saves.test.cjs
+          node studio/verification/adventure-rooms.test.cjs
+          node studio/verification/campaign-story-graph.test.cjs
+          node studio/verification/ending-scenes.test.cjs
+          node studio/verification/ui-load-safety.test.cjs
+          node studio/verification/horror-visuals.test.cjs
+          node studio/verification/horror-cues.test.cjs
+          node studio/verification/horror-gaze.test.cjs
+          python studio/verification/campaign-integrity.test.py
+          python studio/verification/standalone-html.test.py
+      - name: Play all four actual game routes through UI
+        env:
+          CAMPAIGN_UI_HARNESS: '0'
+        run: node studio/verification/campaign-browser.test.cjs
+      - name: Rebuild editable project without changing media
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          with ZipFile('game/source-project.zip','w',ZIP_DEFLATED) as z:
+              for p in Path('game-project').rglob('*'):
+                  if p.is_file(): z.write(p,p.relative_to('game-project'))
+          PY
+          sha256sum -c /tmp/media-before.sha256
+      - name: Verify editor imports and exports the same campaign
+        run: node studio/verification/campaign-editor-browser.cjs
+      - name: Package autonomous game and editor
+        run: |
+          mkdir -p dist/GAME dist/EDITOR
+          cp game/index.html game/source-project.zip dist/GAME/
+          cp studio/index.html dist/EDITOR/index.html
+          cp game/source-project.zip dist/PROJECT.zip
+          cp /tmp/media-before.sha256 dist/MEDIA_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Tihaya-Voda-production-shift
+          path: |
+            dist/
+            reports/campaign-browser/
+            reports/editor-browser/
+          retention-days: 30

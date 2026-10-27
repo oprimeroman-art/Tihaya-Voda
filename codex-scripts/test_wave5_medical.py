@@ -29,6 +29,6 @@ for doc_id, (action_id, art_id, filename, expected_sha) in MEDICAL.items():
     assert ET.fromstring(raw).tag.endswith("svg")
     assert any(x["id"] == action_id and x.get("document") == doc_id and x.get("room") == "I" for x in adv["actions"])
     assert any(x["id"] == doc_id and x["title"].startswith("МЕДПУНКТ /") for x in adv["documents"])
-assert "const art=this.artData()?.action?.[id]" in html
+# Document rendering is exercised through UI in document-art.browser.cjs.
 assert "documentView(parent,doc)" in html and "this.documentView(box,d)" in html
 print("PASS: D17 and D18 canonical medical props in playable offline build")

@@ -42,6 +42,6 @@ for doc_id, (action_id, room, chapter, prefix, art_id, filename, sha) in PUZZLE_
         "ПИЩЕБЛОК", "ГАЛЕРЕЯ", "РАДИО", "ИГНОРИРОВАТЬ")
     for label in labels:
         assert label.encode("utf8") in raw, (doc_id, label)
-assert "const art=this.artData()?.action?.[id]" in html
+# Document rendering is exercised through UI in document-art.browser.cjs.
 assert "documentView(parent,doc)" in html and "this.documentView(box,d)" in html
 print("PASS: D22/D23 canonical hints and art in original 16-room, 112-event game")
