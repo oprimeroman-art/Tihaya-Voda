@@ -1,8 +1,8 @@
 name: Production shift alpha QA
 on:
   push:
-    branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27]
-    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**']
+    branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27, work/issue8-voice-2026-10-28]
+    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**', 'game-project/audio/voice-alpha/**', 'game-project/project.json', 'studio/content/TIHAYA_VODA/adventure.json']
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,9 +33,14 @@ jobs:
           python codex-scripts/sync_standalone_document_art.py
           python codex-scripts/sync_approved_room_art.py
           python codex-scripts/sync_campaign_art.py
+          python codex-scripts/sync_voice_assets.py
+          python studio/verification/voice-assets.test.py
+          node studio/verification/voice-queue.test.cjs
       - name: Build and verify actual publication
         run: |
           python codex-scripts/build_pages_demo.py --output _site
+          python codex-scripts/sync_voice_assets.py --check
+          python codex-scripts/sync_voice_assets.py --check --pages
           python studio/verification/player-runtime-regressions.py
           python codex-scripts/test_wave5_medical.py
           python codex-scripts/test_wave6_stockroom.py
@@ -58,6 +63,8 @@ jobs:
           python studio/verification/standalone-html.test.py
       - name: Verify every document/item renderer and viewport
         run: node studio/verification/asset-browser.test.cjs
+      - name: Verify actual voice output and lifecycle
+        run: node studio/verification/voice-browser.test.cjs
       - name: Play all four actual game routes through UI
         if: ${{ !contains(github.event.head_commit.message, '[visual-only]') }}
         env:
@@ -90,4 +97,5 @@ jobs:
             dist/
             reports/campaign-browser/
             reports/editor-browser/
+            reports/voice-browser/
           retention-days: 30

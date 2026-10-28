@@ -11,6 +11,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS = (ROOT / "game/index.html", ROOT / "game-editor/index.html")
 CORE = (ROOT / "studio/source/adventure-core.js").read_text(encoding="utf-8-sig")
+CORE += "\n" + (ROOT / "studio/source/voice-queue.js").read_text(encoding="utf-8-sig")
 UI = (ROOT / "studio/source/adventure-ui.js").read_text(encoding="utf-8-sig")
 RUNTIME = (ROOT / "studio/source/game-runtime.html").read_text(encoding="utf-8-sig")
 CORE_START = "/* Declarative adventure extension for Panorama Studio. No game-specific IDs or eval. */"
@@ -95,6 +96,9 @@ def synchronize(html):
     if quick_css is None or len(re.findall(r"#gs-quick\{[^}]*\}", html)) != 1:
         raise ValueError("Expected one pause-control style rule")
     html = re.sub(r"#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
+    html = replace_between(html, RUNTIME, "function setAudio(){", "function saveSoundPreferences(){")
+    html = replace_between(html, RUNTIME, "function closeSystem(){", "function showSystem(page){")
+    html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")
     return html
 
 

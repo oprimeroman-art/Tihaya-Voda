@@ -5883,7 +5883,13 @@
           "production": "Персонажи: Анна с камерой, голос Сухова из соседней комнаты, силуэт ОПЕРАТОРА-04 в куртке в самом конце. Реквизит: ложка, полотенце, старый холодильник, табличка кухни, тяжёлая дверь. Съёмка от первого лица, небольшая неровность шага, нормальная дневная/ламповая экспозиция.\n00:00–00:08 Чёрный кадр со слышным включением записи. Анна: «Петь, я твоё кино начала. Веди себя прилично».\n00:08–00:21 Камера идёт по жилому коридору, показывает краску на дверных ручках. «Вот здесь мы, кажется, проиграли битву с ремонтом ещё до моего рождения».\n00:21–00:37 Заходит на кухню. «А это центр всех великих открытий». Пётр вне кадра: «Центр немытых чашек. Разница есть».\n00:37–00:55 Снимает чайник и кружки. Фокус на полсекунды уходит в стену. Ничего страшного.\n00:55–01:03 Рука Анны закрывает холодильник. В отражении металлической дверцы мелькает обычный рабочий за камерой — очень неясно.\n01:03–01:11 Кухонная дверь в глубине. На 01:06 там стоит ОПЕРАТОР-04 со спины, без звукового акцента. В следующей склейке дверной проём пуст.\n01:11–01:22 Анна: «Если начальство увидит это, скажем, что снимали образцы». Смешок, камера закрывается пальцем.\nБЕЗОПАСНЫЙ ПРОИЗВОДСТВЕННЫЙ ТРЮК: фигура — актёр в конце коридора на статике, скрытая монтажная склейка в момент закрытия холодильника; не требуется нейросетевой морфинг.\nЭКРАННАЯ ФУНКЦИЯ: после первого просмотра WATCHED_V01; при повторном просмотре позднее можно проиграть V01B (см. ниже). Именно такая запись первая показывает знакомую куртку в прошлом.",
           "slot": "video/v01_walk_2023.mp4",
           "kind": "video",
-          "assetId": "V01"
+          "assetId": "V01",
+          "voiceCues": [
+            {
+              "id": "DLG_009",
+              "at": 21
+            }
+          ]
         },
         {
           "id": "V01B",
@@ -5960,7 +5966,17 @@
           "production": "Персонажи: Сухов, оператор за кадром, неизвестный в знакомой парке с руками в кадре. Реквизит: корпус вентилятора, ремень, три болта, кухонное полотенце, VHS-помеха только в начале.\n00:00–00:18 Камера установлена на верхнюю полку. Сухов входит в кадр, чтобы показывать ремонт: «Это вентилятор, а не экзамен по мужеству».\n00:18–00:37 Крупные планы трёх болтов, без монтажной избыточности. Человек за камерой пробует снять ремень. Сухов коротко ругается, потом показывает правильно.\n00:37–00:54 Пётр смотрит в сторону двери. «Ты ведь уже был тут? Почему спрашиваешь снова?» Ответа нет.\n00:54–01:11 Пётр выходит. Звук открытия металлической двери за кадром; пустая камера снимает шкаф и стол.\n01:11–01:28 Входят руки человека в куртке ОПЕРАТОР-04, он вытирает пальцы полотенцем; из рукава сыплются мелкие снежинки, будто недавно был на улице.\n01:28–01:38 Сухов возвращается и тихо спрашивает: «Ты его оставил там?»\n01:38–01:42 Обрыв видео без страшной графики.\nСТРАШНОЕ: обычный трудовой урок оказывается допросом. Не надевать на актёра маску монстра.",
           "slot": "video/v02_sukhov_repair_2028.mp4",
           "kind": "video",
-          "assetId": "V02"
+          "assetId": "V02",
+          "voiceCues": [
+            {
+              "id": "DLG_025",
+              "at": 0
+            },
+            {
+              "id": "DLG_026",
+              "at": 88
+            }
+          ]
         },
         {
           "id": "V03",
@@ -6004,7 +6020,13 @@
           "production": "Пётр сидит на койке или кухне. Перед началом неумело поправляет камеру, на секунду видно пустой потолок. Весь дубль почти статичен.\n00:00–00:10 «Оль, привет. Это папа»; он сбивается с первой фразы и раздражённо смеётся.\n00:10–00:25 Показывает красную шапку. «Вот. Нашёл. Не смей говорить, что я её специально забрал».\n00:25–00:49 Рассказывает про молчаливого техника, который учится заваривать чай. Он действительно улыбается.\n00:49–00:57 На фоне дверь кухни открывается в бетонную стену: монтаж по геометрически одинаковому плану в момент, когда Пётр поправляет объектив. Он ничего не замечает.\n00:57–01:04 «Ладно. Обнимаю. Маму слушай». Выключает камеру не с первой попытки.\nТОН: НЕ добавлять музыку и угрозы. Игрок должен полюбить человека, а не ждать скримера.",
           "slot": "video/v03_sukhov_olya.mp4",
           "kind": "video",
-          "assetId": "V03"
+          "assetId": "V03",
+          "voiceCues": [
+            {
+              "id": "DLG_027",
+              "at": 0
+            }
+          ]
         },
         {
           "id": "V04",
@@ -6064,7 +6086,17 @@
           "production": "00:00–00:15 Неподвижная камера с видом на галерею, поверх — температура/давление. За стеклом три живых силуэта.\n00:15–00:28 Отдельная дорожка: рычаг и рука. Рука останавливается. Слышно дыхание оператора.\n00:28–00:44 Звуковая запись из переговорной трубки: кто-то снаружи говорит «Я здесь. Не закрывай. Я это ты». Последнее слово не должно быть идеально разборчивым до восстановления аудиодорожки.\n00:44–00:54 Суперкороткая смена на другую дорожку, в ней рука остаётся в открытом положении, а трое на изображении отсутствуют.\n00:54–01:03 Оригинальная дорожка: рычаг закрывается. Не показывать кадры гибели.\n01:03–01:18 Ручная камера Ирины, она стоит в пустой галерее: «Не ищи того, кто был прав. Ищи, кому ты солгал». Смотрит на пол, не в зрителя.\n01:18–01:25 Она собирается закончить, но из другой части комнаты слышен мужской голос: «Я сказал, что заклинило». Камера поворачивается, никого.\nВ ПАЗЛЕ видеодорожки связаны с отдельными фрагментами; при неправильном совмещении время остаётся рассинхронизированным, не играется случайная страшилка.",
           "slot": "video/v04_incident17.mp4",
           "kind": "video",
-          "assetId": "V04"
+          "assetId": "V04",
+          "voiceCues": [
+            {
+              "id": "DLG_033",
+              "at": 0
+            },
+            {
+              "id": "DLG_034",
+              "at": 63
+            }
+          ]
         },
         {
           "id": "V05",
@@ -6305,7 +6337,13 @@
           "production": "00:00–00:18 Ирина сидит в кабинете перед безличным столом, пытается сформулировать фразу.\n00:18–00:33 «Мне казалось, если спасти одну группу, всё станет оправданным. Потом группа менялась. Сначала их было трое. Потом я стала считать по голосам».\n00:33–00:49 «Я каждый раз говорила, что это последний запуск. Я не верю, когда говорят “так получилось”». Она очень устала, но держится.\n00:49–01:03 «Если эту запись увидят, внесите в мой личный акт: продолжение эксперимента разрешила я». Выключает камеру.",
           "slot": "video/v11_irina_record.mp4",
           "kind": "video",
-          "assetId": "V11"
+          "assetId": "V11",
+          "voiceCues": [
+            {
+              "id": "DLG_042",
+              "at": 0
+            }
+          ]
         },
         {
           "id": "V12",
@@ -6347,7 +6385,8 @@
           ],
           "transcript": [],
           "slot": "audio/A01.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A01"
         },
         {
           "id": "A02",
@@ -6362,7 +6401,8 @@
           ],
           "transcript": [],
           "slot": "audio/A02.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A02"
         },
         {
           "id": "A03",
@@ -6377,7 +6417,8 @@
           ],
           "transcript": [],
           "slot": "audio/A03.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A03"
         },
         {
           "id": "A04",
@@ -6392,7 +6433,8 @@
           ],
           "transcript": [],
           "slot": "audio/A04.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A04"
         },
         {
           "id": "A05",
@@ -6407,7 +6449,8 @@
           ],
           "transcript": [],
           "slot": "audio/A05.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A05"
         },
         {
           "id": "A06",
@@ -6422,7 +6465,8 @@
           ],
           "transcript": [],
           "slot": "audio/A06.ogg",
-          "kind": "audio"
+          "kind": "audio",
+          "assetId": "A06"
         }
       ],
       "dialogues": [
@@ -11419,6 +11463,61 @@
             "caption": "Возможно, один человек возвращён. Цикл не закрыт."
           }
         ]
+      },
+      "voiceAssets": {
+        "A01": "A01",
+        "A02": "A02",
+        "A03": "A03",
+        "A04": "A04",
+        "A05": "A05",
+        "A06": "A06",
+        "DLG_001": "DLG_001",
+        "DLG_002": "DLG_002",
+        "DLG_003": "DLG_003",
+        "DLG_004": "DLG_004",
+        "DLG_005": "DLG_005",
+        "DLG_006": "DLG_006",
+        "DLG_007": "DLG_007",
+        "DLG_008": "DLG_008",
+        "DLG_009": "DLG_009",
+        "DLG_010": "DLG_010",
+        "DLG_011": "DLG_011",
+        "DLG_012": "DLG_012",
+        "DLG_013": "DLG_013",
+        "DLG_014": "DLG_014",
+        "DLG_015": "DLG_015",
+        "DLG_016": "DLG_016",
+        "DLG_017": "DLG_017",
+        "DLG_018": "DLG_018",
+        "DLG_019": "DLG_019",
+        "DLG_020": "DLG_020",
+        "DLG_021": "DLG_021",
+        "DLG_022": "DLG_022",
+        "DLG_023": "DLG_023",
+        "DLG_024": "DLG_024",
+        "DLG_025": "DLG_025",
+        "DLG_026": "DLG_026",
+        "DLG_027": "DLG_027",
+        "DLG_028": "DLG_028",
+        "DLG_029": "DLG_029",
+        "DLG_030": "DLG_030",
+        "DLG_031": "DLG_031",
+        "DLG_032": "DLG_032",
+        "DLG_033": "DLG_033",
+        "DLG_034": "DLG_034",
+        "DLG_035": "DLG_035",
+        "DLG_036": "DLG_036",
+        "DLG_037": "DLG_037",
+        "DLG_038": "DLG_038",
+        "DLG_039": "DLG_039",
+        "DLG_040": "DLG_040",
+        "DLG_041": "DLG_041",
+        "DLG_042": "DLG_042",
+        "DLG_043": "DLG_043",
+        "DLG_044": "DLG_044",
+        "DLG_045": "DLG_045",
+        "DLG_046": "DLG_046",
+        "DLG_047": "DLG_047"
       }
     }
   },
@@ -17348,6 +17447,324 @@
       "name": "Еда в пустой кухне",
       "mime": "audio/ogg",
       "file": "audio/spatial/s16.ogg"
+    },
+    {
+      "id": "A01",
+      "name": "ЖЕНСКИЙ ГОЛОС, 2028 · A01",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A01_female_2028.mp3"
+    },
+    {
+      "id": "A02",
+      "name": "ГОЛОС ОПЕРАТОРА В ЗАПИСИ · A02",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A02_operator_tape.mp3"
+    },
+    {
+      "id": "A03",
+      "name": "ОЗЕРОВ · A03",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A03_ozerov.mp3"
+    },
+    {
+      "id": "A04",
+      "name": "МЕДИК · A04",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A04_medic.mp3"
+    },
+    {
+      "id": "A05",
+      "name": "СУХОВ · A05",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A05_sukhov.mp3"
+    },
+    {
+      "id": "A06",
+      "name": "ОПЕРАТОР, ОТПРАВКА ПРИЗНАНИЯ · A06",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/A06_operator_confession.mp3"
+    },
+    {
+      "id": "DLG_001",
+      "name": "БЕЛОВ · DLG_001",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_001_belov.mp3"
+    },
+    {
+      "id": "DLG_002",
+      "name": "БЕЛОВ · DLG_002",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_002_belov.mp3"
+    },
+    {
+      "id": "DLG_003",
+      "name": "БЕЛОВ · DLG_003",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_003_belov.mp3"
+    },
+    {
+      "id": "DLG_004",
+      "name": "БЕЛОВ · DLG_004",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_004_belov.mp3"
+    },
+    {
+      "id": "DLG_005",
+      "name": "БЕЛОВ · DLG_005",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_005_belov.mp3"
+    },
+    {
+      "id": "DLG_006",
+      "name": "БЕЛОВ · DLG_006",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_006_belov.mp3"
+    },
+    {
+      "id": "DLG_007",
+      "name": "БЕЛОВ · DLG_007",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_007_belov.mp3"
+    },
+    {
+      "id": "DLG_008",
+      "name": "БЕЛОВ · DLG_008",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_008_belov.mp3"
+    },
+    {
+      "id": "DLG_009",
+      "name": "АННА · DLG_009",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_009_anna.mp3"
+    },
+    {
+      "id": "DLG_010",
+      "name": "БЕЛОВ · DLG_010",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_010_belov.mp3"
+    },
+    {
+      "id": "DLG_011",
+      "name": "БЕЛОВ · DLG_011",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_011_belov.mp3"
+    },
+    {
+      "id": "DLG_012",
+      "name": "АННА-ПРИЗРАК · DLG_012",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_012_anna_ghost.mp3"
+    },
+    {
+      "id": "DLG_013",
+      "name": "БЕЛОВ · DLG_013",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_013_belov.mp3"
+    },
+    {
+      "id": "DLG_014",
+      "name": "БЕЛОВ · DLG_014",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_014_belov.mp3"
+    },
+    {
+      "id": "DLG_015",
+      "name": "БЕЛОВ · DLG_015",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_015_belov.mp3"
+    },
+    {
+      "id": "DLG_016",
+      "name": "ОЗЕРОВ-ЭХО · DLG_016",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_016_ozerov_echo.mp3"
+    },
+    {
+      "id": "DLG_017",
+      "name": "БЕЛОВ · DLG_017",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_017_belov.mp3"
+    },
+    {
+      "id": "DLG_018",
+      "name": "БЕЛОВ · DLG_018",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_018_belov.mp3"
+    },
+    {
+      "id": "DLG_019",
+      "name": "БЕЛОВ · DLG_019",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_019_belov.mp3"
+    },
+    {
+      "id": "DLG_020",
+      "name": "БЕЛОВ · DLG_020",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_020_belov.mp3"
+    },
+    {
+      "id": "DLG_021",
+      "name": "БЕЛОВ · DLG_021",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_021_belov.mp3"
+    },
+    {
+      "id": "DLG_022",
+      "name": "ПОДМЕНА ГОЛОСА · DLG_022",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_022_false_belov.mp3"
+    },
+    {
+      "id": "DLG_023",
+      "name": "БЕЛОВ · DLG_023",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_023_belov.mp3"
+    },
+    {
+      "id": "DLG_024",
+      "name": "БЕЛОВ · DLG_024",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_024_belov.mp3"
+    },
+    {
+      "id": "DLG_025",
+      "name": "СУХОВ · DLG_025",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_025_sukhov.mp3"
+    },
+    {
+      "id": "DLG_026",
+      "name": "СУХОВ · DLG_026",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_026_sukhov.mp3"
+    },
+    {
+      "id": "DLG_027",
+      "name": "СУХОВ · DLG_027",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_027_sukhov.mp3"
+    },
+    {
+      "id": "DLG_028",
+      "name": "БЕЛОВ · DLG_028",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_028_belov.mp3"
+    },
+    {
+      "id": "DLG_029",
+      "name": "ИНЖЕНЕР 1, 1978 · DLG_029",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_029_engineer_1_1978.mp3"
+    },
+    {
+      "id": "DLG_030",
+      "name": "ИНЖЕНЕР 2, 1978 · DLG_030",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_030_engineer_2_1978.mp3"
+    },
+    {
+      "id": "DLG_031",
+      "name": "ИНЖЕНЕР 1, 1978 · DLG_031",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_031_engineer_1_1978.mp3"
+    },
+    {
+      "id": "DLG_032",
+      "name": "ИНЖЕНЕР 2, 1978 · DLG_032",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_032_engineer_2_1978.mp3"
+    },
+    {
+      "id": "DLG_033",
+      "name": "ИРИНА · DLG_033",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_033_irina.mp3"
+    },
+    {
+      "id": "DLG_034",
+      "name": "ИРИНА · DLG_034",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_034_irina.mp3"
+    },
+    {
+      "id": "DLG_035",
+      "name": "БЕЛОВ · DLG_035",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_035_belov.mp3"
+    },
+    {
+      "id": "DLG_036",
+      "name": "БЕЛОВ · DLG_036",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_036_belov.mp3"
+    },
+    {
+      "id": "DLG_037",
+      "name": "БЕЛОВ · DLG_037",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_037_belov.mp3"
+    },
+    {
+      "id": "DLG_038",
+      "name": "БЕЛОВ · DLG_038",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_038_belov.mp3"
+    },
+    {
+      "id": "DLG_039",
+      "name": "БЕЛОВ · DLG_039",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_039_belov.mp3"
+    },
+    {
+      "id": "DLG_040",
+      "name": "БЕЛОВ · DLG_040",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_040_belov.mp3"
+    },
+    {
+      "id": "DLG_041",
+      "name": "АННА-ПРИЗРАК · DLG_041",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_041_anna_ghost.mp3"
+    },
+    {
+      "id": "DLG_042",
+      "name": "ИРИНА · DLG_042",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_042_irina.mp3"
+    },
+    {
+      "id": "DLG_043",
+      "name": "БЕЛОВ · DLG_043",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_043_belov.mp3"
+    },
+    {
+      "id": "DLG_044",
+      "name": "БЕЛОВ · DLG_044",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_044_belov.mp3"
+    },
+    {
+      "id": "DLG_045",
+      "name": "БЕЛОВ · DLG_045",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_045_belov.mp3"
+    },
+    {
+      "id": "DLG_046",
+      "name": "ПОЗДНИЙ · DLG_046",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_046_pozdniy.mp3"
+    },
+    {
+      "id": "DLG_047",
+      "name": "СУХОВ · DLG_047",
+      "mime": "audio/mpeg",
+      "file": "audio/voice-alpha/DLG_047_sukhov.mp3"
     }
   ],
   "videos": [

@@ -12,6 +12,8 @@ on:
       - 'studio/content/TIHAYA_VODA/adventure.json'
       - 'game-project/project.json'
       - 'studio/source/adventure-core.js'
+      - 'studio/source/voice-queue.js'
+      - 'studio/verification/voice-queue.test.cjs'
       - 'studio/verification/campaign-story-graph.test.cjs'
       - 'studio/verification/adventure-pending.test.cjs'
       - 'studio/verification/adventure-rooms.test.cjs'
@@ -38,6 +40,7 @@ jobs:
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-rooms.test.cjs
           node studio/verification/adventure-saves.test.cjs
+          node studio/verification/voice-queue.test.cjs
       - name: Verify horror cue and gaze state persistence
         run: |
           node studio/verification/horror-cues.test.cjs
@@ -57,6 +60,7 @@ jobs:
           python3 codex-scripts/sync_approved_room_art.py
           python3 codex-scripts/sync_campaign_art.py
           python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/sync_voice_assets.py
           python3 codex-scripts/package_campaign.py
       - name: Prepare browser
         run: |
