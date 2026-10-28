@@ -172,7 +172,7 @@ for e in events:
     if n in [8,24,34,53,69,82,100]:e['when']['min']=min(ch, e['when'].get('min',ch))
     if n==34:e['delay']=12
     if n in [50,96]:e['room']=None
-    if n==100:e['room']=None
+    if n==100:e['room']='C'
     if n in variant_map:e['effects'].append({'variant':{e['room'] or 'C':variant_map[n]}})
     # The queue is cosmetic; progression flags are established by actual interactions.
     if n==38:e['effects']=[x for x in e['effects'] if 'set' not in x]

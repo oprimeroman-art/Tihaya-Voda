@@ -270,21 +270,24 @@ function horrorCuePlan(event){
  const explicit=event.visualCue||{};
  const types={mirror:'apparition',ghost:'apparition',human:'apparition',body:'apparition',threat:'blackout',spatial:'temporal',future:'temporal',outdoor:'flicker'};
  const mode=explicit.mode||types[event.category];
- if(!['apparition','blackout','temporal','flicker'].includes(mode))return null;
+ if(!['apparition','blackout','temporal','flicker','panorama'].includes(mode))return null;
+ const panoramaVariant=mode==='panorama'?explicit.panoramaVariant:null;
+ if(mode==='panorama'){const meta=typeof game!=='undefined'&&game.story?.adventure?.rooms.find(r=>r.id===roomId);if(!meta||!panoramaVariant||!game.assets?.[meta.variantAssets?.[panoramaVariant]])return null;}
  const requested=Number(explicit.duration);
  const duration=Number.isFinite(requested)&&requested>0?Math.max(.4,Math.min(5,requested)):(mode==='blackout'?1.1:mode==='apparition'?2.4:mode==='temporal'?1.7:.9);
  const strength=Number(explicit.strength);
- return {mode,room:roomId,duration,strength:Number.isFinite(strength)&&strength>0?Math.max(.05,Math.min(.85,strength)):(mode==='blackout'?.68:mode==='apparition'?.43:mode==='temporal'?.32:.23)};
+ return {mode,room:roomId,duration,...(panoramaVariant?{panoramaVariant}:{}),strength:Number.isFinite(strength)&&strength>0?Math.max(.05,Math.min(.85,strength)):(mode==='blackout'?.68:mode==='apparition'?.43:mode==='temporal'?.32:.23)};
 }
-function horrorCueStop(){horrorCue=null;const layer=$('horror-cue');if(layer)layer.style.opacity='0';}
+function horrorCueStop(){const previous=horrorCue;horrorCue=null;const layer=$('horror-cue');if(layer)layer.style.opacity='0';if(previous?.panoramaVariant&&typeof adventureApplyVariant==='function'){const variant=adventurePlayer?.engine?.state?.variants?.[previous.room];if(variant)adventureApplyVariant(previous.room,variant);}}
 function horrorCueStart(event){const plan=horrorCuePlan(event);if(!plan)return false;
- horrorCue={...plan,elapsed:0};horrorCueFrame(0);return true;
+ horrorCueStop();const cue={...plan,elapsed:0,ready:!plan.panoramaVariant};horrorCue=cue;if(plan.panoramaVariant){Promise.resolve(adventureApplyVariant(plan.room,plan.panoramaVariant,true)).then(()=>{if(horrorCue===cue)cue.ready=true;}).catch(()=>{if(horrorCue===cue)horrorCueStop();});}horrorCueFrame(0);return true;
 }
 function horrorCueFrame(dt=0){const layer=$('horror-cue');if(!layer)return;
- if(!horrorCue||!sessionStarted||sessionPaused){layer.style.opacity='0';return;}
+ if(!horrorCue||!sessionStarted||sessionPaused||adventurePlayer?.engine?.modal||!horrorCue.ready){layer.style.opacity='0';return;}
  if(horrorCue.room!==roomId){horrorCueStop();return;}
  horrorCue.elapsed+=Math.max(0,Math.min(.15,dt));
  if(horrorCue.elapsed>=horrorCue.duration){horrorCueStop();return;}
+ if(horrorCue.panoramaVariant){layer.style.opacity='0';return;}
  const t=horrorCue.elapsed/horrorCue.duration;
  // Fast reveal, deliberate hold and gentle fade. No pseudo-random flashes.
  const envelope=Math.min(1,t/.09,(1-t)/.34);
@@ -304,7 +307,8 @@ function adventureReflectState(){
  for(const entry of cache.values())entry.dirty=true;
  refresh();
 }
-function adventureApplyVariant(rid,variant){
+function adventureApplyVariant(rid,variant,transient=false){
+ if(!transient&&typeof horrorCue!=='undefined'&&horrorCue?.panoramaVariant&&horrorCue.room===rid)return;
  const room=game.rooms.find(r=>r.id===rid),meta=game.story.adventure.rooms.find(r=>r.id===rid);
  if(!room||!meta)return;
  const assetId=meta.variantAssets?.[variant],asset=game.assets[assetId]||adventureBasePanoramas[rid];
@@ -312,12 +316,13 @@ function adventureApplyVariant(rid,variant){
  adventureVariantsApplied[rid]=variant;game.panoramas[rid]=asset;
  const old=cache.get(rid);if(old?.texture&&gl)gl.deleteTexture(old.texture);cache.delete(rid);
  // Changing an image is not a room transition: preserve the viewpoint and director state.
- if(rid===roomId)prepare(room).then(()=>{
+ if(rid===roomId)return prepare(room).then(()=>{
    if(roomId===rid&&adventureVariantsApplied[rid]===variant)refresh();
  }).catch(error=>console.error('Ошибка состояния панорамы',rid,error));
 }
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
+ staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{const a=game.assets?.[e.sceneArt];return a?'data:'+a.mime+';base64,'+a.data:null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},
  voice:id=>{const a=game.audio?.[id];return a?{url:'data:'+a.mime+';base64,'+a.data}:null;},volume:()=>audioSettings.master/100,

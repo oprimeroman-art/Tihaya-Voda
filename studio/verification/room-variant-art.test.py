@@ -13,11 +13,12 @@ pos = html.index(marker) + len(marker); pos += len(html[pos:]) - len(html[pos:].
 game, _ = json.JSONDecoder().raw_decode(html[pos:])
 expected = [("B","B_SECOND_PLATE"),("B","B_GHOST_MIRROR"),("C","C_MIRROR_LIGHT"),("F","F_ARCHIVE12"),("H","H_AFTER_V01")]
 for room, state in expected:
-    aid = ("illustrated_" + state) if room == "B" else ("composite_" + state.lower())
-    path = ROOT/"game-project/assets/variants"/(aid+".webp")
+    aid = next(r for r in adventure["rooms"] if r["id"]==room)["variantAssets"][state]
+    entry = next(a for a in project["assets"] if a["id"]==aid)
+    path = ROOT/"game-project"/entry["file"]
     assert path.exists() and path.read_bytes()[8:12] == b"WEBP"
     im = Image.open(path)
-    assert im.size == (2048,1024) and im.mode in ("RGB","RGBA")
+    assert im.size == ((1774,887) if aid.startswith("authored_C_") else (2048,1024)) and im.mode in ("RGB","RGBA")
     assert any(a.get("id")==aid and a.get("file")=="assets/variants/"+path.name for a in project["assets"])
     assert game["assets"][aid]["mime"] == "image/webp"
     assert base64.b64decode(game["assets"][aid]["data"])[8:12] == b"WEBP"
@@ -26,4 +27,4 @@ for room, state in expected:
         assert meta["variantAssets"][state] == aid
     assert state in next(r for r in game["story"]["adventure"]["rooms"] if r["id"]==room)["variants"]
 assert game["panoramas"]["B"]["mime"] in ("image/png", "image/webp")
-print("PASS: C/F/H story variants now use full composited panoramas; default room panoramas remain active.")
+print("PASS: story-variant panoramas are embedded and mapped; default room panoramas remain intact.")

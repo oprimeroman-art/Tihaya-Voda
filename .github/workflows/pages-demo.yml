@@ -8,6 +8,9 @@ on:
       - studio/index.html
       - studio/verification/player-runtime-regressions.py
       - studio/source/adventure-ui.js
+      - game-project/assets/variants/authored_*.webp
+      - production/quiet-scene-art.json
+      - codex-scripts/sync_quiet_scene_art.py
       - studio/source/voice-queue.js
       - game-project/audio/voice-alpha/**
       - codex-scripts/sync_voice_assets.py
@@ -56,11 +59,15 @@ jobs:
         run: |
           python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_standalone_document_art.py
+          python3 codex-scripts/sync_quiet_scene_art.py
           python3 codex-scripts/sync_voice_assets.py
       - name: Reconstruct illustrated chapters, props and existing story
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Verify voice packaging and canonical mappings
         run: |
+          python3 -m pip install --quiet pillow
+          python3 studio/verification/quiet-scene-art.test.py
+          node studio/verification/quiet-staging.test.cjs
           python3 studio/verification/voice-assets.test.py
           node studio/verification/voice-queue.test.cjs
           python3 codex-scripts/sync_voice_assets.py --check --pages

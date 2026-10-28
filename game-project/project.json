@@ -1357,7 +1357,9 @@
           ],
           "default_variant": "A_NORMAL",
           "name": "Жилой модуль",
-          "variantAssets": {},
+          "variantAssets": {
+            "A_SECOND_PILLOW": "authored_A_SECOND_PILLOW"
+          },
           "approvedBaseArt": true
         },
         {
@@ -1401,9 +1403,10 @@
           "default_variant": "C_NORMAL",
           "name": "Коридор",
           "variantAssets": {
-            "C_MIRROR_LIGHT": "composite_c_mirror_light",
-            "C_HIDDEN_DOOR": "composite_c_hidden_door",
-            "C_REVERSED_SNOW": "composite_c_reversed_snow"
+            "C_MIRROR_LIGHT": "authored_C_MIRROR_LIGHT",
+            "C_HIDDEN_DOOR": "authored_C_HIDDEN_DOOR",
+            "C_REVERSED_SNOW": "authored_C_REVERSED_SNOW",
+            "C_DAYLIGHT": "authored_C_DAYLIGHT"
           },
           "approvedBaseArt": true
         },
@@ -7713,10 +7716,16 @@
               "set": {
                 "A_SECOND_DENT": true
               }
+            },
+            {
+              "variant": {
+                "A": "A_SECOND_PILLOW"
+              }
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "sceneArt": "authored_A_SECOND_PILLOW"
         },
         {
           "event_id": "E028",
@@ -8254,10 +8263,16 @@
               "set": {
                 "A_COLD_PILLOW": true
               }
+            },
+            {
+              "variant": {
+                "A": "A_SECOND_PILLOW"
+              }
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "sceneArt": "authored_A_SECOND_PILLOW"
         },
         {
           "event_id": "E045",
@@ -10021,7 +10036,7 @@
           "event_id": "E100",
           "chapter": 11,
           "category": "spatial",
-          "room": null,
+          "room": "C",
           "trigger": "radio_choice_done",
           "presentation": "Дневной свет на три секунды среди ночи",
           "sets_flag": "C_DAYLIGHT_FLASH",
@@ -10042,7 +10057,13 @@
             }
           ],
           "horror": true,
-          "lines": []
+          "lines": [],
+          "sceneArt": "authored_C_DAYLIGHT",
+          "visualCue": {
+            "mode": "panorama",
+            "panoramaVariant": "C_DAYLIGHT",
+            "duration": 3
+          }
         },
         {
           "event_id": "E101",
@@ -10760,8 +10781,8 @@
           "kind": "panorama",
           "id": "A_SECOND_PILLOW",
           "usage": "room_variant",
-          "suggested_relative_path": "panoramas/A_SECOND_PILLOW.webp",
-          "availability": "not supplied; labeled production placeholder"
+          "suggested_relative_path": "assets/variants/authored_A_SECOND_PILLOW.webp",
+          "availability": "provided; authored approved-room edit"
         },
         {
           "kind": "panorama",
@@ -10816,29 +10837,29 @@
           "kind": "panorama",
           "id": "C_MIRROR_LIGHT",
           "usage": "room_variant",
-          "suggested_relative_path": "panoramas/C_MIRROR_LIGHT.webp",
-          "availability": "not supplied; labeled production placeholder"
+          "suggested_relative_path": "assets/variants/authored_C_MIRROR_LIGHT.webp",
+          "availability": "provided; authored approved-room edit"
         },
         {
           "kind": "panorama",
           "id": "C_HIDDEN_DOOR",
           "usage": "room_variant",
-          "suggested_relative_path": "panoramas/C_HIDDEN_DOOR.webp",
-          "availability": "not supplied; labeled production placeholder"
+          "suggested_relative_path": "assets/variants/authored_C_HIDDEN_DOOR.webp",
+          "availability": "provided; authored approved-room edit"
         },
         {
           "kind": "panorama",
           "id": "C_REVERSED_SNOW",
           "usage": "room_variant",
-          "suggested_relative_path": "panoramas/C_REVERSED_SNOW.webp",
-          "availability": "not supplied; labeled production placeholder"
+          "suggested_relative_path": "assets/variants/authored_C_REVERSED_SNOW.webp",
+          "availability": "provided; authored approved-room edit"
         },
         {
           "kind": "panorama",
           "id": "C_DAYLIGHT",
           "usage": "room_variant",
-          "suggested_relative_path": "panoramas/C_DAYLIGHT.webp",
-          "availability": "not supplied; labeled production placeholder"
+          "suggested_relative_path": "assets/variants/authored_C_DAYLIGHT.webp",
+          "availability": "provided; authored approved-room edit"
         },
         {
           "kind": "panorama",
@@ -17349,6 +17370,36 @@
       "name": "Поздний стоит в конце коридора",
       "mime": "image/webp",
       "file": "assets/variants/composite_n_late_exit.webp"
+    },
+    {
+      "id": "authored_A_SECOND_PILLOW",
+      "name": "A_SECOND_PILLOW",
+      "mime": "image/webp",
+      "file": "assets/variants/authored_A_SECOND_PILLOW.webp"
+    },
+    {
+      "id": "authored_C_DAYLIGHT",
+      "name": "C_DAYLIGHT",
+      "mime": "image/webp",
+      "file": "assets/variants/authored_C_DAYLIGHT.webp"
+    },
+    {
+      "id": "authored_C_MIRROR_LIGHT",
+      "name": "C_MIRROR_LIGHT",
+      "mime": "image/webp",
+      "file": "assets/variants/authored_C_MIRROR_LIGHT.webp"
+    },
+    {
+      "id": "authored_C_HIDDEN_DOOR",
+      "name": "C_HIDDEN_DOOR",
+      "mime": "image/webp",
+      "file": "assets/variants/authored_C_HIDDEN_DOOR.webp"
+    },
+    {
+      "id": "authored_C_REVERSED_SNOW",
+      "name": "C_REVERSED_SNOW",
+      "mime": "image/webp",
+      "file": "assets/variants/authored_C_REVERSED_SNOW.webp"
     }
   ],
   "audio": [

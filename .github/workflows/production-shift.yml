@@ -1,8 +1,8 @@
 name: Production shift alpha QA
 on:
   push:
-    branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27, work/issue8-voice-2026-10-28]
-    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**', 'game-project/audio/voice-alpha/**', 'game-project/project.json', 'studio/content/TIHAYA_VODA/adventure.json']
+    branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27, work/issue8-voice-2026-10-28, work/visual-states-2026-10-28]
+    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**', 'game-project/audio/voice-alpha/**', 'game-project/assets/variants/authored_*.webp', 'production/quiet-scene-art.json', 'game-project/project.json', 'studio/content/TIHAYA_VODA/adventure.json']
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,6 +33,7 @@ jobs:
           python codex-scripts/sync_standalone_document_art.py
           python codex-scripts/sync_approved_room_art.py
           python codex-scripts/sync_campaign_art.py
+          python codex-scripts/sync_quiet_scene_art.py
           python codex-scripts/sync_voice_assets.py
           python studio/verification/voice-assets.test.py
           node studio/verification/voice-queue.test.cjs
@@ -42,6 +43,8 @@ jobs:
           python codex-scripts/sync_voice_assets.py --check
           python codex-scripts/sync_voice_assets.py --check --pages
           python studio/verification/player-runtime-regressions.py
+          python studio/verification/quiet-scene-art.test.py
+          node studio/verification/quiet-staging.test.cjs
           python codex-scripts/test_wave5_medical.py
           python codex-scripts/test_wave6_stockroom.py
           python codex-scripts/test_wave7_puzzle_docs.py

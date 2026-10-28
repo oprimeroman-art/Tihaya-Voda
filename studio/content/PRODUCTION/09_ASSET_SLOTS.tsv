@@ -29,7 +29,7 @@ video	V11	found_footage	video/found_footage/v11.mp4	generated procedural found-f
 video	V12	found_footage	video/found_footage/v12.mp4	generated procedural found-footage clip; silent; not live-action
 video	V01B	alternate_tape	video/found_footage/v01b.mp4	generated procedural found-footage clip; silent; not live-action
 panorama	A_NORMAL	room_variant	panoramas/A_NORMAL.webp	not supplied; labeled production placeholder
-panorama	A_SECOND_PILLOW	room_variant	panoramas/A_SECOND_PILLOW.webp	not supplied; labeled production placeholder
+panorama	A_SECOND_PILLOW	room_variant	assets/variants/authored_A_SECOND_PILLOW.webp	provided; authored approved-room edit
 panorama	A_LATE	room_variant	panoramas/A_LATE.webp	not supplied; labeled production placeholder
 panorama	B_NORMAL	room_variant	panoramas/B_NORMAL.webp	not supplied; labeled production placeholder
 panorama	B_SECOND_PLATE	room_variant	panoramas/B_SECOND_PLATE.webp	not supplied; labeled production placeholder
@@ -37,10 +37,10 @@ panorama	B_GHOST_MIRROR	room_variant	panoramas/B_GHOST_MIRROR.webp	not supplied;
 panorama	B_TWO_GHOSTS	room_variant	panoramas/B_TWO_GHOSTS.webp	not supplied; labeled production placeholder
 panorama	B_LATE	room_variant	panoramas/B_LATE.webp	not supplied; labeled production placeholder
 panorama	C_NORMAL	room_variant	panoramas/C_NORMAL.webp	not supplied; labeled production placeholder
-panorama	C_MIRROR_LIGHT	room_variant	panoramas/C_MIRROR_LIGHT.webp	not supplied; labeled production placeholder
-panorama	C_HIDDEN_DOOR	room_variant	panoramas/C_HIDDEN_DOOR.webp	not supplied; labeled production placeholder
-panorama	C_REVERSED_SNOW	room_variant	panoramas/C_REVERSED_SNOW.webp	not supplied; labeled production placeholder
-panorama	C_DAYLIGHT	room_variant	panoramas/C_DAYLIGHT.webp	not supplied; labeled production placeholder
+panorama	C_MIRROR_LIGHT	room_variant	assets/variants/authored_C_MIRROR_LIGHT.webp	provided; authored approved-room edit
+panorama	C_HIDDEN_DOOR	room_variant	assets/variants/authored_C_HIDDEN_DOOR.webp	provided; authored approved-room edit
+panorama	C_REVERSED_SNOW	room_variant	assets/variants/authored_C_REVERSED_SNOW.webp	provided; authored approved-room edit
+panorama	C_DAYLIGHT	room_variant	assets/variants/authored_C_DAYLIGHT.webp	provided; authored approved-room edit
 panorama	D_NORMAL	room_variant	panoramas/D_NORMAL.webp	not supplied; labeled production placeholder
 panorama	D_FALSE_MONITOR	room_variant	panoramas/D_FALSE_MONITOR.webp	not supplied; labeled production placeholder
 panorama	D_DOUBLE_ACTS	room_variant	panoramas/D_DOUBLE_ACTS.webp	not supplied; labeled production placeholder

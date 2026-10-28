@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const root=path.resolve(__dirname,'../..'),runtime=fs.readFileSync(path.join(root,'studio/source/game-runtime.html'),'utf8'),story=JSON.parse(fs.readFileSync(path.join(root,'studio/content/TIHAYA_VODA/adventure.json')));
+const source=runtime.slice(runtime.indexOf('/* HORROR_CUES_BEGIN'),runtime.indexOf('/* HORROR_CUES_END */')+'/* HORROR_CUES_END */'.length);
+const layer={style:{},dataset:{}},calls=[];let release;
+const state={flags:{Q02_DONE:true},variants:{C:'C_REVERSED_SNOW'}},ctx={roomId:'C',sessionStarted:true,sessionPaused:false,game:{story:{adventure:story},assets:{authored_C_DAYLIGHT:{data:'day'}}},adventurePlayer:{engine:{state,modal:false}},$:()=>layer,adventureApplyVariant:(room,variant,transient)=>{calls.push([room,variant,!!transient]);if(transient)return new Promise(r=>release=r);}};
+vm.createContext(ctx);vm.runInContext(source+';this.api={horrorCuePlan,horrorCueStart,horrorCueStop,horrorCueFrame,get current(){return horrorCue;}};',ctx);
+(async()=>{const api=ctx.api,e=story.events.find(e=>e.id==='E100');assert.equal(e.room,'C');assert.equal(e.visualCue.duration,3);assert.equal(api.horrorCuePlan(e).panoramaVariant,'C_DAYLIGHT');
+ const before=JSON.stringify(state);assert(api.horrorCueStart(e));api.horrorCueFrame(.15);assert.equal(api.current.elapsed,0,'do not count texture decode as visible scene time');release();await new Promise(r=>setImmediate(r));assert(api.current.ready);
+ for(let i=0;i<10;i++)api.horrorCueFrame(.1);assert(Math.abs(api.current.elapsed-1)<.001);ctx.sessionPaused=true;api.horrorCueFrame(.15);assert(Math.abs(api.current.elapsed-1)<.001);ctx.sessionPaused=false;ctx.adventurePlayer.engine.modal=true;api.horrorCueFrame(.15);assert(Math.abs(api.current.elapsed-1)<.001);ctx.adventurePlayer.engine.modal=false;
+ for(let i=0;i<19;i++)api.horrorCueFrame(.1);assert(api.current,'panorama must remain until three seconds');api.horrorCueFrame(.11);assert.equal(api.current,null);assert.deepEqual(calls.at(-1),['C','C_REVERSED_SNOW',false]);assert.equal(JSON.stringify(state),before,'temporary art must not leak into saves');
+ assert(api.horrorCueStart(e));release();await new Promise(r=>setImmediate(r));ctx.roomId='D';api.horrorCueFrame(.1);assert.equal(api.current,null,'room exit cancels and restores the source room');ctx.roomId='C';
+ assert(api.horrorCueStart(e));const stale=release;api.horrorCueStop();stale();await new Promise(r=>setImmediate(r));assert.equal(api.current,null,'late texture callback cannot restart a cancelled beat');
+ ctx.roomId='D';assert.equal(api.horrorCuePlan(e),null,'never show corridor daylight in the radio room');ctx.roomId='C';delete ctx.game.assets.authored_C_DAYLIGHT;assert.equal(api.horrorCuePlan(e),null,'missing art must not start a blank effect');
+ for(const id of ['E027','E044'])assert(story.events.find(e=>e.id===id).effects.some(f=>f.variant?.A==='A_SECOND_PILLOW'));
+ console.log('PASS pillow event bindings; loaded three-second panorama, pause/modal freeze, expiry, saved-state isolation, room exit and stale callback cancellation');
+})().catch(e=>{console.error(e);process.exit(1)});

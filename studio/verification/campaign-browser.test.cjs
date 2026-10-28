@@ -6,16 +6,29 @@ const story=JSON.parse(fs.readFileSync(path.join(ROOT,'studio/content/TIHAYA_VOD
 const {test}=require('../source/adventure-core.js');
 const common=`take_BADGE04 take_STORAGE_KEY read_D01 TEA_SEQUENCE sign_shift take_FUSE_3 install_fuse3 read_D28 POWER_BASIC CORES_MARKING RADIO_TUNE send_report read_D19 PLUMB_SEQ watch_V01 mirror03 cabinet_message archive_return read_D20 count_cans read_D16 COOKING mirror04 mirror04_away mirror04_again mirror04_third plate_choice dinner_exit take_P17_SAMPLE SPECTRUM_MATCH MICROSCOPE read_D06 hidden_enter read_D03 hidden_exit WAVE_PHASE watch_A02 watch_A01 read_D02 read_D27 mirror06 mirror06_again read_D07 flip_acts read_D22 take_FLASHLIGHT take_ANTENNA_KEY take_BEACON ice_1 ice_2 ice_3 ANTENNA glass07 AIRLOCK_EQUALIZE inner_door take_VHS_FRAGMENT_A take_VHS_FRAGMENT_B read_D23 VHS_ASSEMBLE watch_V02 read_D13 read_D29 read_D05 take_VHS_V03 watch_V03 petr_letter wet_towel read_D04 read_D09 read_D21 take_PUNCHCARD_RU take_PUNCHCARD_DE PUNCHCARD_OVERLAY scan_uv enter_1978 read_D08 read_D12 calibration_plate watch_V06 watch_V09 watch_A03 exit_1978 read_D17 read_D18 watch_A04 CARDIOMATCH medic10 TIMELINE_SYNC watch_V04 late10 read_D14 read_D11 read_D15 watch_V08 handwriting_floor backward_clock reversed_exit_arrow leave_N false_act blanket11 watch_V01B`.split(' ');
 const final=`SHUTTERS name_reply second_window third_window POWER_OFF take_SHUTTER_PIN PIN_INSERT ANALOG_READINGS_OK OBSERVER_SELECT`.split(' ');
-let page,checks=[],errors=[],actionCount=0;
+let page,currentMode,checks=[],errors=[],actionCount=0;
 const state=()=>page.evaluate(()=>adventurePlayer.snapshot());
 async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.click({timeout:10000,noWaitAfter:true});}
 async function drain(){for(let i=0;i<35;i++){
  await page.clock.runFor(200);
- const cont=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await cont.count()){await cont.click({noWaitAfter:true});continue;}
+ const cont=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await cont.count()){const sceneId=await page.locator('.ga-dialog').getAttribute('data-event-id');if(sceneId==='E027')assert.equal(await page.locator('.ga-dialog img').count(),1,'pillow scene uses its real artwork');await cont.click({noWaitAfter:true});if(sceneId==='E100')await verifyDaylight();continue;}
  if(await page.locator('.ga-dialog').count())return;
  const s=await state();const pending=s.pending.map(p=>({p,e:story.events.find(e=>e.id===p.id)})).filter(({e})=>e&&(!e.room||e.room===s.room)&&test(e.when,s)&&e.priority!=='optional');
  if(!pending.length)return;const wait=Math.max(0,Math.min(...pending.map(({p})=>p.due))-s.clock);await page.clock.runFor(Math.ceil(wait*1000)+200);
  }throw Error('Event queue did not settle');}
+async function verifyDaylight(){
+ const previous=(await state()).variants.C;
+ await page.waitForFunction(()=>horrorCue?.panoramaVariant==='C_DAYLIGHT'&&horrorCue.ready);
+ assert(await page.evaluate(()=>game.panoramas.C===game.assets.authored_C_DAYLIGHT),'actual daylight panorama is rendered');
+ await page.clock.runFor(1000);const elapsed=await page.evaluate(()=>horrorCue.elapsed);assert(elapsed>.8&&elapsed<1.3);
+ await button('Меню / Esc');await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>horrorCue.elapsed),elapsed,'menu freezes visible-time clock');
+ await button('Сохранить сейчас');assert.equal(await page.evaluate(()=>readSaved().adventure.variants.C),previous,'save contains the real room state');await button('Вернуться в игру');
+ if(currentMode==='A'){
+  await page.reload();await page.clock.runFor(1000);await button('Продолжить');assert.equal(await page.evaluate(()=>horrorCue),null,'reload cancels temporary daylight');assert.equal((await state()).variants.C,previous);
+ }else{await page.clock.runFor(2300);assert.equal(await page.evaluate(()=>horrorCue),null,'daylight expires after three active seconds');}
+ assert(await page.evaluate(()=>{const v=adventurePlayer.engine.state.variants.C,id=game.story.adventure.rooms.find(r=>r.id==='C').variantAssets[v];return game.panoramas.C===(game.assets[id]||adventureBasePanoramas.C);}),'previous panorama restored');
+ checks.push(currentMode+': actual three-second daylight, pause, stable save and restoration');
+}
 async function sceneSafeClick(locator){for(let i=0;i<15;i++){try{await locator.click({timeout:1200,noWaitAfter:true});return;}catch(error){const c=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(!await c.count())throw error;await c.click({noWaitAfter:true});await drain();}}throw Error('Repeated scene interruptions');}
 async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[s.room,[]]],seen=new Set(),route;
  while(queue.length){const[r,steps]=queue.shift();if(r===dest){route=steps;break;}if(seen.has(r))continue;seen.add(r);for(const l of story.links.filter(l=>l.from===r&&test(l.when,s)))queue.push([l.to,[...steps,l.to]]);}
@@ -44,13 +57,14 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
  actionCount++;await drain();assert((await state()).done.includes(id),'Action did not complete '+id);
 }
 (async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--allow-file-access-from-files']});try{
- for(const mode of 'ABCD'){
+ for(const mode of 'ABCD'){currentMode=mode;
  page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
  const harness=process.env.CAMPAIGN_UI_HARNESS==='1';let entry=path.join(ROOT,'game/index.html');
  if(harness){entry=path.join(out,'ui-harness.html');const core=fs.readFileSync(path.join(ROOT,'studio/source/adventure-core.js'),'utf8'),ui=fs.readFileSync(path.join(ROOT,'studio/source/adventure-ui.js'),'utf8');fs.writeFileSync(entry,'<!doctype html><meta charset="utf-8"><button id="new">Новая игра</button><script>'+core+'\n'+ui+'</script><script>let currentRoom='+JSON.stringify(story.startRoom)+';const adventurePlayer=new GagarinAdventure.UI('+JSON.stringify(story)+',{room:()=>currentRoom,go:r=>{currentRoom=r},newGame:()=>adventurePlayer.reset()});document.getElementById("new").onclick=()=>adventurePlayer.reset();</script>');}
- await page.clock.install();await page.goto(require('node:url').pathToFileURL(entry).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
+ await page.clock.install();await page.goto(!harness&&process.env.CAMPAIGN_GAME_URL||require('node:url').pathToFileURL(entry).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
  let didReload=false;
  for(const id of common){await action(id,id==='false_act'?'NO':undefined);
+  if(id==='plate_choice'&&mode==='A'){await go('A');for(let i=0;i<4&&!(await state()).fired.includes('E027');i++){await page.clock.runFor(66000);await drain();}assert((await state()).fired.includes('E027'),'pillow event reached through a real return visit');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');assert(await page.evaluate(()=>game.panoramas.A===game.assets.authored_A_SECOND_PILLOW));await go('C');await go('A');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');checks.push('A: second pillow dent appears on return and persists on revisiting');}
   if(!didReload&&(await state()).chapter===6){const before=await state();await page.locator('.ga-nav').getByRole('button',{name:'Сохранить',exact:true}).click();await page.reload();await page.clock.runFor(1000);await button('Продолжить');await drain();const after=await state();for(const key of ['chapter','inventory','documents','done'])assert.deepEqual(after[key],before[key],key+' survives reload');didReload=true;checks.push(mode+': save/reload through player menu');}
  }
  await page.locator('.ga-actions').getByRole('button',{name:'Журнал и инвентарь',exact:true}).click();
