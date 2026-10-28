@@ -9,19 +9,11 @@
   "variantsWithoutAuthoredPanorama": [
     {
       "room": "A",
-      "variant": "A_SECOND_PILLOW"
-    },
-    {
-      "room": "A",
       "variant": "A_LATE"
     },
     {
       "room": "B",
       "variant": "B_LATE"
-    },
-    {
-      "room": "C",
-      "variant": "C_DAYLIGHT"
     },
     {
       "room": "I",
@@ -575,5 +567,5 @@
     }
   ],
   "releaseReady": false,
-  "reason": "Full browser routes and visual staging are not certified; sign-art interactions and unmatched variants still require production review."
+  "reason": "Remaining sign-art interactions and unmatched room variants still require production review; automated routes do not certify final artistic quality."
 }

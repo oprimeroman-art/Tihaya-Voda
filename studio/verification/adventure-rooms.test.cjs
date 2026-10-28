@@ -7,7 +7,7 @@ const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const runtime=fs.readFileSync(path.join(root,'source/game-runtime.html'),'utf8');
 const ui=fs.readFileSync(path.join(root,'source/adventure-ui.js'),'utf8');
-const begin='function adventureApplyVariant(rid,variant){';
+const begin='function adventureApplyVariant(rid,variant,transient=false){';
 const end='function adventureSetup(){';
 assert.equal(runtime.split(begin).length,2);
 const callback=runtime.slice(runtime.indexOf(begin),runtime.indexOf(end,runtime.indexOf(begin)));

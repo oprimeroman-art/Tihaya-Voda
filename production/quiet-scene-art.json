@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "generator": "built-in imagegen",
+  "variants": {
+    "A_SECOND_PILLOW": {
+      "assetId": "authored_A_SECOND_PILLOW",
+      "file": "assets/variants/authored_A_SECOND_PILLOW.webp",
+      "sha256": "4f0a921a85489d745496049f4e19d4e37e7184fd6709ee28336b0be314e55cd1",
+      "width": 1774,
+      "height": 887,
+      "sourceImageSha256": "7f41bcc5c9106df5f9070348871ef2f013a736b1802d84f8595e56c96402e9ae",
+      "baseFile": "rooms/A/approved_illustrated.webp",
+      "baseSha256": "17bf73d9da4752a74cadadcd7e3dee95aed54b581976dc8fd89da06bfb21c0db"
+    },
+    "C_DAYLIGHT": {
+      "assetId": "authored_C_DAYLIGHT",
+      "file": "assets/variants/authored_C_DAYLIGHT.webp",
+      "sha256": "539e152e0b80f36e7923da2d9811926ca0f5197a4ac0a4b3ee1aa44c51a767c4",
+      "width": 1774,
+      "height": 887,
+      "sourceImageSha256": "3b6535b7caecefc8cf85e4b4906b747ec324f1c1bb656cab99518ec3aa790016",
+      "baseFile": "rooms/C/approved_illustrated.webp",
+      "baseSha256": "127b6e1680f6acd968dbb9aa3d2a74b1ceffb87272d41c0ab39d136e55ec8e00",
+      "lightingSourceVariant": "C_REVERSED_SNOW"
+    },
+    "C_MIRROR_LIGHT": {
+      "assetId": "authored_C_MIRROR_LIGHT",
+      "file": "assets/variants/authored_C_MIRROR_LIGHT.webp",
+      "sha256": "98cd2b18251d1e1952cc1ed793fdd4822bfe08e471f414689e7d5ff7ad2739ba",
+      "width": 1774,
+      "height": 887,
+      "sourceImageSha256": "86f644eb78d9731e9b48f5176906ba2aac4b16d1ddc5a83547d758df4bf0f230",
+      "baseFile": "rooms/C/approved_illustrated.webp",
+      "baseSha256": "127b6e1680f6acd968dbb9aa3d2a74b1ceffb87272d41c0ab39d136e55ec8e00"
+    },
+    "C_HIDDEN_DOOR": {
+      "assetId": "authored_C_HIDDEN_DOOR",
+      "file": "assets/variants/authored_C_HIDDEN_DOOR.webp",
+      "sha256": "870aaa0ec1919f7b8caaeb5c09eb5e6122327c6e66f7f7b6ba095c186100609a",
+      "width": 1774,
+      "height": 887,
+      "sourceImageSha256": "84adbb1dce371f16fb0027534a353f2bc7fedca3d7a99f1b2a29588da87bcabc",
+      "baseFile": "rooms/C/approved_illustrated.webp",
+      "baseSha256": "127b6e1680f6acd968dbb9aa3d2a74b1ceffb87272d41c0ab39d136e55ec8e00"
+    },
+    "C_REVERSED_SNOW": {
+      "assetId": "authored_C_REVERSED_SNOW",
+      "file": "assets/variants/authored_C_REVERSED_SNOW.webp",
+      "sha256": "ff75baf8f5e2e62af875de9e0ca3076d169d1c39639a1b3e6280cc64c1cfcdf7",
+      "width": 1774,
+      "height": 887,
+      "sourceImageSha256": "5caec760fb2facb1808fed409bb3229724858f18522e76e2bca62fdcb90819e5",
+      "baseFile": "rooms/C/approved_illustrated.webp",
+      "baseSha256": "127b6e1680f6acd968dbb9aa3d2a74b1ceffb87272d41c0ab39d136e55ec8e00"
+    }
+  }
+}
