@@ -1,0 +1,38 @@
+name: Verify published voice
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Live illustrated demo]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: published-voice-qa
+  cancel-in-progress: false
+jobs:
+  voice:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare browser
+        run: |
+          npm install --no-save --no-package-lock playwright
+          npx playwright install --with-deps chromium
+      - name: Verify real audio output from the deployed public game
+        env:
+          VOICE_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
+        run: node studio/verification/voice-browser.test.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Tihaya-Voda-published-voice-QA
+          path: reports/voice-browser/
+          if-no-files-found: ignore
