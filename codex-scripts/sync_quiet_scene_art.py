@@ -32,6 +32,8 @@ def main():
         effect={'variant':{'A':'A_SECOND_PILLOW'}}
         if effect not in event['effects']:event['effects'].append(effect)
         event['sceneArt']='authored_A_SECOND_PILLOW'
+    for id,variant in {'E013':'C_MIRROR_LIGHT','E031':'C_HIDDEN_DOOR','E053':'C_REVERSED_SNOW'}.items():
+        next(e for e in story['events'] if e['id']==id)['sceneArt']=manifest['variants'][variant]['assetId']
     event=next(e for e in story['events'] if e['id']=='E100')
     # Its canonical director matrix targets the corridor. Queue it there; never teleport.
     event['room']='C';event['sceneArt']='authored_C_DAYLIGHT'
