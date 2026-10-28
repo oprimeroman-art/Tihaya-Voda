@@ -7,6 +7,7 @@ external browser dependencies, no edits to original game/index.html.
 """
 from __future__ import annotations
 import base64
+import copy
 import hashlib
 import io
 import json
@@ -53,6 +54,7 @@ def main():
     marker="window.BUILT_GAME="
     start=html.index(marker)+len(marker)
     payload,end=json.JSONDecoder().raw_decode(html[start:])
+    canonical_props=copy.deepcopy(payload.get("story",{}).get("adventure",{}).get("illustratedProps",{}))
     assert len(payload["rooms"])>=16,"Never replace original story rooms"
     assert len(payload.get("story",{}).get("adventure",{}).get("events",[]))>=100
     applied={}
@@ -95,6 +97,11 @@ def main():
     # Chapter 4: the already-authored sink event changes the actual kitchen panorama.
     from alpha_wave10_kitchen_state import apply_wave10
     applied.update(apply_wave10(payload,ROOT))
+    # Legacy art waves reconstruct early bundles; retain every later canonical binding.
+    props=payload["story"]["adventure"].setdefault("illustratedProps",{})
+    for key,values in canonical_props.items():
+        if isinstance(values,dict): props.setdefault(key,{}).update(values)
+        else: props[key]=values
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)

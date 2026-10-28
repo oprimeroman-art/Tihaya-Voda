@@ -78,11 +78,12 @@ def apply_wave4_props(payload, root=ROOT):
         if variant not in variants[rid]: raise ValueError('Unknown canon ghost scene '+key)
     art_images = {name:'data:image/webp;base64,'+base64.b64encode(art[name+'.webp']).decode('ascii')
                   for name in EXPECTED_ARTS}
-    # Publishing an early art wave must not erase later canonical document art.
-    props = adv.setdefault('illustratedProps', {})
-    for key, values in {'image': art_images, 'action': PROP_ACTIONS,
-                        'document': DOCUMENTS, 'haunt': GHOST_VARIANTS}.items():
-        props.setdefault(key, {}).update(values)
+    adv['illustratedProps'] = {
+        'image': art_images,
+        'action': PROP_ACTIONS,
+        'document': DOCUMENTS,
+        'haunt': GHOST_VARIANTS,
+    }
     return {'story_props': len(EXPECTED_ARTS)}
 
 
