@@ -7,6 +7,9 @@ on:
       - game/index.html
       - studio/index.html
       - studio/verification/player-runtime-regressions.py
+      - studio/verification/publication-art.test.py
+      - studio/verification/quiet-scene-art.test.py
+      - studio/verification/quiet-staging.test.cjs
       - studio/source/adventure-ui.js
       - game-project/assets/variants/authored_*.webp
       - production/quiet-scene-art.json
@@ -67,6 +70,7 @@ jobs:
         run: |
           python3 -m pip install --quiet pillow
           python3 studio/verification/quiet-scene-art.test.py
+          python3 studio/verification/publication-art.test.py
           node studio/verification/quiet-staging.test.cjs
           python3 studio/verification/voice-assets.test.py
           node studio/verification/voice-queue.test.cjs
