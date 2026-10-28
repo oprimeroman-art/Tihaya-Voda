@@ -21,7 +21,7 @@ async function verifyDaylight(){
  await page.waitForFunction(()=>horrorCue?.panoramaVariant==='C_DAYLIGHT'&&horrorCue.ready);
  assert(await page.evaluate(()=>game.panoramas.C===game.assets.authored_C_DAYLIGHT),'actual daylight panorama is rendered');
  await page.clock.runFor(1000);const elapsed=await page.evaluate(()=>horrorCue.elapsed);assert(elapsed>.8&&elapsed<1.3);
- await button('Меню / Esc');await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>horrorCue.elapsed),elapsed,'menu freezes visible-time clock');
+ await button('Меню / Esc');const pausedElapsed=await page.evaluate(()=>horrorCue.elapsed);await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>horrorCue.elapsed),pausedElapsed,'menu freezes visible-time clock');
  await button('Сохранить сейчас');assert.equal(await page.evaluate(()=>readSaved().adventure.variants.C),previous,'save contains the real room state');await button('Вернуться в игру');
  if(currentMode==='A'){
   await page.reload();await page.clock.runFor(1000);await button('Продолжить');assert.equal(await page.evaluate(()=>horrorCue),null,'reload cancels temporary daylight');assert.equal((await state()).variants.C,previous);
