@@ -62,12 +62,12 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
  assert.equal((await state()).chapter,11);checks.push('New game through chapters 1–11 using visible controls');
  // All branching is played through the same actual game; checkpoints are the player-facing restore control.
  await action('NODE_POWER');await action('NODE_MEMORY',mode==='D'?'PETR':'TRUTH');await action('NODE_OBSERVER',mode==='B'?2:1);
-  for(const id of final)await action(id);
+  for(const id of final)await action(id,id==='name_reply'?({A:'NO',B:'SILENCE',C:'OFF',D:'NO'}[mode]):undefined);
   await page.screenshot({path:path.join(out,'before-panel.png')});
   await action('FINAL_PANEL',mode);assert.equal((await state()).ended,mode);
   await page.clock.runFor(300);assert(await page.getByRole('dialog',{name:story.endings[mode].title,exact:true}).count());
   const img=page.locator('.ga-dialog img');assert.equal(await img.count(),1);assert(await img.evaluate(i=>i.complete&&i.naturalWidth>0));
-  await page.screenshot({path:path.join(out,`ending-${mode}.png`)});for(let i=0;i<3;i++)await button('Продолжить финал');await button('Титры');await button('Следующая проверка');assert((await state()).flags.POST_CREDITS);
+  await page.screenshot({path:path.join(out,`ending-${mode}.png`)});for(let i=0;i<3;i++)await button('Продолжить финал');if(story.voiceAssets){const voiceId={A:'DLG_045',B:'DLG_046',C:'A06',D:'DLG_047'}[mode];await page.waitForFunction(id=>adventurePlayer.voice?.currentId===id&&adventurePlayer.voice.audio.currentTime>.02,voiceId);checks.push(mode+': canonical ending voice actually playing');}await button('Титры');await button('Следующая проверка');assert((await state()).flags.POST_CREDITS);
   checks.push(`Ending ${mode}, illustration, credits and postcredits`);
   await button('Загрузить до панели');await button('Загрузить');assert.equal((await state()).ended,false);assert(!(await state()).done.includes('FINAL_PANEL'));
   await page.close();

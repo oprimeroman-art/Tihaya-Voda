@@ -8,6 +8,9 @@ on:
       - studio/index.html
       - studio/verification/player-runtime-regressions.py
       - studio/source/adventure-ui.js
+      - studio/source/voice-queue.js
+      - game-project/audio/voice-alpha/**
+      - codex-scripts/sync_voice_assets.py
       - site-assets/illustrated/**
       - site-assets/alpha-wave2/**
       - site-assets/alpha-wave3/**
@@ -51,10 +54,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Sync shared UI into standalone game and editor
         run: |
-          python3 codex-scripts/sync_document_ui.py
+          python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_standalone_document_art.py
+          python3 codex-scripts/sync_voice_assets.py
       - name: Reconstruct illustrated chapters, props and existing story
         run: python3 codex-scripts/build_pages_demo.py --output _site
+      - name: Verify voice packaging and canonical mappings
+        run: |
+          python3 studio/verification/voice-assets.test.py
+          node studio/verification/voice-queue.test.cjs
+          python3 codex-scripts/sync_voice_assets.py --check --pages
       - name: Check player runtime regressions
         run: python3 studio/verification/player-runtime-regressions.py
       - name: Check public preview contents

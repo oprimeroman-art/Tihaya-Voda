@@ -1,0 +1,38 @@
+/* Real audio decoding/output + UI lifecycle. Component tests do not claim campaign progression. */
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const ROOT=path.resolve(__dirname,'../..'),out=path.join(ROOT,'reports/voice-browser');fs.mkdirSync(out,{recursive:true});
+(async()=>{const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await b.newPage({viewport:{width:1440,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ try{
+ await p.addInitScript(()=>{
+  window.voiceProbe={peak:0,starts:[],errors:[]};
+  document.addEventListener('pointerdown',()=>{const C=window.AudioContext||window.webkitAudioContext;window.voiceProbe.ctx=new C();window.voiceProbe.ctx.resume();},{once:true,capture:true});
+  const original=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){const probe=window.voiceProbe;if(this.classList.contains('ga-voice')){
+   probe.starts.push(this.dataset.voiceId);
+   if(!this.__probe&&probe.ctx){const src=probe.ctx.createMediaElementSource(this),analyser=probe.ctx.createAnalyser();src.connect(analyser);analyser.connect(probe.ctx.destination);const data=new Float32Array(analyser.fftSize);this.__probe=setInterval(()=>{analyser.getFloatTimeDomainData(data);for(const x of data)probe.peak=Math.max(probe.peak,Math.abs(x));if(!this.isConnected){clearInterval(this.__probe);src.disconnect();analyser.disconnect();}},20);}
+  }const result=original.call(this);result?.catch(e=>{if(e.name!=='AbortError')probe.errors.push(e.name);});return result;};
+ });
+ await p.goto(process.env.VOICE_GAME_URL||require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);
+ await p.getByRole('button',{name:'Новая игра',exact:true}).click();
+ await p.waitForFunction(()=>adventurePlayer.voice?.currentId==='DLG_001'&&adventurePlayer.voice.audio.currentTime>.15);
+ await p.waitForFunction(()=>voiceProbe.peak>.001);
+ await p.getByRole('button',{name:'Меню / Esc',exact:true}).click();const paused=await p.evaluate(()=>adventurePlayer.voice.audio.currentTime);await p.waitForTimeout(350);assert.equal(await p.evaluate(()=>adventurePlayer.voice.audio.paused),true);assert(Math.abs(await p.evaluate(()=>adventurePlayer.voice.audio.currentTime)-paused)<.08);
+ await p.getByRole('button',{name:'Вернуться в игру',exact:true}).click();await p.waitForFunction(t=>adventurePlayer.voice.audio.currentTime>t+.1,paused);
+ await p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true}).click();assert.equal(await p.locator('audio.ga-voice').count(),0);
+ await p.locator('.ga-actions').getByRole('button',{name:'Журнал и инвентарь',exact:true}).click();assert.equal(await p.locator('audio.ga-voice').count(),0,'journal never replays story narration');await p.getByRole('button',{name:'Закрыть',exact:true}).click();
+ await p.locator('.ga-nav').getByRole('button',{name:'Сохранить',exact:true}).click();const before=await p.evaluate(()=>adventurePlayer.snapshot());await p.reload();await p.getByRole('button',{name:'Продолжить',exact:true}).click();assert.deepEqual(await p.evaluate(()=>adventurePlayer.snapshot().done),before.done);assert.equal(await p.locator('audio.ga-voice').count(),0,'load must not restart journal voices');
+ // Decode every real embedded MP3 in this browser, independently of route coverage.
+ const decoded=await p.evaluate(async()=>{const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),ids=[...Object.keys(game.story.adventure.voiceAssets),...Object.keys(game.audio).filter(id=>/^S\d\d$/.test(id))];for(const id of ids){const a=game.audio[id],bytes=Uint8Array.from(atob(a.data),c=>c.charCodeAt(0));const buffer=await ctx.decodeAudioData(bytes.buffer);if(buffer.duration<=0||!buffer.getChannelData(0).some(x=>Math.abs(x)>.0001))throw Error('Silent/broken recording '+id);}await ctx.close();return ids.length;});assert.equal(decoded,69);
+ // Render an actual two-line event, without changing story flags, and let the first file end.
+ await p.evaluate(()=>adventurePlayer.scene(adventurePlayer.data.events.find(e=>e.id==='E006')));await p.waitForFunction(()=>adventurePlayer.voice?.currentId==='DLG_004'&&adventurePlayer.voice.audio.readyState>=2);await p.evaluate(()=>{const a=adventurePlayer.voice.audio;a.currentTime=a.duration-.08;});await p.waitForFunction(()=>adventurePlayer.voice?.currentId==='DLG_005'&&adventurePlayer.voice.audio.currentTime>.05);assert.equal(await p.locator('audio.ga-voice').count(),1);
+ await p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true}).click();
+ await p.evaluate(()=>adventurePlayer.playMedia(adventurePlayer.data.media.find(m=>m.id==='V02'),null));await p.getByRole('button',{name:'PLAY',exact:true}).click();await p.waitForFunction(()=>adventurePlayer.voice?.currentId==='DLG_025'&&adventurePlayer.voice.audio.currentTime>.05);
+ await p.getByRole('button',{name:'Пауза',exact:true}).click();assert(await p.evaluate(()=>adventurePlayer.voice.audio.paused));await p.getByRole('button',{name:'PLAY',exact:true}).click();await p.locator('.ga-dialog video').evaluate(v=>{v.currentTime=87.8;});await p.waitForFunction(()=>adventurePlayer.voice?.currentId==='DLG_026'&&adventurePlayer.voice.audio.currentTime>.05);
+ await p.getByRole('button',{name:'Закрыть без отметки просмотра',exact:true}).click();assert.equal(await p.locator('audio.ga-voice').count(),0);
+ await p.evaluate(()=>adventurePlayer.playMedia(adventurePlayer.data.media.find(m=>m.id==='A01'),null));await p.getByRole('button',{name:'PLAY',exact:true}).click();await p.waitForFunction(()=>adventurePlayer.voiceMediaElement?.currentTime>.1);assert.equal(await p.locator('audio.ga-voice').count(),0,'archive is played once, not doubled by voice queue');await p.getByRole('button',{name:'Закрыть без отметки просмотра',exact:true}).click();
+ // A room transition cancels a live narration channel, without moving story state artificially.
+ await p.evaluate(()=>adventurePlayer.scene(adventurePlayer.data.events.find(e=>e.id==='E002')));await p.waitForFunction(()=>adventurePlayer.voice?.audio?.currentTime>.05);await p.getByRole('button',{name:'Меню / Esc',exact:true}).click();await p.getByRole('button',{name:'Вернуться в игру',exact:true}).click();await p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true}).click();await p.locator('.ga-nav').getByRole('button',{name:'→ Коридор',exact:true}).click();assert.equal(await p.locator('audio.ga-voice').count(),0);
+ const probe=await p.evaluate(()=>({starts:voiceProbe.starts,errors:voiceProbe.errors,peak:voiceProbe.peak}));assert.deepEqual(errors,[]);assert.deepEqual(probe.errors,[]);assert(probe.starts.includes('DLG_005')&&probe.starts.includes('DLG_026'));
+ await p.screenshot({path:path.join(out,'verified.png')});fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,url:process.env.VOICE_GAME_URL||'autonomous file',decodedVoices:53,decodedOriginalSounds:16,checks:['new game voice reaches actual audio output','menu pause/resume','close cancellation','silent journal','save/reload','53 MP3 decoded','two-line event sequential','video voice cue and pause/seek','single archive playback','room transition'],probe,errors},null,2));console.log('PASS voice output, 53 MP3 decoded, real menu/save/load, sequential scenes, video cues and archive lifecycle');
+ }catch(e){await p.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});throw e;}finally{await b.close();}
+})().catch(e=>{console.error(e);process.exit(1)});
