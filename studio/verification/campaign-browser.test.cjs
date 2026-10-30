@@ -10,7 +10,8 @@ let page,currentMode,checks=[],errors=[],actionCount=0,pace=[];const voiceManife
 const progressFile=path.join(out,'progress.json');let completedRoutes=[];if(process.env.CAMPAIGN_RESUME==='1'&&fs.existsSync(progressFile)){const saved=JSON.parse(fs.readFileSync(progressFile));({checks,actionCount,pace,completedRoutes}=saved);}
 function saveProgress(){fs.writeFileSync(progressFile,JSON.stringify({checks,actionCount,pace,completedRoutes}));}
 function recordPace(kind,id,text,duration=0){const words=String(text||'').trim().split(/\s+/).length;pace.push({route:currentMode,kind,id,words,readingSeconds:Number((words/3).toFixed(1)),mediaSeconds:duration});}
-async function sameImage(img,expected){await img.scrollIntoViewIfNeeded();await img.evaluate(i=>i.decode());const actual=await img.evaluate(async i=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await(await fetch(i.src)).arrayBuffer()))).map(x=>x.toString(16).padStart(2,'0')).join(''));const hash=require('node:crypto').createHash('sha256').update(Buffer.from(expected.split(',')[1],'base64')).digest('hex');assert.equal(actual,hash,'image bytes match canonical asset');}
+// Image verification needs decode/hash, not two stable animation frames before scrolling.
+async function sameImage(img,expected){await img.evaluate(i=>i.scrollIntoView({block:'nearest',behavior:'instant'}));await img.evaluate(i=>i.decode());const actual=await img.evaluate(async i=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await(await fetch(i.src)).arrayBuffer()))).map(x=>x.toString(16).padStart(2,'0')).join(''));const hash=require('node:crypto').createHash('sha256').update(Buffer.from(expected.split(',')[1],'base64')).digest('hex');assert.equal(actual,hash,'image bytes match canonical asset');}
 
 const state=()=>page.evaluate(()=>adventurePlayer.snapshot());
 async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.waitFor({state:'visible'});assert(await b.isEnabled(),text+' enabled');await b.focus();await b.press('Enter');}
@@ -81,7 +82,7 @@ async function unsafeAirlock(){await go('J');await drain();const before=await st
  const harness=process.env.CAMPAIGN_UI_HARNESS==='1';let entry=path.join(ROOT,'game/index.html');
  if(harness){entry=path.join(out,'ui-harness.html');const core=fs.readFileSync(path.join(ROOT,'studio/source/adventure-core.js'),'utf8'),ui=fs.readFileSync(path.join(ROOT,'studio/source/adventure-ui.js'),'utf8');fs.writeFileSync(entry,'<!doctype html><meta charset="utf-8"><button id="new">Новая игра</button><script>'+core+'\n'+ui+'</script><script>let currentRoom='+JSON.stringify(story.startRoom)+';const adventurePlayer=new GagarinAdventure.UI('+JSON.stringify(story)+',{room:()=>currentRoom,go:r=>{currentRoom=r},newGame:()=>adventurePlayer.reset()});document.getElementById("new").onclick=()=>adventurePlayer.reset();</script>');}
  await page.clock.install();await page.goto(!harness&&process.env.CAMPAIGN_GAME_URL||require('node:url').pathToFileURL(entry).href);await page.clock.runFor(1000);await button('Новая игра');await drain();
- if(process.env.CAMPAIGN_RESUME==='1'&&fs.existsSync(path.join(out,'latest-'+mode+'.json'))){const restored=JSON.parse(fs.readFileSync(path.join(out,'latest-'+mode+'.json')));await page.locator('#gs-load-file').setInputFiles(path.join(out,'latest-'+mode+'.json'));await page.waitForFunction(n=>adventurePlayer.snapshot().done.length===n,restored.adventure.done.length);await drain();checks.push(mode+': resumed real earned SAVE.json through file input');}
+ const resumedHere=process.env.CAMPAIGN_RESUME==='1'&&fs.existsSync(path.join(out,'latest-'+mode+'.json'));if(resumedHere){const restored=JSON.parse(fs.readFileSync(path.join(out,'latest-'+mode+'.json')));await page.locator('#gs-load-file').setInputFiles(path.join(out,'latest-'+mode+'.json'));await page.waitForFunction(n=>adventurePlayer.snapshot().done.length===n,restored.adventure.done.length);await drain();checks.push(mode+': resumed real earned SAVE.json through file input');}
  let didReload=false;if(mode==='A'&&(await state()).done.includes('glass07')&&!(await state()).flags.AIRLOCK_SAFE&&!checks.some(c=>c.includes('unsafe airlock death')))await unsafeAirlock();
  for(const id of common){if((await state()).done.includes(id))continue;await action(id,id==='false_act'?'NO':undefined);
   if(id==='glass07'&&mode==='A')await unsafeAirlock();
@@ -92,9 +93,9 @@ async function unsafeAirlock(){await go('J');await drain();const before=await st
  const actualInventory=(await state()).inventory;
  assert.equal(await page.locator('.ga-item').count(),actualInventory.length);
  assert.equal(await page.locator('.ga-item img').count(),actualInventory.length,'each acquired item has art');
- for(const img of await page.locator('.ga-item img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(i=>i.decode());}
+ for(const img of await page.locator('.ga-item img').all()){await img.evaluate(i=>i.scrollIntoView({block:'nearest',behavior:'instant'}));await img.evaluate(i=>i.decode());}
  await button('Закрыть');checks.push(mode+': all acquired inventory art decoded');
- assert((await state()).chapter===11||(process.env.CAMPAIGN_RESUME==='1'&&(await state()).chapter===12),'common campaign reaches chapter 11 before branching');checks.push('New game through chapters 1–11 using visible controls');
+ assert((await state()).chapter===11||(process.env.CAMPAIGN_RESUME==='1'&&(await state()).chapter===12),'common campaign reaches chapter 11 before branching');checks.push((resumedHere?'Earned-save continuation through chapter 11':'New game through chapters 1–11')+' using visible controls');
  // All branching is played through the same actual game; checkpoints are the player-facing restore control.
  for(const id of ['NODE_POWER','NODE_MEMORY','NODE_OBSERVER'])if(!(await state()).done.includes(id))await action(id,id==='NODE_MEMORY'?(mode==='D'?'PETR':'TRUTH'):id==='NODE_OBSERVER'?(mode==='B'?2:1):undefined);
   for(const id of final)if(!(await state()).done.includes(id))await action(id,id==='name_reply'?({A:'NO',B:'SILENCE',C:'OFF',D:'NO'}[mode]):undefined);
