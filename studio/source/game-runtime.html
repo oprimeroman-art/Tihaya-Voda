@@ -302,7 +302,7 @@ function adventureMarkers(){
  const ui=adventurePlayer;if(!ui?.hotspots)return;const layer=ui.hotspots;layer.hidden=!sessionStarted||sessionPaused||!!ui.dialog;
  if(layer.hidden)return;const objects=(current()?.objects||[]).filter(o=>o.visible&&adventureSign(o)),key=roomId+'|'+objects.map(o=>o.id).join('|');
  if(layer.dataset.key!==key){layer.replaceChildren();layer.dataset.key=key;for(const o of objects){const id=o.tourKey.slice(3),b=ui.button(layer,'',()=>{if(!sessionPaused&&!ui.dialog&&roomId===ui.engine.state.room)ui.openAction(id);});b.className='ga-hotspot';b.dataset.objectId=o.id;b.dataset.actionId=id;b.setAttribute('aria-label','Осмотреть: '+o.name);const label=document.createElement('span');label.textContent=o.name;b.append(label);}}
- const placed=[];for(const b of layer.children){const o=objects.find(o=>o.id===b.dataset.objectId),p=o&&project(centroid(o));b.hidden=!p||p.x<22||p.x>innerWidth-22||p.y<22||p.y>innerHeight-62;if(b.hidden)continue;
+ const placed=[];for(const b of layer.children){const o=objects.find(o=>o.id===b.dataset.objectId),anchor=o&&ui.data.interactionAnchors?.[ui.engine.state.variants[roomId]]?.[o.tourKey.slice(3)],p=o&&project(anchor?{u:anchor[0],v:anchor[1]}:centroid(o));b.hidden=!p||p.x<22||p.x>innerWidth-22||p.y<22||p.y>innerHeight-62;if(b.hidden)continue;
   const candidates=[[0,0],[0,48],[0,-48],[48,0],[-48,0],[48,48],[-48,-48]],point=candidates.map(([x,y])=>({x:p.x+x,y:p.y+y})).find(q=>q.x>=22&&q.x<=innerWidth-22&&q.y>=22&&q.y<=innerHeight-62&&placed.every(v=>Math.hypot(v.x-q.x,v.y-q.y)>=44));
   if(!point){b.hidden=true;continue;}placed.push(point);b.style.left=point.x+'px';b.style.top=point.y+'px';b.dataset.labelSide=point.y<120?'below':'above';const half=Math.min(210,innerWidth*.45)/2;b.style.setProperty('--label-offset',(Math.min(innerWidth-12-half,Math.max(12+half,point.x))-point.x)+'px');
  }
@@ -333,7 +333,7 @@ function adventureApplyVariant(rid,variant,transient=false){
 }
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
- staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{const a=game.assets?.[e.sceneArt];return a?'data:'+a.mime+';base64,'+a.data:null;},
+ staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{const meta=game.story.adventure.rooms.find(r=>r.id===roomId),variant=adventurePlayer?.engine.state.variants[roomId];const a=game.assets?.[e.sceneArt]||game.assets?.[meta?.variantAssets?.[variant]]||game.panoramas?.[roomId];return a?'data:'+a.mime+';base64,'+a.data:null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},
  voice:id=>{const a=game.audio?.[id];return a?{url:'data:'+a.mime+';base64,'+a.data}:null;},volume:()=>audioSettings.master/100,

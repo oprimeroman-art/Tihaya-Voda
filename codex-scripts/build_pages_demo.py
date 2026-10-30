@@ -102,6 +102,8 @@ def main():
     for key,values in canonical_props.items():
         if isinstance(values,dict): props.setdefault(key,{}).update(values)
         else: props[key]=values
+    from sync_final_scene_art import apply_final_art
+    apply_final_art(payload,ROOT)
     # Production demo uses original story but approved images.
     # No procedural kitchen override or different QA SAVE_KEY.
     html,count=QA_RE.subn("",html)

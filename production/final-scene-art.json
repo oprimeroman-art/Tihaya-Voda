@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "generator": "built-in imagegen",
+  "assets": {
+    "I_NORMAL": {
+      "assetId": "authored_I_NORMAL",
+      "file": "assets/final-rooms/authored_I_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "e5938dd5f1971545e9703b6ad1d1aebe137b75da7cfeebd62f6b455c0665bb68",
+      "sourceImage": "exec-9f519d6f-7718-49d4-85d4-a52a134aeeb5.png",
+      "sourceImageSha256": "1831624da8b5f50c7c78a40bddfeeb2d14d5336eedec0f2b48a6d2baae5a77b8",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Infirmary, two empty beds, cardiograph and cabinet"
+    },
+    "M_NORMAL": {
+      "assetId": "authored_M_NORMAL",
+      "file": "assets/final-rooms/authored_M_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "909eab53f640783e269731aa665690c6e3d1df2768e93bd9338a8052c388e9e0",
+      "sourceImage": "exec-a6c38598-41b2-4f57-9811-97a4ece6c4f8.png",
+      "sourceImageSha256": "3e4b41df83e0214911994cff76fc06ebe31d55b6c6579e4ca3c5387883485263",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Borehole block, central pressure well, analog desk, black CRT and access hatch"
+    },
+    "L_NORMAL": {
+      "assetId": "authored_L_NORMAL",
+      "file": "assets/final-rooms/authored_L_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "022ed08a4b8036ef98f18cdd39ceed54c724e05ed12734a1493e31ce68a807f2",
+      "sourceImage": "exec-dbf915e3-a475-49f3-92d2-fd3e47bbd376.png",
+      "sourceImageSha256": "7d586c7950daec98a2a30496185b607f4393cb402593eb7f59e940e6d08e3aa0",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Gallery with three shuttered observation windows onto night yard"
+    },
+    "J_NORMAL": {
+      "assetId": "authored_J_NORMAL",
+      "file": "assets/final-rooms/authored_J_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "60db0667dc801e112c61de54dc540796d225f12617fa8f58e181c59cc3746de6",
+      "sourceImage": "exec-0d78cc4e-7c17-447c-8041-48cb55f42dab.png",
+      "sourceImageSha256": "301806a6db58c410673e7ef5f47fe5b176716de2e5ff5e74087510c39ccf9dae",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Airlock, closed hatch, pressure valves and red barrier"
+    },
+    "K_NORMAL": {
+      "assetId": "authored_K_NORMAL",
+      "file": "assets/final-rooms/authored_K_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "ae384cd773513b459f90c53e942fd0ec9aeb57ffb8047f0f3013a7dbdd204f38",
+      "sourceImage": "exec-1a72ba70-5f19-466b-8d27-c9a1cd3e647c.png",
+      "sourceImageSha256": "00d0da724728a2595a1336a17016469df235b0c46916dd41556877958d479103",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Snowy maintenance yard, radio mast, electrical cabinet and red obstruction lamp"
+    },
+    "N_NORMAL": {
+      "assetId": "authored_N_NORMAL",
+      "file": "assets/final-rooms/authored_N_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "229ba05333fec7d39ddea3739fe390b17aec5cc4994ffd67b0b5d92ee735976e",
+      "sourceImage": "exec-7677d38b-3506-47b2-a609-3ef48f8719e1.png",
+      "sourceImageSha256": "4193a43519c3e131620b11791d2fe3fc3b11606e3fec8eb8691b0beea8932082",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Long empty corridor with analog clock, exit sign and far door"
+    },
+    "E_NORMAL": {
+      "assetId": "authored_E_NORMAL",
+      "file": "assets/final-rooms/authored_E_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "296e4aca50da887817d0074eadaab223d4e5d0b0ad003915ee7e0974155eb393",
+      "sourceImage": "exec-7081ef21-7678-47ad-bd54-26b4612ab911.png",
+      "sourceImageSha256": "fa1fa0c8c9d117798fec63764f12f4ebbac6a794afcbf847c9138ab1b198e580",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Diesel generator, analog load panel and fusebox"
+    },
+    "G_NORMAL": {
+      "assetId": "authored_G_NORMAL",
+      "file": "assets/final-rooms/authored_G_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "03bac7ce39a4a225092ab3490ceb62d5dd01519f355028144530451af99caa04",
+      "sourceImage": "exec-d7f17675-dadc-44fc-adc4-8d6afffcc2db.png",
+      "sourceImageSha256": "d6283b81a6ddd77ca6d3614300d3867012ba2bc1104a192d4791ccd277e2589a",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Laboratory with microscope, wave/spectrum instruments, sample jar and round wall lens"
+    },
+    "P_NORMAL": {
+      "assetId": "authored_P_NORMAL",
+      "file": "assets/final-rooms/authored_P_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "93da9611248b0aaae99bf730a2eeffdc795fcb8b75366d34338728fe61b988df",
+      "sourceImage": "exec-e646a6aa-1ed6-4186-ad63-afa4385d8b6a.png",
+      "sourceImageSha256": "0a550051e3bc9b09f3001f3b6118a8ecbfd6fc0d013bbc00fc87bb85bb24396b",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Lower observation chamber with dark still water and four-position control panel"
+    },
+    "O_NORMAL": {
+      "assetId": "authored_O_NORMAL",
+      "file": "assets/final-rooms/authored_O_NORMAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "529894883ec5c9e5010b467133358c01bb6840527fe16c615b5e07e21eb2d104",
+      "sourceImage": "exec-fce75fb0-e574-4854-8f0c-2eb2d78e2ddd.png",
+      "sourceImageSha256": "b40b227c28c533499989b3d06944c657054819e311e1549192f1c8735cdf5e50",
+      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Archive in 1978 with reel recorder, punched cards, calibration plate and typewriter"
+    },
+    "A_LATE": {
+      "assetId": "authored_A_LATE",
+      "file": "assets/final-rooms/authored_A_LATE.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "ad7527904bbdc7bfe14e1f7b2954b63f3cfb50b81802575e46af50685e61411f",
+      "sourceImage": "exec-7f0e0fda-5b0c-4d0f-9bed-c464af14af55.png",
+      "sourceImageSha256": "fb637a5aa9de521cfafdf3631d94240f6a0276856590e8902b5370622ea7e0c3",
+      "prompt": "Use case lighting-weather. Edit this exact 360 panorama, preserve 2:1, all geometry, furniture, two pillow dents, seamless wrap, material detail. Late chapter return to bedroom: deep polar night through the window, desk lamp has gone out, ceiling bulb dimmer, cold strip of wet floor leading toward empty washroom in the corridor. No person or new creature. Keep scene legible, restrained late-night dread, no UI or text."
+    },
+    "B_LATE": {
+      "assetId": "authored_B_LATE",
+      "file": "assets/final-rooms/authored_B_LATE.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "601c16845fa6dcc6be5a99cf43dd5efe71e9cd24d1543ac8ca42609ad128b07e",
+      "sourceImage": "exec-8ae4b041-81a5-4b96-9d08-f025bc492645.png",
+      "sourceImageSha256": "bd9108dddea869b3d1a2de93879e3cd99c219027849715b447a7124e90e04c63",
+      "prompt": "Use case lighting-weather. Edit exact 360 panorama, preserve geometry, camera, windows, mirror, table/chairs, all objects and 2:1 wrap. Late chapter kitchen: polar night through porthole, overhead lamps off except small kitchen task strip, two used empty plates with cutlery on table, cups cold and no steam. Sink remains damp. No ghosts/people, no added words, no UI. Keep dark detail readable, no architecture changes."
+    },
+    "I_COVERED_BODY": {
+      "assetId": "authored_I_COVERED_BODY",
+      "file": "assets/final-rooms/authored_I_COVERED_BODY.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "8b6ed9bf9130070566cc85dd5b95558d95f0044248bb6e600dcb5ce61e67e39f",
+      "sourceImage": "exec-902acab2-1579-4006-b5d1-42b907df8088.png",
+      "sourceImageSha256": "5aa23f06437904a24927c7e18cfda800a121c8c3f295ce49b6f30096a64c2568",
+      "prompt": "Use case precise-object-edit. Edit this exact 360 panorama, preserve all geometry and positions, 2:1 wrap. Change ONLY right-hand examination bed: pale olive hospital blanket now covers a human-sized supine shape with clearly visible head, shoulder, chest and feet silhouette under cloth, raised chest as if mid-breath. No exposed body, no gore. Keep left bed EMPTY, cabinets and instruments unchanged. Light slightly colder over right bed. No captions."
+    },
+    "I_EMPTY_BED": {
+      "assetId": "authored_I_EMPTY_BED",
+      "file": "assets/final-rooms/authored_I_EMPTY_BED.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "672c93ecbd7e8714705b3bc72f47e0ea4de7dcf8ba866202c7797d639c774c01",
+      "sourceImage": "exec-69838d51-64a0-47da-809a-f4fcd56f397e.png",
+      "sourceImageSha256": "52bce53b57d0e42d7f09020a11e2efc5889a7d51fe35da35469e10ff14456072",
+      "prompt": "Use case precise-object-edit. Edit exact 2:1 360 panorama. Preserve camera, room, positions, lighting, left bed. Remove ONLY the human shape from right bed: right bed is now EMPTY, pale mattress indented as if someone just left, olive blanket pulled off and crumpled at foot on right. The medical cabinet behind it is slightly ajar, interior dark and empty. No visible body, face or ghost. No new architecture, no text/UI. Same panorama transition."
+    },
+    "J_SAFE": {
+      "assetId": "authored_J_SAFE",
+      "file": "assets/final-rooms/authored_J_SAFE.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "df1105b95f0700071e9dc25a399af05fdb853bd8b96ff9b768f08dc28bd4f8fe",
+      "sourceImage": "exec-961f59dc-a06b-4962-a330-b4b09266ba1b.png",
+      "sourceImageSha256": "a1f0c9cd95b861bdfc26ab0ef1f1c76206bf42f4cc4d23b8096fc681a7e88521",
+      "prompt": "Use case precise-object-edit. Edit exact full 360 panorama, preserve everything and 2:1 wrap. Safe pressure state: center hatch is now open inward revealing a dim frost-rimmed small connecting space; red safety rail is folded aside, pressure needles balanced, warning lamp above center hatch is GREEN instead of red. No person in any doorway, no other alterations, no new windows, no captions."
+    },
+    "K_TOWER_EMPTY": {
+      "assetId": "authored_K_TOWER_EMPTY",
+      "file": "assets/final-rooms/authored_K_TOWER_EMPTY.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "c02f5fc587c6a02b13b3d4d70b78e0662bb9f0ebbf411a3a4aa4832c280cb898",
+      "sourceImage": "exec-1255847b-b27e-4fa3-b6d9-f22d90487d40.png",
+      "sourceImageSha256": "978e29631c98cfd22ea46c73f48aa8e92005e3116b6cd49a3cc56be54874303f",
+      "prompt": "Use case precise-object-edit. Exact 2:1 360 night yard panorama: keep geometry buildings snow cloud shapes and mast unchanged. Repair-completed state: obstruction lamp atop central radio mast is OFF, maintenance electrical cabinet in foreground-right is closed and tiny indicator green. Yard and mast platform completely EMPTY, no humanoid figure. Do not darken entire scene; only this light/equipment changes."
+    },
+    "L_SHUTTER_DANGER": {
+      "assetId": "authored_L_SHUTTER_DANGER",
+      "file": "assets/final-rooms/authored_L_SHUTTER_DANGER.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "e20a98d9dede875eda86f0a0c252fc4e03fb15b74283448ff5c683e4665236ca",
+      "sourceImage": "exec-b6ab072a-1453-4104-b558-481599ee4142.png",
+      "sourceImageSha256": "9d0585698f39f9475c44349f3f2c1f0519dd67b82cc3175e6cca3f436bd18a69",
+      "prompt": "Use case precise-object-edit. Exact 360 panorama 2:1, preserve every object position and viewpoint. Add ONE tall unnaturally still male-shaped silhouette OUTSIDE the MIDDLE observation window, a few metres away in the night snow. Faint old coat, lowered head, no visible face. Figure readable through frost but not a pasted sticker. The left and right windows have half-lowered steel shutters, middle shutter open. Warm lamps remain with slight red safety glow near shutter controls. No other people, no words, no architecture changes."
+    },
+    "M_DELAY_MONITOR": {
+      "assetId": "authored_M_DELAY_MONITOR",
+      "file": "assets/final-rooms/authored_M_DELAY_MONITOR.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "74a825fbb4135af1fa53b97ac962b7ff183b4f11d6255bcef2811441f8896c13",
+      "sourceImage": "exec-544ac0b7-fef1-46aa-aad7-f29d556d2fed.png",
+      "sourceImageSha256": "fbb60bcbbcd678b8aa028be56bd7afd3ab138745f009fd01eb79f036346eccd4",
+      "prompt": "Use case precise-object-edit. Keep this EXACT 2:1 full 360 room panorama, geometry, red lights and physical OPEN doorway on right completely unchanged. Change ONLY the small CRT screen on right desk: same operator in olive parka is now standing at the instrument desk with back to camera; in the CCTV image the door behind him is OPEN. Real room stays empty and its doorway stays OPEN. This is the earlier delayed frame before the operator independently closes the door. No other image changes, no text/UI."
+    },
+    "J_FALSE_BELOV": {
+      "assetId": "authored_J_FALSE_BELOV",
+      "file": "assets/final-rooms/authored_J_FALSE_BELOV.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "f02e9394b876e5cd20a56b5b5b285970f1fd36e886de8fc15e3fc4fcbacc3177",
+      "sourceImage": "exec-35e13769-7717-4f2a-ad06-8790b6d9b085.png",
+      "sourceImageSha256": "c31d96ea68108c11894b899b7ad87aea0870bf546a20e66453bc9044acedaf12",
+      "prompt": "Use case precise-object-edit. Edit exact full 360 airlock panorama. Preserve architecture, hatch, pressure controls and barrier. In the RIGHT-hand corridor doorway only, add an indistinct adult man in old olive polar parka, standing inside shadow at the far end, facing camera, face unreadable under frost and darkness. This is an unsettling false familiar figure, no gore or monster anatomy. Central hatch remains CLOSED with red warning lamp. Figure should feel physically lit in that corridor, not an overlay rectangle. No other changes."
+    },
+    "M_FINAL": {
+      "assetId": "authored_M_FINAL",
+      "file": "assets/final-rooms/authored_M_FINAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "74d1d0df063ca555c9b74553dd5f780884fb7e32e9ff45908fc4c50aa952f628",
+      "sourceImage": "exec-9462f5dc-7eeb-4f12-80b1-1f4147e41c10.png",
+      "sourceImageSha256": "bc2ecd55ef227c8b81e03b5f4a34278b98183d4e3c6a6b74454b57ce7413cd10",
+      "prompt": "Use case precise-object-edit. Preserve exact 2:1 full room panorama and all geometry and lighting. Change ONLY the small glowing CRT image on right desk: the same back-facing olive-parka operator on the CCTV has now walked to the doorway and is pulling it SHUT independently. In the REAL room the far-right hatch remains OPEN and the room empty. CCTV clearly has a closed door, physical room clearly open, uncanny mismatch. No extra screens, no real person outside monitor, no text."
+    },
+    "L_WINDOW_1978": {
+      "assetId": "authored_L_WINDOW_1978",
+      "file": "assets/final-rooms/authored_L_WINDOW_1978.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "1dc6ad929feaa996f0c9e599c0b230ee14cbeae35d4e517ea2b350b8556b8729",
+      "sourceImage": "exec-9dd42848-5287-4071-9c06-8a850b331fe2.png",
+      "sourceImageSha256": "e0a06578765fa40c00329b3b656fc306759ec026b281d7411af964f16b8229a4",
+      "prompt": "Use case precise-object-edit. Preserve exact full 360 panorama, all room architecture camera furniture lights and 2:1 wrap. Change ONLY view THROUGH MIDDLE of three observation windows: it now shows bright overcast DAYLIGHT, the same snow-covered station buildings younger and intact as in 1978, one old Soviet utility truck, no people. LEFT and RIGHT windows still show blue NIGHT. Daylight spills subtly from middle window onto sill. No silhouettes at glass, shutters all open, no text/UI."
+    },
+    "K_TOWER_SILHOUETTE": {
+      "assetId": "authored_K_TOWER_SILHOUETTE",
+      "file": "assets/final-rooms/authored_K_TOWER_SILHOUETTE.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "4b0cc1bfc6ddac782ecd6c7ed695129ce71056dc313b050132aaffe9012c1067",
+      "sourceImage": "exec-72186aaa-437d-4ac1-9254-cd337aed4776.png",
+      "sourceImageSha256": "8dd665ff53dedf901fa6e2a3c7694ef1b2956cab78d961964198c777a49f5048",
+      "prompt": "Use case precise-object-edit. Preserve exact 360 snowy night yard panorama, buildings, mast, snow, sky, camera and 2:1 wrap. Add one small but clear adult HUMAN SILHOUETTE standing completely still on maintenance platform halfway up central radio mast, at u=.50,v=.28. Dark polar coat, arms down, face unreadable; figure realistically scaled against ladder rungs, lit faintly by red obstruction lamp. No other people, no giant human, no pasted rectangular patch. All equipment and lighting unchanged."
+    },
+    "L_WINDOW_FUTURE": {
+      "assetId": "authored_L_WINDOW_FUTURE",
+      "file": "assets/final-rooms/authored_L_WINDOW_FUTURE.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "f58d1a751cd33d4349f0ca1609e7b73af85276b9fed227d38614cc8872c34e19",
+      "sourceImage": "exec-f5bd862c-66ae-478c-bee9-39bb0cd0908b.png",
+      "sourceImageSha256": "495f855157a0ee1101ebc6379feb0cd0aa556291d2bd702a6adc8f28a38dca3c",
+      "prompt": "Use case precise-object-edit. Preserve exact 360 panorama 2:1, architecture, camera, objects and light. LEFT observation window stays NIGHT; MIDDLE stays bright DAY with the old truck. Change ONLY RIGHT observation window: instead of snow outside, it now looks into THIS SAME GALLERY from outside time, where a back-facing operator in olive polar coat is walking past the windows, seen through glass. The real gallery remains empty. No second person, no new windows, no text/UI. Three distinct views remain confined to the three existing glass panes."
+    },
+    "L_COUNTER_NEAR": {
+      "assetId": "authored_L_COUNTER_NEAR",
+      "file": "assets/final-rooms/authored_L_COUNTER_NEAR.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "f5d6847db273d546f1141986d4b682671c7d6ef674098db099983d22cebb6eff",
+      "sourceImage": "exec-492baffd-97ab-4413-9a50-2533200f2243.png",
+      "sourceImageSha256": "4d265e2783c034d249cd7f2a643d03d4d8e37e46f77574908c4159169d507b0a",
+      "prompt": "Use case precise-object-edit. Exact same 360 panorama 2:1 and architecture and lighting. Bring the SAME single dark-coated figure in the MIDDLE window closer: now immediately outside glass, upper body filling much of that window, face obscured in shadow, two pale hands pressed against outside glass. Keep both flanking shutters half-lowered and everything else unchanged. No creature anatomy, no gore, no text. This is the next approaching beat of the same encounter, not a new room."
+    },
+    "L_COUNTER_RETREATED": {
+      "assetId": "authored_L_COUNTER_RETREATED",
+      "file": "assets/final-rooms/authored_L_COUNTER_RETREATED.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "4b283c220dd513827ba72093285ca299dc38d0b91fbd4d196a0b2470740d55ff",
+      "sourceImage": "exec-753d4db3-d235-4c0f-a380-21fb4a2a24b8.png",
+      "sourceImageSha256": "514191637007cd5d0c094443555f536926b83478495a1a44e3f6794f9826bac9",
+      "prompt": "Use case precise-object-edit. Edit exact full 360 panorama 2:1. Remove the single figure completely: nobody outside or inside. Raise both side shutters again. On MIDDLE window and a little on side panes leave many overlapping damp handprints at different heights, restrained pale condensation against the blue night snow. Keep all architecture camera light and equipment fixed. No red handprints, no blood, no captions. After successful shutter sequence, threat has withdrawn."
+    },
+    "E_FALSE_DIGITAL": {
+      "assetId": "authored_E_FALSE_DIGITAL",
+      "file": "assets/final-rooms/authored_E_FALSE_DIGITAL.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "0ed097c983adbef68dfa1074bfce368fc0783d490acc746ec1eb6ecd96ba1495",
+      "sourceImage": "exec-b5b5dabf-c0ce-486e-b243-8df60c12cad9.png",
+      "sourceImageSha256": "20836a9c8335f69e9ad7f07c4fb8673dcc1024501dc211ec5c48d9551bddf1a3",
+      "prompt": "Use case precise-object-edit. Preserve exact diesel-room 360 panorama 2:1, all machinery, geometry and lighting. Only the small digital readout on LEFT wall now displays several tiny standing HUMAN SILHOUETTES in dim green instead of digits, like anomalous pictograms inside its existing display glass. Nothing floats in room, no real people, no writing added. Keep believable instrument scale and all else unchanged."
+    },
+    "G_P17": {
+      "assetId": "authored_G_P17",
+      "file": "assets/final-rooms/authored_G_P17.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "d5d3bc30c8f7f105120ebe404bbe3ba7aac8fa2a908585d42519309beb7d449b",
+      "sourceImage": "exec-0240f034-15b1-46e0-895b-7ac3b4a2e870.png",
+      "sourceImageSha256": "4e02034aafbb1e32e78389e890c26c7488b97b7986bbda3866271359b065605b",
+      "prompt": "Use case precise-object-edit. Preserve exact 360 laboratory panorama, camera, 2:1 wrap and all furniture. Change ONLY central sealed sample jar on center workbench below round lens: inside clear liquid that remains unfrozen, a dark slender ice-core fragment hangs suspended vertically and casts a subtle cold turquoise glow. Condensation beads on jar. Keep room grounded, no magical effects outside jar, no people, no new captions/UI."
+    },
+    "G_MIRROR_DOOR": {
+      "assetId": "authored_G_MIRROR_DOOR",
+      "file": "assets/final-rooms/authored_G_MIRROR_DOOR.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "38e75804f44b21c020c0833f284fff1390cfcb30b4e5a8b194f89d10313ed5f5",
+      "sourceImage": "exec-8148bd8b-cf59-4f52-8e62-2bbbfbabecd7.png",
+      "sourceImageSha256": "5d492e67f3a5fe225b155f323e6123a7efe158ca340c56af45e1ffcf9db614ef",
+      "prompt": "Use case precise-object-edit. Preserve exact full 360 laboratory panorama 2:1 and every object. ONLY inside the existing round black wall lens at center, reveal a sharp reflection of a narrow OPEN DOOR with cold blue light beyond, a door that is NOT present on physical lab wall. Reflection fits circular glass with slight curvature. No human, no ghost, no actual new door outside lens, no overlay rectangle, no text. Central sample jar retains ordinary appearance."
+    },
+    "N_SIGN": {
+      "assetId": "authored_N_SIGN",
+      "file": "assets/final-rooms/authored_N_SIGN.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "0ccbff0b3ea0fa92b99902f54b066a6259dd2d96f113ef32999d690dad79db37",
+      "sourceImage": "exec-e8e5cd0d-2e06-45db-9779-4206fcda3c89.png",
+      "sourceImageSha256": "f67983df5b0d21bc3e1aa168b7e508b679392db014067dbbc8a039071371fd41",
+      "prompt": "Use case precise-object-edit. Preserve this exact 2:1 360 station corridor panorama, camera, geometry and all props. Change ONLY small green EXIT-direction sign over the left receding corridor: its arrow now points LEFT back toward the viewer's entrance instead of RIGHT toward exit, an unsettling wrong direction. Keep sign physical and modest-sized. No ghost or writing on floor, no overlay text/UI."
+    },
+    "N_HANDWRITING": {
+      "assetId": "authored_N_HANDWRITING",
+      "file": "assets/final-rooms/authored_N_HANDWRITING.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "8f7b0209dfe81d8b695d2d974399cdca09583c67e0ce053296f149d853a37cef",
+      "sourceImage": "exec-eac7ef31-d80f-4219-b4d8-a3c453a54fc9.png",
+      "sourceImageSha256": "6aaec55d6ab68149cb43fc118a90aea5d06874ab61b319d76bc9ad7ae96f3d8a",
+      "prompt": "Use case precise-object-edit. Preserve exact full 360 corridor panorama 2:1 and all geometry lighting and props. Add fresh dark wet handwritten signature-like strokes on the FLOOR in foreground just left of center (u=.44,v=.74), as if someone wrote a name with a finger in damp dust moments ago. Human handwriting, no legible new story sentence, subtle nearby damp handprint. No writing floating on walls, no person, no other alterations."
+    },
+    "N_LATE_EXIT": {
+      "assetId": "authored_N_LATE_EXIT",
+      "file": "assets/final-rooms/authored_N_LATE_EXIT.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "cbc1f43a88c3c63755e517476621f00ac921fc0699725f69be36352dd62dff3e",
+      "sourceImage": "exec-6d19cafb-6eb3-4b13-82b5-97729d1a5a4a.png",
+      "sourceImageSha256": "61cb20b6804fa3375a2e5ff849678b1c3f9427a2de4932d0a5c9c7da289770fc",
+      "prompt": "Use case precise-object-edit. Exact same 360 corridor panorama 2:1, keep every architectural detail and all lights fixed. Add ONE adult operator in an old olive polar coat standing inside the distant RIGHT-HAND doorway (u about .79,v=.51), facing toward viewer, still and faintly lit, face deeply shadowed. Scale him realistically against the far doorway. Nothing else changes; no jumpscare face, no gore, no overlay panel. Quiet late apparition at the exit."
+    },
+    "N_CLOCK": {
+      "assetId": "authored_N_CLOCK",
+      "file": "assets/final-rooms/authored_N_CLOCK.webp",
+      "width": 1774,
+      "height": 887,
+      "sha256": "6593540bb4ea83a33bc31cc8ce3766456b1612988081ef6615b23b5f450a8f43",
+      "sourceImage": "exec-db70e650-42cc-4d36-870c-95b2eb54074f.png",
+      "sourceImageSha256": "7d547ddb08f4a5311c177146f4bfc5a56929b248406b72c13e9e7a66784c0517",
+      "prompt": "Use case precise-object-edit. Preserve exact 360 panorama 2:1, room, camera, all geometry. Change ONLY the physical round wall clock on far-left: clock dial now has reversed number order, and faint displaced successive images of the second hand stepping COUNTERCLOCKWISE around the dial, an understated temporal anomaly confined to actual round clock glass. Do not add new clocks or labels, no person, no UI. Everything else unchanged."
+    }
+  }
+}

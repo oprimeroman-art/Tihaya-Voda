@@ -2,9 +2,18 @@ name: Synchronize adventure runtime
 
 on:
   workflow_dispatch:
+    inputs:
+      assemble_only:
+        description: 'Assemble game/editor and commit generated files without running test suites'
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
+      - 'production/final-scene-art.json'
+      - 'production/interaction-anchors.json'
+      - 'game-project/assets/final-rooms/**'
+      - 'codex-scripts/sync_final_scene_art.py'
       - 'studio/source/adventure-core.js'
       - 'studio/source/adventure-ui.js'
       - 'game-project/assets/variants/authored_*.webp'
@@ -55,6 +64,7 @@ concurrency:
 
 jobs:
   synchronize:
+    if: ${{ !inputs.assemble_only }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -100,6 +110,7 @@ jobs:
           python -m pip install --disable-pip-version-check numpy soundfile pillow
           python3 codex-scripts/apply_panorama_state_overlays.py
           python3 codex-scripts/sync_quiet_scene_art.py
+          python3 codex-scripts/sync_final_scene_art.py
           python3 studio/verification/room-variant-art.test.py
           python3 studio/verification/monitor-variant-art.test.py
           node studio/verification/campaign-story-graph.test.cjs
@@ -139,4 +150,24 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'build: synchronize adventure engine in game and editor'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+
+  assemble:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.assemble_only }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assemble existing engine, final graphics and editable source
+        run: |
+          python3 codex-scripts/sync_embedded_engine.py
+          python3 codex-scripts/sync_final_scene_art.py
+      - name: Commit assembled game and editor
+        run: |
+          git add game/index.html game-editor/index.html studio/index.html game-project/project.json studio/content/TIHAYA_VODA/adventure.json reports/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build: assemble final illustrated campaign and editor'
           git push origin "HEAD:$GITHUB_REF_NAME"

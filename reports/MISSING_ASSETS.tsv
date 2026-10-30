@@ -30,12 +30,12 @@ video	V12	found_footage	video/found_footage/v12.mp4	generated procedural found-f
 video	V01B	alternate_tape	video/found_footage/v01b.mp4	generated procedural found-footage clip; silent; not live-action
 panorama	A_NORMAL	room_variant	panoramas/A_NORMAL.webp	not supplied; labeled production placeholder
 panorama	A_SECOND_PILLOW	room_variant	assets/variants/authored_A_SECOND_PILLOW.webp	provided; authored approved-room edit
-panorama	A_LATE	room_variant	panoramas/A_LATE.webp	not supplied; labeled production placeholder
+panorama	A_LATE	room_variant	assets/final-rooms/authored_A_LATE.webp	provided; authored panorama
 panorama	B_NORMAL	room_variant	panoramas/B_NORMAL.webp	not supplied; labeled production placeholder
 panorama	B_SECOND_PLATE	room_variant	panoramas/B_SECOND_PLATE.webp	not supplied; labeled production placeholder
 panorama	B_GHOST_MIRROR	room_variant	panoramas/B_GHOST_MIRROR.webp	not supplied; labeled production placeholder
 panorama	B_TWO_GHOSTS	room_variant	panoramas/B_TWO_GHOSTS.webp	not supplied; labeled production placeholder
-panorama	B_LATE	room_variant	panoramas/B_LATE.webp	not supplied; labeled production placeholder
+panorama	B_LATE	room_variant	assets/final-rooms/authored_B_LATE.webp	provided; authored panorama
 panorama	C_NORMAL	room_variant	panoramas/C_NORMAL.webp	not supplied; labeled production placeholder
 panorama	C_MIRROR_LIGHT	room_variant	assets/variants/authored_C_MIRROR_LIGHT.webp	provided; authored approved-room edit
 panorama	C_HIDDEN_DOOR	room_variant	assets/variants/authored_C_HIDDEN_DOOR.webp	provided; authored approved-room edit
@@ -46,40 +46,40 @@ panorama	D_FALSE_MONITOR	room_variant	panoramas/D_FALSE_MONITOR.webp	not supplie
 panorama	D_DOUBLE_ACTS	room_variant	panoramas/D_DOUBLE_ACTS.webp	not supplied; labeled production placeholder
 panorama	D_LATE_MIRROR	room_variant	panoramas/D_LATE_MIRROR.webp	not supplied; labeled production placeholder
 panorama	D_INDOOR_TOWER	room_variant	panoramas/D_INDOOR_TOWER.webp	not supplied; labeled production placeholder
-panorama	E_NORMAL	room_variant	panoramas/E_NORMAL.webp	not supplied; labeled production placeholder
-panorama	E_FALSE_DIGITAL	room_variant	panoramas/E_FALSE_DIGITAL.webp	not supplied; labeled production placeholder
+panorama	E_NORMAL	room_variant	assets/final-rooms/authored_E_NORMAL.webp	provided; authored panorama
+panorama	E_FALSE_DIGITAL	room_variant	assets/final-rooms/authored_E_FALSE_DIGITAL.webp	provided; authored panorama
 panorama	F_NORMAL	room_variant	panoramas/F_NORMAL.webp	not supplied; labeled production placeholder
 panorama	F_ARCHIVE12	room_variant	panoramas/F_ARCHIVE12.webp	not supplied; labeled production placeholder
 panorama	F_SUIT_STANDING	room_variant	panoramas/F_SUIT_STANDING.webp	not supplied; labeled production placeholder
-panorama	G_NORMAL	room_variant	panoramas/G_NORMAL.webp	not supplied; labeled production placeholder
-panorama	G_P17	room_variant	panoramas/G_P17.webp	not supplied; labeled production placeholder
-panorama	G_MIRROR_DOOR	room_variant	panoramas/G_MIRROR_DOOR.webp	not supplied; labeled production placeholder
+panorama	G_NORMAL	room_variant	assets/final-rooms/authored_G_NORMAL.webp	provided; authored panorama
+panorama	G_P17	room_variant	assets/final-rooms/authored_G_P17.webp	provided; authored panorama
+panorama	G_MIRROR_DOOR	room_variant	assets/final-rooms/authored_G_MIRROR_DOOR.webp	provided; authored panorama
 panorama	H_NORMAL	room_variant	panoramas/H_NORMAL.webp	not supplied; labeled production placeholder
 panorama	H_AFTER_V01	room_variant	panoramas/H_AFTER_V01.webp	not supplied; labeled production placeholder
 panorama	H_ANNA_GLASS	room_variant	panoramas/H_ANNA_GLASS.webp	not supplied; labeled production placeholder
-panorama	H_1978	room_variant	panoramas/H_1978.webp	not supplied; labeled production placeholder
+panorama	H_1978	room_variant	assets/final-rooms/authored_O_NORMAL.webp	provided; authored panorama
 panorama	H_V01B	room_variant	panoramas/H_V01B.webp	not supplied; labeled production placeholder
-panorama	I_NORMAL	room_variant	panoramas/I_NORMAL.webp	not supplied; labeled production placeholder
-panorama	I_COVERED_BODY	room_variant	panoramas/I_COVERED_BODY.webp	not supplied; labeled production placeholder
-panorama	I_EMPTY_BED	room_variant	panoramas/I_EMPTY_BED.webp	not supplied; labeled production placeholder
-panorama	J_NORMAL	room_variant	panoramas/J_NORMAL.webp	not supplied; labeled production placeholder
-panorama	J_FALSE_BELOV	room_variant	panoramas/J_FALSE_BELOV.webp	not supplied; labeled production placeholder
-panorama	J_SAFE	room_variant	panoramas/J_SAFE.webp	not supplied; labeled production placeholder
-panorama	K_NORMAL	room_variant	panoramas/K_NORMAL.webp	not supplied; labeled production placeholder
-panorama	K_TOWER_SILHOUETTE	room_variant	panoramas/K_TOWER_SILHOUETTE.webp	not supplied; labeled production placeholder
-panorama	K_TOWER_EMPTY	room_variant	panoramas/K_TOWER_EMPTY.webp	not supplied; labeled production placeholder
-panorama	L_NORMAL	room_variant	panoramas/L_NORMAL.webp	not supplied; labeled production placeholder
-panorama	L_SHUTTER_DANGER	room_variant	panoramas/L_SHUTTER_DANGER.webp	not supplied; labeled production placeholder
-panorama	L_THREE_WINDOWS	room_variant	panoramas/L_THREE_WINDOWS.webp	not supplied; labeled production placeholder
-panorama	M_NORMAL	room_variant	panoramas/M_NORMAL.webp	not supplied; labeled production placeholder
-panorama	M_DELAY_MONITOR	room_variant	panoramas/M_DELAY_MONITOR.webp	not supplied; labeled production placeholder
-panorama	M_FINAL	room_variant	panoramas/M_FINAL.webp	not supplied; labeled production placeholder
-panorama	N_CLOCK	room_variant	panoramas/N_CLOCK.webp	not supplied; labeled production placeholder
-panorama	N_SIGN	room_variant	panoramas/N_SIGN.webp	not supplied; labeled production placeholder
-panorama	N_HANDWRITING	room_variant	panoramas/N_HANDWRITING.webp	not supplied; labeled production placeholder
-panorama	N_LATE_EXIT	room_variant	panoramas/N_LATE_EXIT.webp	not supplied; labeled production placeholder
-panorama	O_1978	room_variant	panoramas/O_1978.webp	not supplied; labeled production placeholder
-panorama	P_FINAL_PANEL	room_variant	panoramas/P_FINAL_PANEL.webp	not supplied; labeled production placeholder
+panorama	I_NORMAL	room_variant	assets/final-rooms/authored_I_NORMAL.webp	provided; authored panorama
+panorama	I_COVERED_BODY	room_variant	assets/final-rooms/authored_I_COVERED_BODY.webp	provided; authored panorama
+panorama	I_EMPTY_BED	room_variant	assets/final-rooms/authored_I_EMPTY_BED.webp	provided; authored panorama
+panorama	J_NORMAL	room_variant	assets/final-rooms/authored_J_NORMAL.webp	provided; authored panorama
+panorama	J_FALSE_BELOV	room_variant	assets/final-rooms/authored_J_FALSE_BELOV.webp	provided; authored panorama
+panorama	J_SAFE	room_variant	assets/final-rooms/authored_J_SAFE.webp	provided; authored panorama
+panorama	K_NORMAL	room_variant	assets/final-rooms/authored_K_NORMAL.webp	provided; authored panorama
+panorama	K_TOWER_SILHOUETTE	room_variant	assets/final-rooms/authored_K_TOWER_SILHOUETTE.webp	provided; authored panorama
+panorama	K_TOWER_EMPTY	room_variant	assets/final-rooms/authored_K_TOWER_EMPTY.webp	provided; authored panorama
+panorama	L_NORMAL	room_variant	assets/final-rooms/authored_L_NORMAL.webp	provided; authored panorama
+panorama	L_SHUTTER_DANGER	room_variant	assets/final-rooms/authored_L_SHUTTER_DANGER.webp	provided; authored panorama
+panorama	L_THREE_WINDOWS	room_variant	assets/final-rooms/authored_L_NORMAL.webp	provided; authored panorama
+panorama	M_NORMAL	room_variant	assets/final-rooms/authored_M_NORMAL.webp	provided; authored panorama
+panorama	M_DELAY_MONITOR	room_variant	assets/final-rooms/authored_M_DELAY_MONITOR.webp	provided; authored panorama
+panorama	M_FINAL	room_variant	assets/final-rooms/authored_M_FINAL.webp	provided; authored panorama
+panorama	N_CLOCK	room_variant	assets/final-rooms/authored_N_CLOCK.webp	provided; authored panorama
+panorama	N_SIGN	room_variant	assets/final-rooms/authored_N_SIGN.webp	provided; authored panorama
+panorama	N_HANDWRITING	room_variant	assets/final-rooms/authored_N_HANDWRITING.webp	provided; authored panorama
+panorama	N_LATE_EXIT	room_variant	assets/final-rooms/authored_N_LATE_EXIT.webp	provided; authored panorama
+panorama	O_1978	room_variant	assets/final-rooms/authored_O_NORMAL.webp	provided; authored panorama
+panorama	P_FINAL_PANEL	room_variant	assets/final-rooms/authored_P_NORMAL.webp	provided; authored panorama
 panorama	P_END_A	room_variant	panoramas/P_END_A.webp	not supplied; labeled production placeholder
 panorama	P_END_B	room_variant	panoramas/P_END_B.webp	not supplied; labeled production placeholder
 panorama	P_END_C	room_variant	panoramas/P_END_C.webp	not supplied; labeled production placeholder
@@ -88,3 +88,7 @@ video	ENDING_A	epilogue	video/ending_A.mp4	optional; can use editor cutscene
 video	ENDING_B	epilogue	video/ending_B.mp4	optional; can use editor cutscene
 video	ENDING_C	epilogue	video/ending_C.mp4	optional; can use editor cutscene
 video	ENDING_D	epilogue	video/ending_D.mp4	optional; can use editor cutscene
+panorama	L_COUNTER_NEAR	room_state	assets/final-rooms/authored_L_COUNTER_NEAR.webp	provided; authored panorama
+panorama	L_COUNTER_RETREATED	room_state	assets/final-rooms/authored_L_COUNTER_RETREATED.webp	provided; authored panorama
+panorama	L_WINDOW_1978	room_state	assets/final-rooms/authored_L_WINDOW_1978.webp	provided; authored panorama
+panorama	L_WINDOW_FUTURE	room_state	assets/final-rooms/authored_L_WINDOW_FUTURE.webp	provided; authored panorama

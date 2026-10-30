@@ -6,52 +6,7 @@
   "missingInventoryArt": [],
   "missingDocumentArt": [],
   "endingImages": 4,
-  "variantsWithoutAuthoredPanorama": [
-    {
-      "room": "A",
-      "variant": "A_LATE"
-    },
-    {
-      "room": "B",
-      "variant": "B_LATE"
-    },
-    {
-      "room": "I",
-      "variant": "I_COVERED_BODY"
-    },
-    {
-      "room": "I",
-      "variant": "I_EMPTY_BED"
-    },
-    {
-      "room": "J",
-      "variant": "J_SAFE"
-    },
-    {
-      "room": "K",
-      "variant": "K_TOWER_EMPTY"
-    },
-    {
-      "room": "L",
-      "variant": "L_SHUTTER_DANGER"
-    },
-    {
-      "room": "L",
-      "variant": "L_THREE_WINDOWS"
-    },
-    {
-      "room": "M",
-      "variant": "M_DELAY_MONITOR"
-    },
-    {
-      "room": "M",
-      "variant": "M_FINAL"
-    },
-    {
-      "room": "N",
-      "variant": "N_NORMAL"
-    }
-  ],
+  "variantsWithoutAuthoredPanorama": [],
   "objectsStillUsingSignArt": [
     {
       "room": "A",
@@ -568,5 +523,8 @@
   ],
   "technicalInteractionArtPlayerMode": "compact-screen-hotspots; sign textures retained only in editable project",
   "releaseReady": false,
-  "reason": "Unmatched room variants, provisional hotspot placement and human pacing review remain; automated routes do not certify final artistic quality."
+  "reason": "Room art, state bindings and final scene staging implemented. New playtests intentionally not run at author request. Original media preserved.",
+  "developmentArtComplete": true,
+  "authoredRoomCount": 16,
+  "newArtworkCount": 32
 }

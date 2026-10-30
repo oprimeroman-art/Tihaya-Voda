@@ -10,6 +10,10 @@ on:
       - studio/verification/publication-art.test.py
       - studio/verification/quiet-scene-art.test.py
       - studio/verification/quiet-staging.test.cjs
+      - production/final-scene-art.json
+      - production/interaction-anchors.json
+      - game-project/assets/final-rooms/**
+      - codex-scripts/sync_final_scene_art.py
       - studio/source/adventure-ui.js
       - game-project/assets/variants/authored_*.webp
       - production/quiet-scene-art.json
@@ -64,6 +68,7 @@ jobs:
           python3 codex-scripts/sync_standalone_document_art.py
           python3 codex-scripts/sync_quiet_scene_art.py
           python3 codex-scripts/sync_voice_assets.py
+          python3 codex-scripts/sync_final_scene_art.py
       - name: Reconstruct illustrated chapters, props and existing story
         run: python3 codex-scripts/build_pages_demo.py --output _site
       - name: Verify voice packaging and canonical mappings
