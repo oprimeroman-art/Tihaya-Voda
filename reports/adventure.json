@@ -966,6 +966,9 @@
           "set": {
             "install_fuse3": true
           }
+        },
+        {
+          "removeItem": "FUSE_3"
         }
       ]
     },
@@ -2105,6 +2108,12 @@
         },
         {
           "signal": "vhs_assembled"
+        },
+        {
+          "removeItem": "VHS_FRAGMENT_A"
+        },
+        {
+          "removeItem": "VHS_FRAGMENT_B"
         }
       ],
       "template": "sequence",
@@ -3192,6 +3201,9 @@
         },
         {
           "signal": "power_off_and_pin"
+        },
+        {
+          "removeItem": "SHUTTER_PIN"
         }
       ]
     },
