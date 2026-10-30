@@ -6,7 +6,7 @@ paths = [Path("game/index.html"), Path("studio/index.html")]
 if Path("_site/index.html").exists():
     paths.append(Path("_site/index.html"))
 checks = {
-    "Esc closes pause instead of opening an empty page": "if(k==='escape'){if(!sessionStarted)return;if(!sessionPaused){showSystem('pause');return;}if(systemPage==='pause'){closeSystem();return;}showSystem('pause');return;}",
+    "Esc closes pause instead of opening an empty page": "if(k==='escape'){if(!sessionStarted)return;e.preventDefault();if(!sessionPaused){showSystem('pause');return;}if(systemPage==='pause'){closeSystem();return;}showSystem('pause');return;}",
     "adventure saves are validated before load mutation": "async function loadGameSave(data){validateSave(data);",
     "missing adventure state is rejected": "if(!v.adventure)throw Error('В сохранении отсутствует состояние сценария.');validateAdventureSave(v.adventure);",
     "wrong adventure project is rejected": "v.project!==d.id",
