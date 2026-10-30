@@ -26,6 +26,7 @@ class Engine {
   const defaults=this.fresh(),state={...defaults,...copy(s)};
   state.flags={...defaults.flags,...copy(s.flags)};
   for(const key of ['inventory','documents','done','fired'])state[key]=Array.isArray(s[key])?copy(s[key]).filter(x=>typeof x==='string'):[];
+  const consumed=new Set(this.data.actions.filter(a=>state.done.includes(a.id)).flatMap(a=>(a.effects||[]).map(fx=>fx.removeItem).filter(Boolean)));state.inventory=state.inventory.filter(id=>!consumed.has(id));
   state.journal=Array.isArray(s.journal)?copy(s.journal):[];
   for(const key of ['visits','variants','errors','progress'])state[key]={...defaults[key],...(object(s[key])?copy(s[key]):{})};
   state.clock=Number.isFinite(s.clock)&&s.clock>=0?s.clock:0;
@@ -47,7 +48,7 @@ class Engine {
  actions(){return this.data.actions.filter(a=>this.eligible(a));}
  checkpoint(name){const snap=this.export();snap.checkpoint=null;this.state.checkpoint={name,state:snap};this.changed();}
  die(name){const old=this.state,cp=old.checkpoint;if(!cp)throw Error('Нет локального чекпоинта');this.state=copy(cp.state);this.state.checkpoint=cp;this.state.fired=[...new Set([...old.fired,...this.state.fired])];this.state.errors={...old.errors};this.state.journal=old.journal;this.state.pending=[...new Map([...this.state.pending,...old.pending].map(p=>[p.id,p])).values()].filter(p=>!this.state.fired.includes(p.id));this.state.flags.DEATHS=(old.flags.DEATHS||0)+1;this.modal=false;this.hooks.death?.(name);this.changed();}
- apply(fx=[]){for(const x of fx){if(x.set)Object.assign(this.state.flags,x.set);if(x.item&&!this.state.inventory.includes(x.item))this.state.inventory.push(x.item);if(x.document){if(!this.state.documents.includes(x.document))this.state.documents.push(x.document);this.state.flags['FOUND_'+x.document]=true;}
+ apply(fx=[]){for(const x of fx){if(x.set)Object.assign(this.state.flags,x.set);if(x.item&&!this.state.inventory.includes(x.item))this.state.inventory.push(x.item);if(x.removeItem)this.state.inventory=this.state.inventory.filter(id=>id!==x.removeItem);if(x.document){if(!this.state.documents.includes(x.document))this.state.documents.push(x.document);this.state.flags['FOUND_'+x.document]=true;}
  if(x.dialogue){const line=this.data.dialogues.find(l=>l.id===x.dialogue);if(line){this.state.journal.push({text:line.speaker,lines:[line]});this.hooks.line?.(line);}}if(x.variant)Object.assign(this.state.variants,x.variant);if(x.signal)this.signal(x.signal);if(x.checkpoint)this.checkpoint(x.checkpoint);if(x.room)this.enter(x.room,true);if(x.death)this.die(x.death);if(x.ending){this.finishScenes(x.ending);this.state.ended=x.ending;this.state.flags.ENDING=x.ending;this.state.flags.Q12_DONE=true;}}
  }
  finishScenes(ending){

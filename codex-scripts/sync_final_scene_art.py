@@ -11,6 +11,12 @@ def apply_final_art(game,root=ROOT):
     manifest=json.loads((root/'production/final-scene-art.json').read_text());entries=manifest['assets']
     anchors=json.loads((root/'production/interaction-anchors.json').read_text())
     story=game['story']['adventure'];rooms={r['id']:r for r in story['rooms']}
+    # Physical installations consume only their actual components; keys and recordings stay.
+    used={'install_fuse3':['FUSE_3'],'VHS_ASSEMBLE':['VHS_FRAGMENT_A','VHS_FRAGMENT_B'],'PIN_INSERT':['SHUTTER_PIN']}
+    for action in story['actions']:
+        for item in used.get(action['id'],[]):
+            fx={'removeItem':item}
+            if fx not in action.setdefault('effects',[]):action['effects'].append(fx)
     source=isinstance(game['assets'],list);assets={a['id']:a for a in game['assets']}if source else game['assets']
     for key,entry in entries.items():
         aid=entry['assetId'];blob=(root/'game-project'/entry['file']).read_bytes()

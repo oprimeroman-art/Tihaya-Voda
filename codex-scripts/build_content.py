@@ -49,7 +49,7 @@ item('STORAGE_KEY','A','Осмотреть кружку: ключ под дно�
 seq('TEA_SEQUENCE','B','Приготовить чай',1,['take_BADGE04'],['вода','нагрев','заварка','разлить'],'Синяя полоска: вода → нагрев → заварка → разлить.',[flag('TEA_DONE')],startSignal='inspect_kettle')
 choice('sign_shift','D','Форма приёма · 18.01.2026',1,['TEA_DONE'],[opt('OK','ЗАМЕЧАНИЙ НЕТ',[flag('SIGNED_SHIFT'),sig('signed_shift')])])
 item('FUSE_3','F','Открыть шкаф №3 ключом: предохранитель',1,['SIGNED_SHIFT',{'item':'STORAGE_KEY'}],[sig('take_fuse')])
-simple('install_fuse3','E','Установить предохранитель №3',1,[{'item':'FUSE_3'}])
+simple('install_fuse3','E','Установить предохранитель №3',1,[{'item':'FUSE_3'}],[{'removeItem':'FUSE_3'}])
 powerFields=[dict(label='Отопление · 4',options=['А','Б']),dict(label='Лаборатория · 3',options=['А','Б']),dict(label='Радио · 2',options=['А','Б'])]
 puzzle('POWER_BASIC','E','Распределить нагрузку',2,[],['А','Б','Б'],powerFields,'D28: на А — отопление 4; на Б — лаборатория 3 + радио 2. Предел каждой шины 5.',[sig('power_basic_done')],template='switches')
 puzzle('CORES_MARKING','G','Подписать три керна',2,['POWER_BASIC'],['840/A','877/B','899/C'],[dict(label=x,options=['840/A','877/B','899/C']) for x in ['P-14','P-15','P-16']],'Карточки: P-14 — 840 м / A; P-15 — 877 м / B; P-16 — 899 м / C.',[sig('cores_labeled')])
@@ -78,7 +78,7 @@ puzzle('AIRLOCK_EQUALIZE','J','Выровнять давление · КОНТР
 a=act('outer_door','J','Открыть НАРУЖНУЮ створку',7,['ANTENNA',{'not':'AIRLOCK_SAFE'}],[sig('open_outer_without_pressure'),{'death':'Шлюз: наружная створка открыта до контроля давления'}],text='D22: при голосе снаружи не меняйте порядок действий. Открытие без КОНТРОЛЯ смертельно.',confirm='Открыть наружную створку вопреки инструкции?');a['once']=False
 simple('inner_door','J','Открыть внутреннюю створку',7,['AIRLOCK_SAFE'],[flag('Q07_RETURN'),{'room':'C'},sig('return_from_airlock')])
 for id in ['VHS_FRAGMENT_A','VHS_FRAGMENT_B']:item(id,'H','Взять фрагмент кассеты '+id[-1],8)
-seq('VHS_ASSEMBLE','H','Склеить фрагменты плёнки',8,[{'item':'VHS_FRAGMENT_A'},{'item':'VHS_FRAGMENT_B'}],['КУХНЯ','ГАЛЕРЕЯ','РАДИО'],'D23: непрерывный гул — пищеблок → галерея → радио.',[sig('vhs_assembled')])
+seq('VHS_ASSEMBLE','H','Склеить фрагменты плёнки',8,[{'item':'VHS_FRAGMENT_A'},{'item':'VHS_FRAGMENT_B'}],['КУХНЯ','ГАЛЕРЕЯ','РАДИО'],'D23: непрерывный гул — пищеблок → галерея → радио.',[{'removeItem':'VHS_FRAGMENT_A'},{'removeItem':'VHS_FRAGMENT_B'},sig('vhs_assembled')])
 media('V02','H',8,['VHS_ASSEMBLE'],[sig('turn_off_vhs')])
 simple('wet_towel','C','Осмотреть мокрое полотенце',8,['WATCHED_V02'],[sig('exit_after_v02')])
 a=item('VHS_V03','H','Взять личную кассету для Оли',None,[],[]);a['when'].update(min=8)
@@ -107,7 +107,7 @@ choice('name_reply','D','Ответить Белову',11,['NODE_POWER_DONE','N
 simple('second_window','L','Посмотреть во второе окно',12,[],[flag('window_1978_seen'),sig('inspect_second_window')]);simple('third_window','L','Посмотреть в третье окно',12,[],[sig('inspect_third_window')])
 simple('POWER_OFF','M','Отключить внешний привод',12,['window_1978_seen'])
 item('SHUTTER_PIN','M','Взять стопорный штифт',12,['POWER_OFF'])
-simple('PIN_INSERT','M','Вставить механический стопор',12,['POWER_OFF',{'item':'SHUTTER_PIN'}],[sig('power_off_and_pin')])
+simple('PIN_INSERT','M','Вставить механический стопор',12,['POWER_OFF',{'item':'SHUTTER_PIN'}],[{'removeItem':'SHUTTER_PIN'},sig('power_off_and_pin')])
 simple('ANALOG_READINGS_OK','M','Сверить аналоговые стрелки',12,['PIN_INSERT'],[sig('inspect_monitor_still')])
 simple('OBSERVER_SELECT','M','Подтвердить назначенных наблюдателей',12,['ANALOG_READINGS_OK'])
 endfx=lambda mode:[sig('confirm_mode_'+mode),{'ending':mode}]
