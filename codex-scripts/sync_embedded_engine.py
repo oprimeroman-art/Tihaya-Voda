@@ -73,7 +73,9 @@ def synchronize(html):
         html = html.replace(apparition, apparition + cue_node, 1)
     if html.count('id="horror-cue"') != 1:
         raise ValueError("Duplicated timed horror overlay")
+    html = replace_between(html, RUNTIME, "function sourceImg(", "function unwrapped(", "function assetSource(") if "function assetSource(" not in html else replace_between(html, RUNTIME, "function assetSource(", "function unwrapped(")
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
+    html = replace_between(html, RUNTIME, "// Live 4-corner media surfaces", "function render(){")
     horror_start = "/* HORROR_VISUALS_BEGIN"
     state_start = "function adventureReflectState(){"
     variant_start = "function adventureApplyVariant(rid,variant){"

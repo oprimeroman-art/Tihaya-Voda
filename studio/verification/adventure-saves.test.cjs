@@ -12,7 +12,9 @@ for(const ending of ['A','B','C','D']){
  assert.equal(e.state.room,file.adventure.room,`${ending}: room retained`);
  assert.equal(e.state.chapter,file.adventure.chapter,`${ending}: chapter retained`);
  assert.deepEqual(e.state.done,file.adventure.done,`${ending}: completed quests retained`);
- assert.deepEqual(e.state.inventory,file.adventure.inventory,`${ending}: inventory retained`);
+ const consumed=new Set(story.actions.filter(a=>file.adventure.done.includes(a.id)).flatMap(a=>(a.effects||[]).map(fx=>fx.removeItem).filter(Boolean)));
+ assert.deepEqual(e.state.inventory,file.adventure.inventory.filter(id=>!consumed.has(id)),`${ending}: unused inventory retained, installed components migrated`);
+ for(const id of consumed)assert(!e.state.inventory.includes(id),`${ending}: consumed component ${id} stays installed`);
  assert.deepEqual(e.state.flags,file.adventure.flags,`${ending}: flags retained`);
  assert.deepEqual(e.state.variants,file.adventure.variants,`${ending}: variants retained`);
 }

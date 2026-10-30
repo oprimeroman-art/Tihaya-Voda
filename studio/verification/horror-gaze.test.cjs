@@ -58,5 +58,7 @@ const jRoom=story.rooms.find(r=>r.id==='J');const jProfile=jRoom.visualProfiles.
 delete restored.state.progress.seenApparitions['J:J_FALSE_BELOV'];ctx.roomId='J';restored.state.variants.J='J_FALSE_BELOV';gaze.paint();assert(gaze.active);assert.equal(figure.style.display,'block');
 for(let i=0;i<8;i++)gaze.paint(.15);assert.equal(restored.state.progress.seenApparitions['J:J_FALSE_BELOV'],true);assert.equal(figure.style.opacity,'0');
 jRoom.visualProfiles.J_FALSE_BELOV=jProfile;
-assert(runtime.includes('if(horrorGazeActive&&sessionStarted&&!sessionPaused)horrorPaint(dt);'));
+assert(runtime.includes('if(horrorGazeActive&&cameraAllowed())horrorPaint(dt);'));
+const cameraGate=runtime.slice(runtime.indexOf('function cameraAllowed(){'),runtime.indexOf('function cameraFrame('));
+assert(cameraGate.includes('!sessionPaused')&&cameraGate.includes('!adventurePlayer?.engine.modal'),'gaze and motion share the active unblocked camera gate');
 console.log('PASS: authored image gaze dismissal, no duplicate CSS figures, save persistence, independent rooms, legacy CSS fallback, pause/modal and calm intro');

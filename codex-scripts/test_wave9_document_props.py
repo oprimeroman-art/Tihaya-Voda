@@ -3,6 +3,7 @@
 import base64, hashlib, json, re
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from web_assets import hydrate_payload
 ROOT = Path(__file__).resolve().parents[1]
 expected = {
  "D27": ("read_D27", "D27_radio_transmission", "726764aec794f7fd5c80e134644c46fe879f8efba900790490f6f2476727d58e"),
@@ -13,6 +14,7 @@ def verify(path):
  html = path.read_text(encoding="utf-8")
  assert html.count("window.BUILT_GAME=") == 1, path
  payload, _ = json.JSONDecoder().raw_decode(html[html.index("window.BUILT_GAME=") + len("window.BUILT_GAME="):])
+ payload=hydrate_payload(payload,path.parent)
  adv = payload["story"]["adventure"]
  assert len(payload["rooms"]) == 16 and len(adv["events"]) == 112 and len(adv["documents"]) == 30
  art = adv["illustratedProps"]

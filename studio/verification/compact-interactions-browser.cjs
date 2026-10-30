@@ -1,7 +1,7 @@
 /* Actual player controls; no story flag/state writes. */
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'../..'),out=path.join(ROOT,'reports/compact-interactions');fs.mkdirSync(out,{recursive:true});
-(async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
 try{
  await p.goto(process.env.CAMPAIGN_GAME_URL||require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);await p.getByRole('button',{name:'Новая игра',exact:true}).click();
  async function drain(){for(let i=0;i<12;i++){await p.waitForTimeout(220);const b=p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await b.count())await b.click();else break;}}

@@ -7,12 +7,14 @@ import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+from web_assets import hydrate_payload
 ROOT = Path(__file__).resolve().parents[1]
 BUILT = ROOT / "_site/index.html"
 html = BUILT.read_text(encoding="utf-8")
 marker = "window.BUILT_GAME="
 assert html.count(marker) == 1
 payload, _ = json.JSONDecoder().raw_decode(html.split(marker, 1)[1])
+payload=hydrate_payload(payload,ROOT/'_site')
 adv = payload["story"]["adventure"]
 assert len(adv["events"]) == 112
 assert len(adv["rooms"]) == 16

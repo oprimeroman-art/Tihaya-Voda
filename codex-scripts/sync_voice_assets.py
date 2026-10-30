@@ -33,6 +33,9 @@ def main():
         start = html.index(MARKER)+len(MARKER)
         game, consumed = json.JSONDecoder().raw_decode(html[start:])
         if args.check:
+            if args.pages:
+                from web_assets import hydrate_payload
+                game=hydrate_payload(game,path.parent)
             assert game['story']['adventure']['voiceAssets'] == story['voiceAssets']
             assert all(game['audio'].get(id) == asset for id, asset in voices.items()), relative
             assert 'class VoiceQueue' in html and 'voice:id=>' in html, relative

@@ -10,7 +10,7 @@ SCENES={'E028':'G_P17','E030':'G_MIRROR_DOOR','E046':'K_TOWER_SILHOUETTE','E048'
 def apply_final_art(game,root=ROOT):
     manifest=json.loads((root/'production/final-scene-art.json').read_text());entries=manifest['assets']
     anchors=json.loads((root/'production/interaction-anchors.json').read_text())
-    story=game['story']['adventure'];rooms={r['id']:r for r in story['rooms']}
+    story=game['story']['adventure'];story['panoramaStaging']=json.loads((root/'production/panorama-staging.json').read_text());rooms={r['id']:r for r in story['rooms']}
     # Physical installations consume only their actual components; keys and recordings stay.
     used={'install_fuse3':['FUSE_3'],'VHS_ASSEMBLE':['VHS_FRAGMENT_A','VHS_FRAGMENT_B'],'PIN_INSERT':['SHUTTER_PIN']}
     for action in story['actions']:
@@ -27,8 +27,8 @@ def apply_final_art(game,root=ROOT):
     for rid,key in BASES.items():
         meta=rooms[rid];meta['approvedBaseArt']=True;meta.setdefault('variantAssets',{})[meta['default_variant']]=entries[key]['assetId']
         room=next(r for r in game['rooms']if r['id']==rid)
-        if rid in {'I','M','N'}:
-            room.setdefault('view',{}).update(yaw={'I':.95,'M':1.05,'N':-2.14}[rid],pitch=0,fov=72)
+        if rid in {'I','M','N','P'}:
+            room.setdefault('view',{}).update(yaw={'I':.95,'M':1.05,'N':-2.14,'P':1.9}[rid],pitch=0,fov=72)
         if source:room.update(file=entries[key]['file'],mime='image/webp',width=entries[key]['width'],height=entries[key]['height'])
         else:game['panoramas'][rid]=copy.deepcopy(assets[entries[key]['assetId']])
     # The old H_1978/V01B aliases showed unrelated ghost/after-VHS pictures.

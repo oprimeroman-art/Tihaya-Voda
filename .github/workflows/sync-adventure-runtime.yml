@@ -11,9 +11,11 @@ on:
     branches: [main]
     paths:
       - 'production/final-scene-art.json'
+      - 'production/panorama-staging.json'
       - 'production/interaction-anchors.json'
       - 'game-project/assets/final-rooms/**'
       - 'codex-scripts/sync_final_scene_art.py'
+      - 'codex-scripts/package_editable_project.py'
       - 'studio/source/adventure-core.js'
       - 'studio/source/adventure-ui.js'
       - 'game-project/assets/variants/authored_*.webp'
@@ -114,6 +116,7 @@ jobs:
           python3 studio/verification/room-variant-art.test.py
           python3 studio/verification/monitor-variant-art.test.py
           node studio/verification/campaign-story-graph.test.cjs
+          python3 codex-scripts/package_editable_project.py
           echo 'User supplies audio and video. Media generation is disabled.'
           python3 studio/verification/spatial-audio-pack.test.py
           video_validation_required=false
@@ -142,7 +145,7 @@ jobs:
           node studio/verification/horror-gaze.test.cjs
       - name: Commit generated HTML changes to the selected branch
         run: |
-          git add game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms/*.webp studio/index.html game/index.html game-editor/index.html game-project/project.json game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
+          git add game/source-project.zip game-project/rooms/*/approved_illustrated.webp game-project/assets/approved-rooms/*.webp studio/index.html game/index.html game-editor/index.html game-project/project.json game-project/assets/variants/*.webp studio/content/TIHAYA_VODA/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv reports/adventure.json
           if git diff --cached --quiet; then
             echo 'Game and editor HTML are up to date.'
             exit 0
@@ -163,9 +166,10 @@ jobs:
         run: |
           python3 codex-scripts/sync_embedded_engine.py
           python3 codex-scripts/sync_final_scene_art.py
+          python3 codex-scripts/package_editable_project.py
       - name: Commit assembled game and editor
         run: |
-          git add game/index.html game-editor/index.html studio/index.html game-project/project.json studio/content/TIHAYA_VODA/adventure.json reports/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv
+          git add game/source-project.zip game/index.html game-editor/index.html studio/index.html game-project/project.json studio/content/TIHAYA_VODA/adventure.json reports/adventure.json studio/content/PRODUCTION/09_ASSET_SLOTS.tsv reports/MISSING_ASSETS.tsv
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

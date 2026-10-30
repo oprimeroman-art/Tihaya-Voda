@@ -36,7 +36,7 @@ window.GagarinStory = (()=>{
   trace(level,text){this.opts.trace?.(level,text)}
   audioFile(id){return this.project?.audio?.[id]||this.project?.sounds?.[id]||null}
   createAudio(id,loop=false){const a=this.audioFile(id);if(!a){this.trace('warn','Звук «'+id+'» отсутствует. Загрузи его на вкладке «Сюжет».');return null;}let media;
-   try{media=new Audio('data:'+(a.mime||'audio/wav')+';base64,'+a.data);media.loop=loop;media.volume=clamp(Number(this.volume.value)/100,0,1)*(loop?this.musicRatio:1);this.knownAudio.push(media);}catch(e){this.trace('error','Ошибка аудио: '+e.message);return null;}return media;
+   try{media=new Audio(a.url||'data:'+(a.mime||'audio/wav')+';base64,'+a.data);media.loop=loop;media.volume=clamp(Number(this.volume.value)/100,0,1)*(loop?this.musicRatio:1);this.knownAudio.push(media);}catch(e){this.trace('error','Ошибка аудио: '+e.message);return null;}return media;
   }
   adjustVolumes(){for(const a of this.knownAudio){try{a.volume=clamp(Number(this.volume.value)/100,0,1)*(a.loop?this.musicRatio:1)}catch(_){}}}
   playAudio(id,loop=false){const a=this.createAudio(id,loop);if(!a)return;const task=a.play();if(task?.catch)task.catch(()=>this.trace('warn','Браузер не разрешил звук. Кликни внутри игры и повтори событие.'));

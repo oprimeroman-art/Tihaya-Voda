@@ -1,7 +1,7 @@
 /* Visual rendering checks only. Campaign progression is tested separately through UI. */
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'../..'),out=path.join(ROOT,'reports/asset-browser');fs.mkdirSync(out,{recursive:true});
-(async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.goto(require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);await p.getByRole('button',{name:'Новая игра',exact:true}).click();
  assert(!(await p.locator('.ga-variant').textContent()).includes('ОТСУТСТВУЕТ АССЕТ'),'approved base panorama must not be reported missing');
  const docs=await p.evaluate(()=>adventurePlayer.data.documents.map(d=>d.id));let illustrated=0;
