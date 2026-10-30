@@ -9,6 +9,8 @@ const final=`SHUTTERS name_reply second_window third_window POWER_OFF take_SHUTT
 let page,currentMode,checks=[],errors=[],actionCount=0;
 const state=()=>page.evaluate(()=>adventurePlayer.snapshot());
 async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.click({timeout:10000,noWaitAfter:true});}
+
+async function showPanel(kind){const button=page.locator('.ga-dock button[aria-controls$="-'+kind+'"]');await button.waitFor({state:'visible'});if(await button.getAttribute('aria-expanded')!=='true')await button.click({noWaitAfter:true});}
 async function drain(){for(let i=0;i<35;i++){
  await page.clock.runFor(200);
  const cont=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await cont.count()){const sceneId=await page.locator('.ga-dialog').getAttribute('data-event-id');if(sceneId==='E027')assert.equal(await page.locator('.ga-dialog img').count(),1,'pillow scene uses its real artwork');await cont.click({noWaitAfter:true});if(sceneId==='E100')await verifyDaylight();continue;}
@@ -33,9 +35,9 @@ async function sceneSafeClick(locator){for(let i=0;i<15;i++){try{await locator.c
 async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[s.room,[]]],seen=new Set(),route;
  while(queue.length){const[r,steps]=queue.shift();if(r===dest){route=steps;break;}if(seen.has(r))continue;seen.add(r);for(const l of story.links.filter(l=>l.from===r&&test(l.when,s)))queue.push([l.to,[...steps,l.to]]);}
  assert(route,`No route ${s.room} to ${dest}, chapter ${s.chapter}`);
- for(const r of route){await drain();await sceneSafeClick(page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}));await drain();}
+ for(const r of route){await drain();await showPanel('routes');await sceneSafeClick(page.locator('.ga-nav').getByRole('button',{name:'→ '+story.rooms.find(x=>x.id===r).name,exact:true}));await drain();}
 }
-async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await sceneSafeClick(page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}));await drain();
+async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await showPanel('objects');await sceneSafeClick(page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}));await drain();
  // Start-signal scenes may precede the instrument, which reopens after Continue.
  const box=page.locator('.ga-dialog');
  if(a.template==='document'){
@@ -65,9 +67,9 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
  let didReload=false;
  for(const id of common){await action(id,id==='false_act'?'NO':undefined);
   if(id==='plate_choice'&&mode==='A'){await go('A');for(let i=0;i<4&&!(await state()).fired.includes('E027');i++){await page.clock.runFor(66000);await drain();}assert((await state()).fired.includes('E027'),'pillow event reached through a real return visit');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');assert(await page.evaluate(()=>game.panoramas.A===game.assets.authored_A_SECOND_PILLOW));await go('C');await go('A');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');checks.push('A: second pillow dent appears on return and persists on revisiting');}
-  if(!didReload&&(await state()).chapter===6){const before=await state();await page.locator('.ga-nav').getByRole('button',{name:'Сохранить',exact:true}).click();await page.reload();await page.clock.runFor(1000);await button('Продолжить');await drain();const after=await state();for(const key of ['chapter','inventory','documents','done'])assert.deepEqual(after[key],before[key],key+' survives reload');didReload=true;checks.push(mode+': save/reload through player menu');}
+  if(!didReload&&(await state()).chapter===6){const before=await state();await showPanel('routes');await page.locator('.ga-nav').getByRole('button',{name:'Сохранить',exact:true}).click();await page.reload();await page.clock.runFor(1000);await button('Продолжить');await drain();const after=await state();for(const key of ['chapter','inventory','documents','done'])assert.deepEqual(after[key],before[key],key+' survives reload');didReload=true;checks.push(mode+': save/reload through player menu');}
  }
- await page.locator('.ga-actions').getByRole('button',{name:'Журнал и инвентарь',exact:true}).click();
+ await page.locator('.ga-dock').getByRole('button',{name:'Журнал',exact:true}).click();
  const actualInventory=(await state()).inventory;
  assert.equal(await page.locator('.ga-item').count(),actualInventory.length);
  assert.equal(await page.locator('.ga-item img').count(),actualInventory.length,'each acquired item has art');
