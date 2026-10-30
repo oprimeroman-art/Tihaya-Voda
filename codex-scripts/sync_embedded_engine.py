@@ -87,6 +87,13 @@ def synchronize(html):
     else:
         html = replace_between(html, RUNTIME, "function adventureSetup(){", boot_start, horror_start)
     html = replace_between(html, RUNTIME, "async function switchRoom(id,adventureSync=false){", "function varsChanged(){")
+    # Copy the complete input module, including its state and camera helpers.
+    input_marker = "/* PLAYER_INPUT_BEGIN"
+    old_input = input_marker if input_marker in html else "canvas.addEventListener('pointerdown'"
+    html = replace_between(html, RUNTIME, old_input, "/* Player session", input_marker)
+    html = replace_between(html, RUNTIME, "function drawMenu(){", "$('gs-load-file').addEventListener('change'")
+
+    html = replace_between(html, RUNTIME, "function saveGameLocal(){", "function resetGame(){")
     html = replace_between(html, RUNTIME, "function resetGame(){", "async function loadGameSave(data){")
     html = replace_between(html, RUNTIME, "function tick(ts){", "requestAnimationFrame(tick);boot();")
     html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
