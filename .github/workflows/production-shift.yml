@@ -35,6 +35,7 @@ jobs:
           python codex-scripts/sync_campaign_art.py
           python codex-scripts/sync_quiet_scene_art.py
           python codex-scripts/sync_voice_assets.py
+          python codex-scripts/sync_final_scene_art.py
           python studio/verification/voice-assets.test.py
           node studio/verification/voice-queue.test.cjs
       - name: Build and verify actual publication
