@@ -89,13 +89,14 @@
   "errors": [],
   "web": {
     "passed": true,
-    "menuResponseBytes": 806563,
-    "firstSceneResponseBytes": 1046199,
+    "menuResponseBytes": 806570,
+    "firstSceneResponseBytes": 1046206,
     "requests": 3,
     "assetRequests": 2,
+    "legacyAudioDecoded": true,
     "errors": []
   },
-  "initialHtmlBytes": 664001,
+  "initialHtmlBytes": 664008,
   "assetCount": 335,
   "mediaFileCount": 82,
   "mediaBaseCommit": "22392d8203cd72abf001588c6d49647066ffff00",

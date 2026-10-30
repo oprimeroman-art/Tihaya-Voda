@@ -38,6 +38,13 @@ def synchronize(html):
     # The UI is the final part of its script tag in both shipped HTML files.
     end = html.index("</script>", b)
     html = html[:a] + CORE.rstrip() + "\n\n" + UI.rstrip() + "\n" + html[end:]
+    # Keep the legacy story channel compatible with lazy web media too.
+    old_audio = "new Audio('data:'+(a.mime||'audio/wav')+';base64,'+a.data)"
+    new_audio = "new Audio(a.url||'data:'+(a.mime||'audio/wav')+';base64,'+a.data)"
+    if old_audio in html:
+        html = html.replace(old_audio, new_audio, 1)
+    if html.count(new_audio) != 1:
+        raise ValueError("Expected one legacy story audio loader")
     # The original offline exports predate the optional ambient visual layer.
     css_a, css_b = "/* HORROR_STYLE_BEGIN", "/* HORROR_STYLE_END */"
     css = RUNTIME[RUNTIME.index(css_a):RUNTIME.index(css_b)+len(css_b)]
