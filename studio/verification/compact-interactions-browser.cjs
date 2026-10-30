@@ -11,6 +11,7 @@ try{
  await p.evaluate(()=>{const o=current().objects.find(o=>o.tourKey==='ga:take_BADGE04'),c=centroid(o);yaw=(c.u-.5)*TAU;pitch=(.5-c.v)*Math.PI;refresh();});
  await marker.waitFor({state:'visible'});assert.equal(await marker.evaluate(e=>Math.round(e.getBoundingClientRect().width)),44);
  await marker.focus();assert(await marker.locator('span').isVisible(),'keyboard focus reveals label');await p.keyboard.press('Enter');assert(await p.locator('.ga-dialog').isVisible());
+ await p.getByRole('button',{name:'Меню / Esc',exact:true}).click();await p.keyboard.press('Tab');assert(await p.locator('#gs-system').evaluate(e=>e.contains(document.activeElement)),'pause menu owns keyboard focus while a document is open');await p.keyboard.press('Escape');await p.locator('.ga-dialog').waitFor({state:'visible'});
  await p.keyboard.press('Tab');assert(await p.locator('.ga-dialog').evaluate(e=>e.contains(document.activeElement)),'Tab enters modal controls');
  await p.locator('.ga-dialog button').last().focus();await p.keyboard.press('Tab');assert(await p.locator('.ga-dialog').evaluate(e=>document.activeElement===e.querySelector('button')),'Tab wraps inside dialog');
  await p.keyboard.press('Shift+Tab');assert(await p.locator('.ga-dialog').evaluate(e=>document.activeElement===[...e.querySelectorAll('button')].at(-1)),'Shift+Tab wraps inside dialog');
@@ -18,7 +19,7 @@ try{
  await marker.click();await p.locator('.ga-dialog').getByRole('button',{name:'Выполнить',exact:true}).click();await drain();assert((await p.evaluate(()=>adventurePlayer.snapshot())).inventory.includes('BADGE04'));assert.equal(await p.locator('.ga-hotspot[data-action-id="take_BADGE04"]').count(),0,'acquired object disappears');
  async function mapGo(name){await p.locator('.ga-nav').getByRole('button',{name:'Схема станции',exact:true}).click();await p.locator('.ga-dialog').getByRole('button',{name:'→ '+name,exact:true}).click();await drain();}
  await mapGo('Коридор');await p.locator('.ga-nav').getByRole('button',{name:'Схема станции',exact:true}).click();assert(await p.locator('.ga-dialog').getByRole('button',{name:'→ Архив',exact:true}).isDisabled(),'map respects archive key lock');await p.locator('.ga-dialog').getByRole('button',{name:'Закрыть',exact:true}).click();await mapGo('Кухня');
- assert.equal(await p.evaluate(()=>adventurePlayer.snapshot().room),'B');
+ await p.waitForFunction(()=>roomId==='B'&&cache.has('B'));assert.equal(await p.evaluate(()=>adventurePlayer.snapshot().room),'B');
  assert(await p.evaluate(()=>current().objects.filter(o=>o.visible&&adventureSign(o)).every(o=>o.states.every(id=>!cache.get(roomId).imgs[id]))),'technical signs are neither loaded nor composited');
  for(const size of [{width:1440,height:900},{width:800,height:700},{width:390,height:844},{width:844,height:390}]){
   await p.setViewportSize(size);await p.locator('.ga-actions').getByRole('button',{name:'Журнал и инвентарь',exact:true}).waitFor();
