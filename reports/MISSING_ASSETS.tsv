@@ -79,7 +79,7 @@ panorama	N_SIGN	room_variant	assets/final-rooms/authored_N_SIGN.webp	provided; a
 panorama	N_HANDWRITING	room_variant	assets/final-rooms/authored_N_HANDWRITING.webp	provided; authored panorama
 panorama	N_LATE_EXIT	room_variant	assets/final-rooms/authored_N_LATE_EXIT.webp	provided; authored panorama
 panorama	O_1978	room_variant	assets/final-rooms/authored_O_NORMAL.webp	provided; authored panorama
-panorama	P_FINAL_PANEL	room_variant	assets/final-rooms/authored_P_NORMAL.webp	provided; authored panorama
+panorama	P_FINAL_PANEL	room_variant	assets/final-rooms/authored_P_NORMAL_v2.webp	provided; authored panorama
 panorama	P_END_A	room_variant	panoramas/P_END_A.webp	not supplied; labeled production placeholder
 panorama	P_END_B	room_variant	panoramas/P_END_B.webp	not supplied; labeled production placeholder
 panorama	P_END_C	room_variant	panoramas/P_END_C.webp	not supplied; labeled production placeholder

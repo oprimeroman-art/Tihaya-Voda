@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 """Regression checks for the authored first-act and lab room-state composites."""
-import base64, importlib.util, json
+import base64, hashlib, json
 from pathlib import Path
 from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
-script = ROOT / "codex-scripts/apply_panorama_state_overlays.py"
-spec = importlib.util.spec_from_file_location("state_overlay_builder", script)
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
-module.generate_story_state_overlays()
+final_art = json.loads((ROOT / 'production/final-scene-art.json').read_text())['assets']
 expected = {
     "D_D_FALSE_MONITOR.webp": (567, 409, 621, 451),
     "D_D_LATE_MIRROR.webp": (1132, 409, 1202, 451),
@@ -59,19 +55,34 @@ assert editor_html.count(marker) == 1, "expected one editor payload"
 epos = editor_html.index(marker) + len(marker)
 editor_game, _ = json.JSONDecoder().raw_decode(editor_html[epos:].lstrip())
 for state, room_id, asset_id in (("C_MIRROR_LIGHT", "C", "composite_c_mirror_light"), ("F_ARCHIVE12", "F", "composite_f_archive12"), ("H_AFTER_V01", "H", "composite_h_after_v01"), ("D_FALSE_MONITOR", "D", "composite_d_false_monitor"), ("D_LATE_MIRROR", "D", "composite_d_late_mirror"), ("B_TWO_GHOSTS", "B", "composite_b_two_ghosts"), ("D_DOUBLE_ACTS", "D", "composite_d_double_acts"), ("H_ANNA_GLASS", "H", "composite_h_anna_glass"), ("G_P17", "G", "composite_g_p17"), ("G_MIRROR_DOOR", "G", "composite_g_mirror_door"), ("C_HIDDEN_DOOR", "C", "composite_c_hidden_door"), ("C_REVERSED_SNOW", "C", "composite_c_reversed_snow"), ("E_FALSE_DIGITAL", "E", "composite_e_false_digital"), ("F_SUIT_STANDING", "F", "composite_f_suit_standing"), ("J_FALSE_BELOV", "J", "composite_j_false_belov"), ("K_TOWER_SILHOUETTE", "K", "composite_k_tower_silhouette"), ("D_INDOOR_TOWER", "D", "composite_d_indoor_tower"), ("N_CLOCK", "N", "composite_n_clock"), ("N_SIGN", "N", "composite_n_sign"), ("N_HANDWRITING", "N", "composite_n_handwriting"), ("N_LATE_EXIT", "N", "composite_n_late_exit")):
-    if room_id == "C":asset_id = next(r for r in adventure["rooms"] if r["id"]==room_id)["variantAssets"][state]
-    composite = ROOT / "game-project/assets/variants" / f"{asset_id}.webp"
-    assert composite.is_file(), f"missing playable composite: {composite.name}"
-    image = Image.open(composite)
-    assert image.size == ((1774,887) if asset_id.startswith("authored_C_") else (2048,1024)), f"wrong composite dimensions: {state}"
+    # The live clock hands are drawn over the calm corridor, not a baked hand trail.
+    if state == 'N_CLOCK':
+        assert adventure['panoramaStaging']['N_CLOCK']['kind'] == 'clock'
+        authored = final_art['N_NORMAL']
+    else:
+        authored = final_art.get(state)
+    if authored:
+        asset_id = authored['assetId']
+        relative = authored['file']
+        dimensions = (authored['width'], authored['height'])
+    else:
+        if room_id == "C": asset_id = next(r for r in adventure["rooms"] if r["id"] == room_id)["variantAssets"][state]
+        relative = f"assets/variants/{asset_id}.webp"
+        dimensions = (1774,887) if asset_id.startswith("authored_C_") else (2048,1024)
+    composite = ROOT / "game-project" / relative
+    assert composite.is_file(), f"missing playable state: {composite.name}"
+    with Image.open(composite) as image:
+        assert image.size == dimensions, f"wrong state dimensions: {state}"
+        image.verify()
     raw = composite.read_bytes()
+    if authored: assert hashlib.sha256(raw).hexdigest() == authored["sha256"], f"authored state hash mismatch: {state}"
     encoded = base64.b64encode(raw).decode("ascii")
     assert game.get("assets", {}).get(asset_id, {}).get("data") == encoded, f"standalone payload mismatch: {state}"
     assert editor_game.get("assets", {}).get(asset_id, {}).get("data") == encoded, f"editor payload mismatch: {state}"
     for room_list in (adventure["rooms"], project["story"]["adventure"]["rooms"], game["story"]["adventure"]["rooms"], editor_game["story"]["adventure"]["rooms"]):
         room = next(r for r in room_list if r["id"] == room_id)
         assert room.get("variantAssets", {}).get(state) == asset_id, f"variant not wired in {room_id}: {state}"
-    assert any(a.get("id") == asset_id and a.get("file") == f"assets/variants/{asset_id}.webp" for a in project["assets"]), f"editable asset missing: {state}"
+    assert any(a.get("id") == asset_id and a.get("file") == relative for a in project["assets"]), f"editable asset missing: {state}"
 for label, story in (("canonical", adventure), ("editable", project["story"]["adventure"]), ("standalone", game["story"]["adventure"]), ("editor", editor_game["story"]["adventure"])):
     action = next(a for a in story["actions"] if a["id"] == "hidden_enter")
     assert any(fx.get("variant", {}).get("C") == "C_HIDDEN_DOOR" for fx in action.get("effects", [])), f"hidden-door transition mismatch in {label} payload"

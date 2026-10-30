@@ -2,6 +2,7 @@
 """Regression guard for the chapter-4 kitchen ghost-mirror panorama."""
 import base64,hashlib,json
 from pathlib import Path
+from web_assets import hydrate_payload
 ROOT=Path(__file__).resolve().parents[1]
 EXPECTED={
  "B_SECOND_PLATE": ("illustrated_B_SECOND_PLATE", "f0640b11eb5af34e4659320750b89984655d73b0051476674d16abf8a7fba4a9", "E018", "cooked"),
@@ -11,6 +12,7 @@ def verify(path):
  html=path.read_text(encoding="utf-8")
  assert html.count("window.BUILT_GAME=")==1,path
  game,_=json.JSONDecoder().raw_decode(html[html.index("window.BUILT_GAME=")+len("window.BUILT_GAME="):])
+ game=hydrate_payload(game,path.parent)
  story=game["story"]["adventure"]
  assert len(game["rooms"])>=16 and len(story["events"])==112 and len(story["documents"])==30
  room=next(r for r in story["rooms"] if r["id"]=="B")

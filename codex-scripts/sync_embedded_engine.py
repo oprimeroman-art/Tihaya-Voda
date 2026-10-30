@@ -38,6 +38,13 @@ def synchronize(html):
     # The UI is the final part of its script tag in both shipped HTML files.
     end = html.index("</script>", b)
     html = html[:a] + CORE.rstrip() + "\n\n" + UI.rstrip() + "\n" + html[end:]
+    # Keep the legacy story channel compatible with lazy web media too.
+    old_audio = "new Audio('data:'+(a.mime||'audio/wav')+';base64,'+a.data)"
+    new_audio = "new Audio(a.url||'data:'+(a.mime||'audio/wav')+';base64,'+a.data)"
+    if old_audio in html:
+        html = html.replace(old_audio, new_audio, 1)
+    if html.count(new_audio) != 1:
+        raise ValueError("Expected one legacy story audio loader")
     # The original offline exports predate the optional ambient visual layer.
     css_a, css_b = "/* HORROR_STYLE_BEGIN", "/* HORROR_STYLE_END */"
     css = RUNTIME[RUNTIME.index(css_a):RUNTIME.index(css_b)+len(css_b)]
@@ -73,7 +80,9 @@ def synchronize(html):
         html = html.replace(apparition, apparition + cue_node, 1)
     if html.count('id="horror-cue"') != 1:
         raise ValueError("Duplicated timed horror overlay")
+    html = replace_between(html, RUNTIME, "function sourceImg(", "function unwrapped(", "function assetSource(") if "function assetSource(" not in html else replace_between(html, RUNTIME, "function assetSource(", "function unwrapped(")
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
+    html = replace_between(html, RUNTIME, "// Live 4-corner media surfaces", "function render(){")
     horror_start = "/* HORROR_VISUALS_BEGIN"
     state_start = "function adventureReflectState(){"
     variant_start = "function adventureApplyVariant(rid,variant){"
@@ -101,10 +110,10 @@ def synchronize(html):
     html = replace_between(html, RUNTIME, "function objectAt(x,y){", "function project(p){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     # Pause-control layout is part of the runtime contract, including old exports.
-    quick_css = re.search(r"#gs-quick\{[^}]*\}", RUNTIME)
-    if quick_css is None or len(re.findall(r"#gs-quick\{[^}]*\}", html)) != 1:
+    quick_css = re.search(r"(?m)^#gs-quick\{[^}]*\}", RUNTIME)
+    if quick_css is None or len(re.findall(r"(?m)^#gs-quick\{[^}]*\}", html)) != 1:
         raise ValueError("Expected one pause-control style rule")
-    html = re.sub(r"#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
+    html = re.sub(r"(?m)^#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
     html = replace_between(html, RUNTIME, "function setAudio(){", "function saveSoundPreferences(){")
     html = replace_between(html, RUNTIME, "function closeSystem(){", "function showSystem(page){")
     html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")

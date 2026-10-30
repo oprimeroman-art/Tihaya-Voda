@@ -1,7 +1,7 @@
 /* Actual player controls; no story flag/state writes. */
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'../..'),out=path.join(ROOT,'reports/compact-interactions');fs.mkdirSync(out,{recursive:true});
-(async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
 try{
  await p.goto(process.env.CAMPAIGN_GAME_URL||require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);await p.getByRole('button',{name:'Новая игра',exact:true}).click();
  async function drain(){for(let i=0;i<12;i++){await p.waitForTimeout(220);const b=p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await b.count())await b.click();else break;}}
@@ -11,7 +11,7 @@ try{
  await p.evaluate(()=>{const o=current().objects.find(o=>o.tourKey==='ga:take_BADGE04'),c=centroid(o);yaw=(c.u-.5)*TAU;pitch=(.5-c.v)*Math.PI;refresh();});
  await marker.waitFor({state:'visible'});assert.equal(await marker.evaluate(e=>Math.round(e.getBoundingClientRect().width)),44);
  await marker.focus();assert(await marker.locator('span').isVisible(),'keyboard focus reveals label');await p.keyboard.press('Enter');assert(await p.locator('.ga-dialog').isVisible());
- await p.getByRole('button',{name:'Меню / Esc',exact:true}).click();await p.keyboard.press('Tab');assert(await p.locator('#gs-system').evaluate(e=>e.contains(document.activeElement)),'pause menu owns keyboard focus while a document is open');await p.keyboard.press('Escape');await p.locator('.ga-dialog').waitFor({state:'visible'});
+ for(let attempt=0;attempt<3;attempt++){await p.getByRole('button',{name:'Меню / Esc',exact:true}).click();await p.keyboard.press('Tab');assert(await p.locator('#gs-system').evaluate(e=>e.contains(document.activeElement)),'pause menu owns keyboard focus while a document is open');await p.keyboard.press('Escape');await p.locator('.ga-dialog').waitFor({state:'visible'});await p.keyboard.press('Tab');await p.waitForTimeout(40);assert(await p.locator('.ga-dialog').evaluate(e=>e.contains(document.activeElement)),'pause return keeps focus in the open dialog');}
  await p.keyboard.press('Tab');assert(await p.locator('.ga-dialog').evaluate(e=>e.contains(document.activeElement)),'Tab enters modal controls');
  await p.locator('.ga-dialog button').last().focus();await p.keyboard.press('Tab');assert(await p.locator('.ga-dialog').evaluate(e=>document.activeElement===e.querySelector('button')),'Tab wraps inside dialog');
  await p.keyboard.press('Shift+Tab');assert(await p.locator('.ga-dialog').evaluate(e=>document.activeElement===[...e.querySelectorAll('button')].at(-1)),'Shift+Tab wraps inside dialog');

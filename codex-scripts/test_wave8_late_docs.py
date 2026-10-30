@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64, hashlib, json
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from web_assets import hydrate_payload
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
     "D24": ("read_D24", "A", 11, "D24_personal_page", "73e3270565a720c81a1f5a7382eac6783739eeee6bc828fe42da1acecd7d3953"),
@@ -14,6 +15,7 @@ html = (ROOT / "_site/index.html").read_text(encoding="utf-8")
 marker = "window.BUILT_GAME="
 assert html.count(marker) == 1
 payload, _ = json.JSONDecoder().raw_decode(html[html.index(marker) + len(marker):])
+payload=hydrate_payload(payload,ROOT/'_site')
 adv = payload["story"]["adventure"]
 assert len(payload["rooms"]) == 16 and len(adv["events"]) == 112 and len(adv["documents"]) == 30
 art = adv["illustratedProps"]

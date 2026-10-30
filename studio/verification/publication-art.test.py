@@ -1,10 +1,13 @@
 """The public builder must preserve the complete canon, not just the early art waves."""
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'codex-scripts'))
+from web_assets import hydrate_payload
 ROOT=Path(__file__).resolve().parents[2]
 canonical=json.loads((ROOT/'game-project/project.json').read_text())['story']['adventure']
 html=(ROOT/'_site/index.html').read_text()
-published,_=json.JSONDecoder().raw_decode(html.split('window.BUILT_GAME=',1)[1]);story=published['story']['adventure']
+published,_=json.JSONDecoder().raw_decode(html.split('window.BUILT_GAME=',1)[1]);published=hydrate_payload(published,ROOT/'_site');story=published['story']['adventure']
 assert story['documents']==canonical['documents']
 for doc in canonical['documents']:
     id=doc['id'];expected=canonical['illustratedProps']['document'][id]

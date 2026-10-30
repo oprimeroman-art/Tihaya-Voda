@@ -11,9 +11,12 @@ on:
       - studio/verification/quiet-scene-art.test.py
       - studio/verification/quiet-staging.test.cjs
       - production/final-scene-art.json
+      - production/panorama-staging.json
       - production/interaction-anchors.json
       - game-project/assets/final-rooms/**
       - codex-scripts/sync_final_scene_art.py
+      - studio/source/game-runtime.html
+      - studio/source/story-core.js
       - studio/source/adventure-ui.js
       - game-project/assets/variants/authored_*.webp
       - production/quiet-scene-art.json
@@ -46,6 +49,9 @@ on:
       - codex-scripts/generate_kitchen_ghost_art.py
       - codex-scripts/test_wave10_kitchen_state.py
       - codex-scripts/test_wave7_puzzle_docs.py
+      - codex-scripts/web_assets.py
+      - studio/verification/web-assets.test.py
+      - studio/verification/final-panorama-art.test.py
       - codex-scripts/build_pages_demo.py
       - .github/workflows/pages-demo.yml
   workflow_dispatch:
@@ -76,6 +82,8 @@ jobs:
           python3 -m pip install --quiet pillow
           python3 studio/verification/quiet-scene-art.test.py
           python3 studio/verification/publication-art.test.py
+          python3 studio/verification/final-panorama-art.test.py
+          python3 studio/verification/web-assets.test.py
           node studio/verification/quiet-staging.test.cjs
           python3 studio/verification/voice-assets.test.py
           node studio/verification/voice-queue.test.cjs
@@ -90,9 +98,13 @@ jobs:
           assert 'KITCHEN_QA_PREVIEW_BEGIN' not in s
           assert s.count('"mime":"image/webp"')>=6
           assert 'noindex,nofollow,noarchive' in s
-          assert len(s.encode('utf-8'))>2_500_000
+          import json
+          manifest=json.loads(Path('_site/web-assets.json').read_text())
+          assert len(s.encode('utf-8'))<2_500_000
+          assert manifest['assetCount']>100 and manifest['assetBytes']>10_000_000
+          assert 'web-assets/' in s and 'assetSource(' in s
           assert 'ga-document-art' in s and 'illustratedProps' in s
-          assert 'data:image/webp;base64,' in s
+          assert Path('_site/web-assets').is_dir()
           print('PASS six illustrated rooms, canonical prop art, narrative ghosts, no Blender')
           PY
       - name: Verify canonical medical props in built game

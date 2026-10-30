@@ -109,6 +109,8 @@ def main():
     html,count=QA_RE.subn("",html)
     if "KITCHEN_QA_PREVIEW_BEGIN" in html:
         raise ValueError("Leftover temporary 3D art preview injection")
+    from web_assets import externalize_payload
+    payload,web_manifest=externalize_payload(payload,args.output)
     html=html[:start]+json.dumps(payload,ensure_ascii=False,separators=(",",":"))+html[start+end:]
     html=decorate_game_ui(html)
     html=html.replace("</head>",'<meta name="robots" content="noindex,nofollow,noarchive"></head>',1)
@@ -120,6 +122,8 @@ def main():
     dest.mkdir(parents=True,exist_ok=True)
     (dest/"index.html").write_text(html,encoding="utf-8")
     (dest/"robots.txt").write_text("User-agent: *\nDisallow: /\n",encoding="ascii")
+    web_manifest['initialHtmlBytes']=len(html.encode('utf-8'))
+    (dest/'web-assets.json').write_text(json.dumps(web_manifest,ensure_ascii=False,indent=2)+'\n')
     # Source only from the game, not the whole private repository.
     print("PUBLISHED",dest/"index.html","bytes",len(html.encode("utf-8")),
           "approved_rooms",applied,"panoramas",len(payload["panoramas"]))

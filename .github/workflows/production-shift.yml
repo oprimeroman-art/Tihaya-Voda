@@ -2,7 +2,7 @@ name: Production shift alpha QA
 on:
   push:
     branches: [work/stable-alpha-2026-10-27, work/stable-layout-2026-10-27, work/issue8-voice-2026-10-28, work/visual-states-2026-10-28, work/publication-art-2026-10-28, work/compact-interactions-2026-10-30]
-    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**', 'game-project/audio/voice-alpha/**', 'game-project/assets/variants/authored_*.webp', 'production/quiet-scene-art.json', 'game-project/project.json', 'studio/content/TIHAYA_VODA/adventure.json']
+    paths: ['studio/source/**', 'studio/verification/**', 'codex-scripts/**', '.github/workflows/**', 'game-project/audio/voice-alpha/**', 'game-project/assets/variants/authored_*.webp', 'production/quiet-scene-art.json', 'production/panorama-staging.json', 'production/final-scene-art.json', 'production/interaction-anchors.json', 'game-project/assets/final-rooms/**', 'game-project/project.json', 'studio/content/TIHAYA_VODA/adventure.json']
   workflow_dispatch:
 permissions:
   contents: read
@@ -46,6 +46,8 @@ jobs:
           python studio/verification/player-runtime-regressions.py
           python studio/verification/quiet-scene-art.test.py
           python studio/verification/publication-art.test.py
+          python studio/verification/final-panorama-art.test.py
+          python studio/verification/web-assets.test.py
           node studio/verification/quiet-staging.test.cjs
           python codex-scripts/test_wave5_medical.py
           python codex-scripts/test_wave6_stockroom.py
@@ -77,15 +79,15 @@ jobs:
         env:
           CAMPAIGN_UI_HARNESS: '0'
         run: node studio/verification/campaign-browser.test.cjs
+      - name: Verify lazy web delivery and earned panorama/ending presentation
+        if: ${{ !contains(github.event.head_commit.message, '[visual-only]') }}
+        run: |
+          node studio/verification/with-player-server.cjs _site studio/verification/web-loading-browser.cjs
+          node studio/verification/with-player-server.cjs _site studio/verification/plan-presentation-browser.cjs
+          node studio/verification/with-player-server.cjs _site studio/verification/ending-layout-browser.cjs
       - name: Rebuild editable project without changing media
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          from zipfile import ZipFile, ZIP_DEFLATED
-          with ZipFile('game/source-project.zip','w',ZIP_DEFLATED) as z:
-              for p in Path('game-project').rglob('*'):
-                  if p.is_file(): z.write(p,p.relative_to('game-project'))
-          PY
+          python codex-scripts/package_editable_project.py
           sha256sum -c /tmp/media-before.sha256
       - name: Verify editor imports and exports the same campaign
         run: node studio/verification/campaign-editor-browser.cjs
@@ -106,4 +108,7 @@ jobs:
             reports/campaign-browser/
             reports/editor-browser/
             reports/voice-browser/
+            reports/web-loading/
+            reports/plan-presentation/
+            reports/ending-layout/
           retention-days: 30

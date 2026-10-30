@@ -24,7 +24,8 @@ vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureAppl
  assert.equal(roomId,'A');
  ctx.applyVariant('A','A_MIRROR');
  assert.equal(ctx.game.panoramas.A,specialA);
- assert.equal(ctx.cache.has('A'),false,'stale panorama cache must be invalidated');
+ assert.equal(ctx.cache.get('A').texture,oldTexture,'last ready image remains available while the replacement decodes');
+ assert.deepEqual(loaded,[['prepare','A']],'visible variant prepares replacement without discarding the current image');
  await Promise.resolve();
  assert.equal(draws,1,'visible room redraws once');
  assert.equal(yaw,1.234,'camera viewpoint is unchanged');
@@ -40,10 +41,10 @@ vm.createContext(ctx);vm.runInContext(callback+';this.applyVariant=adventureAppl
  const window={GagarinAdventure:{}};
  vm.runInNewContext(ui,{window,document:{},console});
  const calls=[];
- const uiMock={endingShown:true,close(){calls.push('close')},engine:{normalize(s){calls.push('normalize:'+s.room);return s},load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
+ const uiMock={endingShown:true,clearNotice(){calls.push('notice')},close(){calls.push('close')},engine:{normalize(s){calls.push('normalize:'+s.room);return s},load(s){calls.push('load:'+s.room)}},root:{hidden:true},sync(){calls.push('sync')}};
  window.GagarinAdventure.UI.prototype.load.call(uiMock,{room:'B'});
  assert.equal(uiMock.root.hidden,false);
- assert.deepEqual(calls,['normalize:B','close','load:B','sync']);
+ assert.deepEqual(calls,['normalize:B','notice','close','load:B','sync']);
  const reflectionSource=runtime.slice(runtime.indexOf('function adventureReflectState(){'),runtime.indexOf(begin));
  const currentObj={tourKey:'ga:work',visible:false};
  const staleObj={tourKey:'ga:future',visible:true};

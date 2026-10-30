@@ -84,13 +84,14 @@
     },
     "P_NORMAL": {
       "assetId": "authored_P_NORMAL",
-      "file": "assets/final-rooms/authored_P_NORMAL.webp",
+      "file": "assets/final-rooms/authored_P_NORMAL_v2.webp",
       "width": 1774,
       "height": 887,
-      "sha256": "93da9611248b0aaae99bf730a2eeffdc795fcb8b75366d34338728fe61b988df",
-      "sourceImage": "exec-e646a6aa-1ed6-4186-ad63-afa4385d8b6a.png",
-      "sourceImageSha256": "0a550051e3bc9b09f3001f3b6118a8ecbfd6fc0d013bbc00fc87bb85bb24396b",
-      "prompt": "360 degree equirectangular panorama, 2:1; technical layout as geometry reference, approved Arctic room as style; realistic painted Soviet station, practical lights, worn metal, no HUD or floating signs. Lower observation chamber with dark still water and four-position control panel"
+      "sha256": "167e3129160de907d3b27ccf1d1d8fb8da5d1a86969eac8ffefe61583532b7fd",
+      "sourceImage": "exec-6036837b-7337-4bc0-9135-e7fbfb1ab0a1.png",
+      "sourceImageSha256": "c715d8fbdadf3ee9d0a80873263ca1ddfe82486d0affc3a7e2f205ebb815cacb",
+      "prompt": "Final lower chamber, circular open shaft with dark water, right four-position selector console. Match M_NORMAL station materials and amber light. Empty room, 2:1 equirectangular panorama, no UI or text.",
+      "recoveryNote": "Recreated to replace a zero-byte committed P_NORMAL file; original empty path retained."
     },
     "O_NORMAL": {
       "assetId": "authored_O_NORMAL",
