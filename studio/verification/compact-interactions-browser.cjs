@@ -26,4 +26,4 @@ try{
   assert(!await p.locator('.ga-variant').isVisible(),'internal state IDs hidden');await p.screenshot({path:path.join(out,'kitchen-'+size.width+'x'+size.height+'.png')});
  }
  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,checks:['real hotspot acquisition and disappearance','modal focus containment and restoration','map travel and plot lock','technical signs skipped','four viewport layouts'],errors},null,2));console.log('PASS compact player interactions, map, focus and four viewports');
-}finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});
+}catch(e){await p.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});throw e;}finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});
