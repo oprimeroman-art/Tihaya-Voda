@@ -103,10 +103,10 @@ def synchronize(html):
     html = replace_between(html, RUNTIME, "function objectAt(x,y){", "function project(p){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     # Pause-control layout is part of the runtime contract, including old exports.
-    quick_css = re.search(r"#gs-quick\{[^}]*\}", RUNTIME)
-    if quick_css is None or len(re.findall(r"#gs-quick\{[^}]*\}", html)) != 1:
+    quick_css = re.search(r"(?m)^#gs-quick\{[^}]*\}", RUNTIME)
+    if quick_css is None or len(re.findall(r"(?m)^#gs-quick\{[^}]*\}", html)) != 1:
         raise ValueError("Expected one pause-control style rule")
-    html = re.sub(r"#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
+    html = re.sub(r"(?m)^#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
     html = replace_between(html, RUNTIME, "function setAudio(){", "function saveSoundPreferences(){")
     html = replace_between(html, RUNTIME, "function closeSystem(){", "function showSystem(page){")
     html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")

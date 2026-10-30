@@ -79,6 +79,12 @@ jobs:
         env:
           CAMPAIGN_UI_HARNESS: '0'
         run: node studio/verification/campaign-browser.test.cjs
+      - name: Verify lazy web delivery and earned panorama/ending presentation
+        if: ${{ !contains(github.event.head_commit.message, '[visual-only]') }}
+        run: |
+          node studio/verification/with-player-server.cjs _site studio/verification/web-loading-browser.cjs
+          node studio/verification/with-player-server.cjs _site studio/verification/plan-presentation-browser.cjs
+          node studio/verification/with-player-server.cjs _site studio/verification/ending-layout-browser.cjs
       - name: Rebuild editable project without changing media
         run: |
           python codex-scripts/package_editable_project.py
@@ -102,4 +108,7 @@ jobs:
             reports/campaign-browser/
             reports/editor-browser/
             reports/voice-browser/
+            reports/web-loading/
+            reports/plan-presentation/
+            reports/ending-layout/
           retention-days: 30
