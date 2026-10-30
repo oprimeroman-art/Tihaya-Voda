@@ -4,8 +4,8 @@ const ROOT=path.resolve(__dirname,'../..'),out=path.join(ROOT,'reports/compact-i
 (async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
 try{
  await p.goto(process.env.CAMPAIGN_GAME_URL||require('node:url').pathToFileURL(path.join(ROOT,'game/index.html')).href);await p.getByRole('button',{name:'Новая игра',exact:true}).click();
- async function drain(){for(let i=0;i<12;i++){const b=p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await b.count())await b.click();else break;}}
- await drain();
+ async function drain(){for(let i=0;i<12;i++){await p.waitForTimeout(220);const b=p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(await b.count())await b.click();else break;}}
+ await p.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true}).waitFor();await drain();
  const marker=p.locator('.ga-hotspot[data-action-id="take_BADGE04"]');
  // Point the actual view at the marker; this changes only the camera, never story state.
  await p.evaluate(()=>{const o=current().objects.find(o=>o.tourKey==='ga:take_BADGE04'),c=centroid(o);yaw=(c.u-.5)*TAU;pitch=(.5-c.v)*Math.PI;refresh();});
