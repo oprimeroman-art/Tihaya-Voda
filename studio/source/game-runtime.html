@@ -304,7 +304,7 @@ function adventureMarkers(){
  if(layer.dataset.key!==key){layer.replaceChildren();layer.dataset.key=key;for(const o of objects){const id=o.tourKey.slice(3),b=ui.button(layer,'',()=>{if(!sessionPaused&&!ui.dialog&&roomId===ui.engine.state.room)ui.openAction(id);});b.className='ga-hotspot';b.dataset.objectId=o.id;b.dataset.actionId=id;b.setAttribute('aria-label','Осмотреть: '+o.name);const label=document.createElement('span');label.textContent=o.name;b.append(label);}}
  const placed=[];for(const b of layer.children){const o=objects.find(o=>o.id===b.dataset.objectId),p=o&&project(centroid(o));b.hidden=!p||p.x<22||p.x>innerWidth-22||p.y<22||p.y>innerHeight-62;if(b.hidden)continue;
   const candidates=[[0,0],[0,48],[0,-48],[48,0],[-48,0],[48,48],[-48,-48]],point=candidates.map(([x,y])=>({x:p.x+x,y:p.y+y})).find(q=>q.x>=22&&q.x<=innerWidth-22&&q.y>=22&&q.y<=innerHeight-62&&placed.every(v=>Math.hypot(v.x-q.x,v.y-q.y)>=44));
-  if(!point){b.hidden=true;continue;}placed.push(point);b.style.left=point.x+'px';b.style.top=point.y+'px';
+  if(!point){b.hidden=true;continue;}placed.push(point);b.style.left=point.x+'px';b.style.top=point.y+'px';b.dataset.labelSide=point.y<120?'below':'above';const half=Math.min(210,innerWidth*.45)/2;b.style.setProperty('--label-offset',(Math.min(innerWidth-12-half,Math.max(12+half,point.x))-point.x)+'px');
  }
 }
 function adventureReflectState(){
