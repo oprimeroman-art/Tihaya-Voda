@@ -15,6 +15,15 @@ function test(c,s){
  if(c.variant&&s.variants[s.room]!==c.variant)return false;
  return true;
 }
+// Only player-entered controls are saved here; answers and plot flags are not inferred.
+function cleanActionInput(action,values){
+ if(!action?.answer||!Array.isArray(values))return [];
+ if(action.template==='sequence'||action.template==='order'){
+  const selected=values.slice(0,Math.max(0,action.answer.length-1));
+  return selected.every((v,i)=>(typeof v==='string'||typeof v==='number'&&Number.isFinite(v))&&action.buttons?.some(token=>String(token)===String(v))&&String(v)===String(action.answer[i]))?selected:[];
+ }
+ return (action.fields||[]).map((field,i)=>{const value=values[i];if(value===undefined||value===null||String(value).trim()==='')return '';if(field.options)return field.options.includes(String(value))?String(value):'';const number=Number(value);if(!Number.isFinite(number)||field.min!==undefined&&number<field.min||field.max!==undefined&&number>field.max)return '';return String(number);});
+}
 class Engine {
  constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.reset();}
  fresh(){const state={version:1,project:this.data.id,chapter:1,room:this.data.startRoom,flags:copy(this.data.initial||{}),inventory:[],documents:[],done:[],fired:[],pending:[],journal:[],visits:{},variants:{},errors:{},progress:{},clock:0,lastOptional:-65,ended:false,checkpoint:null};for(const r of this.data.rooms)state.variants[r.id]=r.default_variant;return state;}
@@ -29,6 +38,7 @@ class Engine {
   const consumed=new Set(this.data.actions.filter(a=>state.done.includes(a.id)).flatMap(a=>(a.effects||[]).map(fx=>fx.removeItem).filter(Boolean)));state.inventory=state.inventory.filter(id=>!consumed.has(id));
   state.journal=Array.isArray(s.journal)?copy(s.journal):[];
   for(const key of ['visits','variants','errors','progress'])state[key]={...defaults[key],...(object(s[key])?copy(s[key]):{})};
+  const inputs=object(state.progress.inputs)?state.progress.inputs:{},cleaned={};for(const action of this.data.actions){if(state.done.includes(action.id)&&action.once)continue;const input=cleanActionInput(action,inputs[action.id]);if(input.some(value=>value!==''))cleaned[action.id]=input;}if(Object.keys(cleaned).length)state.progress.inputs=cleaned;else delete state.progress.inputs;
   state.clock=Number.isFinite(s.clock)&&s.clock>=0?s.clock:0;
   state.lastOptional=Number.isFinite(s.lastOptional)?s.lastOptional:-65;
   const ids=new Set(this.data.events.map(e=>e.id)),pendingIds=new Set();
@@ -46,6 +56,8 @@ class Engine {
  changed(){this.hooks.change?.(this.state);}
  eligible(a){return !this.state.ended&&(!a.room||a.room===this.state.room)&&test(a.when,this.state)&&(!a.once||!this.state.done.includes(a.id));}
  actions(){return this.data.actions.filter(a=>this.eligible(a));}
+ actionInput(id,values){const action=this.data.actions.find(a=>a.id===id);if(!action||!this.eligible(action)||!action.answer)return [];if(arguments.length===1)return cleanActionInput(action,this.state.progress.inputs?.[id]);const input=cleanActionInput(action,values);if(input.some(value=>value!=='')){this.state.progress.inputs=this.state.progress.inputs||{};this.state.progress.inputs[id]=input;}else if(this.state.progress.inputs){delete this.state.progress.inputs[id];if(!Object.keys(this.state.progress.inputs).length)delete this.state.progress.inputs;}this.hooks.progress?.(this.state);return copy(input);}
+ clearActionInput(id){if(this.state.progress.inputs){delete this.state.progress.inputs[id];if(!Object.keys(this.state.progress.inputs).length)delete this.state.progress.inputs;}}
  checkpoint(name){const snap=this.export();snap.checkpoint=null;this.state.checkpoint={name,state:snap};this.changed();}
  die(name){const old=this.state,cp=old.checkpoint;if(!cp)throw Error('Нет локального чекпоинта');this.state=copy(cp.state);this.state.checkpoint=cp;this.state.fired=[...new Set([...old.fired,...this.state.fired])];this.state.errors={...old.errors};this.state.journal=old.journal;this.state.pending=[...new Map([...this.state.pending,...old.pending].map(p=>[p.id,p])).values()].filter(p=>!this.state.fired.includes(p.id));this.state.flags.DEATHS=(old.flags.DEATHS||0)+1;this.modal=false;this.hooks.death?.(name);this.changed();}
  apply(fx=[]){for(const x of fx){if(x.set)Object.assign(this.state.flags,x.set);if(x.item&&!this.state.inventory.includes(x.item))this.state.inventory.push(x.item);if(x.removeItem)this.state.inventory=this.state.inventory.filter(id=>id!==x.removeItem);if(x.document){if(!this.state.documents.includes(x.document))this.state.documents.push(x.document);this.state.flags['FOUND_'+x.document]=true;}
@@ -81,7 +93,7 @@ class Engine {
  if(a.template==='choice'||a.template==='sequence_choice'){const opt=a.options.find(x=>String(x.value)===String(value));if(!opt||!test(opt.when,this.state))return {ok:false,message:opt?.locked||'Нет условий для этого режима'};fx=[...fx,...(opt.effects||[])];}
  else if(a.answer){const want=a.answer,got=Array.isArray(value)?value:[value];ok=want.length===got.length&&want.every((v,i)=>typeof v==='number'?Number.isFinite(Number(got[i]))&&Math.abs(Number(got[i])-v)<=(a.tolerance?.[i]||0):String(v)===String(got[i]));}
  if(!ok){this.state.errors[id]=(this.state.errors[id]||0)+1;this.apply(a.failureEffects);if(a.deathAfter&&this.state.errors[id]%a.deathAfter===0){this.apply(a.deathEffects);this.die(a.deathName||a.label);return {ok:false,death:true,message:'Возврат к началу узла. Выполненная работа сохранена.'};}this.changed();return {ok:false,message:this.state.errors[id]>=2?a.hint:(a.error||'Показания не совпали. Проверьте инструкцию.')};}
- this.modal=false;if(fx.some(x=>x.ending))this.checkpoint('before_final_confirmation');if(!this.state.done.includes(id))this.state.done.push(id);this.apply(fx);if(a.signal)this.signal(a.signal);this.advance();this.changed();return {ok:true};
+ this.clearActionInput(id);this.modal=false;if(fx.some(x=>x.ending))this.checkpoint('before_final_confirmation');if(!this.state.done.includes(id))this.state.done.push(id);this.apply(fx);if(a.signal)this.signal(a.signal);this.advance();this.changed();return {ok:true};
  }
 }
 root.GagarinAdventure={Engine,test,copy};if(typeof module!=='undefined')module.exports=root.GagarinAdventure;

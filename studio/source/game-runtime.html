@@ -353,7 +353,7 @@ function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanorama
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
  staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{const meta=game.story.adventure.rooms.find(r=>r.id===roomId),variant=adventurePlayer?.engine.state.variants[roomId];const a=game.assets?.[e.sceneArt]||game.assets?.[meta?.variantAssets?.[variant]]||game.panoramas?.[roomId];return a?'data:'+a.mime+';base64,'+a.data:null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted||!!switchRoom.loading||!!switchRoom.failed,save:()=>saveProgress(true),newGame:()=>resetGame(),
- change:()=>{adventureReflectState();scheduleGameSave();},
+ change:()=>{adventureReflectState();scheduleGameSave();},progress:()=>scheduleGameSave(),
  voice:id=>{const a=game.audio?.[id];return a?{url:'data:'+a.mime+';base64,'+a.data}:null;},volume:()=>audioSettings.master/100,
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:bytesBase64(a.data,a.mime)}:null;}});
  const torchToggle=$('toggle');if(torchToggle){torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';torchToggle.style.left='auto';torchToggle.style.bottom='auto';torchToggle.style.width='auto';torchToggle.style.maxWidth='calc(100vw - 28px)';torchToggle.style.zIndex='8';document.body.append(torchToggle);}
