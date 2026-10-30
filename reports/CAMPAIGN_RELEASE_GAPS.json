@@ -566,6 +566,7 @@
       "object": "obj_FINAL_PANEL"
     }
   ],
+  "technicalInteractionArtPlayerMode": "compact-screen-hotspots; sign textures retained only in editable project",
   "releaseReady": false,
-  "reason": "Remaining sign-art interactions and unmatched room variants still require production review; automated routes do not certify final artistic quality."
+  "reason": "Unmatched room variants, provisional hotspot placement and human pacing review remain; automated routes do not certify final artistic quality."
 }

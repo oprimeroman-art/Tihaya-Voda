@@ -90,6 +90,8 @@ def synchronize(html):
     html = replace_between(html, RUNTIME, "function resetGame(){", "async function loadGameSave(data){")
     html = replace_between(html, RUNTIME, "function tick(ts){", "requestAnimationFrame(tick);boot();")
     html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
+    html = replace_between(html, RUNTIME, "function composite(r){", "function initGL(){")
+    html = replace_between(html, RUNTIME, "function objectAt(x,y){", "function project(p){")
     html = replace_between(html, RUNTIME, "async function loadGameSave(data){", "function setAudio(){")
     # Pause-control layout is part of the runtime contract, including old exports.
     quick_css = re.search(r"#gs-quick\{[^}]*\}", RUNTIME)
