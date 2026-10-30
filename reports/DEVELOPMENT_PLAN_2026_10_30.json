@@ -225,5 +225,13 @@
       "four viewport layouts"
     ],
     "errors": []
+  },
+  "controlledDaylightReplay": {
+    "passed": true,
+    "uiActions": 60,
+    "checks": [
+      "A: actual three-second daylight, pause, stable save and restoration",
+      "B: actual three-second daylight, pause, stable save and restoration"
+    ]
   }
 }
