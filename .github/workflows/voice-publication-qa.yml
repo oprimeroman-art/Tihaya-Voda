@@ -30,6 +30,10 @@ jobs:
         env:
           VOICE_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
         run: node studio/verification/voice-browser.test.cjs
+      - name: Verify compact controls in the deployed game
+        env:
+          CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
+        run: node studio/verification/compact-interactions-browser.cjs
       - name: Play all four routes in the actually deployed game
         env:
           CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
@@ -40,6 +44,7 @@ jobs:
         with:
           name: Tihaya-Voda-published-voice-QA
           path: |
+            reports/compact-interactions/
             reports/voice-browser/
             reports/campaign-browser/
           if-no-files-found: ignore

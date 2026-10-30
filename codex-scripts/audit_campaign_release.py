@@ -18,6 +18,7 @@ audit={'chapters':len(d['quests']),'rooms':len(d['rooms']),'actions':len(d['acti
  'inventoryArt':len(d.get('inventoryArt',{})),'missingInventoryArt':items,'missingDocumentArt':docs,
  'endingImages':sum(bool(e.get('image'))for e in d['endings'].values()),
  'variantsWithoutAuthoredPanorama':variants,'objectsStillUsingSignArt':signs,
- 'releaseReady':False,'reason':'Remaining sign-art interactions and unmatched room variants still require production review; automated routes do not certify final artistic quality.'}
+ 'technicalInteractionArtPlayerMode':'compact-screen-hotspots; sign textures retained only in editable project',
+ 'releaseReady':False,'reason':'Unmatched room variants, provisional hotspot placement and human pacing review remain; automated routes do not certify final artistic quality.'}
 (ROOT/'reports/CAMPAIGN_RELEASE_GAPS.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({k:v for k,v in audit.items() if k not in ['objectsStillUsingSignArt','variantsWithoutAuthoredPanorama']}));print('Unmatched variants:',len(variants),'sign-art objects:',len(signs))
