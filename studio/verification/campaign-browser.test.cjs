@@ -43,8 +43,8 @@ async function sceneSafeClick(locator,alreadySatisfied=null){
    await locator.waitFor({state:'visible',timeout:5000});
    if(alreadySatisfied){
     if(await alreadySatisfied())return;
-    // Observe the HUD result: a delivered keypress alone does not prove that the panel opened.
-    await locator.click({timeout:5000});
+    // Clock-controlled scenes can stop animation-frame actionability waits; use keyboard input and observe its result.
+    await locator.focus();await locator.press('Enter',{timeout:5000});
     if(await alreadySatisfied())return;
    }else{await locator.focus();await locator.press('Enter',{timeout:5000});return;}
   }catch(error){
