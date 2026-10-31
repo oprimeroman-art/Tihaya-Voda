@@ -2,6 +2,7 @@
 """Assemble the finished room/state art; no media generation or gameplay tests."""
 import base64,copy,json,re
 from pathlib import Path
+from sync_player_guidance import apply_player_guidance
 ROOT=Path(__file__).resolve().parents[1]
 BASES={r:r+'_NORMAL' for r in 'EGIJKLMNOP'}
 ALIASES={'O_1978':'O_NORMAL','P_FINAL_PANEL':'P_NORMAL','L_THREE_WINDOWS':'L_NORMAL','H_1978':'O_NORMAL'}
@@ -77,7 +78,7 @@ def apply_final_art(game,root=ROOT):
         if slot.get('kind')=='panorama'and slot['id']in allentries:
             slot.update(suggested_relative_path=allentries[slot['id']]['file'],availability='provided; authored panorama')
     if source:game['assets']=list(assets.values())
-    return game
+    return apply_player_guidance(game,root)
 
 def main():
     project_path=ROOT/'game-project/project.json';project=apply_final_art(json.loads(project_path.read_text()))
