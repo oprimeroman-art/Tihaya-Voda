@@ -37,7 +37,26 @@ async function verifyDaylight(){
  assert(await page.evaluate(()=>{const v=adventurePlayer.engine.state.variants.C,id=game.story.adventure.rooms.find(r=>r.id==='C').variantAssets[v];return game.panoramas.C===(game.assets[id]||adventureBasePanoramas.C);}),'previous panorama restored');
  checks.push(currentMode+': actual three-second daylight, pause, stable save and restoration');
 }
-async function sceneSafeClick(locator,alreadySatisfied=null){for(let i=0;i<15;i++){try{await locator.waitFor({state:'visible',timeout:5000});if(alreadySatisfied&&await alreadySatisfied())return;await locator.focus();await locator.press('Enter',{timeout:5000});return;}catch(error){const resume=page.getByRole('button',{name:'Вернуться в игру',exact:true});if(await resume.isVisible()){await resume.press('Enter');await drain();continue;}const c=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});if(!await c.isVisible())throw error;await c.press('Enter');await drain();}}throw Error('Repeated scene interruptions');}
+async function sceneSafeClick(locator,alreadySatisfied=null){
+ for(let i=0;i<15;i++){
+  try{
+   await locator.waitFor({state:'visible',timeout:5000});
+   if(alreadySatisfied){
+    if(await alreadySatisfied())return;
+    // Observe the HUD result: a delivered keypress alone does not prove that the panel opened.
+    await locator.click({timeout:5000});
+    if(await alreadySatisfied())return;
+   }else{await locator.focus();await locator.press('Enter',{timeout:5000});return;}
+  }catch(error){
+   const resume=page.getByRole('button',{name:'Вернуться в игру',exact:true});
+   if(await resume.isVisible()){await resume.press('Enter');await drain();continue;}
+   const c=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});
+   if(!await c.isVisible())throw error;
+   await c.press('Enter');await drain();
+  }
+ }
+ throw Error('Repeated scene interruptions or HUD panel did not open');
+}
 async function go(dest){let s=await state();if(s.room===dest)return;let queue=[[s.room,[]]],seen=new Set(),route;
  while(queue.length){const[r,steps]=queue.shift();if(r===dest){route=steps;break;}if(seen.has(r))continue;seen.add(r);for(const l of story.links.filter(l=>l.from===r&&test(l.when,s)))queue.push([l.to,[...steps,l.to]]);}
  assert(route,`No route ${s.room} to ${dest}, chapter ${s.chapter}`);
