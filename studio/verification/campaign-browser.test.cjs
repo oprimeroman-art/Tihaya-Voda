@@ -14,7 +14,15 @@ function recordPace(kind,id,text,duration=0){const words=String(text||'').trim()
 async function sameImage(img,expected){await img.evaluate(i=>i.scrollIntoView({block:'nearest',behavior:'instant'}));await img.evaluate(i=>i.decode());const actual=await img.evaluate(async i=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await(await fetch(i.src)).arrayBuffer()))).map(x=>x.toString(16).padStart(2,'0')).join(''));const hash=require('node:crypto').createHash('sha256').update(Buffer.from(expected.split(',')[1],'base64')).digest('hex');assert.equal(actual,hash,'image bytes match canonical asset');}
 
 const state=()=>page.evaluate(()=>adventurePlayer.snapshot());
-async function capture(options){await page.clock.resume();await page.screenshot({...options,animations:'disabled',timeout:15000});}
+async function capture(options){
+ // Screenshot preparation waits for animation frames too. Keep the installed
+ // browser clock advancing while the capture is pending; resume alone is not sufficient.
+ let settled=false;
+ const shot=page.screenshot({...options,animations:'disabled',timeout:15000});
+ const observed=shot.then(value=>{settled=true;return value;},error=>{settled=true;throw error;});
+ const pump=(async()=>{while(!settled){await page.clock.runFor(100);if(!settled)await new Promise(resolve=>setTimeout(resolve,25));}})();
+ try{const [frame]=await Promise.all([observed,pump]);return frame;}finally{settled=true;}
+}
 async function button(text){const b=page.getByRole('button',{name:text,exact:true});await b.waitFor({state:'visible'});assert(await b.isEnabled(),text+' enabled');await b.focus();await b.press('Enter');}
 
 async function showPanel(kind){const button=page.locator('.ga-dock button[aria-controls$="-'+kind+'"]');await sceneSafeClick(button,async()=>await button.getAttribute('aria-expanded')==='true');}
@@ -73,7 +81,7 @@ async function physicalPuzzle(a,box){await box.locator('.ga-physical').scrollInt
 }
 async function action(id,value){console.log('ACTION',actionCount,id);const a=story.actions.find(a=>a.id===id);await go(a.room);await drain();await showPanel('objects');await sceneSafeClick(page.locator('.ga-actions').getByRole('button',{name:a.label,exact:true}));await drain();
  // Start-signal scenes may precede the instrument, which reopens after Continue.
- const box=page.locator('.ga-dialog');recordPace('action',id,a.text||a.label,a.template==='media'?(story.media.find(m=>m.id===a.media)?.duration||0):0);if(a.template==='document')recordPace('document',a.document,story.documents.find(d=>d.id===a.document)?.text);
+ const box=page.locator('.ga-dialog');if(id==='FINAL_PANEL')await capture({path:path.join(out,'before-panel.png')});recordPace('action',id,a.text||a.label,a.template==='media'?(story.media.find(m=>m.id===a.media)?.duration||0):0);if(a.template==='document')recordPace('document',a.document,story.documents.find(d=>d.id===a.document)?.text);
  if(a.template==='document'){
   const doc=story.documents.find(d=>d.id===a.document);assert.equal(await box.locator('pre').last().textContent(),doc.text,'canonical document text '+a.document);
   const art=story.illustratedProps?.image?.[story.illustratedProps?.document?.[a.document]];
@@ -120,7 +128,6 @@ async function unsafeAirlock(){await go('J');await drain();const before=await st
  // All branching is played through the same actual game; checkpoints are the player-facing restore control.
  for(const id of ['NODE_POWER','NODE_MEMORY','NODE_OBSERVER'])if(!(await state()).done.includes(id))await action(id,id==='NODE_MEMORY'?(mode==='D'?'PETR':'TRUTH'):id==='NODE_OBSERVER'?(mode==='B'?2:1):undefined);
   for(const id of final)if(!(await state()).done.includes(id))await action(id,id==='name_reply'?({A:'NO',B:'SILENCE',C:'OFF',D:'NO'}[mode]):undefined);
-  await capture({path:path.join(out,'before-panel.png')});
   await action('FINAL_PANEL',mode);assert.equal((await state()).ended,mode);
   await page.clock.runFor(300);assert(await page.getByRole('dialog',{name:story.endings[mode].title,exact:true}).count());
   const img=page.locator('.ga-dialog img');assert.equal(await img.count(),1);await img.evaluate(i=>i.decode());assert(await img.evaluate(i=>i.complete&&i.naturalWidth>0));
