@@ -45,6 +45,11 @@ def synchronize(html):
         html = html.replace(old_audio, new_audio, 1)
     if html.count(new_audio) != 1:
         raise ValueError("Expected one legacy story audio loader")
+    old_mute = "mute.onclick=()=>{this.volume.value=this.volume.value==='0'?'55':'0';this.adjustVolumes()}"
+    new_mute = old_mute[:-1] + ";this.opts.onVolume?.()}"
+    html = html.replace(old_mute, new_mute, 1)
+    if html.count(new_mute) != 1:
+        raise ValueError("Expected one persisted mute control")
     # The original offline exports predate the optional ambient visual layer.
     css_a, css_b = "/* HORROR_STYLE_BEGIN", "/* HORROR_STYLE_END */"
     css = RUNTIME[RUNTIME.index(css_a):RUNTIME.index(css_b)+len(css_b)]
@@ -113,6 +118,8 @@ def synchronize(html):
     html = replace_between(html, RUNTIME, "function drawMenu(){", "$('gs-load-file').addEventListener('change'")
 
     html = replace_between(html, RUNTIME, "function saveGameLocal(){", "function resetGame(){")
+    validation_start = "function validateAdventureSave(v){" if "function validateAdventureSave(v){" in html else "function validateSave(v){"
+    html = replace_between(html, RUNTIME, validation_start, "function saveObject(){", "function validateAdventureSave(v){")
     html = replace_between(html, RUNTIME, "function resetGame(){", "async function loadGameSave(data){")
     html = replace_between(html, RUNTIME, "function tick(ts){", "requestAnimationFrame(tick);boot();")
     html = replace_between(html, RUNTIME, "function render(){", "function refresh(){")
@@ -125,7 +132,10 @@ def synchronize(html):
         raise ValueError("Expected one pause-control style rule")
     html = re.sub(r"(?m)^#gs-quick\{[^}]*\}", lambda _: quick_css.group(0), html, count=1)
     html = replace_between(html, RUNTIME, "function setAudio(){", "function saveSoundPreferences(){")
-    html = replace_between(html, RUNTIME, "function closeSystem(){", "function showSystem(page){")
+    # Older editor exports have neither the ambience state nor its pause helpers.
+    # Copy the complete existing lifecycle, not just functions calling those helpers.
+    ambience_start = "let stationAmbience=null" if "let stationAmbience=null" in html else "function closeSystem(){"
+    html = replace_between(html, RUNTIME, ambience_start, "function showSystem(page){", "let stationAmbience=null")
     html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")
     return html
 

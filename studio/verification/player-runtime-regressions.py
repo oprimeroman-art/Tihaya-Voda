@@ -2,7 +2,7 @@
 """Static regression guard for the exported player and Studio runtime."""
 from pathlib import Path
 
-paths = [Path("game/index.html"), Path("studio/index.html")]
+paths = [Path("game/index.html"), Path("game-editor/index.html"), Path("studio/index.html")]
 if Path("_site/index.html").exists():
     paths.append(Path("_site/index.html"))
 checks = {
@@ -19,6 +19,7 @@ checks = {
     "reset releases WebGL textures": "function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}",
     "flashlight stays available in adventure mode": "torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';",
     "adaptive station ambience is implemented": "function startStationAmbience()",
+    "pause lifecycle helper is packaged": "function pauseStationAmbience()",
     "ambience respects master volume": "const prefs=audioSettings?.master??55",
     "ambience suspends on pause": "pauseStationAmbience();for(const c of directorChannels.values())",
     "ambience changes only when room changes": "stationAmbienceRoom!==(roomId||'A')",
