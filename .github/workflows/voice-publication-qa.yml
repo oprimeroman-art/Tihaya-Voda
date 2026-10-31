@@ -30,6 +30,12 @@ jobs:
         env:
           VOICE_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
         run: node studio/verification/voice-browser.test.cjs
+      - name: Verify direct exits, doorway travel and compact pause
+        env:
+          CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
+        run: |
+          node studio/verification/direct-navigation-browser.cjs
+          DIRECT_NAV_FALLBACK=1 node studio/verification/direct-navigation-browser.cjs
       - name: Verify compact controls in the deployed game
         env:
           CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
@@ -48,6 +54,8 @@ jobs:
         with:
           name: Tihaya-Voda-published-voice-QA
           path: |
+            reports/direct-navigation-browser/
+            reports/direct-navigation-fallback/
             reports/player-guidance-browser/
             reports/compact-interactions/
             reports/voice-browser/

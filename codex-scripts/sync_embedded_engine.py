@@ -80,6 +80,16 @@ def synchronize(html):
         html = html.replace(apparition, apparition + cue_node, 1)
     if html.count('id="horror-cue"') != 1:
         raise ValueError("Duplicated timed horror overlay")
+    chrome_begin, chrome_end = "/* PLAYER_CHROME_STYLE_BEGIN", "/* PLAYER_CHROME_STYLE_END */"
+    chrome = RUNTIME[RUNTIME.index(chrome_begin):RUNTIME.index(chrome_end)+len(chrome_end)]
+    if chrome_begin in html:
+        a,b = html.index(chrome_begin),html.index(chrome_end)+len(chrome_end)
+        html = html[:a]+chrome+html[b:]
+    else:
+        html = html.replace("</style></head><body>",chrome+"\n</style></head><body>",1)
+    html = replace_between(html,RUNTIME,"function initGL(){","function render(){")
+    # Rendering, picking and marker projection must use the same aspect-aware lens.
+    html = replace_between(html,RUNTIME,"function screenUv(","function centroid(")
     html = replace_between(html, RUNTIME, "function sourceImg(", "function unwrapped(", "function assetSource(") if "function assetSource(" not in html else replace_between(html, RUNTIME, "function assetSource(", "function unwrapped(")
     html = replace_between(html, RUNTIME, "async function prepare(r){", "// Live 4-corner media surfaces")
     html = replace_between(html, RUNTIME, "// Live 4-corner media surfaces", "function render(){")
