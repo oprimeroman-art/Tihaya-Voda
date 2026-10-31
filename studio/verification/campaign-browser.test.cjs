@@ -61,7 +61,7 @@ async function sceneSafeClick(locator,alreadySatisfied=null){
    if(await resume.isVisible()){await resume.press('Enter');await drain();continue;}
    const c=page.locator('.ga-dialog').getByRole('button',{name:'Продолжить',exact:true});
    if(!await c.isVisible())throw error;
-   await c.press('Enter');await drain();
+   await drain();
   }
  }
  throw Error('Repeated scene interruptions or HUD panel did not open');
@@ -118,7 +118,7 @@ async function unsafeAirlock(){await go('J');await drain();const before=await st
   if(id==='plate_choice'&&mode==='A'){await go('A');for(let i=0;i<4&&!(await state()).fired.includes('E027');i++){await page.clock.runFor(66000);await drain();}assert((await state()).fired.includes('E027'),'pillow event reached through a real return visit');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');assert(await page.evaluate(()=>game.panoramas.A===game.assets.authored_A_SECOND_PILLOW));await go('C');await go('A');assert.equal((await state()).variants.A,'A_SECOND_PILLOW');checks.push('A: second pillow dent appears on return and persists on revisiting');}
   if(!didReload&&(await state()).chapter===6){const before=await state();await page.keyboard.press('Control+s');await page.reload();await page.clock.runFor(1000);await button('Продолжить');await drain();const after=await state();for(const key of ['chapter','inventory','documents','done'])assert.deepEqual(after[key],before[key],key+' survives reload');didReload=true;checks.push(mode+': save/reload through player controls');}
  }
- await page.locator('.ga-dock').getByRole('button',{name:'Журнал',exact:true}).click();
+ await sceneSafeClick(page.locator('.ga-dock').getByRole('button',{name:'Журнал',exact:true}));
  const actualInventory=(await state()).inventory;
  assert.equal(await page.locator('.ga-item').count(),actualInventory.length);
  assert.equal(await page.locator('.ga-item img').count(),actualInventory.length,'each acquired item has art');
@@ -136,5 +136,5 @@ async function unsafeAirlock(){await go('J');await drain();const before=await st
   await button('Загрузить до панели');await button('Загрузить');assert.equal((await state()).ended,false);assert(!(await state()).done.includes('FINAL_PANEL'));
   completedRoutes.push(mode);saveProgress();await page.close();
  }
- assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,harness:process.env.CAMPAIGN_UI_HARNESS==='1',actionCount,checks,errors,pace,paceMethod:'Reading model at 180 words/minute plus supplied media durations; not a human emotional pacing certification'},null,2));console.log(JSON.stringify({passed:true,actionCount,checks}));
-}catch(e){const failureView=page?await page.evaluate(()=>({room:adventurePlayer.snapshot().room,chapter:adventurePlayer.snapshot().chapter,active:adventurePlayer.active(),visibility:document.visibilityState,dialog:document.querySelector('.ga-dialog')?.getAttribute('aria-label'),dialogText:document.querySelector('.ga-dialog')?.textContent?.slice(0,300),menu:document.getElementById('gs-system')?.className,loading:document.body.dataset.roomLoading,status:document.getElementById('status')?.textContent})).catch(()=>null):null;console.error('VISIBLE_UI_STATE',JSON.stringify(failureView));if(page)await capture({path:path.join(out,'failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:false,actionCount,checks,errors,pace,failureView,error:e.stack},null,2));console.error(e.stack);process.exitCode=1;}finally{await browser.close();}})();
+ assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:true,harness:process.env.CAMPAIGN_UI_HARNESS==='1',resumedFromRun:process.env.CAMPAIGN_RESUME_RUN?Number(process.env.CAMPAIGN_RESUME_RUN):null,actionCount,checks,errors,pace,paceMethod:'Reading model at 180 words/minute plus supplied media durations; not a human emotional pacing certification'},null,2));console.log(JSON.stringify({passed:true,actionCount,checks}));
+}catch(e){const failureView=page?await page.evaluate(()=>({room:adventurePlayer.snapshot().room,chapter:adventurePlayer.snapshot().chapter,active:adventurePlayer.active(),visibility:document.visibilityState,dialog:document.querySelector('.ga-dialog')?.getAttribute('aria-label'),dialogText:document.querySelector('.ga-dialog')?.textContent?.slice(0,300),menu:document.getElementById('gs-system')?.className,loading:document.body.dataset.roomLoading,status:document.getElementById('status')?.textContent})).catch(()=>null):null;console.error('VISIBLE_UI_STATE',JSON.stringify(failureView));if(page)await capture({path:path.join(out,'failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({passed:false,harness:process.env.CAMPAIGN_UI_HARNESS==='1',resumedFromRun:process.env.CAMPAIGN_RESUME_RUN?Number(process.env.CAMPAIGN_RESUME_RUN):null,actionCount,checks,errors,pace,failureView,error:e.stack},null,2));console.error(e.stack);process.exitCode=1;}finally{await browser.close();}})();
