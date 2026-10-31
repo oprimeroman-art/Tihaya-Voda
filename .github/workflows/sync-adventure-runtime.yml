@@ -11,6 +11,8 @@ on:
     branches: [main]
     paths:
       - 'production/final-scene-art.json'
+      - 'production/navigation-anchors.json'
+      - 'production/room-presentation.json'
       - 'production/player-guidance.json'
       - 'production/inspection-art.json'
       - 'game-project/assets/inspections/**'

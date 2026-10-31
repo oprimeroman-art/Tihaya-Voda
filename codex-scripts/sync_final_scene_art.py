@@ -67,6 +67,13 @@ def apply_final_art(game,root=ROOT):
             if point:
                 u,v=point;obj['corners']=[{'u':(u+x)%1,'v':v+y}for x,y in [(-.009,-.012),(.009,-.012),(.009,.012),(-.009,.012)]]
     story['interactionAnchors']=anchors.get('variants',{})
+    navigation=json.loads((root/'production/navigation-anchors.json').read_text())['rooms']
+    for rid,exits in navigation.items():
+        for target,point in exits.items():
+            if not any(l['from']==rid and l['to']==target for l in story['links']):raise ValueError('Non-adjacent door marker '+rid+' -> '+target)
+            if len(point)!=2 or not all(0<=n<=1 for n in point):raise ValueError('Invalid door coordinates '+rid)
+    story['navigationAnchors']=navigation
+    story['roomPresentation']=json.loads((root/'production/room-presentation.json').read_text())['rooms']
     game['name']='Протокол «Тихая вода»'
     game.setdefault('release',{})['subtitle']='Арктическая станция «Маяк-9». Психологический хоррор.'
     story['credits']='Протокол «Тихая вода»\nАвторский сценарий, редакция 2.0.\nРазработка и художественная интеграция: byGagarin.\nПанорамы и иллюстрации: ImageGen.\nОзвучка альфы: предоставленные автором записи.\nДвижок: Gagarin Panorama Studio.'

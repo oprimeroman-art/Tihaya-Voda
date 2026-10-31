@@ -2,7 +2,7 @@
 """Static regression guard for the exported player and Studio runtime."""
 from pathlib import Path
 
-paths = [Path("game/index.html"), Path("studio/index.html")]
+paths = [Path("game/index.html"), Path("game-editor/index.html"), Path("studio/index.html")]
 if Path("_site/index.html").exists():
     paths.append(Path("_site/index.html"))
 checks = {
@@ -11,11 +11,15 @@ checks = {
     "missing adventure state is rejected": "if(!v.adventure)throw Error('В сохранении отсутствует состояние сценария.');validateAdventureSave(v.adventure);",
     "wrong adventure project is rejected": "v.project!==d.id",
     "mute updates saved preferences": "mute.onclick=()=>{this.volume.value=this.volume.value==='0'?'55':'0';this.adjustVolumes();this.opts.onVolume?.()};",
-    "language toggle has a separate corner": "left:14px;top:96px;right:auto;bottom:auto",
+    "language toggle shares the compact top toolbar": "right:122px!important;bottom:auto!important",
+    "projection matches the image framing": "function flatFraming(){",
+    "spherical lens adapts to viewport aspect": "Math.max(1,innerWidth/innerHeight/1.35)",
+    "direct exits are part of the player HUD": "ga-route-heading",
     "fallback render preserves viewport aspect": "const scale=Math.min(1,750/w,430/h);scratch.width=Math.max(1,Math.round(w*scale));scratch.height=Math.max(1,Math.round(h*scale));",
     "reset releases WebGL textures": "function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}",
     "flashlight stays available in adventure mode": "torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';",
     "adaptive station ambience is implemented": "function startStationAmbience()",
+    "pause lifecycle helper is packaged": "function pauseStationAmbience()",
     "ambience respects master volume": "const prefs=audioSettings?.master??55",
     "ambience suspends on pause": "pauseStationAmbience();for(const c of directorChannels.values())",
     "ambience changes only when room changes": "stationAmbienceRoom!==(roomId||'A')",

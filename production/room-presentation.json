@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "reason": "The existing D/F/H approved assets are perspective storyboard illustrations (1024x512), not spherical captures. Preserve their proportions and bound look/zoom to the image. The authored H_1978 panorama remains spherical.",
+  "rooms": {
+    "D": {
+      "mode": "flat"
+    },
+    "F": {
+      "mode": "flat"
+    },
+    "H": {
+      "mode": "flat",
+      "sphericalVariants": [
+        "H_1978"
+      ]
+    }
+  }
+}

@@ -29,7 +29,7 @@ window.GagarinStory = (()=>{
    if(!document.getElementById('gs-css')){const style=el('style');style.id='gs-css';style.textContent=STYLE;document.head.append(style)}
    this.host=el('div','gs-host');(opts.host||document.body).append(this.host);
    this.sub=el('div','gs-sub gs-off');this.panel=el('div','gs-panel gs-off');this.card=el('div','gs-card gs-off');this.questBox=el('div','gs-quest gs-off');this.top=el('div','gs-top gs-off');
-   const settings=el('div','gs-settings');const lab=el('label',null,'Звук');this.volume=el('input');this.volume.type='range';this.volume.min='0';this.volume.max='100';this.volume.value='55';lab.append(this.volume);const mute=el('button',null,'Выкл.');mute.onclick=()=>{this.volume.value=this.volume.value==='0'?'55':'0';this.adjustVolumes()};this.volume.oninput=()=>{this.adjustVolumes();this.opts.onVolume?.()};settings.append(lab,mute);
+   const settings=el('div','gs-settings');const lab=el('label',null,'Звук');this.volume=el('input');this.volume.type='range';this.volume.min='0';this.volume.max='100';this.volume.value='55';lab.append(this.volume);const mute=el('button',null,'Выкл.');mute.onclick=()=>{this.volume.value=this.volume.value==='0'?'55':'0';this.adjustVolumes();this.opts.onVolume?.()};this.volume.oninput=()=>{this.adjustVolumes();this.opts.onVolume?.()};settings.append(lab,mute);
    this.host.append(this.sub,this.panel,this.card,this.questBox,this.top,settings);this.showQuests();
   }
   setProject(project){this.stop();this.project=project;this.questStates={};this.showQuests()}
