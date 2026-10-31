@@ -34,6 +34,10 @@ jobs:
         env:
           CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
         run: node studio/verification/compact-interactions-browser.cjs
+      - name: Follow player objectives and inspect equipment in the deployed game
+        env:
+          CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
+        run: node studio/verification/player-guidance-browser.cjs
       - name: Play all four routes in the actually deployed game
         env:
           CAMPAIGN_GAME_URL: https://oprimeroman-art.github.io/Tihaya-Voda/
@@ -44,6 +48,7 @@ jobs:
         with:
           name: Tihaya-Voda-published-voice-QA
           path: |
+            reports/player-guidance-browser/
             reports/compact-interactions/
             reports/voice-browser/
             reports/campaign-browser/

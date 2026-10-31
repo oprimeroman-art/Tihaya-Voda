@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "generator": "built-in imagegen",
+  "assets": {
+    "power": {
+      "id": "inspection_power",
+      "file": "assets/inspections/power-v1.webp",
+      "actions": [
+        "POWER_BASIC",
+        "NODE_POWER"
+      ],
+      "alt": "Щит распределения нагрузки в дизельной",
+      "prompt": "Use case: illustration-story. Asset type: final in-game inspection artwork for an electrical distribution puzzle in a psychological horror game. Create a landscape 1536x1024 highly detailed realistic painted close-up of a working Soviet-era electrical distribution cabinet in a modern Arctic research station, worn olive-grey enamel, brass screws, two big analog ammeters, three separate heavy bakelite load switches and neatly installed thick cables. Match a warm caged tungsten lamp, aged riveted metal walls and utilitarian industrial realism. Eye-level slightly angled close-up, entire cabinet face readable in the center, modest depth of field and no blur on the equipment. Quiet routine maintenance, no paranormal content. Meter faces may have fine neutral ticks but no readable words, no highlighted solution or highlighted switch position. No HUD, no floating labels, no humans, no logos, no border. This is the physical apparatus illustration; exact labels and puzzle controls will be rendered separately by the game.",
+      "editPrompt": "Use case: precise-object-edit. Edit this exact illustration. Change ONLY the two white analog meter faces: remove every printed numeral and every letter (including the A) from both faces, leaving clean aged ivory faces with the same fine unnumbered black tick arcs and the same needles. There must be no numbers and no lettering anywhere on either meter face. Keep the housing, lamps, three switches, cables, composition, 1536x1024 landscape size, lighting, surface texture and every other pixel of the apparatus visually unchanged. The game overlays its own exact numerical information separately. No other edits.",
+      "width": 1536,
+      "height": 1024,
+      "sourceImage": "exec-57b476ec-c78f-40ee-900c-889288bca2fa.png",
+      "sourceImageSha256": "a6d84ebad31e8d67346006201e1161dd7af659bd84ad8ba801f5c5394b6d3f12",
+      "sha256": "c1e66bdb9a0e0209d554e07e2c64d45f708bd0636c809b236a3a7e5f763a755e",
+      "bytes": 214300
+    },
+    "spectrum": {
+      "id": "inspection_spectrum",
+      "file": "assets/inspections/spectrum-v1.webp",
+      "actions": [
+        "SPECTRUM_MATCH",
+        "MICROSCOPE"
+      ],
+      "alt": "Спектрометр, микроскоп и образец на лабораторном столе",
+      "prompt": "Use case: illustration-story. Asset type: final in-game inspection artwork for a spectral sample and microscope puzzle. Landscape 1536x1024, realistic painted close-up of a Soviet Arctic research station laboratory bench, worn olive and cream metal equipment, heavy old spectrometer with a small dim cyan-green CRT and a white optical microscope beside it, one small sealed geological core sample in a glass vial in the center. Warm practical desk lamp on aged wood, riveted utilitarian metal wall in soft background. Emphasize tactile focusing wheels, etched metal, glass, dust and precise scientific equipment. Consistent grounded psychological horror art direction, calm inspection scene, no ghost or body. CRT shows only a dim abstract neutral trace, no puzzle solution, no readable text, no HUD, no logos, no border. Both devices and the vial fit entirely in a clear composition, with no foreground blur; exact spectral lines and controls are separate game UI.",
+      "width": 1536,
+      "height": 1024,
+      "sourceImage": "exec-bafef5dc-1c65-473d-9198-ac8158976eb9.png",
+      "sourceImageSha256": "460844dd5025cd4bd6c5ea5cf9a1b08a305ff59200763843f33ba626a32758fe",
+      "sha256": "98372116fe50248866266271ec14beaa7260170ef2802ad0fbfe7ae1d40e3513",
+      "bytes": 290536
+    },
+    "cardio": {
+      "id": "inspection_cardio",
+      "file": "assets/inspections/cardio-v1.webp",
+      "actions": [
+        "CARDIOMATCH"
+      ],
+      "alt": "Кардиограф и медицинские карты",
+      "prompt": "Use case: illustration-story. Asset type: final in-game inspection artwork for comparing patient records in an Arctic station infirmary. Landscape 1536x1024 cinematic realistic painted close-up of the old olive and cream metal cardiograph already found in a Soviet-era station, a small black CRT with a faint generic green heartbeat trace, strip of pale gridded chart paper emerging from a roller, two worn manila patient folders lying closed beside it. Amber desk lamp, riveted cream metal wall and edge of a simple metal medical cabinet in the background. Practical, worn, believable materials, quiet unsettling empty medical room without any patient or figure. No readable words, no visible names, no specific diagnostic solution. No gore, no HUD, no logos, no frame. The machine, paper and two folders are clearly visible; the exact records are rendered as readable documents by the game.",
+      "width": 1536,
+      "height": 1024,
+      "sourceImage": "exec-ef17e150-62b7-4537-b260-b567a1c9550f.png",
+      "sourceImageSha256": "1f523c1fe4908057733afa86f0693194702418b320eb29a975a3bc1fef135591",
+      "sha256": "c30aa3384147b1db4fd227d5ab226a51905c28eba2925ca358efa38261fa9bfd",
+      "bytes": 165844
+    },
+    "vhs": {
+      "id": "inspection_vhs",
+      "file": "assets/inspections/vhs-v1.webp",
+      "actions": [
+        "VHS_ASSEMBLE"
+      ],
+      "alt": "Два фрагмента одной VHS-кассеты на ремонтном столе",
+      "prompt": "Use case: illustration-story. Asset type: final in-game inspection artwork for repairing a VHS cassette from two fragments. Landscape 1536x1024 realistic painted macro-style view of an Arctic station archive workbench under a warm desk lamp. Exactly two complementary broken halves of one black VHS cassette, each holding one visible reel, with a short loose magnetic tape end between them, on a dark green service mat beside a small metal splicing jig and precision screwdriver. Worn wooden archive desk, blurred shelving of file boxes behind, grey and olive industrial palette, detailed scuffed plastic and brown tape. The two halves are separate and not yet repaired. No extra cassette halves, no human hands, no horror figure, no readable labels, no numbers, no puzzle answer, no HUD, no logos or frame. Sharp, carefully composed equipment illustration with all important parts inside the image.",
+      "width": 1536,
+      "height": 1024,
+      "sourceImage": "exec-4dfc4502-3836-4f5b-823f-727bc8b15339.png",
+      "sourceImageSha256": "bbc7123605e0372ad6bc28be59af2b849340fe7ee16b4f28560df8c5cc2fbcdd",
+      "sha256": "0f7632530dfd7d1a0837496f1e006c7521be50e4e93fedf0e5efe33e2fa6850e",
+      "bytes": 260342
+    }
+  }
+}

@@ -78,6 +78,7 @@ async function action(id,value){console.log('ACTION',actionCount,id);const a=sto
   const art=story.illustratedProps?.image?.[story.illustratedProps?.document?.[a.document]];
   if(art){const img=box.locator('img');assert.equal(await img.count(),1);await sameImage(img,art);}
  }
+ const inspection=story.illustratedProps?.inspections?.[id];if(inspection){const img=box.locator('.ga-inspection img');assert.equal(await img.count(),1,'one inspection image for '+id);await sameImage(img,story.illustratedProps.image[inspection.image]);}
  const item=a.effects?.find(e=>e.item)?.item;
  if(item&&story.inventoryArt?.[item]){const img=box.getByRole('img',{name:await page.evaluate(id=>adventurePlayer.itemName(id),item),exact:true});await sameImage(img,story.inventoryArt[item]);}
 

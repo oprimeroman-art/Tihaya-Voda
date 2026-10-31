@@ -11,6 +11,11 @@ on:
     branches: [main]
     paths:
       - 'production/final-scene-art.json'
+      - 'production/player-guidance.json'
+      - 'production/inspection-art.json'
+      - 'game-project/assets/inspections/**'
+      - 'codex-scripts/sync_player_guidance.py'
+      - 'studio/verification/player-guidance.test.cjs'
       - 'production/panorama-staging.json'
       - 'production/interaction-anchors.json'
       - 'game-project/assets/final-rooms/**'
@@ -78,6 +83,7 @@ jobs:
           node studio/verification/adventure-pending.test.cjs
           node studio/verification/adventure-saves.test.cjs
           node studio/verification/adventure-rooms.test.cjs
+          node studio/verification/player-guidance.test.cjs
       - name: Report Q01-Q03 production art readiness
         run: python3 codex-scripts/audit_art_ready.py
       - name: Verify required existing-room overlays
