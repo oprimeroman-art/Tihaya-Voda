@@ -1,15 +1,15 @@
 ---
 title: Agent handoff
-summary: Current playable-horror source change, outstanding release verification, and next concrete Work task.
-code_paths: ["studio/source/game-runtime.html", "studio/source/adventure-ui.js", "site-assets/horror-actors/**"]
+summary: Current authored horror scenes, playable corridor false threshold and immediate follow-up.
+code_paths: ["studio/source/game-runtime.html", "studio/source/adventure-ui.js", "studio/verification/false-threshold.test.cjs", "site-assets/horror-actors/**"]
 ---
 # Handoff — 2026-11-01
 
-- Repository: `oprimeroman-art/Tihaya-Voda`, production branch `main`.
-- Latest sound/art implementation: commit `421f213b57a3ec49d179f9078e236ce9ff2b83cc` (three original SVG apparition assets and embedded equivalents, actual panoramic knocks, steps, breath and metal sound linked to encounters).
-- The flashlight is inventory-gated by `take_FLASHLIGHT`; encounters start in chapter 4, with later use of gaze, light and deliberate darkness. These are gameplay prototypes, not a finished horror campaign.
-- An extensive production task for ChatGPT Work is recorded as [issue #39](https://github.com/oprimeroman-art/Tihaya-Voda/issues/39). Issue creation does NOT itself launch an autonomous Work run.
-- CI immediately after the initial sound/art commit failed: `quiet-staging.test.cjs` loaded an isolated cue module without `horrorSoundCue`; `adventure-rooms.test.cjs` borrowed UI methods without browser timer and ambient dependencies. The follow-up source patch adds safe optional guards.
-- The **exact** local room regression and an isolated cue smoke test pass; script syntax validates. Full browser playthrough, GitHub Pages success and release quality remain UNCONFIRMED until a new workflow succeeds.
-- Preserve four endings, saves, panoramas and authored spatial S01–S16 pack. Do not replace successful material with new menu interfaces.
-- Next concrete agent step: inspect the latest workflow run; fix any CI failures; work through issue #39 on an isolated development branch, shipping an actual horror scene rather than writing another plan.
+- Active project: `oprimeroman-art/Tihaya-Voda`, existing browser game (no rewrite).
+- Latest change: a **chapter-six false threshold** in corridor C, triggered once when attempting an otherwise valid exit. The engine remains in C; the actual `C_HIDDEN_DOOR` authored panorama replaces the normal room with a brief blackout cut, directional metal/knock/step cues, and a real projected clickable door handle. Finding the handle, trying the exit again, or waiting produces three different permanent journal entries. The canonical exit works immediately on retry; no chapter, ending, item or door requirements are modified.
+- Implementation: optional `beforeTravel` hook in `GagarinAdventure.UI.enterRoom()`, state and visual direction in the `CORRIDOR_FALSE_THRESHOLD` section of `studio/source/game-runtime.html`. The scene and button reset on a new game or load and are cleared by leaving C.
+- Local targeted check: `node studio/verification/false-threshold.test.cjs` passed for examined, fled, expired outcomes, same-room behavior and original panorama recovery. Both modified JavaScript files passed `node --check` (player script extracted for its inline JavaScript).
+- The existing 16 spatial S01–S16 cues and previously authored encounter art remain intact. Earlier directed encounters use original SVGs under `site-assets/horror-actors/`, now with spatial sound.
+- Project's larger Work production assignment: [issue #39](https://github.com/oprimeroman-art/Tihaya-Voda/issues/39). Opening an issue does NOT launch Work.
+- Do not claim any new public build or editor sync until the corresponding workflow succeeds; direct browser playthrough and all four endings remain unverified.
+- Next concrete scene: radio-room speaking-before-the-player anomaly, followed by actual playtesting and restoring any failed CI checks. Focus on diegetic cues and actions, not additional journals or menus.

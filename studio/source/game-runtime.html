@@ -37,6 +37,13 @@
 @media(prefers-reduced-motion:reduce){#world{transition:none}}
 #horror-apparition.actor-art{background-size:100% 100%;background-position:center;background-repeat:no-repeat;filter:drop-shadow(0 0 20px #070c12aa)}
 #horror-apparition.actor-art::before,#horror-apparition.actor-art::after{display:none}
+
+#horror-threshold-handle{position:fixed;z-index:130;transform:translate(-50%,-50%);width:58px;height:58px;min-width:58px;min-height:58px;display:grid;place-items:center;border:1px solid #c2b99e8c;border-radius:50%;background:radial-gradient(circle,#a7bcbb22,#050a0dba 72%);box-shadow:0 0 0 7px #0b151546,0 0 25px #c4d0ce40;cursor:pointer;touch-action:manipulation;opacity:calc(.65 + var(--urgency,0)*.3);animation:horror-handle-breathe 2.1s ease-in-out infinite}
+#horror-threshold-handle[hidden]{display:none!important}
+#horror-threshold-handle span{width:23px;height:8px;border:2px solid #b8c2b7;border-left:5px solid #c9ba94;border-radius:9px;transform:rotate(-13deg);box-shadow:0 0 15px #b5cdc45c}
+#horror-threshold-handle:hover,#horror-threshold-handle:focus-visible{background:#4a5c5877;border-color:#e1d4b2;outline:2px solid #e5d7b0;outline-offset:3px}
+@keyframes horror-handle-breathe{0%,100%{box-shadow:0 0 0 6px #0b151546,0 0 20px #c4d0ce26}50%{box-shadow:0 0 0 10px #0b15153d,0 0 35px #c4d0ce5d}}
+@media(prefers-reduced-motion:reduce){#horror-threshold-handle{animation:none}}
 /* HORROR_STYLE_END */
 /* HORROR_CUE_STYLE_BEGIN: short, authored visual beats after story events */
 #horror-cue{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;will-change:opacity;background:radial-gradient(ellipse at 50% 50%,#ebf7ff11,#02060cb8 75%,#000 100%)}
@@ -212,7 +219,7 @@ async function switchRoom(id,adventureSync=false){
  const r=game.rooms.find(a=>a.id===id);if(!r)return false;
  if(adventurePlayer&&sessionStarted&&!adventureSync&&id!==adventurePlayer.engine.state.room&&!adventurePlayer.engine.enter(id))return false;
  const ticket=switchRoom.serial=(switchRoom.serial||0)+1;switchRoom.loading=true;switchRoom.failed=false;document.body.dataset.roomLoading='true';clearCameraInput();
- if(id!==roomId){horrorCueStop();adventurePlayer?.stopVoice();adventurePlayer?.disposeMedia?.();}
+ if(id!==roomId){if(falseThresholdScene)falseThresholdFinish('fled');horrorCueStop();adventurePlayer?.stopVoice();adventurePlayer?.disposeMedia?.();}
  const status=$('status');status.setAttribute('role','status');status.textContent='Переходим: '+r.name;status.classList.remove('hide');
  try{
   await prepare(r);if(ticket!==switchRoom.serial)return false;
@@ -487,6 +494,108 @@ function horrorPaint(dt=0){
  if(profile.figure)figure.style.opacity=String(Math.min(.8,.35+profile.strength));
 }
 /* HORROR_VISUALS_END */
+/* CORRIDOR_FALSE_THRESHOLD: an exit that opens back into the same room.
+   Unlocked exits still work on the next attempt; player choice is whether to
+   investigate the physically present handle before it vanishes. */
+const FALSE_THRESHOLD_POINT={u:.44,v:.49};
+let falseThresholdScene=null,falseThresholdButton=null;
+function falseThresholdState(){
+ return adventurePlayer?.engine?.state?.progress?.falseThreshold||null;
+}
+function falseThresholdFinish(outcome){
+ const state=adventurePlayer?.engine?.state,progress=falseThresholdState();
+ if(!progress||progress.status!=='active')return false;
+ progress.status=outcome;
+ const texts={
+  examined:'Коридор повторился за открытой дверью. На холодной ручке отпечатаны три пальца — с внутренней стороны металла. Под ногтём застрял тёмный волос.',
+  fled:'Коридор вернулся на своё место. Из-за двери ещё раз донёсся звук, похожий на собственный шаг, но с опозданием.',
+  missed:'Пока вы смотрели на дверь, она стала обычной. Остались только мокрые следы от ладони на поручне.'
+ };
+ state.journal.push({id:'TV_FALSE_THRESHOLD',time:state.clock,text:texts[outcome],lines:[]});
+ const wasVisible=roomId==='C'&&!!falseThresholdScene;
+ falseThresholdScene=null;
+ if(falseThresholdButton)falseThresholdButton.hidden=true;
+ if(wasVisible){
+  const original=state.variants?.C;
+  if(original)Promise.resolve(adventureApplyVariant('C',original)).catch(e=>console.warn('Не восстановлен коридор',e));
+ }
+ if(outcome==='examined'){
+  horrorSpatialSfx('breath',FALSE_THRESHOLD_POINT,.45);
+  note('Ручка холодная. На металле — следы пальцев с обратной стороны.');
+ }else if(outcome==='missed')note('Дверь больше ничем не отличается от остальных.');
+ if(adventurePlayer?.engine?.changed)adventurePlayer.engine.changed();
+ return true;
+}
+function falseThresholdBeforeTravel(to){
+ const state=adventurePlayer?.engine?.state;
+ if(!state||roomId!=='C'||state.room!=='C'||state.chapter!==6||sessionPaused||state.ended)return false;
+ const progress=falseThresholdState();
+ if(progress){
+  if(progress.status==='active')falseThresholdFinish('fled');
+  return false;
+ }
+ const meta=game.story?.adventure?.rooms?.find(r=>r.id==='C');
+ if(!game.assets?.[meta?.variantAssets?.C_HIDDEN_DOOR])return false;
+ const record={status:'active',intendedExit:to};
+ state.progress.falseThreshold=record;
+ const scene={room:'C',time:0,ready:false,played:false};
+ falseThresholdScene=scene;
+ horrorCueStop();
+ // The half-second interruption covers the hard photographic cut into the
+ // real authored impossible-corridor panorama; no UI card interrupts input.
+ horrorCueStart({room:'C',horror:true,category:'quiet',visualCue:{mode:'blackout',duration:.65,strength:.76}});
+ horrorSpatialSfx('metal',FALSE_THRESHOLD_POINT,.63);
+ note('Дверь захлопнулась. За ней тот же коридор.');
+ // No room change: actual C_HIDDEN_DOOR panorama replaces the current walls,
+ // while the canonical engine remains in C and no quest or exit flags change.
+ Promise.resolve(adventureApplyVariant('C','C_HIDDEN_DOOR',true)).then(()=>{
+  if(falseThresholdScene===scene){
+   scene.ready=true;
+   horrorSpatialSfx('knock',FALSE_THRESHOLD_POINT,.39);
+   refresh();
+  }
+ }).catch(()=>{
+  if(falseThresholdScene===scene)falseThresholdFinish('missed');
+ });
+ if(adventurePlayer?.engine?.changed)adventurePlayer.engine.changed();
+ return true;
+}
+function falseThresholdInit(){
+ if(falseThresholdButton)return;
+ const b=document.createElement('button');
+ b.id='horror-threshold-handle';b.type='button';b.hidden=true;
+ b.setAttribute('aria-label','Проверить ручку неправильной двери');
+ b.title='Проверить дверную ручку';
+ b.innerHTML='<span aria-hidden="true"></span>';
+ b.onclick=()=>{
+  if(!cameraAllowed()||!falseThresholdScene?.ready)return;
+  falseThresholdFinish('examined');
+ };
+ document.body.append(b);falseThresholdButton=b;
+}
+function falseThresholdFrame(dt=0){
+ const scene=falseThresholdScene,button=falseThresholdButton;
+ if(!button)return;
+ button.hidden=true;
+ if(!scene||roomId!=='C'||!falseThresholdState()||falseThresholdState().status!=='active')return;
+ if(!cameraAllowed()||!scene.ready)return;
+ scene.time+=Math.max(0,Math.min(.15,dt));
+ if(scene.time>11){falseThresholdFinish('missed');return;}
+ if(scene.time>4&&!scene.played){
+  scene.played=true;
+  horrorSpatialSfx('step',{u:.12,v:.5},.36);
+ }
+ const p=project(FALSE_THRESHOLD_POINT);
+ if(p&&p.x>=26&&p.x<=innerWidth-26&&p.y>=26&&p.y<=innerHeight-26){
+  button.hidden=false;button.style.left=p.x+'px';button.style.top=p.y+'px';
+  button.style.setProperty('--urgency',String(Math.min(.8,scene.time/14)));
+ }
+}
+function falseThresholdReset(){
+ falseThresholdScene=null;
+ if(falseThresholdButton)falseThresholdButton.hidden=true;
+}
+/* CORRIDOR_FALSE_THRESHOLD_END */
 /* HORROR_CUES_BEGIN: non-random one-shot event direction, never serialized */
 let horrorCue=null;
 function horrorCuePlan(event){
@@ -632,13 +741,14 @@ function adventureApplyVariant(rid,variant,transient=false){
  }).catch(error=>console.error('Ошибка состояния панорамы',rid,error));
 }
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
- room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
+ room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,beforeTravel:falseThresholdBeforeTravel,
  canFocusAction:id=>!!objectivePoint(id),focusAction:focusObjective,
  staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{if(!e.sceneArt)return null;const a=game.assets?.[e.sceneArt];if(!a)console.warn('Не найдена постановочная иллюстрация',e.sceneArt);return a?assetSource(a):null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted||!!switchRoom.loading||!!switchRoom.failed,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},progress:()=>scheduleGameSave(),
  voice:id=>{const a=game.audio?.[id];return a?{url:assetSource(a)}:null;},volume:()=>audioSettings.master/100,
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:a.url||bytesBase64(a.data,a.mime)}:null;}});
+ falseThresholdInit();
  const level=document.createElement('button');level.type='button';level.id='gs-level';level.textContent='Выровнять обзор';level.title='Вернуть горизонт и обычный масштаб · V';level.onclick=levelCamera;document.body.append(level);updateTorchButton();
  const torchToggle=$('toggle');if(torchToggle){torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';torchToggle.style.left='auto';torchToggle.style.bottom='auto';torchToggle.style.width='auto';torchToggle.style.maxWidth='calc(100vw - 28px)';torchToggle.style.zIndex='8';document.body.append(torchToggle);}
  $('right').style.display='none';$('footer').style.display='none';storyPlayer.questBox.style.display='none';
@@ -730,11 +840,11 @@ function restoreMutable(snapshot){for(const entry of snapshot.globals||[]){const
   for(const v of r.vars||[]){const src=(data.vars||[]).find(x=>x.key===v.key);if(src)v.value=src.value;}
   for(const o of r.objects||[]){const src=(data.objects||[]).find(x=>x.id===o.id);if(src){o.state=Math.max(0,Math.min((o.states||[]).length-1,Number(src.state)||0));o.visible=!!src.visible;}}cache.get(r.id)&&(cache.get(r.id).dirty=true);
  }}
-function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){horrorCueStop();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
+function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){falseThresholdReset();horrorCueStop();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
  yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=false;
  updateTorchButton();sessionStarted=true;closeSystem();switchRoom(roomId).then(loaded=>{if(loaded){runtime.enter(roomId);saveGameLocal()}}).catch(e=>note(e.message));}
-async function loadGameSave(data){validateSave(data);horrorCueStop();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
+async function loadGameSave(data){validateSave(data);falseThresholdReset();horrorCueStop();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
  storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
  yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=torchUnlocked()&&data.torch===true;
  updateTorchButton();sessionStarted=true;closeSystem();if(!await switchRoom(roomId,true))throw Error('Не удалось открыть помещение сохранения.');adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
@@ -779,5 +889,5 @@ $('gs-quick').onclick=()=>{if(sessionStarted)showSystem('pause');else showSystem
 loadSoundPreferences();setTimeout(setAudio,0);
 window.addEventListener('beforeunload',()=>{if(sessionStarted)saveGameLocal()});
 
-function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if((horrorGazeActive||presenceZone(adventurePlayer?.engine?.state))&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
+function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if((horrorGazeActive||presenceZone(adventurePlayer?.engine?.state))&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);falseThresholdFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
 </script></body></html>

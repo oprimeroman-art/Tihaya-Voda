@@ -449,6 +449,7 @@ class UI{
   if(this.dialog||!this.active()||this.travelling||this.engine.state.ended)return false;
   const link=this.data.links.find(l=>l.from===this.engine.state.room&&l.to===id);if(!link)return false;
   if(!api.test(link.when,this.engine.state)){this.notify(link.locked||'Переход пока закрыт.');return false;}
+  if(this.hooks.beforeTravel?.(id)===true)return false;
   this.travelling=true;try{const from=this.engine.state.room;if(!this.engine.enter(id))return false;this.previousRoom=from;this.hudPanel=null;this.sync();return true;}finally{this.travelling=false;}
  }
  goPrevious(){
