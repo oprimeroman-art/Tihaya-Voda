@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="940" viewBox="0 0 500 940">
+<defs><radialGradient id="fog"><stop stop-color="#c2d3d0" stop-opacity=".23"/><stop offset=".65" stop-color="#5a7677" stop-opacity=".09"/><stop offset="1" stop-color="#081218" stop-opacity="0"/></radialGradient>
+<linearGradient id="coat" x2=".6" y2="1"><stop stop-color="#101719"/><stop offset=".5" stop-color="#04090c"/><stop offset="1" stop-color="#0c1318" stop-opacity="0"/></linearGradient>
+<radialGradient id="void"><stop stop-color="#010305"/><stop offset=".7" stop-color="#080e13"/><stop offset="1" stop-color="#415052" stop-opacity=".29"/></radialGradient>
+<filter id="b"><feGaussianBlur stdDeviation="9"/></filter><filter id="thin"><feGaussianBlur stdDeviation="2"/></filter>
+<filter id="warp"><feTurbulence type="fractalNoise" baseFrequency=".016 .07" numOctaves="3" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="12"/></filter>
+</defs>
+<ellipse cx="250" cy="540" rx="240" ry="385" fill="url(#fog)"/>
+<path d="M240 155 C149 160 112 250 128 360 C85 407 87 489 68 620 L24 865 Q235 950 475 856 L424 617 Q394 440 369 363 C395 249 338 150 240 155Z" fill="#65777a" opacity=".26" filter="url(#b)"/>
+<path d="M247 177 C175 166 139 237 140 336 Q94 410 115 552 C84 660 87 753 63 891 Q250 932 442 891 C415 725 406 624 389 538 Q403 430 357 341 C377 223 319 174 247 177Z" fill="url(#coat)" filter="url(#warp)"/>
+<path d="M227 188 Q145 231 169 335 Q183 412 249 432 Q326 418 347 333 Q370 219 282 187 Q257 178 227 188Z" fill="url(#void)"/>
+<path d="M178 313 Q200 371 247 388 Q310 376 327 309" fill="none" stroke="#a3b9b3" stroke-opacity=".12" stroke-width="12" filter="url(#b)"/>
+<path d="M180 283 Q187 267 210 259 M285 258 Q310 267 320 289" fill="none" stroke="#99afae" opacity=".15" stroke-width="6" filter="url(#thin)"/>
+<path d="M142 420 Q107 480 90 712 M366 427 Q417 510 434 718" stroke="#b2c8bd" stroke-width="16" stroke-opacity=".08" fill="none" filter="url(#b)"/>
+<path d="M123 614 Q135 710 89 851 M379 608 Q357 756 413 851" stroke="#627877" stroke-width="13" stroke-opacity=".18" fill="none"/>
+<path d="M167 432 L164 766 M352 412 L363 776" stroke="#b2c9bf" stroke-opacity=".1" stroke-width="4" filter="url(#thin)"/>
+</svg>

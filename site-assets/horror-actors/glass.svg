@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="940" viewBox="0 0 500 940">
+<defs><radialGradient id="mist"><stop stop-color="#c7d5d9" stop-opacity=".32"/><stop offset=".75" stop-color="#627b83" stop-opacity=".08"/><stop offset="1" stop-color="#718e94" stop-opacity="0"/></radialGradient>
+<linearGradient id="dark" x2=".15" y2="1"><stop stop-color="#0c1721" stop-opacity=".93"/><stop offset=".8" stop-color="#07111b" stop-opacity=".82"/><stop offset="1" stop-color="#05111a" stop-opacity="0"/></linearGradient>
+<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="23" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="14"/></filter>
+</defs>
+<ellipse cx="250" cy="465" rx="245" ry="420" fill="url(#mist)"/>
+<path d="M248 145 C163 136 124 205 140 323 C108 362 104 452 96 606 L64 876 C182 930 350 930 440 876 L403 615 C397 470 389 354 365 319 C377 193 313 150 248 145Z" fill="url(#dark)" filter="url(#rough)"/>
+<path d="M255 167 Q183 169 177 280 Q181 375 242 410 Q315 387 332 289 Q331 185 255 167Z" fill="#02080d"/>
+<path d="M195 259 Q222 245 234 254 M265 254 Q292 239 317 264" fill="none" stroke="#b3c9cb" stroke-width="5" opacity=".1" filter="url(#soft)"/>
+<path d="M177 391 Q182 552 144 706 M332 393 Q346 540 384 726" fill="none" stroke="#c2d4cc" stroke-width="8" opacity=".09" filter="url(#soft)"/>
+<path d="M87 175 Q113 421 68 620 M427 180 Q394 394 450 665" fill="none" stroke="#e2efeb" stroke-width="7" stroke-opacity=".08"/>
+<g stroke="#d3e2e2" stroke-opacity=".14" fill="none" stroke-linecap="round">
+<path d="M110 132 Q137 192 126 235" stroke-width="3"/><path d="M375 152 Q361 213 369 248" stroke-width="4"/>
+<path d="M111 705 Q152 642 166 587 M397 683 Q363 634 351 575" stroke-width="3"/>
+</g>
+</svg>

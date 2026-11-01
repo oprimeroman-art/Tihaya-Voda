@@ -35,6 +35,8 @@
 
 #world{transition:opacity .18s ease}body[data-room-loading="true"] #world{opacity:.2}#world:focus-visible{outline:2px solid #d7c48d;outline-offset:-3px}#status button{display:block;margin:12px auto 0;padding:10px 16px;border:1px solid #d5c384;border-radius:6px;background:#18232b;color:#eee;cursor:pointer}#status[role="status"]{z-index:130}
 @media(prefers-reduced-motion:reduce){#world{transition:none}}
+#horror-apparition.actor-art{background-size:100% 100%;background-position:center;background-repeat:no-repeat;filter:drop-shadow(0 0 20px #070c12aa)}
+#horror-apparition.actor-art::before,#horror-apparition.actor-art::after{display:none}
 /* HORROR_STYLE_END */
 /* HORROR_CUE_STYLE_BEGIN: short, authored visual beats after story events */
 #horror-cue{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;will-change:opacity;background:radial-gradient(ellipse at 50% 50%,#ebf7ff11,#02060cb8 75%,#000 100%)}
@@ -255,6 +257,7 @@ const HORROR_GAZE_TIMING={
  J_FALSE_BELOV:1.1
 };
 
+const PRESENCE_ILLUSTRATIONS={"night":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iOTQwIiB2aWV3Qm94PSIwIDAgNTAwIDk0MCI+CjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iZm9nIj48c3RvcCBzdG9wLWNvbG9yPSIjYzJkM2QwIiBzdG9wLW9wYWNpdHk9Ii4yMyIvPjxzdG9wIG9mZnNldD0iLjY1IiBzdG9wLWNvbG9yPSIjNWE3Njc3IiBzdG9wLW9wYWNpdHk9Ii4wOSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA4MTIxOCIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJjb2F0IiB4Mj0iLjYiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjMTAxNzE5Ii8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzA0MDkwYyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBjMTMxOCIgc3RvcC1vcGFjaXR5PSIwIi8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJ2b2lkIj48c3RvcCBzdG9wLWNvbG9yPSIjMDEwMzA1Ii8+PHN0b3Agb2Zmc2V0PSIuNyIgc3RvcC1jb2xvcj0iIzA4MGUxMyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzQxNTA1MiIgc3RvcC1vcGFjaXR5PSIuMjkiLz48L3JhZGlhbEdyYWRpZW50Pgo8ZmlsdGVyIGlkPSJiIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI5Ii8+PC9maWx0ZXI+PGZpbHRlciBpZD0idGhpbiI+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMiIvPjwvZmlsdGVyPgo8ZmlsdGVyIGlkPSJ3YXJwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjAxNiAuMDciIG51bU9jdGF2ZXM9IjMiIHNlZWQ9IjE3IiByZXN1bHQ9Im4iLz48ZmVEaXNwbGFjZW1lbnRNYXAgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0ibiIgc2NhbGU9IjEyIi8+PC9maWx0ZXI+CjwvZGVmcz4KPGVsbGlwc2UgY3g9IjI1MCIgY3k9IjU0MCIgcng9IjI0MCIgcnk9IjM4NSIgZmlsbD0idXJsKCNmb2cpIi8+CjxwYXRoIGQ9Ik0yNDAgMTU1IEMxNDkgMTYwIDExMiAyNTAgMTI4IDM2MCBDODUgNDA3IDg3IDQ4OSA2OCA2MjAgTDI0IDg2NSBRMjM1IDk1MCA0NzUgODU2IEw0MjQgNjE3IFEzOTQgNDQwIDM2OSAzNjMgQzM5NSAyNDkgMzM4IDE1MCAyNDAgMTU1WiIgZmlsbD0iIzY1Nzc3YSIgb3BhY2l0eT0iLjI2IiBmaWx0ZXI9InVybCgjYikiLz4KPHBhdGggZD0iTTI0NyAxNzcgQzE3NSAxNjYgMTM5IDIzNyAxNDAgMzM2IFE5NCA0MTAgMTE1IDU1MiBDODQgNjYwIDg3IDc1MyA2MyA4OTEgUTI1MCA5MzIgNDQyIDg5MSBDNDE1IDcyNSA0MDYgNjI0IDM4OSA1MzggUTQwMyA0MzAgMzU3IDM0MSBDMzc3IDIyMyAzMTkgMTc0IDI0NyAxNzdaIiBmaWxsPSJ1cmwoI2NvYXQpIiBmaWx0ZXI9InVybCgjd2FycCkiLz4KPHBhdGggZD0iTTIyNyAxODggUTE0NSAyMzEgMTY5IDMzNSBRMTgzIDQxMiAyNDkgNDMyIFEzMjYgNDE4IDM0NyAzMzMgUTM3MCAyMTkgMjgyIDE4NyBRMjU3IDE3OCAyMjcgMTg4WiIgZmlsbD0idXJsKCN2b2lkKSIvPgo8cGF0aCBkPSJNMTc4IDMxMyBRMjAwIDM3MSAyNDcgMzg4IFEzMTAgMzc2IDMyNyAzMDkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2EzYjliMyIgc3Ryb2tlLW9wYWNpdHk9Ii4xMiIgc3Ryb2tlLXdpZHRoPSIxMiIgZmlsdGVyPSJ1cmwoI2IpIi8+CjxwYXRoIGQ9Ik0xODAgMjgzIFExODcgMjY3IDIxMCAyNTkgTTI4NSAyNTggUTMxMCAyNjcgMzIwIDI4OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTlhZmFlIiBvcGFjaXR5PSIuMTUiIHN0cm9rZS13aWR0aD0iNiIgZmlsdGVyPSJ1cmwoI3RoaW4pIi8+CjxwYXRoIGQ9Ik0xNDIgNDIwIFExMDcgNDgwIDkwIDcxMiBNMzY2IDQyNyBRNDE3IDUxMCA0MzQgNzE4IiBzdHJva2U9IiNiMmM4YmQiIHN0cm9rZS13aWR0aD0iMTYiIHN0cm9rZS1vcGFjaXR5PSIuMDgiIGZpbGw9Im5vbmUiIGZpbHRlcj0idXJsKCNiKSIvPgo8cGF0aCBkPSJNMTIzIDYxNCBRMTM1IDcxMCA4OSA4NTEgTTM3OSA2MDggUTM1NyA3NTYgNDEzIDg1MSIgc3Ryb2tlPSIjNjI3ODc3IiBzdHJva2Utd2lkdGg9IjEzIiBzdHJva2Utb3BhY2l0eT0iLjE4IiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0xNjcgNDMyIEwxNjQgNzY2IE0zNTIgNDEyIEwzNjMgNzc2IiBzdHJva2U9IiNiMmM5YmYiIHN0cm9rZS1vcGFjaXR5PSIuMSIgc3Ryb2tlLXdpZHRoPSI0IiBmaWx0ZXI9InVybCgjdGhpbikiLz4KPC9zdmc+","glass":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iOTQwIiB2aWV3Qm94PSIwIDAgNTAwIDk0MCI+CjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0ibWlzdCI+PHN0b3Agc3RvcC1jb2xvcj0iI2M3ZDVkOSIgc3RvcC1vcGFjaXR5PSIuMzIiLz48c3RvcCBvZmZzZXQ9Ii43NSIgc3RvcC1jb2xvcj0iIzYyN2I4MyIgc3RvcC1vcGFjaXR5PSIuMDgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MThlOTQiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0iZGFyayIgeDI9Ii4xNSIgeTI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwYzE3MjEiIHN0b3Atb3BhY2l0eT0iLjkzIi8+PHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzA3MTExYiIgc3RvcC1vcGFjaXR5PSIuODIiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwNTExMWEiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9InNvZnQiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjYiLz48L2ZpbHRlcj4KPGZpbHRlciBpZD0icm91Z2giPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIuMDE4IiBudW1PY3RhdmVzPSIzIiBzZWVkPSIyMyIgcmVzdWx0PSJuIi8+PGZlRGlzcGxhY2VtZW50TWFwIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9Im4iIHNjYWxlPSIxNCIvPjwvZmlsdGVyPgo8L2RlZnM+CjxlbGxpcHNlIGN4PSIyNTAiIGN5PSI0NjUiIHJ4PSIyNDUiIHJ5PSI0MjAiIGZpbGw9InVybCgjbWlzdCkiLz4KPHBhdGggZD0iTTI0OCAxNDUgQzE2MyAxMzYgMTI0IDIwNSAxNDAgMzIzIEMxMDggMzYyIDEwNCA0NTIgOTYgNjA2IEw2NCA4NzYgQzE4MiA5MzAgMzUwIDkzMCA0NDAgODc2IEw0MDMgNjE1IEMzOTcgNDcwIDM4OSAzNTQgMzY1IDMxOSBDMzc3IDE5MyAzMTMgMTUwIDI0OCAxNDVaIiBmaWxsPSJ1cmwoI2RhcmspIiBmaWx0ZXI9InVybCgjcm91Z2gpIi8+CjxwYXRoIGQ9Ik0yNTUgMTY3IFExODMgMTY5IDE3NyAyODAgUTE4MSAzNzUgMjQyIDQxMCBRMzE1IDM4NyAzMzIgMjg5IFEzMzEgMTg1IDI1NSAxNjdaIiBmaWxsPSIjMDIwODBkIi8+CjxwYXRoIGQ9Ik0xOTUgMjU5IFEyMjIgMjQ1IDIzNCAyNTQgTTI2NSAyNTQgUTI5MiAyMzkgMzE3IDI2NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjNjOWNiIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9Ii4xIiBmaWx0ZXI9InVybCgjc29mdCkiLz4KPHBhdGggZD0iTTE3NyAzOTEgUTE4MiA1NTIgMTQ0IDcwNiBNMzMyIDM5MyBRMzQ2IDU0MCAzODQgNzI2IiBmaWxsPSJub25lIiBzdHJva2U9IiNjMmQ0Y2MiIHN0cm9rZS13aWR0aD0iOCIgb3BhY2l0eT0iLjA5IiBmaWx0ZXI9InVybCgjc29mdCkiLz4KPHBhdGggZD0iTTg3IDE3NSBRMTEzIDQyMSA2OCA2MjAgTTQyNyAxODAgUTM5NCAzOTQgNDUwIDY2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTJlZmViIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1vcGFjaXR5PSIuMDgiLz4KPGcgc3Ryb2tlPSIjZDNlMmUyIiBzdHJva2Utb3BhY2l0eT0iLjE0IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgo8cGF0aCBkPSJNMTEwIDEzMiBRMTM3IDE5MiAxMjYgMjM1IiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMzc1IDE1MiBRMzYxIDIxMyAzNjkgMjQ4IiBzdHJva2Utd2lkdGg9IjQiLz4KPHBhdGggZD0iTTExMSA3MDUgUTE1MiA2NDIgMTY2IDU4NyBNMzk3IDY4MyBRMzYzIDYzNCAzNTEgNTc1IiBzdHJva2Utd2lkdGg9IjMiLz4KPC9nPgo8L3N2Zz4=","table":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iOTQwIiB2aWV3Qm94PSIwIDAgNTAwIDk0MCI+CjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdyI+PHN0b3Agc3RvcC1jb2xvcj0iI2JkYzRhZCIgc3RvcC1vcGFjaXR5PSIuMTgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMDI5MjgiIHN0b3Atb3BhY2l0eT0iMCIvPjwvcmFkaWFsR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0ic3VpdCIgeDI9Ii4yIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzE4MjEyMSIvPjxzdG9wIG9mZnNldD0iLjciIHN0b3AtY29sb3I9IiMwNjBiMGQiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwNTA5MGIiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+CjxmaWx0ZXIgaWQ9ImVkZ2VzIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIxMSIvPjwvZmlsdGVyPgo8L2RlZnM+CjxlbGxpcHNlIGN4PSIyNTAiIGN5PSI1MjAiIHJ4PSIyMjUiIHJ5PSIzNzAiIGZpbGw9InVybCgjZ2xvdykiLz4KPHBhdGggZD0iTTI1MyAyNTAgUTE5NCAyNTcgMTk3IDMzMCBDMTgwIDM2MiAxNTAgMzc3IDEyMCA0MTYgUTk1IDQ4NyAxMDQgNjQwIEM5MyA3MjYgMTAzIDgwMCA2NSA4OTcgUTI0NSA5MzYgNDM1IDg5MCBDMzk3IDcyOSA0MTAgNjQ1IDQwNSA1NTcgUTQwNyA0NTcgMzcxIDQxNSBRMzMyIDM4MCAzMTIgMzQ4IFEzMjQgMjYwIDI1MyAyNTBaIiBmaWxsPSIjODg5MDhjIiBvcGFjaXR5PSIuMiIgZmlsdGVyPSJ1cmwoI2VkZ2VzKSIvPgo8cGF0aCBkPSJNMjUxIDI1MyBRMTkzIDI2MCAyMDMgMzM5IFExNTggMzg2IDEzMiA0MzMgUTEwNyA0OTUgMTM4IDY0MiBMOTIgOTA5IFEyNTMgOTM5IDQxOSA5MTIgTDM2NiA2NDQgUTM5MyA1MDEgMzU4IDQzMyBRMzI5IDM5MyAyOTcgMzQ4IFEzMTEgMjY1IDI1MSAyNTNaIiBmaWxsPSJ1cmwoI3N1aXQpIi8+CjxwYXRoIGQ9Ik0yNTIgMjY1IFEyMDIgMjY0IDIxMyAzMjYgUTIyNiAzNzQgMjUxIDM3NyBRMjkxIDM2NSAyOTcgMzI2IFEzMDYgMjczIDI1MiAyNjVaIiBmaWxsPSIjMDQwOTBiIi8+CjxwYXRoIGQ9Ik0xNDQgNTc5IFExNzEgNTUyIDE5MiA1NjggUTIwNSA2MTggMTgyIDY4OCBNMzYxIDU3MyBRMzI1IDU1OCAzMDcgNTcyIFEyOTIgNjI1IDMyMyA2OTMiIHN0cm9rZT0iIzg2OTQ4ZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMiIgc3Ryb2tlLXdpZHRoPSIxMyIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4="};
 // Real flashlight encounters. Spatial anchors reuse already-authored panorama points.
 // Failing pushes the player back through an unlocked passage, never breaks quest flags.
 const PRESENCE_ZONES={
@@ -279,12 +282,75 @@ function presenceSound(intensity=0){
  if(!a?.noiseGain||a.ctx.state!=='running')return;
  a.noiseGain.gain.setTargetAtTime(.055+intensity*.15,a.ctx.currentTime,.3);
 }
+
+// Performance sound for physical presences, mixed through the existing station
+// master and positioned relative to the player's current panoramic heading.
+const performanceAudio={lastRoom:'',next:0};
+function horrorSpatialSfx(kind,location={u:.5,v:.5},volume=.6){
+ try{
+  const station=stationAmbience,ctx=station?.ctx;
+  if(!ctx||ctx.state!=='running'||(audioSettings?.master??0)<=0)return;
+  const now=ctx.currentTime;
+  const gain=ctx.createGain();gain.gain.value=0;
+  const pan=ctx.createStereoPanner?.();
+  if(pan){
+   const relative=((location.u-.5)*Math.PI*2-yaw+Math.PI*3)%(Math.PI*2)-Math.PI;
+   pan.pan.value=Math.max(-.92,Math.min(.92,Math.sin(relative)));
+   pan.connect(station.master);
+  }
+  const route=pan||station.master;
+  gain.connect(route);
+  const amp=Math.max(.005,Math.min(.35,volume*.16));
+  const shape=(t1,t2,attack=.015)=>{
+   gain.gain.setValueAtTime(.001,t1);
+   gain.gain.exponentialRampToValueAtTime(amp,t1+attack);
+   gain.gain.exponentialRampToValueAtTime(.001,t2);
+  };
+  if(kind==='knock'||kind==='step'||kind==='metal'){
+   const count=kind==='knock'?3:kind==='step'?2:1;
+   const base=kind==='metal'?205:kind==='step'?78:126;
+   let playing=count;
+   for(let n=0;n<count;n++){
+    const start=now+n*(kind==='knock'?.19:.36),osc=ctx.createOscillator(),g=ctx.createGain();
+    osc.type=kind==='metal'?'triangle':'sine';
+    osc.frequency.setValueAtTime(base*(1+n*.035),start);
+    osc.frequency.exponentialRampToValueAtTime(Math.max(35,base*.55),start+.24);
+    g.gain.setValueAtTime(.001,start);
+    g.gain.exponentialRampToValueAtTime(amp*(kind==='step'?.42:.77),start+.012);
+    g.gain.exponentialRampToValueAtTime(.001,start+.23);
+    osc.connect(g);g.connect(route);
+    osc.start(start);osc.stop(start+.25);osc.onended=()=>{osc.disconnect();g.disconnect();if(--playing===0){gain.disconnect();pan?.disconnect();}};
+   }
+  }else{
+   const len=kind==='breath'?1.1:.62,frames=Math.ceil(ctx.sampleRate*len);
+   const buffer=ctx.createBuffer(1,frames,ctx.sampleRate),ch=buffer.getChannelData(0);
+   let seed=kind==='breath'?0x77b9:0x1ced;
+   for(let i=0;i<frames;i++){seed=(1664525*seed+1013904223)>>>0;ch[i]=(seed/2147483648-1)*.8;}
+   const noise=ctx.createBufferSource(),filter=ctx.createBiquadFilter();
+   noise.buffer=buffer;filter.type='lowpass';filter.frequency.value=kind==='breath'?330:950;
+   noise.connect(filter);filter.connect(gain);
+   shape(now,now+len,kind==='breath'?.32:.04);
+   noise.start(now);noise.stop(now+len);
+   noise.onended=()=>{noise.disconnect();filter.disconnect();gain.disconnect();pan?.disconnect();};
+  }
+ }catch(e){console.debug('Невозможно воспроизвести постановочный звук',e);}
+}
+function horrorSoundCue(event){
+ if(!event||!sessionStarted||sessionPaused)return;
+ const kind=event.category==='ghost'||event.category==='human'||event.category==='body'?'breath':
+  event.category==='mirror'||event.category==='spatial'?'metal':
+  event.category==='sound'||event.category==='trace'?'step':null;
+ if(!kind)return;
+ const zone=PRESENCE_ZONES[roomId]||{u:.53,v:.5};
+ horrorSpatialSfx(kind,zone,kind==='breath'?.42:.32);
+}
 function presenceConclude(state,outcome,zone,figure){
  (state.progress.presenceResults||(state.progress.presenceResults={}))[roomId]=outcome;
  (state.progress.seenApparitions||(state.progress.seenApparitions={}))[roomId+':'+state.variants[roomId]]=true;
  const text=outcome==='repelled'?zone.reply:
   'Из темноты раздался шаг совсем рядом. Пришлось отступить, потеряв из виду то, что стояло впереди.';
  state.journal.push({id:'PRESENCE_'+roomId,text,time:state.clock,lines:[]});
+ horrorSpatialSfx(outcome==='repelled'?'metal':'step',zone,outcome==='repelled'?.42:.75);
  presenceSession=null;horrorGazeActive=false;horrorAppliedKey='';
  figure.style.display='none';figure.style.opacity='0';figure.style.filter='';
  presenceSound(0);adventurePlayer.engine.changed();
@@ -305,12 +371,16 @@ function presenceConclude(state,outcome,zone,figure){
 function presencePaint(dt,state,figure){
  const zone=presenceZone(state);
  if(!zone){if(presenceSession){presenceSession=null;presenceSound(0);horrorAppliedKey='';}return false;}
- if(!presenceSession||presenceSession.room!==roomId)presenceSession={room:roomId,time:0,exposure:0,announced:false,discovered:false};
+ if(!presenceSession||presenceSession.room!==roomId){
+  presenceSession={room:roomId,time:0,exposure:0,announced:false,discovered:false,nextSound:0};
+  horrorSpatialSfx('metal',zone,.18);
+ }
  const threat=presenceSession,point=project({u:zone.u,v:zone.v});
  if(dt>0&&cameraAllowed()){
   threat.time+=Math.min(.15,Math.max(0,dt));
   if(threat.time>=5&&!threat.announced){
    threat.announced=true;
+   horrorSpatialSfx('knock',zone,.46);
    note(zone.mode==='stare'?'За столом кто-то есть. Смотрите прямо на него.':
     zone.mode==='dark'?'За стеклом кто-то есть. Сначала высветите силуэт.':
     'Кто-то рядом. Найдите его в темноте и удержите луч фонаря.');
@@ -318,6 +388,10 @@ function presencePaint(dt,state,figure){
  }
  if(threat.time<5){figure.style.display='none';horrorGazeActive=true;return true;}
  const pressure=Math.max(0,Math.min(1,(threat.time-5)/(zone.mode==='dark'&&torch?11:17)));
+ if(dt>0&&cameraAllowed()&&threat.time>=threat.nextSound){
+  threat.nextSound=threat.time+Math.max(1.7,4.3-pressure*2.2);
+  horrorSpatialSfx(pressure>.67?'breath':'step',zone,.27+pressure*.39);
+ }
  const lit=!!torch&&!!point&&Math.hypot(point.x-mx,point.y-my)<Math.min(160,innerWidth*.17);
  const centered=!!point&&Math.hypot(point.x-innerWidth/2,point.y-innerHeight/2)<Math.min(140,innerWidth*.15);
  if(zone.mode==='dark'&&lit&&!threat.discovered){
@@ -336,6 +410,8 @@ function presencePaint(dt,state,figure){
   }
  }
  if(point){
+  figure.classList.add('actor-art');
+  figure.style.backgroundImage='url("'+PRESENCE_ILLUSTRATIONS[zone.mode==='stare'?'table':zone.mode==='dark'?'glass':'night']+'")';
   figure.style.display='block';
   figure.style.left=point.x+'px';figure.style.top=point.y+'px';
   figure.style.scale=String(1+pressure*1.9);
@@ -363,6 +439,7 @@ function horrorPaint(dt=0){
   canvas.style.filter=profile.strength?'saturate('+(1-profile.strength*.65)+') contrast('+(1+profile.strength*.4)+') brightness('+(1-profile.strength*.22)+')':'';
  }
  if(presencePaint(dt,state,figure))return;
+ figure.classList.remove('actor-art');figure.style.backgroundImage='';
  figure.style.filter='';figure.style.scale='';
  const gazeKey=roomId+':'+variant;
  if(horrorGazeKey!==gazeKey){horrorGazeKey=gazeKey;horrorGazeHold=0;}
@@ -428,7 +505,7 @@ function horrorCuePlan(event){
  return {mode,room:roomId,duration,...(panoramaVariant?{panoramaVariant}:{}),strength:Number.isFinite(strength)&&strength>0?Math.max(.05,Math.min(.85,strength)):(mode==='blackout'?.68:mode==='apparition'?.43:mode==='temporal'?.32:.23)};
 }
 function horrorCueStop(){const previous=horrorCue;horrorCue=null;const layer=$('horror-cue');if(layer)layer.style.opacity='0';if(previous?.panoramaVariant&&typeof adventureApplyVariant==='function'){const variant=adventurePlayer?.engine?.state?.variants?.[previous.room];if(variant)adventureApplyVariant(previous.room,variant);}}
-function horrorCueStart(event){const plan=horrorCuePlan(event);if(!plan)return false;
+function horrorCueStart(event){const plan=horrorCuePlan(event);if(!plan)return false;horrorSoundCue(event);
  horrorCueStop();const cue={...plan,elapsed:0,ready:!plan.panoramaVariant};horrorCue=cue;if(plan.panoramaVariant){Promise.resolve(adventureApplyVariant(plan.room,plan.panoramaVariant,true)).then(()=>{if(horrorCue===cue)cue.ready=true;}).catch(()=>{if(horrorCue===cue)horrorCueStop();});}horrorCueFrame(0);return true;
 }
 function horrorCueFrame(dt=0){const layer=$('horror-cue');if(!layer)return;
