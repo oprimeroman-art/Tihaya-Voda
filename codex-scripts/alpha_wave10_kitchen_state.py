@@ -5,9 +5,9 @@ import base64, hashlib
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = {
-    "B_SECOND_PLATE": ("illustrated_B_SECOND_PLATE", "fbd5a54f73e2a6d747713bdc530f419a18647b131b2b0824c0d858e8ed83f5c1"),
-    "B_GHOST_MIRROR": ("illustrated_B_GHOST_MIRROR", "6dead47223948286e87b694ccddad3c8bc86eb4abd3b9625d765450fbc2d6ba2"),
-    "B_TWO_GHOSTS": ("illustrated_B_TWO_GHOSTS", "5b13504532763db647e09d5ff2a9c6b97b0018d05d50a786dc0fd2744ae8ec69"),
+    "B_SECOND_PLATE": ("illustrated_B_SECOND_PLATE", "6f4cc9c45b813ca1f0a6d5455c61e5d0ff3a231ee498b6fc794d2fdf67c90368"),
+    "B_GHOST_MIRROR": ("illustrated_B_GHOST_MIRROR", "168d08a767f2e7727f92d3d8f3c00e2da007904c74f84a6bb196e30e80043c0b"),
+    "B_TWO_GHOSTS": ("illustrated_B_TWO_GHOSTS", "641007fec25de4740079cdb1420055d6c1d6d0a7e211a255688c69668fd915d2"),
 }
 def apply_wave10(payload, root=ROOT):
     game = payload

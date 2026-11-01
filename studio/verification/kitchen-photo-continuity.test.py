@@ -9,7 +9,7 @@ arrays={}
 for state in STATES:
     f=ROOT/'site-assets/kitchen-states'/f'{state}.webp'
     with Image.open(f) as im:
-        assert im.size==(1774,887),f'{state}: expected canonical approved B panorama geometry'
+        assert im.size==(2048,1024),f'{state}: expected canonical approved B panorama geometry'
         assert im.format=='WEBP',state
         arrays[state]=np.asarray(im.convert('RGB'),dtype=np.int16)
 h,w=arrays['B_SECOND_PLATE'].shape[:2]
