@@ -20,7 +20,6 @@ OVERLAYS = [
     ("D", "D_FALSE_MONITOR", "D_D_FALSE_MONITOR.webp", "Ложное изображение в мониторе"),
     ("D", "D_LATE_MIRROR", "D_D_LATE_MIRROR.webp", "Позднее отражение в экране"),
     ("D", "D_INDOOR_TOWER", "D_D_INDOOR_TOWER.webp", "Мачта видна на экране внутри помещения"),
-    ("B", "B_TWO_GHOSTS", "B_B_TWO_GHOSTS.webp", "Два отражения в зеркале"),
     ("D", "D_DOUBLE_ACTS", "D_D_DOUBLE_ACTS.webp", "Дублирующиеся акты инцидента"),
     ("H", "H_ANNA_GLASS", "H_H_ANNA_GLASS.webp", "Отражение Анны в стекле"),
     ("G", "G_P17", "G_G_P17.webp", "Образец P-17 в незамерзающей воде"),
@@ -346,7 +345,7 @@ def main():
     generated = []
     generate_story_state_overlays()
     # Keep the two existing kitchen states in the editable project too; previously they were only embedded by the standalone build step.
-    for state, asset_id in (("B_SECOND_PLATE", "illustrated_B_SECOND_PLATE"), ("B_GHOST_MIRROR", "illustrated_B_GHOST_MIRROR")):
+    for state, asset_id in (("B_SECOND_PLATE", "illustrated_B_SECOND_PLATE"), ("B_GHOST_MIRROR", "illustrated_B_GHOST_MIRROR"), ("B_TWO_GHOSTS", "illustrated_B_TWO_GHOSTS")):
         source = ROOT / "site-assets/kitchen-states" / (state + ".webp")
         out_path = OUT / (asset_id + ".webp")
         if not source.exists(): raise FileNotFoundError("Missing kitchen state art: " + state)
@@ -354,7 +353,7 @@ def main():
         raw = out_path.read_bytes()
         if raw[:4] != b"RIFF" or raw[8:12] != b"WEBP": raise ValueError("Invalid kitchen state asset: " + state)
         value = {"mime": "image/webp", "data": base64.b64encode(raw).decode("ascii")}
-        if game.setdefault("assets", {}).get(asset_id) not in (None, value): raise ValueError("Conflicting kitchen asset: " + asset_id)
+        # Intentional replacement of the previous provisional kitchen drawing; source is validated by apply_wave10.
         game["assets"][asset_id] = value
         project_asset = {"id": asset_id, "name": state, "mime": "image/webp", "file": "assets/variants/" + out_path.name}
         project["assets"] = update_list(project.get("assets", []), project_asset)
@@ -409,7 +408,7 @@ def main():
             for state, asset_id, _ in generated:
                 value = game["assets"][asset_id]
                 editor_game.setdefault("assets", {})[asset_id] = value
-            for room, state, aid in [("B","B_SECOND_PLATE","illustrated_B_SECOND_PLATE"),("B","B_GHOST_MIRROR","illustrated_B_GHOST_MIRROR")] + [(room,state,"composite_"+state.lower()) for room,state,filename,name in OVERLAYS]:
+            for room, state, aid in [("B","B_SECOND_PLATE","illustrated_B_SECOND_PLATE"),("B","B_GHOST_MIRROR","illustrated_B_GHOST_MIRROR"),("B","B_TWO_GHOSTS","illustrated_B_TWO_GHOSTS")] + [(room,state,"composite_"+state.lower()) for room,state,filename,name in OVERLAYS]:
                 meta = next(r for r in editor_game["story"]["adventure"]["rooms"] if r["id"] == room)
                 meta.setdefault("variantAssets", {})[state] = aid
             editor_game.setdefault("story", {})["adventure"] = adventure

@@ -5,8 +5,9 @@ from pathlib import Path
 from web_assets import hydrate_payload
 ROOT=Path(__file__).resolve().parents[1]
 EXPECTED={
- "B_SECOND_PLATE": ("illustrated_B_SECOND_PLATE", "f0640b11eb5af34e4659320750b89984655d73b0051476674d16abf8a7fba4a9", "E018", "cooked"),
- "B_GHOST_MIRROR": ("illustrated_B_GHOST_MIRROR", "0c330039a320dbb04391b5d418f9bd5aceb5f15ad905ed71430fb0fd1f02ad75", "E019", "inspect_sink_after_cooked"),
+ "B_SECOND_PLATE": ("illustrated_B_SECOND_PLATE", "fbd5a54f73e2a6d747713bdc530f419a18647b131b2b0824c0d858e8ed83f5c1", "E018", "cooked"),
+ "B_GHOST_MIRROR": ("illustrated_B_GHOST_MIRROR", "6dead47223948286e87b694ccddad3c8bc86eb4abd3b9625d765450fbc2d6ba2", "E019", "inspect_sink_after_cooked"),
+ "B_TWO_GHOSTS": ("illustrated_B_TWO_GHOSTS", "5b13504532763db647e09d5ff2a9c6b97b0018d05d50a786dc0fd2744ae8ec69", "E085", "first_visit_ch11"),
 }
 def verify(path):
  html=path.read_text(encoding="utf-8")

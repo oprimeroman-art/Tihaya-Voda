@@ -410,7 +410,7 @@ function adventureApplyVariant(rid,variant,transient=false){
 }
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
- staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{const meta=game.story.adventure.rooms.find(r=>r.id===roomId),variant=adventurePlayer?.engine.state.variants[roomId];const a=game.assets?.[e.sceneArt]||game.assets?.[meta?.variantAssets?.[variant]]||game.panoramas?.[roomId];return a?assetSource(a):null;},
+ staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{if(!e.sceneArt)return null;const a=game.assets?.[e.sceneArt];if(!a)console.warn('Не найдена постановочная иллюстрация',e.sceneArt);return a?assetSource(a):null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted||!!switchRoom.loading||!!switchRoom.failed,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},progress:()=>scheduleGameSave(),
  voice:id=>{const a=game.audio?.[id];return a?{url:assetSource(a)}:null;},volume:()=>audioSettings.master/100,
