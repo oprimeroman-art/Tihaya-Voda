@@ -137,15 +137,10 @@ def synchronize(html):
     ambience_start = "let stationAmbience=null" if "let stationAmbience=null" in html else "function closeSystem(){"
     html = replace_between(html, RUNTIME, ambience_start, "function showSystem(page){", "let stationAmbience=null")
     html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")
-    # Standalone game and editor inherit the same optional encounters as web.
-    # Idempotent: canonical actions and events are never replaced.
-    from sync_optional_encounters import apply_optional_encounters
-    marker = "window.BUILT_GAME="
-    start = html.index(marker) + len(marker)
-    payload, consumed = json.JSONDecoder().raw_decode(html[start:])
-    apply_optional_encounters(payload, ROOT)
-    serialized = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
-    html = html[:start] + serialized + html[start + consumed:]
+    # The canonical standalone source must retain the 112 authored events here:
+    # earlier artwork integration stages use that original event inventory.
+    # The web build adds optional encounters *after* these stages via
+    # build_pages_demo.py. Never mutate story payload inside this runtime sync.
     return html
 
 
