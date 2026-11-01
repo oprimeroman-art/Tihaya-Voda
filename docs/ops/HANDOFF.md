@@ -33,3 +33,10 @@ code_paths: ["studio/source/game-runtime.html", "studio/source/adventure-ui.js",
 - panorama_detail.py must preserve variant gating in web and standalone packs.
 - Synthetic spherical upscale and exact tile roundtrip passed; browser and
   real Vulkan AI still need checking.
+
+## Gameplay iteration: early radio echo (2026-11-01)
+
+- studio/source/game-runtime.html: EARLY_RADIO_ECHO triggers in D after TEA_DONE but before SIGNED_SHIFT, plays original recorded Belov DLG_003 over the radio, changes D_FALSE_MONITOR panorama and projects a physical switch. Cutting, listening and walking away have distinct persistent journal outcomes, and the later canon report echoes the same words. No quest, exit or ending requirements altered.
+- codex-scripts/panorama_detail.py: slippers, wash_cup, paper_tray are immediate actions instead of empty full-screen confirmation modals.
+- studio/verification/radio-echo.test.cjs covers the three endings, audio, panorama, original restoration and recognition; adventure rooms regression also passed.
+- Real full browser playthrough not yet confirmed. Next: in-world appearance changes for more props, reduce unnecessary persistent HUD and build scene-driven rather than document-driven horror.

@@ -44,6 +44,14 @@
 #horror-threshold-handle:hover,#horror-threshold-handle:focus-visible{background:#4a5c5877;border-color:#e1d4b2;outline:2px solid #e5d7b0;outline-offset:3px}
 @keyframes horror-handle-breathe{0%,100%{box-shadow:0 0 0 6px #0b151546,0 0 20px #c4d0ce26}50%{box-shadow:0 0 0 10px #0b15153d,0 0 35px #c4d0ce5d}}
 @media(prefers-reduced-motion:reduce){#horror-threshold-handle{animation:none}}
+
+#horror-radio-knob{position:fixed;z-index:131;transform:translate(-50%,-50%);width:52px;height:52px;min-width:52px;min-height:52px;display:grid;place-items:center;border:1px solid #c4bda48e;border-radius:50%;background:radial-gradient(circle,#192624e0,#090c0feb 73%);box-shadow:0 0 20px #b7c9bc33;cursor:pointer;animation:radio-knob-breathe 2.4s ease-in-out infinite}
+#horror-radio-knob[hidden]{display:none!important}
+#horror-radio-knob span{width:18px;height:18px;border:3px solid #a3b0a2;border-radius:50%;position:relative;box-shadow:inset 0 0 5px #000}
+#horror-radio-knob span:after{content:'';position:absolute;left:6px;top:-4px;width:3px;height:9px;background:#d2c092;transform:rotate(25deg)}
+#horror-radio-knob:hover,#horror-radio-knob:focus-visible{border-color:#f0d9a2;outline:2px solid #f0d9a2;outline-offset:2px}
+@keyframes radio-knob-breathe{50%{box-shadow:0 0 32px #c4cb9e77}}
+@media(prefers-reduced-motion:reduce){#horror-radio-knob{animation:none}}
 /* HORROR_STYLE_END */
 /* HORROR_CUE_STYLE_BEGIN: short, authored visual beats after story events */
 #horror-cue{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;will-change:opacity;background:radial-gradient(ellipse at 50% 50%,#ebf7ff11,#02060cb8 75%,#000 100%)}
@@ -650,6 +658,140 @@ function horrorPaint(dt=0){
  if(profile.figure)figure.style.opacity=String(Math.min(.8,.35+profile.strength));
 }
 /* HORROR_VISUALS_END */
+/* EARLY_RADIO_ECHO: physical scene before the first signed report.
+   Uses the existing recorded Belov DLG_003; when the same line later plays
+   canonically, the player can recognize it without explanatory modal UI. */
+const RADIO_ECHO_POINT={u:.40,v:.64};
+let radioEchoScene=null,radioEchoButton=null,radioEchoVoice=null,radioEchoIdle=0,radioEchoRecallTime=0;
+function radioEchoEligible(state){
+ return !!state&&roomId==='D'&&state.room==='D'&&state.chapter===1&&
+   state.flags?.TEA_DONE&&!state.flags?.SIGNED_SHIFT&&!state.progress?.radioEcho;
+}
+function radioEchoStopVoice(){
+ if(!radioEchoVoice)return;
+ try{radioEchoVoice.pause();radioEchoVoice.currentTime=0;}catch(_){}
+ radioEchoVoice=null;
+}
+function radioEchoPlayVoice(){
+ const file=game.audio?.DLG_003,src=file?assetSource(file):'';
+ if(!src)return false;
+ try{
+  const audio=new Audio(src);
+  audio.preload='auto';audio.playbackRate=.86;
+  const station=stationAmbience,ctx=station?.ctx;
+  if(ctx?.state==='running'&&station.master){
+   const source=ctx.createMediaElementSource(audio),band=ctx.createBiquadFilter(),gain=ctx.createGain();
+   band.type='bandpass';band.frequency.value=990;band.Q.value=.82;
+   gain.gain.value=.72;
+   source.connect(band);band.connect(gain);
+   if(ctx.createStereoPanner){
+    const pan=ctx.createStereoPanner();
+    pan.pan.value=Math.max(-.9,Math.min(.9,Math.sin((RADIO_ECHO_POINT.u-.5)*Math.PI*2-yaw)));
+    gain.connect(pan);pan.connect(station.master);
+   }else gain.connect(station.master);
+  }else audio.volume=Math.max(0,Math.min(.45,(audioSettings?.master||0)/100*.4));
+  audio.play().catch(()=>{});
+  radioEchoVoice=audio;
+  return true;
+ }catch(e){console.warn('Радио: запись не воспроизведена',e);return false;}
+}
+function radioEchoFinish(outcome){
+ const state=adventurePlayer?.engine?.state,scene=radioEchoScene;
+ if(!state||!scene||state.progress?.radioEcho)return false;
+ state.progress.radioEcho={choice:outcome,heardReply:false};
+ const text={
+  cut:'Ещё до подписи из приёмника прозвучал голос Белова. Я выключил радио. Экран погас, но из динамика донёсся последний щелчок.',
+  listened:'До подписания смены приёмник воспроизвёл служебное подтверждение, которого ещё не существовало.',
+  left:'Радио заговорило до подписания смены. Я ушёл, не дождавшись конца передачи.',
+  signed:'Голос Белова звучал из приёмника, пока форма смены ещё не была подписана.'
+ };
+ state.journal.push({id:'TV_RADIO_ECHO',time:state.clock,text:text[outcome],lines:[]});
+ radioEchoStopVoice();radioEchoScene=null;
+ if(radioEchoButton)radioEchoButton.hidden=true;
+ const original=state.variants?.D;
+ if(original)Promise.resolve(adventureApplyVariant('D',original)).catch(()=>{});
+ if(outcome==='cut'){
+  horrorSpatialSfx('metal',RADIO_ECHO_POINT,.47);
+  directorSubtitleShow('Приёмник выключен. Голос оборвался не сразу.');
+ }else if(outcome==='listened')directorSubtitleShow('Конец передачи. В журнале связи нет входящих вызовов.');
+ adventurePlayer.engine.changed();
+ return true;
+}
+function radioEchoStart(){
+ if(radioEchoScene||radioEchoButton===null||!radioEchoEligible(adventurePlayer?.engine?.state))return;
+ const roomMeta=game.story?.adventure?.rooms?.find(r=>r.id==='D');
+ if(!game.assets?.[roomMeta?.variantAssets?.D_FALSE_MONITOR])return;
+ const scene={time:0,ready:false,signal:false,started:false};radioEchoScene=scene;
+ horrorSpatialSfx('metal',RADIO_ECHO_POINT,.36);
+ directorSubtitleShow('Приёмник ожил. Вы ещё не отправляли запрос.');
+ Promise.resolve(adventureApplyVariant('D','D_FALSE_MONITOR',true)).then(()=>{
+  if(radioEchoScene!==scene)return;
+  scene.ready=true;radioEchoPlayVoice();
+ }).catch(()=>{
+  if(radioEchoScene===scene)radioEchoFinish('left');
+ });
+}
+function radioEchoInit(){
+ if(radioEchoButton)return;
+ const b=document.createElement('button');
+ b.id='horror-radio-knob';b.type='button';b.hidden=true;
+ b.title='Отключить приёмник';b.setAttribute('aria-label','Отключить приёмник');
+ b.innerHTML='<span aria-hidden="true"></span>';
+ b.onclick=()=>{
+  if(!cameraAllowed()||!radioEchoScene?.ready)return;
+  radioEchoFinish('cut');
+ };
+ document.body.append(b);radioEchoButton=b;
+}
+function radioEchoFrame(dt=0){
+ if(radioEchoButton)radioEchoButton.hidden=true;
+ const state=adventurePlayer?.engine?.state;
+ if(!state||!sessionStarted||sessionPaused||!sessionReady)return;
+ if(roomId!=='D'){
+  radioEchoIdle=0;radioEchoRecallTime=0;
+  if(radioEchoScene)radioEchoFinish('left');
+  return;
+ }
+ const step=Math.max(0,Math.min(.15,dt));
+ if(radioEchoScene){
+  if(state.flags.SIGNED_SHIFT){radioEchoFinish('signed');return;}
+  if(!cameraAllowed())return;
+  const scene=radioEchoScene;
+  scene.time+=step;
+  if(scene.ready&&scene.time>=1.6&&!scene.signal){
+   scene.signal=true;horrorSpatialSfx('breath',RADIO_ECHO_POINT,.22);
+  }
+  if(scene.time>13.5){radioEchoFinish('listened');return;}
+  const point=project(RADIO_ECHO_POINT);
+  if(scene.ready&&radioEchoButton&&point&&point.x>28&&point.x<innerWidth-28&&point.y>28&&point.y<innerHeight-28){
+   radioEchoButton.hidden=false;
+   radioEchoButton.style.left=point.x+'px';radioEchoButton.style.top=point.y+'px';
+  }
+  return;
+ }
+ const progress=state.progress?.radioEcho;
+ if(progress&&!progress.heardReply&&state.flags.SIGNED_SHIFT&&!adventurePlayer.engine.modal){
+  radioEchoRecallTime+=step;
+  if(radioEchoRecallTime>2.5){
+   progress.heardReply=true;
+   state.journal.push({id:'TV_RADIO_ECHO_REPLY',time:state.clock,text:'Белов повторил дословно то сообщение, которое передатчик выдал до моей подписи.',lines:[]});
+   directorSubtitleShow('Те же слова. Тот же голос. Теперь — по настоящей связи.');
+   horrorSpatialSfx('metal',{u:.69,v:.3},.18);
+   adventurePlayer.engine.changed();
+  }
+  return;
+ }
+ if(!cameraAllowed()){radioEchoIdle=0;return;}
+ if(radioEchoEligible(state)){
+  radioEchoIdle+=step;
+  if(radioEchoIdle>3.2){radioEchoIdle=0;radioEchoStart();}
+ }
+}
+function radioEchoReset(){
+ radioEchoStopVoice();radioEchoScene=null;radioEchoIdle=0;radioEchoRecallTime=0;
+ if(radioEchoButton)radioEchoButton.hidden=true;
+}
+/* EARLY_RADIO_ECHO_END */
 /* CORRIDOR_FALSE_THRESHOLD: an exit that opens back into the same room.
    Unlocked exits still work on the next attempt; player choice is whether to
    investigate the physically present handle before it vanishes. */
@@ -904,7 +1046,7 @@ function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanorama
  change:()=>{adventureReflectState();scheduleGameSave();},progress:()=>scheduleGameSave(),
  voice:id=>{const a=game.audio?.[id];return a?{url:assetSource(a)}:null;},volume:()=>audioSettings.master/100,
  media:id=>{const slot=game.story.adventure.media.find(m=>m.id===id),a=game.video?.[slot?.assetId||id]||game.audio?.[slot?.assetId||id];return a?{url:a.url||bytesBase64(a.data,a.mime)}:null;}});
- falseThresholdInit();
+ falseThresholdInit();radioEchoInit();
  const level=document.createElement('button');level.type='button';level.id='gs-level';level.textContent='Выровнять обзор';level.title='Вернуть горизонт и обычный масштаб · V';level.onclick=levelCamera;document.body.append(level);updateTorchButton();
  const torchToggle=$('toggle');if(torchToggle){torchToggle.style.position='fixed';torchToggle.style.top='14px';torchToggle.style.right='14px';torchToggle.style.left='auto';torchToggle.style.bottom='auto';torchToggle.style.width='auto';torchToggle.style.maxWidth='calc(100vw - 28px)';torchToggle.style.zIndex='8';document.body.append(torchToggle);}
  $('right').style.display='none';$('footer').style.display='none';storyPlayer.questBox.style.display='none';
@@ -996,11 +1138,11 @@ function restoreMutable(snapshot){for(const entry of snapshot.globals||[]){const
   for(const v of r.vars||[]){const src=(data.vars||[]).find(x=>x.key===v.key);if(src)v.value=src.value;}
   for(const o of r.objects||[]){const src=(data.objects||[]).find(x=>x.id===o.id);if(src){o.state=Math.max(0,Math.min((o.states||[]).length-1,Number(src.state)||0));o.visible=!!src.visible;}}cache.get(r.id)&&(cache.get(r.id).dirty=true);
  }}
-function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){horrorCueStop();falseThresholdReset();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
+function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){horrorCueStop();radioEchoReset();falseThresholdReset();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
  yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=false;
  updateTorchButton();sessionStarted=true;closeSystem();switchRoom(roomId).then(loaded=>{if(loaded){runtime.enter(roomId);saveGameLocal()}}).catch(e=>note(e.message));}
-async function loadGameSave(data){validateSave(data);horrorCueStop();falseThresholdReset();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
+async function loadGameSave(data){validateSave(data);horrorCueStop();radioEchoReset();falseThresholdReset();presenceSession=null;presenceSound(0);horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
  storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
  yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=torchUnlocked()&&data.torch===true;
  updateTorchButton();sessionStarted=true;closeSystem();if(!await switchRoom(roomId,true))throw Error('Не удалось открыть помещение сохранения.');adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
@@ -1045,5 +1187,5 @@ $('gs-quick').onclick=()=>{if(sessionStarted)showSystem('pause');else showSystem
 loadSoundPreferences();setTimeout(setAudio,0);
 window.addEventListener('beforeunload',()=>{if(sessionStarted)saveGameLocal()});
 
-function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if((horrorGazeActive||presenceZone(adventurePlayer?.engine?.state))&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);falseThresholdFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
+function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if((horrorGazeActive||presenceZone(adventurePlayer?.engine?.state))&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);falseThresholdFrame(dt);radioEchoFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
 </script></body></html>

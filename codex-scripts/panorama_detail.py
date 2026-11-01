@@ -43,9 +43,15 @@ def apply_panorama_details(payload: dict, root: Path, *, web_dir: Path | None = 
     # confirmation. Keep the existing story flag and allow E015 to unset the
     # visual state on later visits, so the player can align them again.
     for action in payload.get("story",{}).get("adventure",{}).get("actions",[]):
-        if action.get("id") == "slippers":
+        micro_feedback = {
+            "slippers": "Тапочки стоят ровно.",
+            "wash_cup": "Чашка вымыта.",
+            "paper_tray": "Лист убран в лоток.",
+        }
+        if action.get("id") in micro_feedback and action.get("text") == "Выполнено.":
             action["instant"] = True
-            action["instantFeedback"] = "Тапочки стоят ровно."
-            effects = action.setdefault("effects",[])
-            if not any(x.get("set",{}).get("A_SHOES_SHIFTED") is False for x in effects):
-                effects.append({"set":{"A_SHOES_SHIFTED":False}})
+            action["instantFeedback"] = micro_feedback[action["id"]]
+            if action["id"] == "slippers":
+                effects = action.setdefault("effects",[])
+                if not any(x.get("set",{}).get("A_SHOES_SHIFTED") is False for x in effects):
+                    effects.append({"set":{"A_SHOES_SHIFTED":False}})
