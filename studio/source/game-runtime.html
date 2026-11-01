@@ -410,7 +410,7 @@ function presencePaint(dt,state,figure){
   }
  }
  if(point){
-  figure.classList.add('actor-art');
+  figure.classList?.add('actor-art');
   figure.style.backgroundImage='url("'+PRESENCE_ILLUSTRATIONS[zone.mode==='stare'?'table':zone.mode==='dark'?'glass':'night']+'")';
   figure.style.display='block';
   figure.style.left=point.x+'px';figure.style.top=point.y+'px';
@@ -439,7 +439,7 @@ function horrorPaint(dt=0){
   canvas.style.filter=profile.strength?'saturate('+(1-profile.strength*.65)+') contrast('+(1+profile.strength*.4)+') brightness('+(1-profile.strength*.22)+')':'';
  }
  if(presencePaint(dt,state,figure))return;
- figure.classList.remove('actor-art');figure.style.backgroundImage='';
+ figure.classList?.remove('actor-art');figure.style.backgroundImage='';
  figure.style.filter='';figure.style.scale='';
  const gazeKey=roomId+':'+variant;
  if(horrorGazeKey!==gazeKey){horrorGazeKey=gazeKey;horrorGazeHold=0;}
