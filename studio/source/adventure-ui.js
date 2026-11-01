@@ -214,6 +214,57 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
 .ga-task-listen .ga-field-dial::after{background:#b9b59c;opacity:.6}
 .ga-task-listen .ga-field-dial-number{font:24px Georgia,serif;letter-spacing:8px;color:#d8cfb4}
 
+
+/* Main story hardware: tactile consoles with the original input/answer logic. */
+.ga-root .ga-hardware{margin:12px 0;padding:13px;background:linear-gradient(155deg,#1a2629,#0c151a 75%);border:1px solid #75898491;border-radius:7px;box-shadow:inset 0 0 18px #0005,0 6px 20px #0005}
+.ga-root .ga-hardware-heading{display:flex;flex-direction:column;gap:2px;margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid #8a9d9175;color:#e3dfcb}
+.ga-root .ga-hardware-kicker{font:10px/1.3 Consolas,monospace;letter-spacing:.18em;color:#adb7a7}
+.ga-root .ga-hardware-heading strong{font:500 15px/1.4 Georgia,serif;letter-spacing:.02em}
+.ga-root .ga-hardware-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(205px,100%),1fr));gap:11px}
+.ga-root .ga-hardware-control{min-width:0;padding:10px 11px;background:#081115b0;border:1px solid #63736e77;border-radius:4px;position:relative}
+.ga-root .ga-hardware-control-title{font:12px/1.4 'Segoe UI',sans-serif;color:#c8d3c8;min-height:18px;margin:0 0 12px}
+.ga-root .ga-hardware-gauge{min-height:76px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:13px;background:radial-gradient(ellipse,#1f3334,#0d191b 80%);border:1px solid #5d716a70;border-radius:4px;box-shadow:inset 0 0 15px #0009}
+.ga-root .ga-hardware-number{font:26px/1 Consolas,monospace;color:#dfd6b7;letter-spacing:.04em;text-shadow:0 0 14px #d4c48e30}
+.ga-root .ga-hardware-track{width:76%;height:7px;border-radius:1px;background:repeating-linear-gradient(90deg,#395149 0 2px,#1b2524 2px 7px);border:1px solid #75877f6a;overflow:hidden}
+.ga-root .ga-hardware-fill{display:block;width:var(--level,0%);height:100%;background:linear-gradient(90deg,#7c9890,#d4c28d);box-shadow:0 0 10px #d7bf8177}
+.ga-root .ga-hardware-adjust{display:flex;align-items:center;gap:5px;margin-top:10px}
+.ga-root .ga-hardware-adjust button{min-width:39px;min-height:42px;text-align:center!important;padding:4px 8px;background:#243330;border-color:#6b8077}
+.ga-root .ga-hardware-adjust input[type=range]{min-width:0;flex:1;width:100%;padding:0;margin:0;border:none;min-height:36px;background:transparent;accent-color:#d3bf85}
+.ga-root .ga-hardware-switches{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.ga-root .ga-hardware-switch{flex:1 1 auto;min-height:45px;padding:6px 10px;text-align:center!important;font:12px/1.35 Consolas,monospace;background:#1e2a28;border:1px solid #6c8076;transition:background .12s,border-color .12s}
+.ga-root .ga-hardware-switch[aria-pressed=true]{color:#f1e6c8;border-color:#e0c789;background:#615a3980;box-shadow:inset 0 0 8px #dac58c24}
+.ga-root .ga-hardware-status{min-height:17px;margin:11px 0 0;font:11px/1.5 Consolas,monospace;color:#99b1a8}
+.ga-root .ga-hardware-precise{margin-top:4px}
+.ga-root .ga-sequence-machine{padding:13px 12px;background:linear-gradient(140deg,#27302c,#111a1e 70%);border:1px solid #83918672;border-radius:5px;box-shadow:inset 0 0 18px #0007}
+.ga-root .ga-sequence-instruction{margin:0 0 9px;color:#c4cab9;font:12px/1.5 Georgia,serif}
+.ga-root .ga-sequence-status{font:11px/1.4 Consolas,monospace;color:#b6c9be}
+.ga-root .ga-sequence-machine .ga-sequence{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0 13px;padding:0;list-style:none}
+.ga-root .ga-sequence-machine .ga-sequence li{flex:1 1 66px;min-width:66px;max-width:130px;min-height:52px;display:flex;flex-direction:column;gap:4px;padding:7px;border:1px dashed #7a918277;border-radius:4px;background:#0b1417ad;color:#d9dcc8}
+.ga-root .ga-sequence-machine .ga-sequence li[data-filled=true]{border-style:solid;border-color:#cfbc89;background:#695f3940}
+.ga-root .ga-sequence-machine .ga-sequence li small{font:9px/1.2 Consolas,monospace;color:#a1ad9e}
+.ga-root .ga-sequence-machine .ga-sequence li span{font:11px/1.3 'Segoe UI',sans-serif;overflow-wrap:anywhere}
+.ga-root .ga-sequence-props{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:8px;align-items:stretch;margin:5px 0 13px}
+.ga-root .ga-sequence-prop{min-height:74px;display:flex;justify-content:center;align-items:flex-end;position:relative;text-align:center!important;padding:28px 8px 10px;border:1px solid #8e9c8d;border-radius:5px;background:linear-gradient(155deg,#36413a,#1c2b2a 60%,#29302c);color:#efe9d4;box-shadow:inset 0 1px #ffffff16,0 4px 8px #0005;font:12px/1.3 'Segoe UI',sans-serif}
+.ga-root .ga-sequence-prop:before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:28px;height:15px;border:2px solid #b8b9a1;border-radius:4px;box-shadow:inset 0 3px 7px #0009}
+.ga-root .ga-sequence-prop[data-used=true]{border-color:#c6b37d;background:linear-gradient(155deg,#4b5039,#242c2a)}
+.ga-root .ga-sequence-prop:focus-visible{outline:2px solid #e1ca91;outline-offset:2px}
+.ga-root .ga-sequence-prop:hover{border-color:#e4d2a5}
+.ga-root .ga-sequence-tools{display:flex;flex-wrap:wrap;gap:8px}
+.ga-root .ga-sequence-tools button{flex:1 1 125px;min-height:42px;padding:8px 10px;font-size:12px;background:#26322e}
+.ga-root .ga-sequence-tea_sequence .ga-sequence-prop{background:linear-gradient(160deg,#454039,#272623 75%);border-color:#998b76}
+.ga-root .ga-sequence-plumb_seq .ga-sequence-prop{background:linear-gradient(160deg,#334449,#14252a 75%);border-color:#72909a}
+.ga-root .ga-sequence-cooking .ga-sequence-prop{background:linear-gradient(160deg,#424239,#25251f 75%);border-color:#888c6a}
+.ga-root .ga-sequence-vhs_assemble .ga-sequence-prop{background:linear-gradient(160deg,#3b3a3a,#1c2425 75%);border-color:#92969a}
+@media(max-width:680px){.ga-root .ga-hardware{padding:9px}.ga-root .ga-hardware-board{grid-template-columns:1fr;gap:7px}.ga-root .ga-hardware-control{padding:8px}.ga-root .ga-hardware-gauge{min-height:56px}.ga-root .ga-hardware-number{font-size:20px}.ga-root .ga-sequence-machine{padding:9px}.ga-root .ga-sequence-props{grid-template-columns:repeat(2,minmax(0,1fr))}.ga-root .ga-sequence-prop{min-height:58px}}
+
+
+.ga-root .ga-hardware-knob{display:grid;place-items:center;position:relative;width:86px;height:66px;min-height:66px;border-radius:40px;background:radial-gradient(circle at 37% 27%,#354c49,#1a2b2b 58%,#101d1f);border:3px solid #708981;box-shadow:inset 0 3px 9px #090d10c2,0 4px 10px #0007;text-align:center!important;padding:8px}
+.ga-root .ga-hardware-knob::before{content:'';position:absolute;top:2px;left:calc(50% - 1px);width:2px;height:10px;background:#d6c695;transform-origin:1px 30px;transform:rotate(var(--angle,0deg));box-shadow:0 0 4px #ddca9977}
+.ga-root .ga-hardware-knob:hover{border-color:#d0c499;background:radial-gradient(circle at 37% 27%,#405951,#1a2b2b 58%,#101d1f)}
+.ga-root .ga-hardware-knob:focus-visible{outline:2px solid #ddca99;outline-offset:3px}
+.ga-root .ga-hardware-number{pointer-events:none;font-size:22px}
+@media(max-width:680px){.ga-root .ga-hardware-knob{width:80px;height:58px;min-height:58px}.ga-root .ga-hardware-number{font-size:19px}}
+
 `;
 
 class UI{
@@ -484,12 +535,206 @@ class UI{
 
  instrumentAttempts(a){if(!this.attemptLabel)return;const errors=this.engine.state.errors[a.id]||0;this.attemptLabel.textContent=a.deathAfter?'Опасный прибор · ошибок до возврата к контрольной точке: '+(a.deathAfter-errors%a.deathAfter):errors?'Ошибок при настройке: '+errors:'Промежуточная настройка сохраняется.';}
  instrumentReferences(parent,a){const ids=new Set([...(a.hint||'').matchAll(/\bD\d{2}\b/g)].map(m=>m[0]));for(const m of JSON.stringify(a.when||{}).matchAll(/FOUND_(D\d{2})/g))ids.add(m[1]);for(const id of ids){if(!this.engine.state.documents.includes(id))continue;const doc=this.data.documents.find(d=>d.id===id);if(!doc)continue;const details=el('details',undefined,'ga-reference');details.append(el('summary','Свериться с документом: '+this.documentTitle(doc)));this.documentView(details,doc);parent.append(details);}}
- sequenceControl(parent,a){let selected=this.engine.actionInput(a.id);const status=el('div',undefined,'ga-muted'),slots=el('ol',undefined,'ga-sequence');status.setAttribute('role','status');status.setAttribute('aria-live','polite');parent.append(status,slots);const row=el('div',undefined,'ga-row');parent.append(row);
- const paint=()=>{slots.replaceChildren();for(let i=0;i<a.answer.length;i++){const slot=el('li');slot.dataset.filled=String(i<selected.length);slot.append(el('small','ШАГ '+(i+1)),el('span',selected[i]??'—'));slots.append(slot);}status.textContent='Набрано шагов: '+selected.length+' из '+a.answer.length;undo.disabled=!selected.length;};
- for(const token of a.buttons)this.button(row,token,()=>{selected.push(token);if(String(selected.at(-1))!==String(a.answer[selected.length-1])){const result=this.submit(a,selected,true);if(result?.death)return;selected=[];this.engine.actionInput(a.id,selected);paint();}else if(selected.length===a.answer.length)this.submit(a,selected);else{this.engine.actionInput(a.id,selected);paint();}});
- const tools=el('div',undefined,'ga-row');parent.append(tools);const undo=this.button(tools,'Отменить последний шаг',()=>{selected.pop();this.engine.actionInput(a.id,selected);paint();});this.button(tools,'Начать последовательность заново',()=>{selected=[];this.engine.actionInput(a.id,selected);paint();if(this.error)this.error.textContent='';});paint();
+ sequenceControl(parent,a){
+  let selected=this.engine.actionInput(a.id);
+  const tactile=['TEA_SEQUENCE','PLUMB_SEQ','COOKING','VHS_ASSEMBLE'].includes(a.id);
+  const host=tactile?el('section',undefined,'ga-sequence-machine ga-sequence-'+a.id.toLowerCase()):parent;
+  if(tactile){
+   host.append(el('p','Выполняйте действия непосредственно с предметами. Порядок важен.','ga-sequence-instruction'));
+   parent.append(host);
+  }
+  const status=el('div',undefined,'ga-muted ga-sequence-status');
+  status.setAttribute('role','status');
+  status.setAttribute('aria-live','polite');
+  const slots=el('ol',undefined,'ga-sequence');
+  host.append(status,slots);
+  const row=el('div',undefined,'ga-row'+(tactile?' ga-sequence-props':''));
+  if(tactile)row.setAttribute('role','group');
+  host.append(row);
+  const tokens=[];
+  const tools=el('div',undefined,'ga-row ga-sequence-tools');
+  host.append(tools);
+  const undo=this.button(tools,'Отменить шаг',()=>{
+   selected.pop();
+   this.engine.actionInput(a.id,selected);
+   paint();
+  });
+  this.button(tools,'Начать заново',()=>{
+   selected=[];
+   this.engine.actionInput(a.id,selected);
+   paint();
+   if(this.error)this.error.textContent='';
+  });
+  const paint=()=>{
+   slots.replaceChildren();
+   for(let i=0;i<a.answer.length;i++){
+    const slot=el('li');
+    slot.dataset.filled=String(i<selected.length);
+    slot.append(el('small','ШАГ '+(i+1)),el('span',selected[i]??'—'));
+    slots.append(slot);
+   }
+   status.textContent='Порядок действий · '+selected.length+' / '+a.answer.length;
+   undo.disabled=!selected.length;
+   for(const [i,b]of tokens){
+    const consumed=selected.filter(v=>String(v)===String(a.buttons[i])).length;
+    b.dataset.used=consumed>0?'true':'false';
+    b.setAttribute('aria-pressed',String(consumed>0));
+   }
+  };
+  for(const [i,token]of a.buttons.entries()){
+   const b=this.button(row,token,()=>{
+    selected.push(token);
+    if(String(selected.at(-1))!==String(a.answer[selected.length-1])){
+     const result=this.submit(a,selected,true);
+     if(result?.death)return;
+     selected=[];
+     this.engine.actionInput(a.id,selected);
+     paint();
+    }else if(selected.length===a.answer.length){
+     this.submit(a,selected);
+    }else{
+     this.engine.actionInput(a.id,selected);
+     paint();
+    }
+   });
+   if(tactile){
+    b.classList.add('ga-sequence-prop');
+    b.dataset.propIndex=String(i);
+    b.title='Использовать: '+token;
+   }
+   tokens.push([i,b]);
+  }
+  paint();
+ }
+ hardwareInstrument(parent,a,fields,grid){
+  const host=el('section',undefined,'ga-hardware ga-device-'+a.id.toLowerCase());
+  const heading=el('header',undefined,'ga-hardware-heading');
+  heading.append(el('span','МОДУЛЬ УПРАВЛЕНИЯ','ga-hardware-kicker'),el('strong',a.label));
+  const board=el('div',undefined,'ga-hardware-board'),status=el('p','Регулируйте органы управления. Затем проверьте результат.','ga-hardware-status');
+  status.setAttribute('role','status');
+  host.append(heading,board,status);
+  parent.insertBefore(host,grid);
+  const precise=el('details',undefined,'ga-reference ga-hardware-precise');
+  precise.append(el('summary','Точное управление и ввод с клавиатуры'));
+  parent.insertBefore(precise,grid);
+  precise.append(grid);
+  const set=(i,value)=>{
+   const node=fields[i];
+   node.value=String(value);
+   node.dispatchEvent(new Event(node.tagName==='SELECT'?'change':'input',{bubbles:true}));
+  };
+  const controls=[];
+  for(const [i,f] of a.fields.entries()){
+   const card=el('section',undefined,'ga-hardware-control');
+   card.append(el('p',f.label,'ga-hardware-control-title'));
+   if(f.options){
+    const variants=el('div',undefined,'ga-hardware-switches'),buttons=[];
+    if(f.options.length<=7){
+     for(const choice of f.options){
+      const b=this.button(variants,String(choice),()=>set(i,choice));
+      b.className='ga-hardware-switch';
+      b.setAttribute('aria-label',f.label+': '+choice);
+      buttons.push([b,choice]);
+     }
+    }else{
+     const cycle=this.button(variants,'Переключить',()=>{
+      const index=f.options.indexOf(fields[i].value);
+      set(i,f.options[(index+1)%f.options.length]);
+     });
+     cycle.className='ga-hardware-switch ga-hardware-cycle';
+     buttons.push([cycle,null]);
+    }
+    card.append(variants);
+    controls.push(()=>{
+     for(const [b,v]of buttons){
+      const picked=v!==null&&String(fields[i].value)===String(v);
+      b.setAttribute('aria-pressed',String(picked));
+      if(v===null)b.textContent=fields[i].value||'Выбрать режим';
+     }
+    });
+   }else{
+    const min=Number.isFinite(Number(f.min))?Number(f.min):0;
+    const max=Number.isFinite(Number(f.max))?Number(f.max):100;
+    const step=Number(f.step)>0?Number(f.step):1;
+    const adjust=delta=>{
+     const current=fields[i].value===''?min:Number(fields[i].value);
+     const rounded=min+Math.round((current+delta*step-min)/step)*step;
+     const value=Math.min(max,Math.max(min,Number(rounded.toFixed(6))));
+     set(i,value);
+    };
+    const face=el('div',undefined,'ga-hardware-gauge');
+    const knob=el('button',undefined,'ga-hardware-knob');
+    knob.type='button';
+    knob.setAttribute('role','slider');
+    knob.setAttribute('aria-label',f.label+' — поворотная рукоять');
+    knob.setAttribute('aria-valuemin',String(min));
+    knob.setAttribute('aria-valuemax',String(max));
+    const number=el('output',undefined,'ga-hardware-number');
+    knob.append(number);
+    let dragging=null;
+    knob.onpointerdown=e=>{
+     if(e.pointerType==='mouse'&&e.button!==0)return;
+     dragging={id:e.pointerId,x:e.clientX,value:fields[i].value!==''?Number(fields[i].value):min,moved:false};
+     knob.setPointerCapture(e.pointerId);
+    };
+    knob.onpointermove=e=>{
+     if(!dragging||e.pointerId!==dragging.id)return;
+     const dx=e.clientX-dragging.x;
+     if(Math.abs(dx)>=4){
+      dragging.moved=true;
+      const units=Math.round(dx/15);
+      const target=dragging.value+units*step;
+      set(i,Math.max(min,Math.min(max,Number((min+Math.round((target-min)/step)*step).toFixed(6)))));
+     }
+    };
+    knob.onpointerup=e=>{
+     if(!dragging||e.pointerId!==dragging.id)return;
+     if(!dragging.moved)adjust(1);
+     dragging=null;
+    };
+    knob.onpointercancel=()=>{dragging=null;};
+    knob.onkeydown=e=>{
+     const delta={'ArrowLeft':-1,'ArrowDown':-1,'ArrowRight':1,'ArrowUp':1}[e.key];
+     if(delta){e.preventDefault();e.stopPropagation();adjust(delta);}
+    };
+    const track=el('div',undefined,'ga-hardware-track');
+    track.append(el('span',undefined,'ga-hardware-fill'));
+    const row=el('div',undefined,'ga-hardware-adjust');
+    const less=this.button(row,'−',()=>adjust(-1));
+    less.setAttribute('aria-label','Уменьшить '+f.label);
+    const range=el('input');range.type='range';range.min=String(min);range.max=String(max);range.step=String(step);
+    range.setAttribute('aria-label',f.label+' — ползунок');
+    range.oninput=()=>set(i,range.value);
+    row.append(range);
+    const more=this.button(row,'+',()=>adjust(1));
+    more.setAttribute('aria-label','Увеличить '+f.label);
+    face.append(knob,track);
+    card.append(face,row);
+    controls.push(()=>{
+     const current=fields[i].value;
+     const val=current===''?NaN:Number(current);
+     const ratio=Number.isFinite(val)&&max>min?Math.max(0,Math.min(1,(val-min)/(max-min))):0;
+     number.textContent=current===''?'—':current;
+     knob.style.setProperty('--angle',(-130+ratio*260).toFixed(1)+'deg');
+     knob.setAttribute('aria-valuenow',Number.isFinite(val)?String(val):String(min));
+     face.style.setProperty('--level',(ratio*100).toFixed(2)+'%');
+     range.value=Number.isFinite(val)?String(val):String(min);
+     less.disabled=Number.isFinite(val)&&val<=min;
+     more.disabled=Number.isFinite(val)&&val>=max;
+    });
+   }
+   board.append(card);
+  }
+  this.physicalPaint=()=>{
+   for(const update of controls)update();
+   const valid=fields.filter(field=>field.checkValidity()&&field.value!=='').length;
+   status.textContent='Настроено: '+valid+' из '+fields.length+'. Проверка прибора выполняется отдельно.';
+  };
+  this.physicalPaint();
  }
  physicalInstrument(parent,a,fields,grid){
+ const mainHardware=['POWER_BASIC','RADIO_TUNE','CORES_MARKING','MICROSCOPE','WAVE_PHASE','AIRLOCK_EQUALIZE','CARDIOMATCH','TIMELINE_SYNC','NODE_POWER','NODE_OBSERVER','SHUTTERS','POWER_OFF','ANALOG_READINGS_OK','OBSERVER_SELECT'];
+ if(mainHardware.includes(a.id))return this.hardwareInstrument(parent,a,fields,grid);
  if(!['PUNCHCARD_OVERLAY','SPECTRUM_MATCH','ANTENNA'].includes(a.id))return;
  const host=el('section',undefined,'ga-physical'),board=el('div',undefined,'ga-physical-board'),status=el('p',undefined,'ga-physical-status');status.setAttribute('role','status');host.append(board,status);parent.insertBefore(host,grid);const precise=el('details',undefined,'ga-reference');precise.append(el('summary','Точная настройка с клавиатуры'));parent.insertBefore(precise,grid);precise.append(grid);
  const ns='http://www.w3.org/2000/svg',S=(tag,attrs={},text)=>{const node=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));if(text!==undefined)node.textContent=text;return node;};
