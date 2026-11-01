@@ -87,7 +87,7 @@ window.BUILT_GAME=__GAME_DATA__;
 <script>
 'use strict';
 const game=window.BUILT_GAME,$=id=>document.getElementById(id),canvas=$('world'), gl=canvas.getContext('webgl',{antialias:false,alpha:false})||canvas.getContext('experimental-webgl');
-const TAU=2*Math.PI;let roomId=game.current||game.rooms[0].id,torch=true,yaw=0,pitch=0,fov=72,down=false,mx=innerWidth/2,my=innerHeight/2,lx=0,ly=0,dragged=false;let gpu={},active=null,queued=false,frameLast=performance.now(),cache=new Map(),runtime=null,starting=true,storyPlayer=null;
+const TAU=2*Math.PI;let roomId=game.current||game.rooms[0].id,torch=false,yaw=0,pitch=0,fov=72,down=false,mx=innerWidth/2,my=innerHeight/2,lx=0,ly=0,dragged=false;let gpu={},active=null,queued=false,frameLast=performance.now(),cache=new Map(),runtime=null,starting=true,storyPlayer=null;
 let adventurePlayer=null;const adventureVariantsApplied={};let adventureBasePanoramas=null;
 let sessionReady=false, sessionPaused=true, sessionStarted=false, saveDebounce=0, lastAutoSave=0, initialGameState=null;
 function norm(x){return ((x%1)+1)%1;}function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
@@ -189,13 +189,17 @@ function directorTick(dt){if(!sessionStarted||!sessionReady||sessionPaused||adve
 }
 
 function composite(r){const e=cache.get(r.id);if(!e?.dirty)return;const c=e.ctx;c.clearRect(0,0,e.width,e.height);c.drawImage(e.bitmap,0,0,e.width,e.height);if(e.clean)c.drawImage(e.clean,0,0,e.width,e.height);if(e.previous){c.globalAlpha=1-Math.min(1,e.fade/e.fadeDuration);c.drawImage(e.previous,0,0,e.width,e.height);c.globalAlpha=1;}adventureMotionPaint(c,r,e);for(const o of r.objects){if(!o.visible||!o.states?.length||adventureSign(o))continue;const id=o.states[clamp(o.state,0,o.states.length-1)],img=e.imgs[id];const live=mediaControllers.get(o.id);if(live?.playing&&live.kind==='video'&&live.video?.readyState>=2)drawQuad(c,live.video,o.corners,e.width,e.height);else if(img)drawQuad(c,img,o.corners,e.width,e.height);}e.dirty=false;if(gl){gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,e.cv);}}
-function initGL(){if(!gl)return;const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;const fs=`precision highp float;uniform sampler2D tex;uniform vec2 size,mouse;uniform float yaw,pitch,fov,torch,planarMode;uniform vec4 flatView;
-const float PI=3.141592653589793;void main(){vec2 q=(gl_FragCoord.xy/size-.5)*2.;float t=tan(radians(fov)*.5);vec3 v=normalize(vec3(q.x*(size.x/size.y)*t,q.y*t,-1.));float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);v=vec3(v.x,cp*v.y-sp*v.z,sp*v.y+cp*v.z);v=vec3(cy*v.x-sy*v.z,v.y,sy*v.x+cy*v.z);vec2 uv=vec2(fract(.5+atan(v.x,-v.z)/(2.*PI)),.5+asin(clamp(v.y,-1.,1.))/PI);if(planarMode>.5){uv=vec2(flatView.x+gl_FragCoord.x/size.x*flatView.z,1.-flatView.y-(1.-gl_FragCoord.y/size.y)*flatView.w);}vec3 col=texture2D(tex,uv).rgb;float d=distance(gl_FragCoord.xy,vec2(mouse.x,size.y-mouse.y));float b=mix(1.,.13+1.03*(1.-smoothstep(150.,330.,d)),torch);gl_FragColor=vec4(col*b,1.);}`;
+function initGL(){if(!gl)return;const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;const fs=`precision highp float;uniform sampler2D tex;uniform vec2 size,mouse;uniform float yaw,pitch,fov,torch,danger,planarMode;uniform vec4 flatView;
+const float PI=3.141592653589793;void main(){vec2 q=(gl_FragCoord.xy/size-.5)*2.;float t=tan(radians(fov)*.5);vec3 v=normalize(vec3(q.x*(size.x/size.y)*t,q.y*t,-1.));float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);v=vec3(v.x,cp*v.y-sp*v.z,sp*v.y+cp*v.z);v=vec3(cy*v.x-sy*v.z,v.y,sy*v.x+cy*v.z);vec2 uv=vec2(fract(.5+atan(v.x,-v.z)/(2.*PI)),.5+asin(clamp(v.y,-1.,1.))/PI);if(planarMode>.5){uv=vec2(flatView.x+gl_FragCoord.x/size.x*flatView.z,1.-flatView.y-(1.-gl_FragCoord.y/size.y)*flatView.w);}vec3 col=texture2D(tex,uv).rgb;float d=distance(gl_FragCoord.xy,vec2(mouse.x,size.y-mouse.y));float spot=1.-smoothstep(150.,330.,d);float b=mix(1.,mix(1.+.12*spot,.16+1.04*spot,danger),torch);gl_FragColor=vec4(col*b,1.);}`;
 function sh(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
-const program=gl.createProgram();gl.attachShader(program,sh(gl.VERTEX_SHADER,vs));gl.attachShader(program,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);const attr=gl.getAttribLocation(program,'p');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);for(const key of ['size','mouse','yaw','pitch','fov','torch','planarMode','flatView'])gpu[key]=gl.getUniformLocation(program,key);gl.uniform1i(gl.getUniformLocation(program,'tex'),0);}
+const program=gl.createProgram();gl.attachShader(program,sh(gl.VERTEX_SHADER,vs));gl.attachShader(program,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);const attr=gl.getAttribLocation(program,'p');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);for(const key of ['size','mouse','yaw','pitch','fov','torch','danger','planarMode','flatView'])gpu[key]=gl.getUniformLocation(program,key);gl.uniform1i(gl.getUniformLocation(program,'tex'),0);}
 function render(){queued=false;constrainCamera();horrorPaint();adventureMarkers();const r=current(),e=cache.get(roomId);if(!e)return;composite(r);const dpr=Math.min(devicePixelRatio||1,1.5),w=Math.round(innerWidth*dpr),h=Math.round(innerHeight*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;if(gl)gl.viewport(0,0,w,h);}
- if(gl){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.uniform2f(gpu.size,w,h);gl.uniform2f(gpu.mouse,mx*dpr,my*dpr);gl.uniform1f(gpu.yaw,yaw);gl.uniform1f(gpu.pitch,pitch);gl.uniform1f(gpu.fov,Math.atan(cameraTangent())*360/Math.PI);gl.uniform1f(gpu.torch,torch?1:0);const frame=flatFraming();gl.uniform1f(gpu.planarMode,frame?1:0);gl.uniform4f(gpu.flatView,frame?.left||0,frame?.top||0,frame?.width||1,frame?.height||1);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
- else{const ctx=canvas.getContext('2d'),frame=flatFraming();if(frame){ctx.drawImage(e.cv,frame.left*e.width,frame.top*e.height,frame.width*e.width,frame.height*e.height,0,0,w,h);if(torch){const light=ctx.createRadialGradient(mx*dpr,my*dpr,150,mx*dpr,my*dpr,330);light.addColorStop(0,'#0000');light.addColorStop(1,'#000d');ctx.fillStyle=light;ctx.fillRect(0,0,w,h);}return;}const scratch=document.createElement('canvas');const scale=Math.min(1,750/w,430/h);scratch.width=Math.max(1,Math.round(w*scale));scratch.height=Math.max(1,Math.round(h*scale));const out=scratch.getContext('2d'),image=e.ctx.getImageData(0,0,e.width,e.height),dest=out.createImageData(scratch.width,scratch.height),t=cameraTangent(),cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);for(let y=0;y<scratch.height;y++)for(let x=0;x<scratch.width;x++){let vx=((x/scratch.width-.5)*2)*(scratch.width/scratch.height)*t,vy=(.5-y/scratch.height)*2*t,vz=-1;let length=Math.hypot(vx,vy,vz);vx/=length;vy/=length;vz/=length;let py=cp*vy-sp*vz,pz=sp*vy+cp*vz,xx=cy*vx-sy*pz,zz=sy*vx+cy*pz;const u=norm(.5+Math.atan2(xx,-zz)/TAU),v=clamp(.5-Math.asin(clamp(py,-1,1))/Math.PI,0,1);const i=(Math.min(e.height-1,Math.floor(v*e.height))*e.width+Math.min(e.width-1,Math.floor(u*e.width)))*4,j=(y*scratch.width+x)*4;const d=Math.hypot(x-mx*scratch.width/innerWidth,y-my*scratch.height/innerHeight);const b=!torch?1:.13+1.03*(1-clamp((d-75)/100,0,1));for(let k=0;k<3;k++)dest.data[j+k]=Math.min(255,image.data[i+k]*b);dest.data[j+3]=255;}out.putImageData(dest,0,0);ctx.drawImage(scratch,0,0,w,h);}}
+ if(gl){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.uniform2f(gpu.size,w,h);gl.uniform2f(gpu.mouse,mx*dpr,my*dpr);gl.uniform1f(gpu.yaw,yaw);gl.uniform1f(gpu.pitch,pitch);gl.uniform1f(gpu.fov,Math.atan(cameraTangent())*360/Math.PI);gl.uniform1f(gpu.torch,torch?1:0);gl.uniform1f(gpu.danger,presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state)?1:0);const frame=flatFraming();gl.uniform1f(gpu.planarMode,frame?1:0);gl.uniform4f(gpu.flatView,frame?.left||0,frame?.top||0,frame?.width||1,frame?.height||1);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
+ else{const ctx=canvas.getContext('2d'),frame=flatFraming();if(frame){ctx.drawImage(e.cv,frame.left*e.width,frame.top*e.height,frame.width*e.width,frame.height*e.height,0,0,w,h);if(torch){const danger=!!(presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state));
+ const light=ctx.createRadialGradient(mx*dpr,my*dpr,150,mx*dpr,my*dpr,330);
+ light.addColorStop(0,danger?'#fff2':'#fff1');light.addColorStop(1,danger?'#000d':'#fff0');
+ ctx.fillStyle=light;ctx.fillRect(0,0,w,h);}return;}const scratch=document.createElement('canvas');const scale=Math.min(1,750/w,430/h);scratch.width=Math.max(1,Math.round(w*scale));scratch.height=Math.max(1,Math.round(h*scale));const out=scratch.getContext('2d'),image=e.ctx.getImageData(0,0,e.width,e.height),dest=out.createImageData(scratch.width,scratch.height),t=cameraTangent(),cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);for(let y=0;y<scratch.height;y++)for(let x=0;x<scratch.width;x++){let vx=((x/scratch.width-.5)*2)*(scratch.width/scratch.height)*t,vy=(.5-y/scratch.height)*2*t,vz=-1;let length=Math.hypot(vx,vy,vz);vx/=length;vy/=length;vz/=length;let py=cp*vy-sp*vz,pz=sp*vy+cp*vz,xx=cy*vx-sy*pz,zz=sy*vx+cy*pz;const u=norm(.5+Math.atan2(xx,-zz)/TAU),v=clamp(.5-Math.asin(clamp(py,-1,1))/Math.PI,0,1);const i=(Math.min(e.height-1,Math.floor(v*e.height))*e.width+Math.min(e.width-1,Math.floor(u*e.width)))*4,j=(y*scratch.width+x)*4;const d=Math.hypot(x-mx*scratch.width/innerWidth,y-my*scratch.height/innerHeight);const spot=1-clamp((d-75)/100,0,1),danger=!!(presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state));
+ const b=!torch?1:danger?.16+1.04*spot:1+.12*spot;for(let k=0;k<3;k++)dest.data[j+k]=Math.min(255,image.data[i+k]*b);dest.data[j+3]=255;}out.putImageData(dest,0,0);ctx.drawImage(scratch,0,0,w,h);}}
 function refresh(){if(!queued){queued=true;requestAnimationFrame(render);}}
 function screenUv(x,y){const frame=flatFraming();if(frame)return {u:frame.left+x/innerWidth*frame.width,v:frame.top+y/innerHeight*frame.height};const nx=(x/innerWidth-.5)*2,ny=(.5-y/innerHeight)*2,t=cameraTangent();let a=nx*(innerWidth/innerHeight)*t,b=ny*t,c=-1;const len=Math.hypot(a,b,c);a/=len;b/=len;c/=len;const cp=Math.cos(pitch),sp=Math.sin(pitch),cy=Math.cos(yaw),sy=Math.sin(yaw),yy=cp*b-sp*c,zz=sp*b+cp*c,xx=cy*a-sy*zz,z=sy*a+cy*zz;return {u:norm(.5+Math.atan2(xx,-z)/TAU),v:clamp(.5-Math.asin(clamp(yy,-1,1))/Math.PI,0,1)}}
 function objectHit(p,o){const q=unwrapped(o.corners),b=q[0].u,u=b+((((p.u-b)+.5)%1+1)%1-.5);let inside=false;for(let i=0,j=3;i<4;j=i++){const a=q[i],c=q[j];if((a.v>p.v)!==(c.v>p.v)&&u<(c.u-a.u)*(p.v-a.v)/(c.v-a.v)+a.u)inside=!inside;}return inside;}
@@ -250,6 +254,96 @@ const HORROR_GAZE_TIMING={
  B_GHOST_MIRROR:1.0,H_ANNA_GLASS:1.15,D_LATE_MIRROR:.9,G_MIRROR_DOOR:1.3,
  J_FALSE_BELOV:1.1
 };
+
+// Real flashlight encounters. Spatial anchors reuse already-authored panorama points.
+// Failing pushes the player back through an unlocked passage, never breaks quest flags.
+const PRESENCE_ZONES={
+ B:{chapter:4,requiresTorch:false,after:'COOKING',mode:'stare',u:.60,v:.68,title:'Лишнее место за столом',
+ reply:'За столом никого не оказалось. Но вторая чашка уже стоит ближе к вам, чем минуту назад.'},
+ J:{chapter:7,u:.50,v:.42,title:'У стекла шлюза',reply:'На внутренней стороне стекла остался след, который исчез, едва луч задержался на нём.'},
+ H:{chapter:8,u:.36,v:.64,title:'Перед экраном',reply:'В отблеске фонаря перед экраном проступил чужой силуэт. В кадре записи его не было.'},
+ C:{chapter:9,u:.44,v:.49,title:'В конце коридора',reply:'Когда свет коснулся дальнего конца коридора, знакомая дверь на миг оказалась в другом месте.'},
+ I:{chapter:10,mode:'dark',u:.72,v:.43,title:'У медицинского шкафа',reply:'За матовым стеклом шкафа кто-то стоял лицом к вам. Свет прошёл через него, и силуэт исчез.'}
+};
+let presenceSession=null;
+function presenceZone(state){
+ if(!sessionStarted||sessionPaused||!state||state.ended)return null;
+ const zone=PRESENCE_ZONES[roomId];
+ return zone&&state.chapter>=zone.chapter
+  &&(!zone.after||state.done?.includes(zone.after))
+  &&(zone.requiresTorch===false||state.done?.includes('take_FLASHLIGHT'))
+  &&!state.progress?.presenceResults?.[roomId]?zone:null;
+}
+function presenceSound(intensity=0){
+ const a=typeof stationAmbience!=='undefined'?stationAmbience:null;
+ if(!a?.noiseGain||a.ctx.state!=='running')return;
+ a.noiseGain.gain.setTargetAtTime(.055+intensity*.15,a.ctx.currentTime,.3);
+}
+function presenceConclude(state,outcome,zone,figure){
+ (state.progress.presenceResults||(state.progress.presenceResults={}))[roomId]=outcome;
+ (state.progress.seenApparitions||(state.progress.seenApparitions={}))[roomId+':'+state.variants[roomId]]=true;
+ const text=outcome==='repelled'?zone.reply:
+  'Из темноты раздался шаг совсем рядом. Пришлось отступить, потеряв из виду то, что стояло впереди.';
+ state.journal.push({id:'PRESENCE_'+roomId,text,time:state.clock,lines:[]});
+ presenceSession=null;horrorGazeActive=false;horrorAppliedKey='';
+ figure.style.display='none';figure.style.opacity='0';figure.style.filter='';
+ presenceSound(0);adventurePlayer.engine.changed();
+ if(outcome==='repelled'){
+  note('Силуэт отступил. В журнале осталось наблюдение.');
+  horrorCueStart({room:roomId,horror:true,category:'quiet',visualCue:{mode:'flicker',duration:.55,strength:.21}});
+ }else{
+  note('Что-то оказалось слишком близко. Вы отступаете.');
+  horrorCueStart({room:roomId,horror:true,category:'quiet',visualCue:{mode:'blackout',duration:1.2,strength:.7}});
+  // Retire to a real unlocked adjacent room; do not teleport to invented areas.
+  const old=roomId,previous=adventurePlayer.previousRoom,links=adventurePlayer.data.links,
+   options=links.filter(l=>l.from===old&&GagarinAdventure.test(l.when,state));
+  const exit=options.find(l=>l.to===previous)||options[0];
+  if(exit)setTimeout(()=>{if(roomId===old&&!adventurePlayer.dialog&&!sessionPaused)adventurePlayer.enterRoom(exit.to);},950);
+ }
+ scheduleGameSave();
+}
+function presencePaint(dt,state,figure){
+ const zone=presenceZone(state);
+ if(!zone){if(presenceSession){presenceSession=null;presenceSound(0);horrorAppliedKey='';}return false;}
+ if(!presenceSession||presenceSession.room!==roomId)presenceSession={room:roomId,time:0,exposure:0,announced:false};
+ const threat=presenceSession,point=project({u:zone.u,v:zone.v});
+ if(dt>0&&cameraAllowed()){
+  threat.time+=Math.min(.15,Math.max(0,dt));
+  if(threat.time>=5&&!threat.announced){
+   threat.announced=true;
+   note(zone.mode==='stare'?'За столом кто-то есть. Смотрите прямо на него.':
+    zone.mode==='dark'?'На свету силуэт приближается. Попробуйте погасить фонарь.':
+    'Кто-то рядом. Найдите его в темноте и удержите луч фонаря.');
+  }
+ }
+ if(threat.time<5){figure.style.display='none';horrorGazeActive=true;return true;}
+ const pressure=Math.max(0,Math.min(1,(threat.time-5)/(zone.mode==='dark'&&torch?11:17)));
+ const lit=!!torch&&!!point&&Math.hypot(point.x-mx,point.y-my)<Math.min(160,innerWidth*.17);
+ const centered=!!point&&Math.hypot(point.x-innerWidth/2,point.y-innerHeight/2)<Math.min(140,innerWidth*.15);
+ const protection=zone.mode==='stare'?centered:zone.mode==='dark'?!torch:lit;
+ if(dt>0&&cameraAllowed()){
+  threat.exposure=Math.max(0,Math.min(2.5,threat.exposure+(protection?dt:-dt*.65)));
+  presenceSound(pressure*(protection?.25:1));
+  if(threat.exposure>=(zone.mode==='dark'?2.1:1.55)){
+   presenceConclude(state,'repelled',zone,figure);return true;
+  }
+  if(pressure>=1){
+   presenceConclude(state,'retreated',zone,figure);return true;
+  }
+ }
+ if(point){
+  figure.style.display='block';
+  figure.style.left=point.x+'px';figure.style.top=point.y+'px';
+  figure.style.scale=String(1+pressure*1.9);
+  figure.style.filter='blur('+(Math.max(.6,3.2-pressure*2.4)).toFixed(1)+'px)';
+  figure.style.opacity=String(protection?Math.max(.09,.62-threat.exposure*.27):.23+pressure*.49);
+ }else figure.style.display='none';
+ const layer=$('horror-atmosphere');
+ if(layer){layer.dataset.signal='severe';layer.style.opacity=String(.13+pressure*.48);}
+ canvas.style.filter='saturate('+(1-pressure*.6)+') contrast('+(1+pressure*.36)+') brightness('+(1-pressure*.28)+')';
+ horrorGazeActive=true;
+ return true;
+}
 let horrorAppliedKey='',horrorGazeKey='',horrorGazeHold=0,horrorGazeActive=false;
 function horrorPaint(dt=0){
  const layer=$('horror-atmosphere'),figure=$('horror-apparition');
@@ -264,6 +358,8 @@ function horrorPaint(dt=0){
   // CSS works for both WebGL and CPU panorama renderers.
   canvas.style.filter=profile.strength?'saturate('+(1-profile.strength*.65)+') contrast('+(1+profile.strength*.4)+') brightness('+(1-profile.strength*.22)+')':'';
  }
+ if(presencePaint(dt,state,figure))return;
+ figure.style.filter='';figure.style.scale='';
  const gazeKey=roomId+':'+variant;
  if(horrorGazeKey!==gazeKey){horrorGazeKey=gazeKey;horrorGazeHold=0;}
  const visualProfile=meta?.visualProfiles?.[variant];
@@ -439,7 +535,7 @@ function adventureReflectState(){
   o.visible=!!a&&adventurePlayer.engine.eligible(a);
  }
  for(const entry of cache.values())entry.dirty=true;
- refresh();
+ updateTorchButton();refresh();
 }
 function adventureApplyVariant(rid,variant,transient=false){
  if(!transient&&typeof horrorCue!=='undefined'&&horrorCue?.panoramaVariant&&horrorCue.room===rid)return;
@@ -488,7 +584,20 @@ function flatFraming(){
 function constrainCamera(){const frame=flatFraming();if(!frame)return;fov=Math.min(current().view?.fov||78,fov);yaw=clamp(yaw,-(1-frame.width)*Math.PI,(1-frame.width)*Math.PI);pitch=clamp(pitch,-(1-frame.height)*Math.PI/2,(1-frame.height)*Math.PI/2);}
 function cameraTangent(){return Math.tan(fov*Math.PI/360)/Math.max(1,innerWidth/innerHeight/1.35);}
 function levelCamera(){if(!cameraAllowed())return;clearCameraInput();if(flatRoom())yaw=0;pitch=0;fov=current().view?.fov||72;refresh();canvas.focus({preventScroll:true});}
-function updateTorchButton(){const b=$('toggle');b.textContent='Свет · '+(torch?'вкл.':'выкл.');b.setAttribute('aria-label','Фонарик: '+(torch?'включён':'выключен'));b.setAttribute('aria-pressed',String(torch));b.title='Фонарик · F';}
+function torchUnlocked(){
+ // The torch is an actual inventory item, collected at the airlock in chapter seven.
+ return !adventurePlayer||adventurePlayer.engine.state.done.includes('take_FLASHLIGHT');
+}
+function updateTorchButton(){
+ const b=$('toggle'),available=torchUnlocked();
+ if(!available)torch=false;
+ b.style.display=available?'':'none';
+ b.disabled=!available;
+ b.textContent='Фонарь · '+(torch?'вкл.':'выкл.');
+ b.setAttribute('aria-label','Фонарь: '+(torch?'включён':'выключен'));
+ b.setAttribute('aria-pressed',String(torch));
+ b.title='Включить или выключить фонарь · F';
+}
 const cameraKeys=new Set();let cameraPointer=null,dragStartX=0,dragStartY=0;
 function clearCameraInput(){objectiveLook=null;cameraKeys.clear();down=false;dragged=false;canvas.classList.remove('drag');if(cameraPointer!==null&&canvas.hasPointerCapture?.(cameraPointer)){try{canvas.releasePointerCapture(cameraPointer)}catch(_){}}cameraPointer=null;}
 function cameraAllowed(){return sessionStarted&&!sessionPaused&&!adventurePlayer?.engine.modal&&!switchRoom.loading&&!switchRoom.failed;}
@@ -500,7 +609,7 @@ canvas.addEventListener('pointermove',e=>{if(!cameraAllowed())return;mx=e.client
 canvas.addEventListener('pointerup',e=>{if(e.pointerId!==cameraPointer)return;const click=!dragged&&Math.hypot(e.clientX-dragStartX,e.clientY-dragStartY)<=6;clearCameraInput();if(!cameraAllowed()||!click)return;const o=objectAt(e.clientX,e.clientY);if(o){if(o.tourKey?.startsWith('ga:'))adventurePlayer?.openAction(o.tourKey.slice(3));else runtime.fire('click',o.id);if(o.media?.clickPlay)mediaControl(roomId,o.id,true);scheduleGameSave();refresh();}});
 canvas.addEventListener('pointercancel',clearCameraInput);canvas.addEventListener('lostpointercapture',()=>{down=false;cameraPointer=null;canvas.classList.remove('drag');});
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(!cameraAllowed())return;fov=clamp(fov+e.deltaY*.035,35,98);refresh();},{passive:false});
-$('toggle').onclick=()=>{if(!cameraAllowed())return;torch=!torch;updateTorchButton();refresh();};
+$('toggle').onclick=()=>{if(!cameraAllowed()||!torchUnlocked())return;torch=!torch;updateTorchButton();scheduleGameSave();refresh();};
 window.addEventListener('keydown',e=>{
  const k=e.key.toLowerCase();
  if(k==='escape'){if(!sessionStarted)return;e.preventDefault();if(!sessionPaused){showSystem('pause');return;}if(systemPage==='pause'){closeSystem();return;}showSystem('pause');return;}
@@ -542,11 +651,11 @@ function restoreMutable(snapshot){for(const entry of snapshot.globals||[]){const
  }}
 function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
- yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=game.release?.startTorch!==false;
+ yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=false;
  updateTorchButton();sessionStarted=true;closeSystem();switchRoom(roomId).then(loaded=>{if(loaded){runtime.enter(roomId);saveGameLocal()}}).catch(e=>note(e.message));}
 async function loadGameSave(data){validateSave(data);horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
  storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
- yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=data.torch!==false;
+ yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=torchUnlocked()&&data.torch===true;
  updateTorchButton();sessionStarted=true;closeSystem();if(!await switchRoom(roomId,true))throw Error('Не удалось открыть помещение сохранения.');adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
 function setAudio(){adventurePlayer?.syncVoiceVolume();if(storyPlayer){storyPlayer.volume.value=String(audioSettings.master);storyPlayer.musicRatio=audioSettings.music/100;storyPlayer.adjustVolumes()}for(const c of mediaControllers.values()){if(c.audio)c.audio.volume=Math.max(0,Math.min(1,audioSettings.master/100));}}
 function saveSoundPreferences(){if(storyPlayer&&audioSettings.master!==Number(storyPlayer.volume.value)){audioSettings.master=Number(storyPlayer.volume.value);}storageWrite(PREF_KEY,JSON.stringify(audioSettings));}
@@ -589,5 +698,5 @@ $('gs-quick').onclick=()=>{if(sessionStarted)showSystem('pause');else showSystem
 loadSoundPreferences();setTimeout(setAudio,0);
 window.addEventListener('beforeunload',()=>{if(sessionStarted)saveGameLocal()});
 
-function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if(horrorGazeActive&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
+function tick(ts){const dt=Math.min(.15,(ts-frameLast)/1000);frameLast=ts;cameraFrame(dt);adventureMotionFrame(dt);if((horrorGazeActive||presenceZone(adventurePlayer?.engine?.state))&&cameraAllowed())horrorPaint(dt);horrorCueFrame(dt);refreshMedia(ts);directorTick(dt);if(runtime&&sessionStarted&&!sessionPaused&&!switchRoom.loading&&!switchRoom.failed){if(ts-lastAutoSave>20000){lastAutoSave=ts;saveGameLocal();}let look=null,light=null;for(const o of current().objects){if(!o.visible)continue;const p=project(centroid(o));if(!p)continue;if(!look&&Math.hypot(p.x-innerWidth/2,p.y-innerHeight/2)<Math.min(innerWidth,innerHeight)*.1)look=o.id;if(!light&&torch&&Math.hypot(p.x-mx,p.y-my)<110)light=o.id;}if(!adventurePlayer?.engine.modal)runtime.tick(dt,look,light);}requestAnimationFrame(tick)}requestAnimationFrame(tick);boot();
 </script></body></html>
