@@ -15,7 +15,7 @@ def verify(path):
  game,_=json.JSONDecoder().raw_decode(html[html.index("window.BUILT_GAME=")+len("window.BUILT_GAME="):])
  game=hydrate_payload(game,path.parent)
  story=game["story"]["adventure"]
- assert len(game["rooms"])>=16 and len(story["events"])==112 and len(story["documents"])==30
+ assert len(game["rooms"])>=16 and sum(e["id"].startswith("E") for e in story["events"])==112 and len(story["documents"])==30
  room=next(r for r in story["rooms"] if r["id"]=="B")
  for state,(asset_id,sha,event_id,trigger) in EXPECTED.items():
   assert state in room["variants"] and room["variantAssets"][state]==asset_id

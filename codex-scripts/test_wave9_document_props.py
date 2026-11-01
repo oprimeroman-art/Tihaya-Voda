@@ -16,7 +16,7 @@ def verify(path):
  payload, _ = json.JSONDecoder().raw_decode(html[html.index("window.BUILT_GAME=") + len("window.BUILT_GAME="):])
  payload=hydrate_payload(payload,path.parent)
  adv = payload["story"]["adventure"]
- assert len(payload["rooms"]) == 16 and len(adv["events"]) == 112 and len(adv["documents"]) == 30
+ assert len(payload["rooms"]) == 16 and sum(e["id"].startswith("E") for e in adv["events"]) == 112 and len(adv["documents"]) == 30
  art = adv["illustratedProps"]
  for doc, (action, art_id, sha) in expected.items():
   assert art["document"][doc] == art_id and art["action"][action] == art_id, (path, doc)

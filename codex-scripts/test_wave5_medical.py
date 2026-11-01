@@ -16,7 +16,7 @@ assert html.count(marker) == 1
 payload, _ = json.JSONDecoder().raw_decode(html.split(marker, 1)[1])
 payload=hydrate_payload(payload,ROOT/'_site')
 adv = payload["story"]["adventure"]
-assert len(adv["events"]) == 112
+assert sum(e["id"].startswith("E") for e in adv["events"]) == 112  # Canonical events; optional horror encounters may follow
 assert len(adv["rooms"]) == 16
 from alpha_wave5_medical import MEDICAL
 

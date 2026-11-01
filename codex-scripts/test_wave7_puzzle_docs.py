@@ -16,12 +16,13 @@ payload, _ = json.JSONDecoder().raw_decode(html.split(marker, 1)[1])
 payload=hydrate_payload(payload,ROOT/'_site')
 adventure = payload["story"]["adventure"]
 original = json.loads((ROOT / "game-project/project.json").read_text(encoding="utf8"))["story"]["adventure"]
-for key, expected in [("rooms", 16), ("events", 112)]:
-    assert len(adventure[key]) == len(original[key]) == expected
-    assert [item["id"] for item in adventure[key]] == [item["id"] for item in original[key]]
+assert len(adventure["rooms"]) == len(original["rooms"]) == 16
+assert len(original["events"]) == 112
+assert [e["id"] for e in adventure["events"][:112]] == [e["id"] for e in original["events"]]
+assert [r["id"] for r in adventure["rooms"]] == [r["id"] for r in original["rooms"]]
 assert {x["id"]: x["text"] for x in adventure["documents"]} == {
     x["id"]: x["text"] for x in original["documents"]}
-assert [x["id"] for x in adventure["actions"]] == [x["id"] for x in original["actions"]]
+assert [x["id"] for x in adventure["actions"][:len(original["actions"])] ] == [x["id"] for x in original["actions"]]
 from alpha_wave7_puzzle_docs import PUZZLE_DOCS
 for doc_id, (action_id, room, chapter, prefix, art_id, filename, sha) in PUZZLE_DOCS.items():
     art = adventure["illustratedProps"]

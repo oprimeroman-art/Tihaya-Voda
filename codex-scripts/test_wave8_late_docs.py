@@ -17,7 +17,7 @@ assert html.count(marker) == 1
 payload, _ = json.JSONDecoder().raw_decode(html[html.index(marker) + len(marker):])
 payload=hydrate_payload(payload,ROOT/'_site')
 adv = payload["story"]["adventure"]
-assert len(payload["rooms"]) == 16 and len(adv["events"]) == 112 and len(adv["documents"]) == 30
+assert len(payload["rooms"]) == 16 and sum(e["id"].startswith("E") for e in adv["events"]) == 112 and len(adv["documents"]) == 30
 art = adv["illustratedProps"]
 for doc_id, (action_id, room, chapter, art_id, sha) in EXPECTED.items():
     action = next(a for a in adv["actions"] if a["id"] == action_id)
@@ -37,4 +37,4 @@ for doc_id, (action_id, room, chapter, art_id, sha) in EXPECTED.items():
     if doc_id == "D25":
         assert "КОПИЯ 02" not in raw.decode("utf-8")
 assert "ga-document-art" in html and "documentView(parent,doc)" in html
-print("PASS D24/D25/D26 artwork attached to canonical actions and journal; 16 rooms, 112 events, 30 documents preserved")
+print("PASS D24/D25/D26 artwork attached to canonical actions and journal; 16 rooms, 112 canonical events, 30 documents preserved")

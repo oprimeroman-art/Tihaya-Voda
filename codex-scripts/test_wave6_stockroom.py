@@ -16,9 +16,9 @@ payload, _ = json.JSONDecoder().raw_decode(html.split(marker, 1)[1])
 payload=hydrate_payload(payload,ROOT/'_site')
 adv = payload["story"]["adventure"]
 original = json.loads((ROOT / "game-project/project.json").read_text(encoding="utf-8"))["story"]["adventure"]
-assert len(adv["events"]) == len(original["events"]) == 112
+assert len(original["events"]) == 112 and len(adv["events"]) >= 112
 assert len(adv["rooms"]) == len(original["rooms"]) == 16
-assert [x["id"] for x in adv["events"]] == [x["id"] for x in original["events"]]
+assert [x["id"] for x in adv["events"][:len(original["events"])]] == [x["id"] for x in original["events"]]
 assert [x["id"] for x in adv["rooms"]] == [x["id"] for x in original["rooms"]]
 assert {x["id"]: x["text"] for x in adv["documents"]} == {x["id"]: x["text"] for x in original["documents"]}
 from alpha_wave6_stockroom import STOCKROOM
