@@ -166,6 +166,54 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
 .ga-root .ga-hotspot.ga-investigation::before{width:10px;height:10px;background:#342e24e8;border-color:#c9bc9788;box-shadow:0 0 0 4px #0b14147a,0 2px 8px #0008}
 .ga-root .ga-hotspot.ga-investigation:hover::before,.ga-root .ga-hotspot.ga-investigation:focus-visible::before{background:#d7c598;border-color:#f4e2bb;box-shadow:0 0 0 5px #ddc8a122,0 2px 8px #0008}
 
+
+/* Field investigations are tactile miniatures, not full-screen question cards. */
+.ga-root .ga-field-board{border-top:1px solid #bcb18b36;padding:12px 0 6px;margin:3px 0 8px}
+.ga-field-instruction{font:12px/1.5 'Segoe UI',sans-serif!important;color:#b7c5c0;margin:0 0 10px!important}
+.ga-field-stage{position:relative;width:100%;height:150px;overflow:hidden;border:1px solid #778c8973;border-radius:5px;background:radial-gradient(ellipse at 55% 35%,#223034,#081116 83%)}
+.ga-root .ga-field-range-label{display:block;margin:10px 0 2px;color:#c6d0c9;font-size:12px}
+.ga-root .ga-field-range-label input[type=range]{display:block;width:100%;min-height:38px;border:0;padding:0;background:none;accent-color:#d4c08a;cursor:ew-resize}
+.ga-field-status{font-size:11px;line-height:1.5;min-height:18px;color:#aab9b3;margin:4px 0 2px}
+.ga-field-reveal{font:14px/1.55 Georgia,serif;color:#e9dfbd;border-left:2px solid #d6c0899c;padding:6px 12px;background:#d6c0890b;margin:10px 0}
+.ga-field-reveal[hidden],.ga-field-options[hidden]{display:none!important}
+.ga-field-options{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 4px}
+.ga-root .ga-dialog.ga-field-choice .ga-field-options button{width:100%;min-height:44px;padding:10px 12px;border-color:#bcb18f63;background:#bdac7e17;color:#e7e0d0;font-size:13px;text-align:left}
+.ga-root .ga-dialog.ga-field-choice .ga-field-options button:hover{border-color:#f0d9a1;background:#a896693d}
+.ga-field-object{position:absolute;top:21%;left:15%;right:15%;height:63%;border:1px solid #a6b3ab6d;display:grid;place-items:center}
+.ga-field-object-label{font:13px/1.5 Consolas,monospace;letter-spacing:.12em;color:#a8b7a7;text-shadow:0 1px #000}
+.ga-task-slide .ga-field-stage{background:linear-gradient(120deg,#3d3830,#191b1b 60%,#2b2a21)}
+.ga-task-slide .ga-field-object{top:20%;bottom:20%;height:auto;background:#a79a79;color:#272920;box-shadow:0 8px 20px #0006;transform:translateX(var(--shift,0%))}
+.ga-task-slide .ga-field-object-label{color:#2c2920;transform:rotate(-3deg)}
+.ga-task-slide .ga-field-stage::after{content:'04 / ПРИЁМ';position:absolute;top:35%;left:21%;font:13px/1.6 Consolas,monospace;color:#c8c4a4;z-index:0}
+.ga-task-slide .ga-field-object{z-index:1}
+.ga-task-focus .ga-field-stage{background:radial-gradient(ellipse at center,#283b3d 2%,#080d0e 72%)}
+.ga-task-focus .ga-field-object{left:34%;right:34%;top:4%;bottom:4%;height:auto;border:3px solid #839e9b;border-radius:50%;background:radial-gradient(circle,#203236,#080d11);filter:blur(4px)}
+.ga-task-focus .ga-field-object-label{color:#b1c0af;font-size:10px;letter-spacing:.05em;white-space:nowrap}
+.ga-task-tap .ga-field-stage{display:grid;place-items:center;background:repeating-linear-gradient(90deg,#151f22 0 16px,#182528 16px 18px)}
+.ga-field-dial{width:125px;height:125px;border:8px solid #485458;border-radius:50%;display:grid;place-items:center;background:#1e2c30;box-shadow:inset 0 0 20px #000b,0 3px 18px #0008;position:relative}
+.ga-field-dial::after{content:'';position:absolute;left:50%;top:5px;height:18px;width:3px;background:#d5c28b;transform-origin:50% 52px;transform:translateX(-50%) rotate(var(--turn,0deg));transition:transform .16s}
+.ga-field-dial-number{font:26px Consolas,monospace;color:#ddcd9b}
+.ga-root .ga-field-advance{width:100%;min-height:44px;margin:8px 0;border-color:#bcb18f63;background:#bdac7e1c;color:#e6d9be;text-align:center}
+.ga-task-trace .ga-field-stage{background:linear-gradient(145deg,#353d41,#141c21 60%,#293236)}
+.ga-field-drop{position:absolute;transform:translate(-50%,-50%);width:46px;height:46px;min-height:46px!important;border:0!important;background:transparent!important;border-radius:50%!important;padding:0!important}
+.ga-field-drop::after{content:'';display:block;width:13px;height:19px;margin:auto;border-radius:65% 60% 70% 75%;transform:rotate(35deg);background:#8aafaf;box-shadow:inset 2px 2px 6px #d5ebef88,0 0 12px #98c1c160}
+.ga-field-drop.ga-traced::after{background:#d7c48e;box-shadow:0 0 0 4px #d7c48e2d}
+.ga-field-drop:disabled{opacity:.75}
+.ga-task-wipe .ga-field-stage{touch-action:none;cursor:ew-resize;background:linear-gradient(145deg,#738583,#283a40 36%,#657478 65%,#16252a)}
+.ga-task-wipe .ga-field-stage::before{content:'';position:absolute;inset:-40px -15%;background:repeating-linear-gradient(110deg,#e4e7de88 0 2px,#9fb8b95c 3px 11px);opacity:calc(1 - var(--cleared-number,0));pointer-events:none}
+.ga-task-wipe .ga-field-stage::after{content:'';position:absolute;left:28%;top:30%;width:43%;height:34%;border:2px solid #d4daceaa;border-bottom:0;transform:rotate(-16deg);border-radius:50% 50% 0 0;opacity:var(--reveal,0);pointer-events:none}
+@media(max-width:680px){.ga-field-stage{height:118px}.ga-field-dial{width:100px;height:100px}.ga-field-instruction{font-size:11px!important}.ga-root .ga-field-board{padding:8px 0 2px}}
+
+
+.ga-task-tune .ga-field-stage{background:linear-gradient(#1b292d,#0c171c 64%,#27302b)}
+.ga-task-tune .ga-field-object{height:72px;top:25%;left:10%;right:10%;border:3px solid #687871;background:repeating-linear-gradient(90deg,#afab875b 0 1px,transparent 1px 22px),linear-gradient(#1b2424,#1c3338);box-shadow:0 4px 14px #0006}
+.ga-task-tune .ga-field-object::after{content:'';position:absolute;left:var(--needle,0%);top:7px;bottom:7px;width:2px;background:#ddcc9c;box-shadow:0 0 10px #e3d4af8c}
+.ga-task-tune .ga-field-object-label{font-size:13px;color:#c0cbba;letter-spacing:.1em}
+.ga-task-listen .ga-field-stage{display:grid;place-items:center;background:radial-gradient(ellipse,#263938,#0b1719)}
+.ga-task-listen .ga-field-dial{border:3px solid #6b817c;border-radius:50%;background:repeating-radial-gradient(circle,#354d4c 0 1px,transparent 2px 17px),#132123}
+.ga-task-listen .ga-field-dial::after{background:#b9b59c;opacity:.6}
+.ga-task-listen .ga-field-dial-number{font:24px Georgia,serif;letter-spacing:8px;color:#d8cfb4}
+
 `;
 
 class UI{
@@ -480,6 +528,123 @@ class UI{
  this.physicalInstrument(parent,a,fields,grid);
  this.button(parent,a.template==='triple_dial'?'КОНТРОЛЬ':'Проверить',()=>{const invalid=fields.find(n=>!n.checkValidity());if(invalid){if(this.error)this.error.textContent='Заполните все поля в указанном диапазоне.';const details=invalid.closest('details');if(details)details.open=true;invalid.focus();invalid.reportValidity();return;}this.submit(a,fields.map(n=>n.value),true);});
  }
+ fieldTask(parent,a){
+  const spec=a.fieldTask;
+  if(!spec)return parent;
+  const board=el('section',undefined,'ga-field-board ga-task-'+spec.kind);
+  const help=el('p',spec.instruction,'ga-field-instruction');
+  const stage=el('div',undefined,'ga-field-stage');
+  const status=el('p','Осмотрите предмет.','ga-field-status');
+  status.setAttribute('role','status');
+  const reveal=el('p',spec.reveal||'Деталь обнаружена.','ga-field-reveal');
+  reveal.hidden=true;
+  const options=el('div',undefined,'ga-field-options');
+  options.hidden=true;
+  let finished=false;
+  const finish=()=>{
+   if(finished)return;
+   finished=true;
+   status.textContent='Осмотр завершён. Выберите, что сделать с находкой.';
+   reveal.hidden=false;
+   options.hidden=false;
+   options.querySelector('button:not(:disabled)')?.focus({preventScroll:true});
+  };
+  board.append(help,stage,status,reveal);
+  parent.append(board,options);
+  if(spec.kind==='slide'||spec.kind==='focus'||spec.kind==='tune'){
+   const object=el('div',undefined,'ga-field-object');
+   const note=el('span',spec.kind==='slide'?'УЧЁТ / ВЫДАЧА':spec.kind==='tune'?'84.6 / МГц':'ОБРАЗЕЦ / 17','ga-field-object-label');
+   object.append(note);
+   stage.append(object);
+   const row=el('label',spec.kind==='slide'?'Сдвинуть ярлык':spec.kind==='tune'?'Настройка частоты':'Вращение микровинта','ga-field-range-label');
+   const range=el('input');range.type='range';range.min='0';range.max='100';range.step='1';
+   range.value=spec.kind==='slide'?'0':spec.kind==='tune'?'26':'12';range.setAttribute('aria-label',row.textContent);
+   const update=()=>{
+    const value=Number(range.value);
+    if(spec.kind==='slide'){
+     object.style.setProperty('--shift',(value*.45)+'%');
+     status.textContent='Ярлык отогнут: '+value+'%';
+     if(value>=88)finish();
+    }else if(spec.kind==='tune'){
+     object.style.setProperty('--needle',value+'%');
+     const drift=Math.abs(value-72);
+     status.textContent=drift<=5?'В эфире слышен слабый вдох.':'Слышен только обычный шум приёмника.';
+     if(drift<=4)finish();
+    }else{
+     const blur=Math.max(0,Math.abs(value-64)*.16);
+     object.style.filter='blur('+blur.toFixed(1)+'px)';
+     status.textContent=blur<.8?'Контур почти совпал.':'Линия ещё не в фокусе.';
+     if(Math.abs(value-64)<=4)finish();
+    }
+   };
+   range.oninput=update;
+   row.append(range);board.insertBefore(row,status);update();
+  }else if(spec.kind==='tap'||spec.kind==='listen'){
+   const dial=el('div',undefined,'ga-field-dial');
+   const number=el('output','00','ga-field-dial-number');
+   dial.append(number);stage.append(dial);
+   const control=this.button(board,spec.kind==='listen'?'Прислушаться':'Повернуть рукоять',()=>{
+    const count=Math.min(3,Number(number.dataset.turns||0)+1);
+    number.dataset.turns=String(count);
+    number.textContent=spec.kind==='listen'?'·'.repeat(count):String(count).padStart(2,'0');
+    dial.style.setProperty('--turn',count*118+'deg');
+    status.textContent=spec.kind==='listen'?'Услышано повторений: '+count+' из 3.':'Поворот '+count+' из 3 · щелчок… щелчок.';
+    if(count===3){control.disabled=true;finish();}
+   });
+   control.className='ga-field-advance';
+  }else if(spec.kind==='trace'){
+   stage.classList.add('ga-field-drops');
+   let next=0;
+   const points=[[18,70],[48,46],[79,28]];
+   const dots=points.map(([x,y],i)=>{
+    const dot=this.button(stage,'',()=>{
+     if(i!==next||finished)return;
+     dot.classList.add('ga-traced');
+     next++;
+     status.textContent=next<3?'Прослежено капель: '+next+' из 3':'След ведёт к стене.';
+     if(next===3)finish();
+     else dots[next].disabled=false;
+    },i!==0);
+    dot.className='ga-field-drop';dot.style.left=x+'%';dot.style.top=y+'%';
+    dot.setAttribute('aria-label','Капля '+(i+1));
+    return dot;
+   });
+  }else if(spec.kind==='wipe'){
+   stage.classList.add('ga-field-glass');
+   stage.setAttribute('role','img');stage.setAttribute('aria-label','Запотевшее стекло шлюза');
+   let wiped=0,active=null;
+   const progress=delta=>{
+    if(finished)return;
+    wiped=Math.min(100,wiped+delta);
+    stage.style.setProperty('--cleared',wiped+'%');stage.style.setProperty('--cleared-number',String(wiped/100));stage.style.setProperty('--reveal',String(wiped/100));
+    status.textContent='Стекло очищено на '+Math.round(wiped)+'%';
+    if(wiped>=95)finish();
+   };
+   stage.onpointerdown=e=>{
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    active={id:e.pointerId,x:e.clientX,y:e.clientY};
+    stage.setPointerCapture(e.pointerId);
+   };
+   stage.onpointermove=e=>{
+    if(!active||active.id!==e.pointerId)return;
+    const delta=Math.hypot(e.clientX-active.x,e.clientY-active.y);
+    if(delta>3){progress(delta/Math.max(1,stage.clientWidth)*110);active.x=e.clientX;active.y=e.clientY;}
+   };
+   stage.onpointerup=stage.onpointercancel=()=>{active=null;};
+   const control=this.button(board,'Протереть стекло',()=>progress(25));
+   control.className='ga-field-advance';
+   const complete=finish;
+   // Keep the keyboard alternative in sync with pointer completion.
+   const old=stage.onpointermove;
+   stage.onpointermove=e=>{old(e);if(finished)control.disabled=true;};
+   const clicked=control.onclick;
+   control.onclick=()=>{clicked();if(finished)control.disabled=true;};
+  }else{
+   options.hidden=false;
+   status.textContent='Выберите действие.';
+  }
+  return options;
+ }
  openAction(id){const a=this.engine.begin(id);if(!a)return;if(a.startSignal){this.engine.modal=false;const ev=this.engine.flush(0);this.engine.modal=true;if(ev){
   // Quiet pre-action cues must not strand the engine in modal=true with no window.
   // Only a full cinematic scene defers the intended object interaction.
@@ -491,7 +656,7 @@ class UI{
  const pickup=a.effects?.find(fx=>fx.item)?.item;if(pickup)this.showArt(b,this.data.inventoryArt?.[pickup],this.itemName(pickup));
  if(a.template==='media'){this.playMedia(this.data.media.find(m=>m.id===a.media),a);return;}
  if(a.template==='document'){this.documentView(b,this.data.documents.find(d=>d.id===a.document));this.button(b,a.readLabel||'Сохранить в журнале',()=>this.submit(a,null));}
- else if(a.template==='choice'||a.template==='sequence_choice'){if(a.text)b.append(el('pre',a.text));for(const op of a.options){const valid=api.test(op.when,this.engine.state);this.button(b,op.label,()=>{if(a.confirm)this.confirmAction(a,op.value,op.label);else this.submit(a,op.value);},!valid);if(!valid)b.append(el('p',op.locked,'ga-muted'));}}
+ else if(a.template==='choice'||a.template==='sequence_choice'){if(a.text)b.append(el('pre',a.text));const choices=a.fieldTask?this.fieldTask(b,a):b;for(const op of a.options){const valid=api.test(op.when,this.engine.state);this.button(choices,op.label,()=>{if(a.confirm)this.confirmAction(a,op.value,op.label);else this.submit(a,op.value);},!valid);if(!valid)choices.append(el('p',op.locked,'ga-muted'));}}
  else if(a.template==='sequence'||a.template==='order')this.sequenceControl(b,a);
  else if(a.answer)this.instrumentControls(b,a);
  else{if(a.text)b.append(el('pre',a.text));this.button(b,'Выполнить',()=>a.confirm?this.confirmAction(a,null,a.label):this.submit(a,null));}

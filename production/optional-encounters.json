@@ -47,7 +47,12 @@
         0.6,
         0.68
       ],
-      "worldLabel": "Замечено"
+      "worldLabel": "Замечено",
+      "fieldTask": {
+        "kind": "listen",
+        "instruction": "Прислушайтесь к звону посуды. Отметьте три повторения, прежде чем решить, что делать.",
+        "reveal": "Каждый следующий звук идёт чуть ближе, хотя за столом никого нет."
+      }
     },
     {
       "id": "TV_RADIO_SILENCE",
@@ -94,7 +99,12 @@
         0.4,
         0.64
       ],
-      "worldLabel": "Замечено"
+      "worldLabel": "Замечено",
+      "fieldTask": {
+        "kind": "tune",
+        "instruction": "Плавно настройте приёмник, чтобы выделить тихий вдох на чистой частоте.",
+        "reveal": "Частота чистая, но дыхание звучит раньше вашего."
+      }
     },
     {
       "id": "TV_GLASS_TOWEL",
@@ -141,7 +151,12 @@
         0.36,
         0.64
       ],
-      "worldLabel": "Замечено"
+      "worldLabel": "Замечено",
+      "fieldTask": {
+        "kind": "wipe",
+        "instruction": "Сотрите конденсат на стекле архивного шкафа.",
+        "reveal": "На стекле проступил след ладони, слишком высокий для вашего роста."
+      }
     },
     {
       "id": "TV_BED_BREATH",
@@ -188,7 +203,12 @@
         0.74,
         0.67
       ],
-      "worldLabel": "Замечено"
+      "worldLabel": "Замечено",
+      "fieldTask": {
+        "kind": "listen",
+        "instruction": "Прислушайтесь к трём неравномерным вдохам у койки.",
+        "reveal": "Последний вдох задержался, будто кто-то ждёт вашего решения."
+      }
     },
     {
       "id": "TV_STOCK_TAG",
@@ -232,7 +252,12 @@
         }
       ],
       "effects": [],
-      "signal": "tv_trace:TV_STOCK_TAG"
+      "signal": "tv_trace:TV_STOCK_TAG",
+      "fieldTask": {
+        "kind": "slide",
+        "instruction": "Подцепите край ярлыка и потяните его вправо.",
+        "reveal": "Под старой бумагой проступил номер другой смены."
+      }
     },
     {
       "id": "TV_POWER_TICK",
@@ -276,7 +301,12 @@
         }
       ],
       "effects": [],
-      "signal": "tv_trace:TV_POWER_TICK"
+      "signal": "tv_trace:TV_POWER_TICK",
+      "fieldTask": {
+        "kind": "tap",
+        "instruction": "Проверните рукоять счётчика трижды, прислушиваясь к двойному щелчку.",
+        "reveal": "Два щелчка идут не одновременно: второй немного опережает первый."
+      }
     },
     {
       "id": "TV_SAMPLE_FILM",
@@ -320,7 +350,12 @@
         }
       ],
       "effects": [],
-      "signal": "tv_trace:TV_SAMPLE_FILM"
+      "signal": "tv_trace:TV_SAMPLE_FILM",
+      "fieldTask": {
+        "kind": "focus",
+        "instruction": "Плавно подведите фокус микроскопа к тонкой линии.",
+        "reveal": "У края стекла проявился отпечаток — будто след на внутренней поверхности."
+      }
     },
     {
       "id": "TV_CORRIDOR_DROP",
@@ -364,7 +399,12 @@
         }
       ],
       "effects": [],
-      "signal": "tv_trace:TV_CORRIDOR_DROP"
+      "signal": "tv_trace:TV_CORRIDOR_DROP",
+      "fieldTask": {
+        "kind": "trace",
+        "instruction": "Осмотрите три капли по порядку, начиная с ближайшей.",
+        "reveal": "Капли ведут в сторону стены, а не двери."
+      }
     },
     {
       "id": "TV_AIRLOCK_GLASS",
@@ -408,7 +448,12 @@
         }
       ],
       "effects": [],
-      "signal": "tv_trace:TV_AIRLOCK_GLASS"
+      "signal": "tv_trace:TV_AIRLOCK_GLASS",
+      "fieldTask": {
+        "kind": "wipe",
+        "instruction": "Проведите тканью по запотевшему стеклу, чтобы увидеть царапину.",
+        "reveal": "Под паром обнаружилась вторая дуга, проведённая снаружи."
+      }
     }
   ],
   "events": [
