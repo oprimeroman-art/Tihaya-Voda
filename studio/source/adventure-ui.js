@@ -265,6 +265,33 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
 .ga-root .ga-hardware-number{pointer-events:none;font-size:22px}
 @media(max-width:680px){.ga-root .ga-hardware-knob{width:80px;height:58px;min-height:58px}.ga-root .ga-hardware-number{font-size:19px}}
 
+
+/* Optional physical investigation board: simple collected paper slips, not a new HUD. */
+.ga-root .ga-evidence-eyebrow{font:10px/1.4 Consolas,monospace;letter-spacing:.18em;color:#a8baa9;margin:4px 0}
+.ga-root .ga-evidence-summary{font:13px/1.5 Consolas,monospace;color:#e4d9b4;margin:5px 0 8px}
+.ga-root .ga-evidence-explain{font:13px/1.6 Georgia,serif;color:#b8c9c4;margin:6px 0 15px;max-width:74ch}
+.ga-root .ga-evidence-board{display:grid;grid-template-columns:1fr;gap:14px}
+.ga-root .ga-evidence-case{border:1px solid #8d957a55;background:linear-gradient(145deg,#1c2524,#0e171b 68%);padding:15px;border-radius:5px;box-shadow:0 7px 18px #0004}
+.ga-root .ga-evidence-case[data-status=ready]{border-color:#dac18b7d}
+.ga-root .ga-evidence-case[data-status=linked]{border-color:#a9b99d62}
+.ga-root .ga-evidence-case h3{font:500 18px/1.35 Georgia,serif;color:#e4ddc5;letter-spacing:.01em;margin:5px 0 14px}
+.ga-root .ga-evidence-status{font:9px/1.5 Consolas,monospace;letter-spacing:.15em;color:#93b0a7}
+.ga-root .ga-evidence-slips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.ga-root .ga-evidence-slip{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;min-height:120px;text-align:left;padding:13px 12px;background:linear-gradient(135deg,#c6c2ab,#999788);border:1px solid #d7d2b6;border-radius:2px;color:#262924;font:12px/1.45 Georgia,serif;box-shadow:0 5px 15px #0005;transition:transform .12s,border-color .12s;overflow-wrap:anywhere}
+.ga-root .ga-evidence-slip small{font:10px/1.4 Consolas,monospace;color:#525a52}
+.ga-root .ga-evidence-slip strong{font:600 15px/1.35 Georgia,serif;color:#1e2926}
+.ga-root .ga-evidence-slip p{font:12px/1.5 Georgia,serif;color:#37433c;margin:0}
+.ga-root .ga-evidence-slip[data-missing=true]{background:repeating-linear-gradient(128deg,#172124,#172124 8px,#1b2829 8px,#1b2829 16px);border-style:dashed;border-color:#506661;color:#8ca09a;opacity:.72}
+.ga-root .ga-evidence-slip[data-missing=true] small,.ga-root .ga-evidence-slip[data-missing=true] strong,.ga-root .ga-evidence-slip[data-missing=true] p{color:#91a6a0}
+.ga-root .ga-evidence-slip[aria-pressed=true]{border:2px solid #e5ca8d;transform:translateY(-3px);box-shadow:0 2px 0 #d3bc8a,0 9px 20px #0007}
+.ga-root .ga-evidence-slip:disabled{cursor:default}
+.ga-root .ga-evidence-case[data-status=linked] .ga-evidence-slip:not([data-missing]){opacity:.84}
+.ga-root .ga-evidence-controls{display:flex;justify-content:flex-end;margin-top:11px}
+.ga-root .ga-evidence-connect{background:#61573b;border-color:#cbb17a;color:#f7ebcb;font-size:13px;font-weight:600;min-height:43px;text-align:center}
+.ga-root .ga-evidence-conclusion{margin:12px 0 7px;padding:10px 12px;border-left:2px solid #cfc08e;background:#cfc08e12;font:14px/1.65 Georgia,serif;color:#e5e0cd}
+.ga-root .ga-evidence-footnote{display:block;margin:11px 0 0;font-size:11px;line-height:1.4;color:#9ab0a5}
+@media(max-width:640px){.ga-root .ga-evidence-case{padding:11px}.ga-root .ga-evidence-slips{gap:7px}.ga-root .ga-evidence-slip{padding:9px;min-height:100px}.ga-root .ga-evidence-slip strong{font-size:13px}.ga-root .ga-evidence-slip p{font-size:11px}.ga-root .ga-evidence-case h3{font-size:16px}}
+
 `;
 
 class UI{
@@ -517,14 +544,77 @@ class UI{
  const destinations=this.data.links.filter(l=>l.from===r.id).map(l=>names[l.to]);if(destinations.length)card.append(el('p','Связи: '+destinations.join(' · ')));grid.append(card);}
  this.button(b,'Закрыть',()=>this.close());
  }
+ evidenceReadyCases(state=this.engine.state){
+  return (this.data.evidenceCases||[]).filter(c=>
+   !state.flags['TV_CASE_'+c.id]&&c.fragments.length===2&&c.fragments.every(f=>!!state.flags[f.flag]));
+ }
+ linkEvidenceCase(id){
+  const caseFile=(this.data.evidenceCases||[]).find(c=>c.id===id);
+  const state=this.engine.state,key='TV_CASE_'+id;
+  if(!caseFile||state.flags[key]||caseFile.fragments.length!==2||
+   !caseFile.fragments.every(f=>!!state.flags[f.flag]))return false;
+  state.flags[key]=true;
+  state.journal.push({id:key,time:state.clock,text:'Сопоставление улик: '+caseFile.title+'. '+caseFile.deduction,lines:[]});
+  this.engine.changed();
+  this.journal('cases');
+  return true;
+ }
+ evidenceJournal(parent){
+  const cases=this.data.evidenceCases||[],state=this.engine.state;
+  if(!cases.length){parent.append(el('p','Материалы для сопоставления пока не найдены.','ga-muted'));return;}
+  const linked=cases.filter(c=>state.flags['TV_CASE_'+c.id]).length;
+  const found=cases.reduce((n,c)=>n+c.fragments.filter(f=>state.flags[f.flag]).length,0);
+  parent.append(el('p','МАТЕРИАЛЫ РАССЛЕДОВАНИЯ','ga-evidence-eyebrow'));
+  parent.append(el('p','Фрагментов: '+found+' / '+(cases.length*2)+' · установлено связей: '+linked+' / '+cases.length,'ga-evidence-summary'));
+  parent.append(el('p','Найдите следы в разных помещениях. Когда оба фрагмента доступны, выберите их и сопоставьте. Это дополнительное расследование: основные задания не зависят от него.','ga-evidence-explain'));
+  const board=el('div',undefined,'ga-evidence-board');parent.append(board);
+  for(const caseFile of cases){
+   const solved=!!state.flags['TV_CASE_'+caseFile.id],
+    available=caseFile.fragments.filter(f=>!!state.flags[f.flag]).length,
+    ready=available===caseFile.fragments.length;
+   const card=el('article',undefined,'ga-evidence-case');
+   card.dataset.status=solved?'linked':ready?'ready':'incomplete';
+   card.append(el('small',solved?'СОПОСТАВЛЕНО':ready?'МОЖНО СОПОСТАВИТЬ':'НЕПОЛНЫЕ ДАННЫЕ','ga-evidence-status'));
+   card.append(el('h3',caseFile.title));
+   const slips=el('div',undefined,'ga-evidence-slips');
+   const selected=new Set();
+   const controls=el('div',undefined,'ga-evidence-controls');
+   const connect=this.button(controls,'Сопоставить два фрагмента',()=>this.linkEvidenceCase(caseFile.id),true);
+   connect.className='ga-evidence-connect';
+   for(const fragment of caseFile.fragments){
+    const known=!!state.flags[fragment.flag],slip=this.button(slips,'',()=>{
+     if(!known||solved)return;
+     if(selected.has(fragment.flag))selected.delete(fragment.flag);
+     else selected.add(fragment.flag);
+     slip.setAttribute('aria-pressed',String(selected.has(fragment.flag)));
+     connect.disabled=selected.size!==caseFile.fragments.length;
+    },!known||solved);
+    slip.className='ga-evidence-slip';
+    slip.setAttribute('aria-pressed','false');
+    slip.append(el('small',known?(this.data.rooms.find(r=>r.id===fragment.room)?.name||'Станция'):'Не исследовано'),
+     el('strong',known?fragment.label:'???'),
+     el('p',known?fragment.detail:'Поищите необычные детали в других помещениях.'));
+    if(!known)slip.dataset.missing='true';
+   }
+   card.append(slips);
+   if(solved){
+    card.append(el('p',caseFile.deduction,'ga-evidence-conclusion'));
+    card.append(el('small','Вывод сохранён в журнале. Станция может отозваться на него позднее.','ga-evidence-footnote'));
+   }else if(ready)card.append(controls);
+   else card.append(el('p','Осталось найти: '+(caseFile.fragments.length-available),'ga-evidence-footnote'));
+   board.append(card);
+  }
+ }
  journal(section=this.journalSection||'items'){
  this.journalSection=section;const s=this.engine.state,b=this.panel('Журнал станции');if(section==='tasks')b.classList.add('ga-tasks');
- const sections=[...(this.data.playerGuidance?[['tasks','Задачи',null]]:[]),['items','Предметы',s.inventory.length],['documents','Документы',s.documents.length],['recordings','Записи',this.data.media.filter(m=>s.flags['WATCHED_'+m.id]||s.flags['HEARD_'+m.id]).length],['observations','Наблюдения',s.journal.length]];
+ const cases=this.data.evidenceCases||[],caseReady=this.evidenceReadyCases(s).length,caseLinked=cases.filter(c=>s.flags['TV_CASE_'+c.id]).length;
+ const sections=[...(this.data.playerGuidance?[['tasks','Задачи',null]]:[]),...(cases.length?[['cases','Улики',caseReady?caseReady+' новые':caseLinked+'/'+cases.length]]:[]),['items','Предметы',s.inventory.length],['documents','Документы',s.documents.length],['recordings','Записи',this.data.media.filter(m=>s.flags['WATCHED_'+m.id]||s.flags['HEARD_'+m.id]).length],['observations','Наблюдения',s.journal.length]];
  const nav=el('div',undefined,'ga-journal-nav');nav.setAttribute('aria-label','Разделы журнала');for(const [key,label,count]of sections){const button=this.button(nav,count===null?label:label+' · '+count,()=>this.journal(key));button.setAttribute('aria-pressed',String(key===section));}b.append(nav);
  const label=el('label','Поиск в разделе','ga-journal-search'),search=el('input');search.type='search';search.placeholder='Слово, название или фраза';search.value=this.journalQueries?.[section]||'';label.append(search);b.append(label);
- const count=el('p',undefined,'ga-muted'),content=el('div',undefined,'ga-journal-list');count.setAttribute('role','status');count.setAttribute('aria-live','polite');b.append(count,content);label.hidden=section==='tasks';count.hidden=section==='tasks';
+ const count=el('p',undefined,'ga-muted'),content=el('div',undefined,'ga-journal-list');count.setAttribute('role','status');count.setAttribute('aria-live','polite');b.append(count,content);label.hidden=section==='tasks'||section==='cases';count.hidden=section==='tasks'||section==='cases';
  const paint=()=>{(this.journalQueries||(this.journalQueries={}))[section]=search.value;const query=search.value.trim().toLocaleLowerCase('ru'),matches=text=>!query||String(text).toLocaleLowerCase('ru').includes(query);content.replaceChildren();let shown=0;
  if(section==='tasks'){this.taskJournal(content);return;}
+ if(section==='cases'){this.evidenceJournal(content);return;}
  if(section==='items'){const grid=el('div',undefined,'ga-inventory');content.append(grid);for(const id of s.inventory){if(!matches(this.itemName(id)))continue;shown++;const card=this.button(grid,'',()=>this.inspectItem(id));card.className='ga-item';const src=this.data.inventoryArt?.[id];if(src){const img=el('img');img.src=src;img.alt='';img.loading='lazy';img.decoding='async';card.append(img);}card.append(el('span',this.itemName(id)));if(this.itemActions(id).length)card.append(el('span','Можно использовать здесь','ga-muted'));}}
  else if(section==='documents'){for(const id of s.documents){const d=this.data.documents.find(d=>d.id===id);if(!d||!matches(d.title+' '+d.text))continue;shown++;this.button(content,this.documentTitle(d),()=>{const box=this.panel(this.documentTitle(d));this.documentView(box,d);this.button(box,'К журналу',()=>this.journal('documents'));});}}
  else if(section==='recordings'){for(const m of this.data.media.filter(m=>s.flags['WATCHED_'+m.id]||s.flags['HEARD_'+m.id])){if(!matches(m.id+' '+m.title+' '+(m.transcript?.length?m.transcript:(m.frames||[])).map(l=>l.text).join(' ')))continue;shown++;this.button(content,m.id+' · '+m.title,()=>this.playMedia(m,null));}}
@@ -907,8 +997,10 @@ class UI{
  else{if(a.text)b.append(el('pre',a.text));this.button(b,'Выполнить',()=>a.confirm?this.confirmAction(a,null,a.label):this.submit(a,null));}
  if(a.answer){this.attemptLabel=el('p',undefined,'ga-attempt');this.attemptLabel.setAttribute('role','status');b.append(this.attemptLabel);this.instrumentAttempts(a);this.instrumentReferences(b,a);}if(a.hint){const d=el('details',undefined,'ga-reference');d.open=(this.engine.state.errors[a.id]||0)>=2;d.append(el('summary','Инструкция к прибору'),el('p',a.hint));this.instrumentHint=d;b.append(d);}this.error=el('p',undefined,'ga-error');this.error.setAttribute('aria-live','polite');b.append(this.error);this.button(b,'Закрыть',()=>this.close());}
  confirmAction(a,value,label){const b=this.panel('Подтверждение');b.append(el('h3',label),el('p',a.confirm));this.button(b,'Подтвердить'+(a.template==='sequence_choice'?' и подписать':''),()=>this.submit(a,value));this.button(b,'Вернуться',()=>this.openAction(a.id));}
- submit(a,value,keep=false){const before={items:[...this.engine.state.inventory],documents:[...this.engine.state.documents],chapter:this.engine.state.chapter};const oldGoal=this.guide()?.action?.id;const r=this.engine.answer(a.id,value);if(r.death||this.death){const message=this.death||r.message;this.death=null;this.close(false);this.sync();const b=this.panel('Возврат к локальному чекпоинту');b.append(el('p',message),el('p','Выполненные до чекпоинта действия сохранены.'));if(a.deathHelp||a.hint)b.append(el('pre',a.deathHelp||a.hint));this.button(b,'Повторить узел',()=>this.close());return r;}
+ submit(a,value,keep=false){const before={items:[...this.engine.state.inventory],documents:[...this.engine.state.documents],chapter:this.engine.state.chapter};const oldGoal=this.guide()?.action?.id,wasReady=new Set(this.evidenceReadyCases().map(c=>c.id));const r=this.engine.answer(a.id,value);if(r.death||this.death){const message=this.death||r.message;this.death=null;this.close(false);this.sync();const b=this.panel('Возврат к локальному чекпоинту');b.append(el('p',message),el('p','Выполненные до чекпоинта действия сохранены.'));if(a.deathHelp||a.hint)b.append(el('pre',a.deathHelp||a.hint));this.button(b,'Повторить узел',()=>this.close());return r;}
  if(!r.ok){if(this.error)this.error.textContent=r.message;this.instrumentAttempts(a);if(this.instrumentHint&&(this.engine.state.errors[a.id]||0)>=2){this.instrumentHint.open=true;if(this.error&&r.message===a.hint)this.error.textContent='Показания не совпали. Инструкция раскрыта ниже.';}return r;}const after=this.engine.state,messages=[];for(const id of after.inventory.filter(id=>!before.items.includes(id)))messages.push('Получено: '+this.itemName(id));for(const id of before.items.filter(id=>!after.inventory.includes(id)))messages.push('Использовано: '+this.itemName(id));if(after.documents.some(id=>!before.documents.includes(id)))messages.push('Документ сохранён в журнале');if(after.chapter!==before.chapter)messages.push(this.data.quests.find(q=>q.chapter===after.chapter)?.title||'Новая задача');if(!messages.length)messages.push('Выполнено: '+a.label);
+ const newCases=this.evidenceReadyCases().filter(c=>!wasReady.has(c.id));
+ if(newCases.length)messages.push('Найдена связь между уликами. Откройте раздел «Улики» в журнале.');
  const next=this.guide();if(a.id===oldGoal&&next?.step&&next.action?.id!==a.id)messages.push('Дальше: '+next.step.text);
  this.notify(messages.join('\n'));this.close(false);this.sync();if(this.pendingLines.length){const lines=this.pendingLines.splice(0),b=this.panel('Эфир');b.append(el('p','Выполнено: '+a.label,'ga-result'));for(const line of lines)b.append(el('pre',line.text));this.speakLines(lines);this.button(b,'Продолжить',()=>this.close());}else this.restoreFocus?.();return r;}
  playMedia(m,a,back=null){const b=this.panel(m.id+' · '+m.title);const warning=el('div','Запись '+m.id+' · доступен текстовый режим','ga-muted');b.append(warning);const art=this.data.illustratedProps;this.showArt(b,art?.image?.[art?.action?.['watch_'+m.id]],m.title);let t=0,started=false,frame=0,finished=false;const voiced=new Set(),voiceCues=()=>{const due=(m.voiceCues||[]).filter(c=>c.at<=t&&!voiced.has(c.id));for(const c of due)voiced.add(c.id);if(due.length)this.ensureVoice()?.enqueue(due.map(c=>c.id));};const time=el('div','00:00','ga-muted'),scene=el('div',m.frames[0]?.text||'','ga-scene'),progress=el('progress',undefined,'ga-progress');progress.max=m.duration;progress.value=0;b.append(time,progress,scene);

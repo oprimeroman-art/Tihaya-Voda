@@ -1310,10 +1310,9 @@
       "signal": "enter:H",
       "when": {
         "min": 9,
-        "max": 11,
+        "max": 12,
         "all": [
-          "TV_STOCK_MARK",
-          "TV_SAMPLE_MARK"
+          "TV_CASE_STOCK_SAMPLE"
         ]
       },
       "priority": "conditional",
@@ -1335,10 +1334,9 @@
       "signal": "enter:D",
       "when": {
         "min": 9,
-        "max": 11,
+        "max": 12,
         "all": [
-          "TV_POWER_MARK",
-          "TV_CORRIDOR_MARK"
+          "TV_CASE_POWER_CORRIDOR"
         ]
       },
       "priority": "conditional",
@@ -1362,8 +1360,7 @@
         "min": 11,
         "max": 12,
         "all": [
-          "TV_AIRLOCK_MARK",
-          "TV_SAMPLE_MARK"
+          "TV_CASE_GLASS_SAMPLE"
         ]
       },
       "priority": "conditional",
@@ -1378,6 +1375,156 @@
         "duration": 1.3,
         "strength": 0.12
       }
+    },
+    {
+      "id": "TV_CASE_ECHO_RADIO_GLASS",
+      "room": "D",
+      "signal": "enter:D",
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "ОТКЛИК",
+      "category": "quiet",
+      "when": {
+        "min": 8,
+        "max": 12,
+        "all": [
+          "TV_CASE_RADIO_GLASS"
+        ]
+      },
+      "presentation": "В пустой радиорубке приёмник едва слышно повторяет ритм вашего дыхания. В стеклянном отражении нет никого, но ответ приходит без задержки.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.13
+      }
+    },
+    {
+      "id": "TV_CASE_ECHO_PLATE_BED",
+      "room": "A",
+      "signal": "enter:A",
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "ОТКЛИК",
+      "category": "quiet",
+      "when": {
+        "min": 11,
+        "max": 12,
+        "all": [
+          "TV_CASE_PLATE_BED"
+        ]
+      },
+      "presentation": "На свободной койке видна свежая вмятина. Оттуда доносится тонкий стук посуды, хотя кухня находится за двумя закрытыми дверями.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.13
+      }
+    }
+  ],
+  "evidenceCases": [
+    {
+      "id": "STOCK_SAMPLE",
+      "title": "Номер без образца",
+      "fragments": [
+        {
+          "flag": "TV_STOCK_MARK",
+          "label": "Складской ярлык",
+          "room": "F",
+          "detail": "На складе обнаружен чужой учётный номер."
+        },
+        {
+          "flag": "TV_SAMPLE_MARK",
+          "label": "Предметное стекло",
+          "room": "G",
+          "detail": "В лаборатории остался отпечаток на чистом стекле."
+        }
+      ],
+      "deduction": "Номер на складском ярлыке совпадает с меткой лабораторного образца. Ящик и стекло кто-то связывал заранее. Улики хранились в разных помещениях, но принадлежат одному наблюдению.",
+      "echoRoom": "H"
+    },
+    {
+      "id": "POWER_CORRIDOR",
+      "title": "Второй такт",
+      "fragments": [
+        {
+          "flag": "TV_POWER_MARK",
+          "label": "Щелчки счётчика",
+          "room": "E",
+          "detail": "Счётчик делает лишний щелчок раньше основного."
+        },
+        {
+          "flag": "TV_CORRIDOR_MARK",
+          "label": "Капли в коридоре",
+          "room": "C",
+          "detail": "Вода повторяет чужой, слишком ровный ритм."
+        }
+      ],
+      "deduction": "Двойной щелчок дизельного счётчика и расстояния между каплями образуют один ритм. Похоже, дело не в неисправности оборудования — одинаковый интервал повторяется в разных частях станции.",
+      "echoRoom": "D"
+    },
+    {
+      "id": "GLASS_SAMPLE",
+      "title": "След с другой стороны",
+      "fragments": [
+        {
+          "flag": "TV_SAMPLE_MARK",
+          "label": "Лабораторное стекло",
+          "room": "G",
+          "detail": "Отпечаток проступил на внутренней стороне стекла."
+        },
+        {
+          "flag": "TV_AIRLOCK_MARK",
+          "label": "Стекло шлюза",
+          "room": "J",
+          "detail": "Под паром обнаружен ответный след."
+        }
+      ],
+      "deduction": "У лабораторного образца и стекла шлюза одинаковая странность: след появляется со стороны, куда никто не мог дотянуться. Кто-то оставляет отпечатки внутри закрытых пространств.",
+      "echoRoom": "N"
+    },
+    {
+      "id": "RADIO_GLASS",
+      "title": "Тот, кто отвечает",
+      "fragments": [
+        {
+          "flag": "TV_ECHO_RADIO",
+          "label": "Вдох в эфире",
+          "room": "D",
+          "detail": "Сигнал повторил дыхание раньше оператора."
+        },
+        {
+          "flag": "TV_ECHO_GLASS",
+          "label": "Конденсат архива",
+          "room": "H",
+          "detail": "На стекле возник след, которого не должно быть."
+        }
+      ],
+      "deduction": "В эфире и за стеклом архива возникает ответ на действие наблюдателя. Это не просто одинаковые аномалии: оба события происходят сразу после того, как человек замечает их.",
+      "echoRoom": "D"
+    },
+    {
+      "id": "PLATE_BED",
+      "title": "Невидимый сосед",
+      "fragments": [
+        {
+          "flag": "TV_ECHO_PLATE",
+          "label": "Чужая тарелка",
+          "room": "B",
+          "detail": "Из пустого места за столом слышался ответный звон."
+        },
+        {
+          "flag": "TV_ECHO_BED",
+          "label": "Дыхание у койки",
+          "room": "I",
+          "detail": "У пустой койки кто-то задержал вдох."
+        }
+      ],
+      "deduction": "На кухне и у койки присутствие словно ждало, когда вы приблизитесь. Неизвестное не нападало — оно оставляло место рядом с собой и следило, останетесь ли вы.",
+      "echoRoom": "A"
     }
   ]
 }

@@ -21,4 +21,13 @@ def apply_optional_encounters(payload, root=ROOT):
             if item["id"] not in existing:
                 story[field].append(item)
                 existing.add(item["id"])
+    # Optional evidence deduction board uses the exact same save-state flags as
+    # authored encounters; it never blocks the twelve canonical chapters.
+    cases = additions.get("evidenceCases", [])
+    for case in cases:
+        if case["echoRoom"] not in rooms:
+            raise ValueError("Unknown evidence echo room: " + case["id"])
+        if any(fragment["room"] not in rooms for fragment in case["fragments"]):
+            raise ValueError("Unknown evidence fragment room: " + case["id"])
+    story["evidenceCases"] = cases
     return payload
