@@ -145,6 +145,23 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
 .ga-root .ga-unavailable-item strong{font-size:12px;font-weight:500;color:#bfc7bd}
 .ga-root .ga-unavailable-item p{font-size:11px;line-height:1.5;margin:4px 0 0}
 
+
+/* In-world optional decisions: brief, spatial, and no full-screen document card. */
+.ga-modal:has(.ga-dialog.ga-field-choice){background:transparent;backdrop-filter:none;display:flex;justify-content:flex-start;align-items:flex-end;padding:20px 22px 142px;pointer-events:none}
+.ga-modal .ga-dialog.ga-field-choice{pointer-events:auto;width:min(490px,calc(100vw - 44px));max-height:min(72vh,560px);padding:19px 22px 18px;background:#0c171cfa;border:1px solid #c9c0a46e;box-shadow:0 20px 54px #000a;border-radius:7px}
+.ga-dialog.ga-field-choice h2{font:500 18px/1.35 Georgia,serif;letter-spacing:0;color:#e8e0c9;margin:0 0 9px}
+.ga-dialog.ga-field-choice pre{background:none;color:#c6cfcb;border:0;border-left:2px solid #bdaf8268;border-radius:0;font:15px/1.65 Georgia,serif;padding:3px 0 3px 13px;margin:12px 0 16px;white-space:pre-wrap}
+.ga-root .ga-dialog.ga-field-choice>button:not(.ga-dialog-close){display:block;width:100%;min-height:44px;margin:6px 0;padding:10px 13px;border-color:#bcb18f55;background:#bdac7e0a;color:#e7e0d0;font-size:13px}
+.ga-root .ga-dialog.ga-field-choice>button:not(.ga-dialog-close):hover{border-color:#dcc690a0;background:#a8966929}
+.ga-dialog.ga-field-choice .ga-error{margin:3px 0;font-size:12px}
+@media(max-width:680px){.ga-modal:has(.ga-dialog.ga-field-choice){padding:12px 12px 100px}.ga-modal .ga-dialog.ga-field-choice{width:100%;padding:13px 16px;max-height:calc(100dvh - 140px)}.ga-dialog.ga-field-choice h2{font-size:16px}.ga-dialog.ga-field-choice pre{font-size:14px}}
+@media(max-height:500px) and (min-width:681px){.ga-modal:has(.ga-dialog.ga-field-choice){padding:8px 12px 64px}.ga-modal .ga-dialog.ga-field-choice{padding:9px 15px;max-height:calc(100dvh - 74px)}.ga-dialog.ga-field-choice pre{margin:5px 0;font-size:13px}}
+
+
+.ga-root .ga-intro-tip{display:block;flex:1 0 100%;font:10px/1.5 'Segoe UI',sans-serif;color:#b6c4be;letter-spacing:.015em;opacity:.88;padding:2px 0 0}
+.ga-root .ga-intro-tip[hidden]{display:none!important}
+@media(max-width:680px){.ga-root .ga-intro-tip{font-size:10px;line-height:1.35;padding:0}}
+
 `;
 
 class UI{
@@ -163,17 +180,26 @@ class UI{
   if(!src||!isImageSource(src))return;
   const img=el('img');img.src=src;img.alt=alt;img.className='ga-document-art';parent.append(img);
  }
- constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.root=el('div',undefined,'ga-root');this.root.hidden=true;this.root.setAttribute('translate','no');this.root.append(el('style',CSS));this.left=el('section',undefined,'ga-panel ga-actions');this.right=el('nav',undefined,'ga-nav');this.right.setAttribute('aria-label','Выходы из комнаты');this.exits=el('div',undefined,'ga-exits');this.exits.setAttribute('aria-label','Двери в панораме');this.variant=el('div',undefined,'ga-variant');this.hotspots=el('div',undefined,'ga-hotspots');this.hotspots.setAttribute('aria-label','Объекты в панораме');this.notice=el('div',undefined,'ga-notice');this.notice.setAttribute('role','status');this.notice.setAttribute('aria-live','polite');this.notice.hidden=true;this.ambientLine=el('aside',undefined,'ga-ambient-line');this.ambientLine.hidden=true;this.ambientLine.setAttribute('role','status');this.ambientLine.setAttribute('aria-live','polite');this.dock=el('nav',undefined,'ga-dock');this.dock.setAttribute('aria-label','Управление сменой');this.objective=this.button(this.dock,'',()=>this.journal(this.data.playerGuidance?'tasks':'observations'));this.objective.className='ga-objective';this.quickAction=this.button(this.dock,'',()=>this.openRecommended());this.quickAction.className='ga-next-action';this.quickAction.hidden=true;this.quickAction.title='Выполнить ближайший доступный шаг · E';this.previousRoom=null;this.hudPanel=null;const uid='ga-hud-'+(UI.serial=(UI.serial||0)+1);this.left.id=uid+'-objects';this.right.id=uid+'-routes';this.objectsButton=this.button(this.dock,'Объекты',()=>this.toggleHUD('objects'));this.objectsButton.setAttribute('aria-controls',this.left.id);this.objectsButton.title='Объекты в комнате · H';this.button(this.dock,'Журнал',()=>this.journal()).title='Журнал и инвентарь · I / J';this.button(this.dock,'Схема',()=>this.map()).title='Схема станции · M';this.fieldbar=el('div',undefined,'ga-fieldbar');this.fieldbar.append(this.dock,this.right);this.root.append(this.hotspots,this.exits,this.left,this.variant,this.notice,this.ambientLine,this.fieldbar);document.body.append(this.root);this.pendingLines=[];this.engine=new api.Engine(data,{line:l=>this.pendingLines.push(l),change:()=>{this.render();hooks.change?.();},death:n=>{this.death=n;},progress:()=>hooks.progress?.()});this.last=performance.now();this.timer=setInterval(()=>this.tick(),150);this.onKey=e=>{if(this.root.hidden||!this.active())return;if(e.key==='Escape'&&!this.dialog&&this.hudPanel){e.preventDefault();e.stopImmediatePropagation();this.toggleHUD(this.hudPanel);return;}if(!this.dialog&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&!e.target.closest?.('input,textarea,select,[contenteditable=true]')){const digit=/^Digit([1-9])$/.exec(e.code||'');if(digit){const target=this.right.querySelector('[data-route-key="'+digit[1]+'"]');if(target){e.preventDefault();e.stopImmediatePropagation();target.click();}return;}const key=e.code||e.key,run={KeyI:()=>this.journal(),KeyJ:()=>this.journal(),KeyM:()=>this.map(),KeyH:()=>this.toggleHUD('objects'),KeyR:()=>this.focusExits(),KeyE:()=>this.openRecommended(),KeyQ:()=>this.scanScene(),Backspace:()=>this.goPrevious()}[key];if(run){e.preventDefault();e.stopImmediatePropagation();run();return;}}if(e.key==='Escape'&&this.dialog){e.preventDefault();e.stopImmediatePropagation();this.close();}else if(e.key==='Tab'&&this.dialog){const nodes=[...this.box.querySelectorAll('button:not(:disabled),input:not(:disabled),select:not(:disabled),summary,[tabindex="0"]')].filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(!first){e.preventDefault();this.box.focus();}else if(!this.box.contains(document.activeElement)){e.preventDefault();(e.shiftKey?last:first).focus();}else if(e.shiftKey&&(document.activeElement===first||document.activeElement===this.box)){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===this.box)){e.preventDefault();first.focus();}}};window.addEventListener('keydown',this.onKey,true);this.onLayout=()=>this.physicalPaint?.();window.addEventListener('resize',this.onLayout);}
+ constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.root=el('div',undefined,'ga-root');this.root.hidden=true;this.root.setAttribute('translate','no');this.root.append(el('style',CSS));this.left=el('section',undefined,'ga-panel ga-actions');this.right=el('nav',undefined,'ga-nav');this.right.setAttribute('aria-label','Выходы из комнаты');this.exits=el('div',undefined,'ga-exits');this.exits.setAttribute('aria-label','Двери в панораме');this.variant=el('div',undefined,'ga-variant');this.hotspots=el('div',undefined,'ga-hotspots');this.hotspots.setAttribute('aria-label','Объекты в панораме');this.notice=el('div',undefined,'ga-notice');this.notice.setAttribute('role','status');this.notice.setAttribute('aria-live','polite');this.notice.hidden=true;this.ambientLine=el('aside',undefined,'ga-ambient-line');this.ambientLine.hidden=true;this.ambientLine.setAttribute('role','status');this.ambientLine.setAttribute('aria-live','polite');this.dock=el('nav',undefined,'ga-dock');this.dock.setAttribute('aria-label','Управление сменой');this.objective=this.button(this.dock,'',()=>this.journal(this.data.playerGuidance?'tasks':'observations'));this.objective.className='ga-objective';this.quickAction=this.button(this.dock,'',()=>this.openRecommended());this.quickAction.className='ga-next-action';this.quickAction.hidden=true;this.quickAction.title='Выполнить ближайший доступный шаг · E';this.previousRoom=null;this.hudPanel=null;const uid='ga-hud-'+(UI.serial=(UI.serial||0)+1);this.left.id=uid+'-objects';this.right.id=uid+'-routes';this.objectsButton=this.button(this.dock,'Объекты',()=>this.toggleHUD('objects'));this.objectsButton.setAttribute('aria-controls',this.left.id);this.objectsButton.title='Объекты в комнате · H';this.button(this.dock,'Журнал',()=>this.journal()).title='Журнал и инвентарь · I / J';this.button(this.dock,'Схема',()=>this.map()).title='Схема станции · M';this.fieldbar=el('div',undefined,'ga-fieldbar');this.introTip=el('span','Мышь — осмотр комнаты. Q — показать предметы. E — действие или переход.','ga-intro-tip');this.dock.append(this.introTip);this.hasScanned=false;
+ this.fieldbar.append(this.dock,this.right);this.root.append(this.hotspots,this.exits,this.left,this.variant,this.notice,this.ambientLine,this.fieldbar);document.body.append(this.root);this.pendingLines=[];this.engine=new api.Engine(data,{line:l=>this.pendingLines.push(l),change:()=>{this.render();hooks.change?.();},death:n=>{this.death=n;},progress:()=>hooks.progress?.()});this.last=performance.now();this.timer=setInterval(()=>this.tick(),150);this.onKey=e=>{if(this.root.hidden||!this.active())return;if(e.key==='Escape'&&!this.dialog&&this.hudPanel){e.preventDefault();e.stopImmediatePropagation();this.toggleHUD(this.hudPanel);return;}if(!this.dialog&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&!e.target.closest?.('input,textarea,select,[contenteditable=true]')){const digit=/^Digit([1-9])$/.exec(e.code||'');if(digit){const target=this.right.querySelector('[data-route-key="'+digit[1]+'"]');if(target){e.preventDefault();e.stopImmediatePropagation();target.click();}return;}const key=e.code||e.key,run={KeyI:()=>this.journal(),KeyJ:()=>this.journal(),KeyM:()=>this.map(),KeyH:()=>this.toggleHUD('objects'),KeyR:()=>this.focusExits(),KeyE:()=>this.openRecommended(),KeyQ:()=>this.scanScene(),Backspace:()=>this.goPrevious()}[key];if(run){e.preventDefault();e.stopImmediatePropagation();run();return;}}if(e.key==='Escape'&&this.dialog){e.preventDefault();e.stopImmediatePropagation();this.close();}else if(e.key==='Tab'&&this.dialog){const nodes=[...this.box.querySelectorAll('button:not(:disabled),input:not(:disabled),select:not(:disabled),summary,[tabindex="0"]')].filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(!first){e.preventDefault();this.box.focus();}else if(!this.box.contains(document.activeElement)){e.preventDefault();(e.shiftKey?last:first).focus();}else if(e.shiftKey&&(document.activeElement===first||document.activeElement===this.box)){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===this.box)){e.preventDefault();first.focus();}}};window.addEventListener('keydown',this.onKey,true);this.onLayout=()=>this.physicalPaint?.();window.addEventListener('resize',this.onLayout);}
  destroy(){clearTimeout(this.scanTimer);clearTimeout(this.ambientTimer);clearTimeout(this.noticeTimer);this.stopVoice?.();clearInterval(this.timer);this.disposeMedia?.();window.removeEventListener('keydown',this.onKey,true);window.removeEventListener('resize',this.onLayout);this.root.remove();}
  active(){return !this.hooks.paused?.();}
- reset(){this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set();this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
- load(s){const validated=this.engine.normalize(s);this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set(validated.ended?[validated.ended]:[]);this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.load(validated);this.root.hidden=false;this.sync();}
+ reset(){this.hasScanned=false;this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set();this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
+ load(s){const validated=this.engine.normalize(s);this.hasScanned=false;this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set(validated.ended?[validated.ended]:[]);this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.load(validated);this.root.hidden=false;this.sync();}
  snapshot(){return this.engine.export();}
  sync(){this.hooks.variant?.(this.engine.state.room,this.engine.state.variants[this.engine.state.room]);if(this.engine.state.room!==this.hooks.room?.())this.hooks.go?.(this.engine.state.room);this.render();}
- tick(){const now=performance.now(),dt=Math.min(1,(now-this.last)/1000);this.last=now;if(this.root.hidden)return;this.root.style.visibility=this.active()?'visible':'hidden';this.voice?.setPaused(!this.active());this.syncVoiceVolume();if(!this.active())return;if(!this.dialog&&this.ambientRemaining>0){this.ambientRemaining-=dt;if(this.ambientRemaining<=0)this.clearAmbient();}if(this.mediaTick)this.mediaTick(dt);if(this.endingTick)this.endingTick(dt);if(this.dialog){this.engine.flush(dt);return;}if(this.hooks.staging?.())return;const ev=this.engine.flush(dt);if(ev)this.scene(ev);else if(this.engine.state.ended&&!this.endingShown)this.ending();}
+ tick(){const now=performance.now(),dt=Math.min(1,(now-this.last)/1000);this.last=now;if(this.root.hidden)return;this.root.style.visibility=this.active()?'visible':'hidden';this.voice?.setPaused(!this.active());this.syncVoiceVolume();if(!this.active())return;if(!this.dialog&&this.ambientRemaining>0){
+ this.ambientRemaining-=dt;
+ if(this.ambientRemaining<=0){
+  const next=(this.ambientQueue||[]).shift();
+  this.clearAmbient(false);
+  if(next&&(!next.room||next.room===this.engine.state.room))this.showAmbient(next);
+ }
+}if(this.mediaTick)this.mediaTick(dt);if(this.endingTick)this.endingTick(dt);if(this.dialog){this.engine.flush(dt);return;}if(this.hooks.staging?.())return;const ev=this.engine.flush(dt);if(ev)this.scene(ev);else if(this.engine.state.ended&&!this.endingShown)this.ending();}
  button(parent,label,fn,disabled=false){const b=el('button',label);b.type='button';b.disabled=disabled;b.onclick=fn;parent.append(b);return b;}
  scanScene(){
   if(this.dialog||!this.active()||this.engine.state.ended)return false;
+  this.hasScanned=true;this.updateHUD();
   // An inspection must always give a usable result, even without visible markers
   // in a heavily staged panorama or in a room with no authored sign object.
   this.hudPanel='objects';this.updateHUD();
@@ -302,7 +328,8 @@ class UI{
  }
  focusExits(){this.hudPanel=null;this.updateHUD();(this.right.querySelector('.ga-recommended')||this.right.querySelector('[aria-disabled="false"]'))?.focus();}
  toggleHUD(panel){if(panel==='routes'){this.focusExits();return;}this.hudPanel=this.hudPanel===panel?null:panel;this.updateHUD();if(this.hudPanel)(this.left.querySelector('[data-action-id]')||this.left.querySelector('button:not(:disabled):not(.ga-panel-close)'))?.focus();else this.objectsButton?.focus();}
- updateHUD(){if(!this.dock)return;const modal=!!this.dialog;this.fieldbar.hidden=modal;this.dock.hidden=modal;this.left.hidden=modal||this.hudPanel!=='objects';this.right.hidden=modal||!!this.engine?.state.ended;this.exits.hidden=modal||!this.active();this.objectsButton.setAttribute('aria-expanded',String(!this.left.hidden));const count=this.engine?.actions().length??0;this.objectsButton.textContent='Объекты · '+count;
+ updateHUD(){if(!this.dock)return;const modal=!!this.dialog;
+ if(this.introTip)this.introTip.hidden=modal||this.hasScanned||!this.active()||this.engine.state.chapter!==1||this.engine.state.done.includes('take_BADGE04');this.fieldbar.hidden=modal;this.dock.hidden=modal;this.left.hidden=modal||this.hudPanel!=='objects';this.right.hidden=modal||!!this.engine?.state.ended;this.exits.hidden=modal||!this.active();this.objectsButton.setAttribute('aria-expanded',String(!this.left.hidden));const count=this.engine?.actions().length??0;this.objectsButton.textContent='Объекты · '+count;
  const guide=this.guide(),target=guide?.action,ready=!!target&&target.room===this.engine.state.room&&this.engine.eligible(target);
  const nextRoom=guide?.route?.[0],canMove=!!nextRoom&&this.data.links.some(l=>l.from===this.engine.state.room&&l.to===nextRoom&&api.test(l.when,this.engine.state));
  const otherAction=!ready&&!canMove?this.engine.actions()[0]:null;
@@ -326,15 +353,30 @@ class UI{
  const smaller=this.button(tools,'А−',()=>{this.readerSize-=2;update();}),larger=this.button(tools,'А+',()=>{this.readerSize+=2;update();});smaller.setAttribute('aria-label','Уменьшить текст документа');larger.setAttribute('aria-label','Увеличить текст документа');tools.append(size);parent.append(tools,paper);update();
  }
  clearNotice(){clearTimeout(this.noticeTimer);if(this.notice){this.notice.hidden=true;this.notice.textContent='';}}
- clearAmbient(){clearTimeout(this.ambientTimer);this.ambientRemaining=0;if(this.ambientLine){this.ambientLine.hidden=true;this.ambientLine.replaceChildren();}}
+ clearAmbient(dropQueue=true){
+ clearTimeout(this.ambientTimer);
+ this.ambientRemaining=0;
+ this.ambientCurrent=null;
+ if(dropQueue)this.ambientQueue=[];
+ if(this.ambientLine){this.ambientLine.hidden=true;this.ambientLine.replaceChildren();}
+}
  showAmbient(e){
-  this.clearAmbient();
-  this.hooks.cue?.(e);
-  const label=el('small',e.ambientLabel||'НАБЛЮДЕНИЕ'),line=el('p',e.presentation);
-  this.ambientLine.append(label,line);
-  this.ambientLine.hidden=false;
-  this.ambientRemaining=Math.max(6.2,Math.min(10.5,e.presentation.length*.075));
+ if(!this.ambientLine)return;
+ if(this.ambientRemaining>0&&!this.ambientLine.hidden){
+  if(this.ambientCurrent===e.id||this.ambientQueue?.some(item=>item.id===e.id))return;
+  // Keep a short readable sequence. Every observation remains in the journal.
+  (this.ambientQueue||(this.ambientQueue=[])).push(e);
+  if(this.ambientQueue.length>3)this.ambientQueue.shift();
+  return;
  }
+ this.clearAmbient(false);
+ this.ambientCurrent=e.id;
+ this.hooks.cue?.(e);
+ const label=el('small',e.ambientLabel||'НАБЛЮДЕНИЕ'),line=el('p',e.presentation);
+ this.ambientLine.append(label,line);
+ this.ambientLine.hidden=false;
+ this.ambientRemaining=Math.max(5,Math.min(9,e.presentation.length*.065));
+}
  notify(text){this.clearNotice();if(!text)return;this.notice.textContent=text;this.notice.hidden=false;this.noticeTimer=setTimeout(()=>this.clearNotice(),5000);}
  requirementHints(c){
  if(!c||api.test(c,this.engine.state))return [];
@@ -439,7 +481,9 @@ class UI{
   // Only a full cinematic scene defers the intended object interaction.
   if(this.isAmbientEvent(ev))this.scene(ev);
   else{this.scene(ev);this.afterScene=()=>this.openAction(id);return;}
- }}const b=this.panel(a.label);this.currentAction=id;const art=this.data.illustratedProps;if(a.template!=='document'&&a.template!=='media'){const src=art?.image?.[art?.action?.[id]],inspection=art?.inspections?.[id];if(src&&inspection)this.inspectionPreview(b,a,src,inspection);else this.showArt(b,src,a.label);}
+ }}const b=this.panel(a.label);
+ if(a.fieldChoice)b.classList.add('ga-field-choice');
+ this.currentAction=id;const art=this.data.illustratedProps;if(a.template!=='document'&&a.template!=='media'&&!a.fieldChoice){const src=art?.image?.[art?.action?.[id]],inspection=art?.inspections?.[id];if(src&&inspection)this.inspectionPreview(b,a,src,inspection);else this.showArt(b,src,a.label);}
  const pickup=a.effects?.find(fx=>fx.item)?.item;if(pickup)this.showArt(b,this.data.inventoryArt?.[pickup],this.itemName(pickup));
  if(a.template==='media'){this.playMedia(this.data.media.find(m=>m.id===a.media),a);return;}
  if(a.template==='document'){this.documentView(b,this.data.documents.find(d=>d.id===a.document));this.button(b,a.readLabel||'Сохранить в журнале',()=>this.submit(a,null));}
