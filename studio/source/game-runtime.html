@@ -391,15 +391,23 @@ function adventureMarkers(){
  if(layer.hidden)return;
  const available=new Set(ui.engine.actions().map(a=>a.id));
  const questAction=ui.guide()?.action,questTarget=questAction?.room===roomId?questAction.id:null;
- const objects=(current()?.objects||[]).filter(o=>adventureSign(o)&&available.has(o.tourKey.slice(3))),key=roomId+'|'+objects.map(o=>o.id).join('|')+'|'+(questTarget||'');
- if(layer.dataset.key!==key){layer.replaceChildren();layer.dataset.key=key;for(const o of objects){const id=o.tourKey.slice(3),b=ui.button(layer,'',()=>{if(!sessionPaused&&!ui.dialog&&roomId===ui.engine.state.room)ui.openAction(id);});b.className='ga-hotspot'+(id===questTarget?' ga-target':'');b.dataset.objectId=o.id;b.dataset.actionId=id;b.setAttribute('aria-label','Осмотреть: '+o.name);const label=document.createElement('span');label.textContent=o.name;b.append(label);}}
+ // Optional investigations use only artwork-grounded panorama coordinates.
+ // They can be opened directly in the room, without a separate menu.
+ const physical=(current()?.objects||[]).filter(o=>adventureSign(o)&&available.has(o.tourKey.slice(3)));
+ const extra=ui.data.actions.filter(a=>a.room===roomId&&available.has(a.id)
+  &&Array.isArray(a.worldPoint)&&a.worldPoint.length===2
+  &&a.worldPoint.every(v=>typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=1)
+  &&!physical.some(o=>o.tourKey==='ga:'+a.id))
+  .map(a=>({id:'story-'+a.id,name:a.label,tourKey:'ga:'+a.id,worldPoint:{u:a.worldPoint[0],v:a.worldPoint[1]},story:true}));
+ const objects=[...physical,...extra],key=roomId+'|'+objects.map(o=>o.id).join('|')+'|'+(questTarget||'');
+ if(layer.dataset.key!==key){layer.replaceChildren();layer.dataset.key=key;for(const o of objects){const id=o.tourKey.slice(3),b=ui.button(layer,'',()=>{if(!sessionPaused&&!ui.dialog&&roomId===ui.engine.state.room)ui.openAction(id);});b.className='ga-hotspot'+(id===questTarget?' ga-target':'')+(o.story?' ga-investigation':'');b.dataset.objectId=o.id;b.dataset.actionId=id;b.setAttribute('aria-label','Осмотреть: '+o.name);const label=document.createElement('span');label.textContent=o.name;b.append(label);}}
  const anchors=ui.data.navigationAnchors?.[roomId]||{},links=ui.data.links.filter(l=>l.from===roomId&&anchors[l.to]),recommended=ui.guide()?.route?.[0],exitKey=roomId+'|'+links.map(l=>l.to+':'+(GagarinAdventure.test(l.when,ui.engine.state)?'open':'locked')).join('|')+'|'+recommended;
  if(exitLayer.dataset.key!==exitKey){exitLayer.replaceChildren();exitLayer.dataset.key=exitKey;for(const l of links){const name=ui.data.rooms.find(r=>r.id===l.to)?.name,b=ui.button(exitLayer,name,()=>ui.enterRoom(l.to));const unlocked=GagarinAdventure.test(l.when,ui.engine.state);b.className='ga-exit'+(unlocked&&l.to===recommended?' ga-recommended':'')+(unlocked?'':' ga-locked');b.disabled=!unlocked;b.title=unlocked?'Перейти: '+name:(l.locked||'Проход закрыт');b.dataset.exitTo=l.to;b.setAttribute('aria-label',(unlocked?'Выйти: ':'Закрыто: ')+name);}}
  // Do not put markers underneath the HUD or on top of another interactive target.
  const occupied=[...ui.fieldbar.querySelectorAll('button'),document.getElementById('top'),document.getElementById('toggle'),document.getElementById('gs-level'),document.getElementById('gs-quick'),document.getElementById('gameLanguage')].filter(n=>n&&!n.hidden&&n.getClientRects().length).map(n=>n.getBoundingClientRect());
  const fits=(x,y,w,h)=>x>=w/2+8&&x<=innerWidth-w/2-8&&y>=h/2+8&&y<=innerHeight-h/2-8&&!occupied.some(r=>x+w/2+6>r.left&&x-w/2-6<r.right&&y+h/2+6>r.top&&y-h/2-6<r.bottom);
  const placed=[];for(const b of exitLayer.children){const a=anchors[b.dataset.exitTo],p=project({u:a[0],v:a[1]});b.hidden=!p||!fits(p.x,p.y,Math.min(200,60+b.textContent.length*7),44)||placed.some(v=>Math.abs(p.x-v.x)<180&&Math.abs(p.y-v.y)<50);if(b.hidden)continue;b.style.left=p.x+'px';b.style.top=p.y+'px';placed.push(p);}
- for(const b of layer.children){const o=objects.find(o=>o.id===b.dataset.objectId),anchor=o&&ui.data.interactionAnchors?.[ui.engine.state.variants[roomId]]?.[o.tourKey.slice(3)],p=o&&project(anchor?{u:anchor[0],v:anchor[1]}:centroid(o));b.hidden=!p;if(b.hidden)continue;
+ for(const b of layer.children){const o=objects.find(o=>o.id===b.dataset.objectId),anchor=o&&!o.worldPoint&&ui.data.interactionAnchors?.[ui.engine.state.variants[roomId]]?.[o.tourKey.slice(3)],p=o&&project(o.worldPoint||(anchor?{u:anchor[0],v:anchor[1]}:centroid(o)));b.hidden=!p;if(b.hidden)continue;
   const candidates=[[0,0],[0,48],[0,-48],[48,0],[-48,0],[48,48],[-48,-48]],point=candidates.map(([x,y])=>({x:p.x+x,y:p.y+y})).find(q=>fits(q.x,q.y,44,44)&&placed.every(v=>Math.hypot(v.x-q.x,v.y-q.y)>=100));
   if(!point){b.hidden=true;continue;}placed.push(point);b.style.left=point.x+'px';b.style.top=point.y+'px';b.dataset.labelSide=point.y<120?'below':'above';const half=Math.min(210,innerWidth*.45)/2;b.style.setProperty('--label-offset',(Math.min(innerWidth-12-half,Math.max(12+half,point.x))-point.x)+'px');
  }

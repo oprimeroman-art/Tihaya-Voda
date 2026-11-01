@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "purpose": "Optional player-triggered environmental horror. None of these actions gate quests or endings.",
+  "purpose": "Необязательные пространственные расследования и повторяющиеся наблюдения, не меняющие основной сюжет и финалы.",
   "actions": [
     {
       "id": "TV_PLATE_SOUND",
@@ -42,7 +42,12 @@
         }
       ],
       "signal": "tv_echo_plate",
-      "fieldChoice": true
+      "fieldChoice": true,
+      "worldPoint": [
+        0.6,
+        0.68
+      ],
+      "worldLabel": "Замечено"
     },
     {
       "id": "TV_RADIO_SILENCE",
@@ -84,7 +89,12 @@
         }
       ],
       "signal": "tv_echo_radio",
-      "fieldChoice": true
+      "fieldChoice": true,
+      "worldPoint": [
+        0.4,
+        0.64
+      ],
+      "worldLabel": "Замечено"
     },
     {
       "id": "TV_GLASS_TOWEL",
@@ -126,7 +136,12 @@
         }
       ],
       "signal": "tv_echo_glass",
-      "fieldChoice": true
+      "fieldChoice": true,
+      "worldPoint": [
+        0.36,
+        0.64
+      ],
+      "worldLabel": "Замечено"
     },
     {
       "id": "TV_BED_BREATH",
@@ -168,7 +183,232 @@
         }
       ],
       "signal": "tv_echo_bed",
-      "fieldChoice": true
+      "fieldChoice": true,
+      "worldPoint": [
+        0.74,
+        0.67
+      ],
+      "worldLabel": "Замечено"
+    },
+    {
+      "id": "TV_STOCK_TAG",
+      "room": "F",
+      "label": "Осмотреть лишний ярлык",
+      "template": "choice",
+      "fieldChoice": true,
+      "worldPoint": [
+        0.18,
+        0.35
+      ],
+      "worldLabel": "Улика",
+      "once": true,
+      "when": {
+        "min": 3,
+        "max": 5
+      },
+      "text": "На пустом ящике — свежий бумажный ярлык. В графе «выдано» уже стоит ваша фамилия, хотя вы ещё не открывали этот ящик.",
+      "options": [
+        {
+          "value": "COPY",
+          "label": "Переписать номер в блокнот",
+          "effects": [
+            {
+              "set": {
+                "TV_STOCK_MARK": "COPY"
+              }
+            }
+          ]
+        },
+        {
+          "value": "LEAVE",
+          "label": "Оставить бумагу на месте",
+          "effects": [
+            {
+              "set": {
+                "TV_STOCK_MARK": "LEAVE"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "signal": "tv_trace:TV_STOCK_TAG"
+    },
+    {
+      "id": "TV_POWER_TICK",
+      "room": "E",
+      "label": "Сверить ход счётчика",
+      "template": "choice",
+      "fieldChoice": true,
+      "worldPoint": [
+        0.08,
+        0.5
+      ],
+      "worldLabel": "Улика",
+      "once": true,
+      "when": {
+        "min": 5,
+        "max": 7
+      },
+      "text": "Механический счётчик на щите делает два щелчка на каждом делении. Второй слышится на долю секунды раньше первого.",
+      "options": [
+        {
+          "value": "LISTEN",
+          "label": "Прислушаться к промежутку",
+          "effects": [
+            {
+              "set": {
+                "TV_POWER_MARK": "LISTEN"
+              }
+            }
+          ]
+        },
+        {
+          "value": "NOTE",
+          "label": "Записать показание и время",
+          "effects": [
+            {
+              "set": {
+                "TV_POWER_MARK": "NOTE"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "signal": "tv_trace:TV_POWER_TICK"
+    },
+    {
+      "id": "TV_SAMPLE_FILM",
+      "room": "G",
+      "label": "Изучить пустое стекло",
+      "template": "choice",
+      "fieldChoice": true,
+      "worldPoint": [
+        0.075,
+        0.56
+      ],
+      "worldLabel": "Улика",
+      "once": true,
+      "when": {
+        "min": 7,
+        "max": 9
+      },
+      "text": "Под объективом лежит чистое предметное стекло. Когда вы отводите взгляд, по краю проступает узкий отпечаток, похожий на след пальца изнутри.",
+      "options": [
+        {
+          "value": "RETURN",
+          "label": "Снова заглянуть в окуляр",
+          "effects": [
+            {
+              "set": {
+                "TV_SAMPLE_MARK": "RETURN"
+              }
+            }
+          ]
+        },
+        {
+          "value": "SEAL",
+          "label": "Закрыть стекло крышкой",
+          "effects": [
+            {
+              "set": {
+                "TV_SAMPLE_MARK": "SEAL"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "signal": "tv_trace:TV_SAMPLE_FILM"
+    },
+    {
+      "id": "TV_CORRIDOR_DROP",
+      "room": "C",
+      "label": "Осмотреть мокрый след",
+      "template": "choice",
+      "fieldChoice": true,
+      "worldPoint": [
+        0.59,
+        0.65
+      ],
+      "worldLabel": "Улика",
+      "once": true,
+      "when": {
+        "min": 8,
+        "max": 10
+      },
+      "text": "На полу коридора блестит капля воды. Ещё одна появляется на стыке плит. След ведёт не от двери, а к ней.",
+      "options": [
+        {
+          "value": "FOLLOW",
+          "label": "Проследить направление капель",
+          "effects": [
+            {
+              "set": {
+                "TV_CORRIDOR_MARK": "FOLLOW"
+              }
+            }
+          ]
+        },
+        {
+          "value": "MARK",
+          "label": "Обвести каплю карандашом",
+          "effects": [
+            {
+              "set": {
+                "TV_CORRIDOR_MARK": "MARK"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "signal": "tv_trace:TV_CORRIDOR_DROP"
+    },
+    {
+      "id": "TV_AIRLOCK_GLASS",
+      "room": "J",
+      "label": "Осмотреть царапину на стекле",
+      "template": "choice",
+      "fieldChoice": true,
+      "worldPoint": [
+        0.5,
+        0.42
+      ],
+      "worldLabel": "Улика",
+      "once": true,
+      "when": {
+        "min": 10,
+        "max": 11
+      },
+      "text": "На внешнем стекле шлюза видна тонкая дуга. С внутренней стороны она повторена вторым, более свежим следом, словно кто-то водил пальцем вслед за вами.",
+      "options": [
+        {
+          "value": "TOUCH",
+          "label": "Приложить ладонь к стеклу",
+          "effects": [
+            {
+              "set": {
+                "TV_AIRLOCK_MARK": "TOUCH"
+              }
+            }
+          ]
+        },
+        {
+          "value": "AWAY",
+          "label": "Оставить след нетронутым",
+          "effects": [
+            {
+              "set": {
+                "TV_AIRLOCK_MARK": "AWAY"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "signal": "tv_trace:TV_AIRLOCK_GLASS"
     }
   ],
   "events": [
@@ -777,6 +1017,321 @@
         "mode": "flicker",
         "duration": 1.15,
         "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_STOCK_TAG_COPY_RESPONSE",
+      "room": "F",
+      "signal": "tv_trace:TV_STOCK_TAG",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 3,
+        "max": 5,
+        "eq": {
+          "TV_STOCK_MARK": "COPY"
+        }
+      },
+      "presentation": "Номер на ярлыке начинается с даты завтрашней смены. Чернила на бумаге ещё влажные.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_STOCK_TAG_LEAVE_RESPONSE",
+      "room": "F",
+      "signal": "tv_trace:TV_STOCK_TAG",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 3,
+        "max": 5,
+        "eq": {
+          "TV_STOCK_MARK": "LEAVE"
+        }
+      },
+      "presentation": "При следующем взгляде листок висит ровно, хотя вы помните, что угол был оторван.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_POWER_TICK_LISTEN_RESPONSE",
+      "room": "E",
+      "signal": "tv_trace:TV_POWER_TICK",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 5,
+        "max": 7,
+        "eq": {
+          "TV_POWER_MARK": "LISTEN"
+        }
+      },
+      "presentation": "Между щелчками едва различимо шуршание, будто переключатель трогают с другой стороны панели.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_POWER_TICK_NOTE_RESPONSE",
+      "room": "E",
+      "signal": "tv_trace:TV_POWER_TICK",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 5,
+        "max": 7,
+        "eq": {
+          "TV_POWER_MARK": "NOTE"
+        }
+      },
+      "presentation": "Секундная стрелка на наручных часах на мгновение останавливается. Время в блокноте остаётся правильным.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_SAMPLE_FILM_RETURN_RESPONSE",
+      "room": "G",
+      "signal": "tv_trace:TV_SAMPLE_FILM",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 7,
+        "max": 9,
+        "eq": {
+          "TV_SAMPLE_MARK": "RETURN"
+        }
+      },
+      "presentation": "В окуляре на миг видно неподвижное круглое пятно. Отодвигаетесь — стекло по-прежнему пустое.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_SAMPLE_FILM_SEAL_RESPONSE",
+      "room": "G",
+      "signal": "tv_trace:TV_SAMPLE_FILM",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 7,
+        "max": 9,
+        "eq": {
+          "TV_SAMPLE_MARK": "SEAL"
+        }
+      },
+      "presentation": "На крышке остаётся влажная точка. Изнутри, не снаружи.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_CORRIDOR_DROP_FOLLOW_RESPONSE",
+      "room": "C",
+      "signal": "tv_trace:TV_CORRIDOR_DROP",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 8,
+        "max": 10,
+        "eq": {
+          "TV_CORRIDOR_MARK": "FOLLOW"
+        }
+      },
+      "presentation": "Капли обрываются у стены. С другой стороны стены — жилые комнаты.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_CORRIDOR_DROP_MARK_RESPONSE",
+      "room": "C",
+      "signal": "tv_trace:TV_CORRIDOR_DROP",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 8,
+        "max": 10,
+        "eq": {
+          "TV_CORRIDOR_MARK": "MARK"
+        }
+      },
+      "presentation": "Графитная окружность остаётся на плитке. Вода внутри неё исчезает раньше, чем вы убираете карандаш.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_AIRLOCK_GLASS_TOUCH_RESPONSE",
+      "room": "J",
+      "signal": "tv_trace:TV_AIRLOCK_GLASS",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 10,
+        "max": 11,
+        "eq": {
+          "TV_AIRLOCK_MARK": "TOUCH"
+        }
+      },
+      "presentation": "Стекло холодное. В ответ с другой стороны медленно проявляется ещё один отпечаток ладони.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_AIRLOCK_GLASS_AWAY_RESPONSE",
+      "room": "J",
+      "signal": "tv_trace:TV_AIRLOCK_GLASS",
+      "priority": "conditional",
+      "category": "quiet",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "when": {
+        "min": 10,
+        "max": 11,
+        "eq": {
+          "TV_AIRLOCK_MARK": "AWAY"
+        }
+      },
+      "presentation": "Царапина остаётся на месте. Через стекло на секунду видно, как она продолжается в темноту.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_PATTERN_ARCHIVE",
+      "room": "H",
+      "signal": "enter:H",
+      "when": {
+        "min": 9,
+        "max": 11,
+        "all": [
+          "TV_STOCK_MARK",
+          "TV_SAMPLE_MARK"
+        ]
+      },
+      "priority": "conditional",
+      "category": "trace",
+      "ambient": true,
+      "ambientLabel": "СОВПАДЕНИЕ",
+      "presentation": "В папке со списком образцов обнаруживается ярлык от того самого складского ящика. Номер совпадает с отметкой на стекле под микроскопом. Эти вещи не должны были оказаться рядом.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_PATTERN_RADIO",
+      "room": "D",
+      "signal": "enter:D",
+      "when": {
+        "min": 9,
+        "max": 11,
+        "all": [
+          "TV_POWER_MARK",
+          "TV_CORRIDOR_MARK"
+        ]
+      },
+      "priority": "conditional",
+      "category": "trace",
+      "ambient": true,
+      "ambientLabel": "СОВПАДЕНИЕ",
+      "presentation": "На ленте самописца радиорубки стоят две одинаковые вертикальные черты. Промежуток между ними совпадает и с двойным щелчком счётчика, и с расстоянием между каплями в коридоре.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_PATTERN_LAST",
+      "room": "N",
+      "signal": "enter:N",
+      "when": {
+        "min": 11,
+        "max": 12,
+        "all": [
+          "TV_AIRLOCK_MARK",
+          "TV_SAMPLE_MARK"
+        ]
+      },
+      "priority": "conditional",
+      "category": "trace",
+      "ambient": true,
+      "ambientLabel": "СОВПАДЕНИЕ",
+      "presentation": "На обратной стороне таблички с выходом — такой же полукруглый след, какой вы видели на стекле шлюза. У окончания царапины — едва заметное пятно, как на лабораторном стекле.",
+      "effects": [],
+      "lines": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.3,
+        "strength": 0.12
       }
     }
   ]

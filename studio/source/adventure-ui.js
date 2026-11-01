@@ -162,6 +162,10 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
 .ga-root .ga-intro-tip[hidden]{display:none!important}
 @media(max-width:680px){.ga-root .ga-intro-tip{font-size:10px;line-height:1.35;padding:0}}
 
+
+.ga-root .ga-hotspot.ga-investigation::before{width:10px;height:10px;background:#342e24e8;border-color:#c9bc9788;box-shadow:0 0 0 4px #0b14147a,0 2px 8px #0008}
+.ga-root .ga-hotspot.ga-investigation:hover::before,.ga-root .ga-hotspot.ga-investigation:focus-visible::before{background:#d7c598;border-color:#f4e2bb;box-shadow:0 0 0 5px #ddc8a122,0 2px 8px #0008}
+
 `;
 
 class UI{
