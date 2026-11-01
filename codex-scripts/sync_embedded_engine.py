@@ -137,10 +137,17 @@ def synchronize(html):
     ambience_start = "let stationAmbience=null" if "let stationAmbience=null" in html else "function closeSystem(){"
     html = replace_between(html, RUNTIME, ambience_start, "function showSystem(page){", "let stationAmbience=null")
     html = replace_between(html, RUNTIME, "function showSystem(page){", "function menuButton(")
-    # The canonical standalone source must retain the 112 authored events here:
-    # earlier artwork integration stages use that original event inventory.
-    # The web build adds optional encounters *after* these stages via
-    # build_pages_demo.py. Never mutate story payload inside this runtime sync.
+    # Native HTML/game-editor must keep file:// working with no external
+    # asset host. Embed the same UV tile manifest as data-URL images.
+    marker = "window.BUILT_GAME="
+    if marker in html:
+        start = html.index(marker) + len(marker)
+        payload, consumed = json.JSONDecoder().raw_decode(html[start:])
+        from panorama_detail import apply_panorama_details
+        apply_panorama_details(payload, ROOT)
+        html = html[:start] + json.dumps(payload,ensure_ascii=False,separators=(",",":")) + html[start+consumed:]
+    # Keep 112 canonical events; additional web-only optional encounters are
+    # applied by the Pages builder, not injected into the legacy source.
     return html
 
 

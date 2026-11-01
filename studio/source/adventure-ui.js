@@ -981,7 +981,14 @@ class UI{
   }
   return options;
  }
- openAction(id){const a=this.engine.begin(id);if(!a)return;if(a.startSignal){this.engine.modal=false;const ev=this.engine.flush(0);this.engine.modal=true;if(ev){
+ openAction(id){const a=this.engine.begin(id);if(!a)return;
+ if(a.instant&&!(a.template==='choice'||a.template==='document'||a.answer)){
+  const r=this.engine.answer(id,null);
+  if(!r.ok){this.engine.cancel();this.notify(r.message||'Не удалось выполнить действие.');return;}
+  this.notify(a.instantFeedback||a.label);
+  this.sync();this.restoreFocus?.();return;
+ }
+ if(a.startSignal){this.engine.modal=false;const ev=this.engine.flush(0);this.engine.modal=true;if(ev){
   // Quiet pre-action cues must not strand the engine in modal=true with no window.
   // Only a full cinematic scene defers the intended object interaction.
   if(this.isAmbientEvent(ev))this.scene(ev);

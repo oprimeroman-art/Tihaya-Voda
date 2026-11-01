@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "description": "Независимые RGBA-патчи высокого разрешения поверх исходной equirectangular-панорамы. UV [left,top,right,bottom].",
+  "tiles": [
+    {
+      "id": "A_slippers_aligned",
+      "room": "A",
+      "path": "site-assets/panorama-patches/A-slippers-aligned.png",
+      "mime": "image/png",
+      "rect": [
+        0.27621195,
+        0.69898534,
+        0.37767756,
+        0.87147689
+      ],
+      "when": {
+        "flag": "slippers",
+        "notFlag": "A_SHOES_SHIFTED"
+      },
+      "priority": 10
+    }
+  ]
+}

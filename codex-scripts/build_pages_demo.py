@@ -49,7 +49,10 @@ def main():
     ap.add_argument("--output",type=Path,default=ROOT/"_site")
     args=ap.parse_args()
     members,manifest=bundle()
-    html=SOURCE.read_text(encoding="utf-8")
+    # Always publish the current gameplay engine, not a stale offline HTML
+    # artifact from a parallel sync workflow.
+    from sync_embedded_engine import synchronize
+    html=synchronize(SOURCE.read_text(encoding="utf-8"))
     assert html.count("window.BUILT_GAME=")==1
     marker="window.BUILT_GAME="
     start=html.index(marker)+len(marker)
@@ -111,6 +114,9 @@ def main():
         raise ValueError("Leftover temporary 3D art preview injection")
     from sync_optional_encounters import apply_optional_encounters
     apply_optional_encounters(payload, ROOT)
+    # Independent full-resolution UV tiles remain separate web files.
+    from panorama_detail import apply_panorama_details
+    apply_panorama_details(payload, ROOT, web_dir=args.output)
     from web_assets import externalize_payload
     payload,web_manifest=externalize_payload(payload,args.output)
     html=html[:start]+json.dumps(payload,ensure_ascii=False,separators=(",",":"))+html[start+end:]

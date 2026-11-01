@@ -13,3 +13,13 @@ code_paths: ["studio/source/game-runtime.html", "studio/source/adventure-ui.js",
 - Project's larger Work production assignment: [issue #39](https://github.com/oprimeroman-art/Tihaya-Voda/issues/39). Opening an issue does NOT launch Work.
 - Do not claim any new public build or editor sync until the corresponding workflow succeeds; direct browser playthrough and all four endings remain unverified.
 - Next concrete scene: radio-room speaking-before-the-player anomaly, followed by actual playtesting and restoring any failed CI checks. Focus on diegetic cues and actions, not additional journals or menus.
+
+
+## Panorama pixel-layer iteration
+
+- Source: studio/source/game-runtime.html (PANORAMA_DETAIL_TILES).
+- Room A: slippers action is direct; a PNG equirect UV floor patch renders only after the slippers flag. The later A_SHOES_SHIFTED event hides it. No new giant modal.
+- Manifest: production/panorama-detail-tiles.json, approved pixel art: site-assets/panorama-patches/A-slippers-aligned.png.
+- Same assets delivered externally for Pages and inline for offline file:// output with codex-scripts/panorama_detail.py.
+- Targeted test: node studio/verification/panorama-detail-tiles.test.cjs.
+- The approved background is still 1774x887: pixel reassembly does NOT improve it without independently better source tiles.
