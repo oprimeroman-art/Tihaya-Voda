@@ -505,7 +505,7 @@ function horrorCuePlan(event){
  return {mode,room:roomId,duration,...(panoramaVariant?{panoramaVariant}:{}),strength:Number.isFinite(strength)&&strength>0?Math.max(.05,Math.min(.85,strength)):(mode==='blackout'?.68:mode==='apparition'?.43:mode==='temporal'?.32:.23)};
 }
 function horrorCueStop(){const previous=horrorCue;horrorCue=null;const layer=$('horror-cue');if(layer)layer.style.opacity='0';if(previous?.panoramaVariant&&typeof adventureApplyVariant==='function'){const variant=adventurePlayer?.engine?.state?.variants?.[previous.room];if(variant)adventureApplyVariant(previous.room,variant);}}
-function horrorCueStart(event){const plan=horrorCuePlan(event);if(!plan)return false;horrorSoundCue(event);
+function horrorCueStart(event){const plan=horrorCuePlan(event);if(!plan)return false;if(typeof horrorSoundCue==='function')horrorSoundCue(event);
  horrorCueStop();const cue={...plan,elapsed:0,ready:!plan.panoramaVariant};horrorCue=cue;if(plan.panoramaVariant){Promise.resolve(adventureApplyVariant(plan.room,plan.panoramaVariant,true)).then(()=>{if(horrorCue===cue)cue.ready=true;}).catch(()=>{if(horrorCue===cue)horrorCueStop();});}horrorCueFrame(0);return true;
 }
 function horrorCueFrame(dt=0){const layer=$('horror-cue');if(!layer)return;
@@ -616,7 +616,7 @@ function adventureReflectState(){
   o.visible=!!a&&adventurePlayer.engine.eligible(a);
  }
  for(const entry of cache.values())entry.dirty=true;
- updateTorchButton();refresh();
+ if(typeof updateTorchButton==='function')updateTorchButton();refresh();
 }
 function adventureApplyVariant(rid,variant,transient=false){
  if(!transient&&typeof horrorCue!=='undefined'&&horrorCue?.panoramaVariant&&horrorCue.room===rid)return;

@@ -1,15 +1,16 @@
 ---
 title: Project state — Tihaya Voda
-summary: Current confirmed code structure, player experience priorities and deployment boundary.
-code_paths: ["studio/**", "game-project/**", "game/**", "game-editor/**"]
+summary: Actual horror engine, current assets and build constraints verified on 2026-11-01.
+code_paths: ["studio/**", "game-project/**", "game/**", "game-editor/**", "site-assets/horror-actors/**"]
 ---
-# Tihaya Voda — project state
+# Tihaya Voda — current state
 
-- Project: Arctic-station psychological horror built with Gagarin Panorama Studio. Repository: oprimeroman-art/Tihaya-Voda.
-- Structure verified against GitHub README on 2026-11-01: studio/ is editable engine and content; game-project/ is unpacked scene and assets; game/ and game-editor/ contain browser players; docs/ and reports/ preserve design and QA history.
-- Entry points documented by repository: game/index.html, game-editor/index.html.
-- Published link known from project work: https://oprimeroman-art.github.io/Tihaya-Voda/ . Current deployed content and gameplay quality NOT verified during this operation.
-- User priority: intuitive navigation without opening a menu, meaningful quest chain, attractive assets, playable atmosphere and consequences. Implement and demonstrate an improved game loop before exhaustive reviews.
-- Current game build / latest gameplay commit: not established by this documentation-only operation.
-- Do not modify production/, public release workflow, saves or scene assets while integrating agent instructions.
-- Next engineering task: examine latest working branch and make one real gameplay improvement with a playable build. Update this state and the handoff with actual findings.
+- Existing browser horror/adventure set at the Arctic station, built with Gagarin Panorama Studio; repo `oprimeroman-art/Tihaya-Voda`.
+- `studio/source/game-runtime.html` holds projection, in-room hotspots, original WebGL/CPU panorama engine, visual/audio director and inventory-gated flashlight.
+- `studio/source/adventure-ui.js` holds gameplay UI and tasks; canonical story in `studio/content/TIHAYA_VODA/adventure.json`; additional optional investigations in `production/optional-encounters.json`.
+- The game has twelve canonical chapters and four logical endings. An uninterrupted UI playthrough of every route is NOT confirmed.
+- 16 authored spatial audio cues S01–S16 were produced earlier in `game-project/audio/spatial/`. The 2026-11-01 source added context-sensitive stereo events (footsteps, knocks, breaths, metal) mixed into station ambience. No claim of professional voice acting.
+- Three small original SVG illustrations in `site-assets/horror-actors/` were embedded inside the runtime for offline apparitions. They are stylized fallback art, NOT finished photographic scene panoramas.
+- Current user priority: horror direction, original images and sounds, escalating character/room transformations and consequences, no pointless HUD or unrelated menus. Full assignment: [GitHub issue #39](https://github.com/oprimeroman-art/Tihaya-Voda/issues/39).
+- Published URL: https://oprimeroman-art.github.io/Tihaya-Voda/ ; deployed content and release QA must be checked against GitHub Actions before any success claims.
+- New multi-agent guidance exists in `AGENTS.md`, `.ai/` and `docs/ops/HANDOFF.md`; there is no always-running agent wired to GitHub issues.
