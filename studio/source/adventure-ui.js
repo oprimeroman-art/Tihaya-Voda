@@ -349,13 +349,18 @@ class UI{
  close(refresh=true){this.endingTick=null;this.physicalPaint=null;this.instrumentHint=null;this.attemptLabel=null;this.error=null;this.stopVoice?.();const resume=refresh?this.afterScene:null;this.afterScene=null;const sceneCue=refresh?this.pendingSceneCue:null;this.pendingSceneCue=null;this.disposeMedia?.();this.disposeMedia=null;this.mediaTick=null;this.dialog?.remove();this.dialog=null;this.engine?.cancel();if(refresh){this.sync();if(sceneCue)this.hooks.cue?.(sceneCue);if(this.engine.state.ended)this.endingShown=false;if(resume)resume();if(this.dialog)return;this.restoreFocus?.();}}
  restoreFocus(){this.hotspots.hidden=!this.active();this.updateHUD();const origin=this.focusOrigin;this.focusOrigin=null;if(!this.active())return;const id=origin?.dataset?.actionId,alive=!id||this.engine.actions().some(a=>a.id===id);const candidates=[alive&&origin?.isConnected?origin:null,...this.left.querySelectorAll('[data-action-id]'),this.objectsButton];const target=candidates.find(n=>n&&n.getClientRects().length&&(!n.dataset.actionId||!id||n.dataset.actionId===id))||this.objectsButton;target?.focus();}
 
+ isAmbientEvent(e){
+  return !!e.ambient||(
+   ['normal','quiet','trace','sound','object'].includes(e.category)
+   &&e.priority==='optional'&&!e.lines?.length&&!e.timelineId
+   &&!e.sceneArt&&!e.visualCue?.panoramaVariant
+  );
+ }
  scene(e){
   // Simple optional station observations belong in the space, not a blocking modal.
   // Audio, dialogue, evidence, authored art and mandatory story scenes retain full presentation.
   this.hooks.variant?.(this.engine.state.room,this.engine.state.variants[this.engine.state.room]);
-  const subtle=['normal','quiet','trace','sound','object'].includes(e.category)
-   &&e.priority==='optional'&&!e.lines?.length&&!e.timelineId&&!e.sceneArt&&!e.visualCue?.panoramaVariant;
-  if(e.ambient||subtle){this.showAmbient(e);return;}
+  if(this.isAmbientEvent(e)){this.showAmbient(e);return;}
   this.clearAmbient();if(e.timelineId)this.hooks.timeline?.(e.timelineId);const b=this.panel(e.category==='normal'?'Станция · наблюдение':'Наблюдение');this.pendingSceneCue=e;b.setAttribute?.('data-event-id',e.id);const sceneArt=this.hooks.sceneArt?.(e);if(['normal','quiet','trace','sound','object','mirror','spatial','future','outdoor'].includes(e.category)&&!e.lines?.length&&!sceneArt&&!e.timelineId&&!e.visualCue?.mode)b.classList.add('ga-ambient-scene');if(sceneArt){if(e.visualCue?.mode!=='panorama')this.showArt(b,sceneArt,e.presentation);}b.append(el('div',e.presentation,'ga-scene'));for(const l of e.lines||[])b.append(el('div',l.speaker+'\n'+l.text,'ga-caption'));this.speakLines?.(e.lines);this.button(b,'Продолжить',()=>this.close());}
  map(target=null){
  const s=this.engine.state,b=this.panel('Схема помещений'),grid=el('div',undefined,'ga-map-grid'),names=Object.fromEntries(this.data.rooms.map(r=>[r.id,r.name]));
@@ -429,7 +434,12 @@ class UI{
  this.physicalInstrument(parent,a,fields,grid);
  this.button(parent,a.template==='triple_dial'?'КОНТРОЛЬ':'Проверить',()=>{const invalid=fields.find(n=>!n.checkValidity());if(invalid){if(this.error)this.error.textContent='Заполните все поля в указанном диапазоне.';const details=invalid.closest('details');if(details)details.open=true;invalid.focus();invalid.reportValidity();return;}this.submit(a,fields.map(n=>n.value),true);});
  }
- openAction(id){const a=this.engine.begin(id);if(!a)return;if(a.startSignal){this.engine.modal=false;const ev=this.engine.flush(0);this.engine.modal=true;if(ev){this.scene(ev);this.afterScene=()=>this.openAction(id);return;}}const b=this.panel(a.label);this.currentAction=id;const art=this.data.illustratedProps;if(a.template!=='document'&&a.template!=='media'){const src=art?.image?.[art?.action?.[id]],inspection=art?.inspections?.[id];if(src&&inspection)this.inspectionPreview(b,a,src,inspection);else this.showArt(b,src,a.label);}
+ openAction(id){const a=this.engine.begin(id);if(!a)return;if(a.startSignal){this.engine.modal=false;const ev=this.engine.flush(0);this.engine.modal=true;if(ev){
+  // Quiet pre-action cues must not strand the engine in modal=true with no window.
+  // Only a full cinematic scene defers the intended object interaction.
+  if(this.isAmbientEvent(ev))this.scene(ev);
+  else{this.scene(ev);this.afterScene=()=>this.openAction(id);return;}
+ }}const b=this.panel(a.label);this.currentAction=id;const art=this.data.illustratedProps;if(a.template!=='document'&&a.template!=='media'){const src=art?.image?.[art?.action?.[id]],inspection=art?.inspections?.[id];if(src&&inspection)this.inspectionPreview(b,a,src,inspection);else this.showArt(b,src,a.label);}
  const pickup=a.effects?.find(fx=>fx.item)?.item;if(pickup)this.showArt(b,this.data.inventoryArt?.[pickup],this.itemName(pickup));
  if(a.template==='media'){this.playMedia(this.data.media.find(m=>m.id===a.media),a);return;}
  if(a.template==='document'){this.documentView(b,this.data.documents.find(d=>d.id===a.document));this.button(b,a.readLabel||'Сохранить в журнале',()=>this.submit(a,null));}

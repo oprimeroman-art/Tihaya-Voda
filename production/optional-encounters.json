@@ -574,6 +574,206 @@
         "strength": 0.23
       },
       "effects": []
+    },
+    {
+      "id": "TV_ECHO_PLATE_STAY_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 5,
+        "max": 7,
+        "eq": {
+          "TV_ECHO_PLATE": "STAY"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "В коридоре слышится тихий стук ложки о фарфор. Звук движется за вами в том же темпе, в каком вы шли от кухни.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_ECHO_PLATE_AWAY_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 5,
+        "max": 7,
+        "eq": {
+          "TV_ECHO_PLATE": "AWAY"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "На стыке двух коридорных плит — свежая капля чая. Вы отодвинулись от стола, но кто-то будто поставил чашку на пол вслед за вами.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_ECHO_RADIO_LISTEN_H",
+      "room": "H",
+      "signal": "enter:H",
+      "when": {
+        "min": 8,
+        "max": 10,
+        "eq": {
+          "TV_ECHO_RADIO": "LISTEN"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "Архивный динамик ещё не включён, однако в его решётке слышен вдох. Пауза между двумя вдохами точно такая, как в радиоузле.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.6,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_ECHO_RADIO_MUTE_H",
+      "room": "H",
+      "signal": "enter:H",
+      "when": {
+        "min": 8,
+        "max": 10,
+        "eq": {
+          "TV_ECHO_RADIO": "MUTE"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "В журнале радиосвязи последняя строка выведена чужим почерком: «Связь прервана оператором». Время записи совпадает с вашей тишиной.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.6,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_ECHO_GLASS_APPROACH_I",
+      "room": "I",
+      "signal": "enter:I",
+      "when": {
+        "min": 10,
+        "max": 12,
+        "eq": {
+          "TV_ECHO_GLASS": "APPROACH"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "На металлическом шкафу медотсека остался влажный отпечаток ладони. Пальцы направлены наружу, словно кто-то стоял внутри шкафа.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.6,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_ECHO_GLASS_DISTANCE_I",
+      "room": "I",
+      "signal": "enter:I",
+      "when": {
+        "min": 10,
+        "max": 12,
+        "eq": {
+          "TV_ECHO_GLASS": "DISTANCE"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "В стекле медицинского шкафчика отражается пустой архивный коридор. Стоит повернуться к нему — отражение становится обычным.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.6,
+        "strength": 0.12
+      }
+    },
+    {
+      "id": "TV_ECHO_BED_TOUCH_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 11,
+        "max": 12,
+        "eq": {
+          "TV_ECHO_BED": "TOUCH"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "На ладони вновь чувствуется тепло края покрывала. На мгновение кажется, что кто-то держит вас за руку — здесь, в пустом коридоре.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.1
+      }
+    },
+    {
+      "id": "TV_ECHO_BED_STILL_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 11,
+        "max": 12,
+        "eq": {
+          "TV_ECHO_BED": "STILL"
+        }
+      },
+      "priority": "conditional",
+      "ambient": true,
+      "ambientLabel": "СЛЕД",
+      "category": "quiet",
+      "horror": true,
+      "presentation": "За спиной повторяется пауза между вдохами, услышанная у койки. Когда вы останавливаетесь, дыхание тоже замирает.",
+      "lines": [],
+      "effects": [],
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.1
+      }
     }
   ]
 }
