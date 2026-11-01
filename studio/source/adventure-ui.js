@@ -16,7 +16,7 @@ const CSS=`
 .ga-dialog{background:#14242d;border:1px solid #7a909c;border-radius:14px;padding:26px;width:min(880px,96vw);max-height:90vh;overflow:auto;box-shadow:0 24px 90px #0009}
 .ga-dialog pre{white-space:pre-wrap;overflow-wrap:anywhere;font:17px/1.7 Georgia,serif;background:#e7e3d7;color:#26353a;padding:22px;border-radius:6px;margin:12px 0}
 .ga-document-art{display:block;width:100%;max-height:48vh;object-fit:contain;background:#0d1519;border:1px solid #607581;border-radius:7px;margin:12px 0 16px}.ga-document-art-caption{font-size:11px;letter-spacing:.08em;color:#a9bdc5;text-transform:uppercase;margin:4px 0}
-.ga-dialog label{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0}.ga-dialog input{width:160px}.ga-dialog select{max-width:60%}.ga-row{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.ga-row button{flex:1;min-width:110px}.ga-error{color:#ffcc9f;white-space:pre-wrap}.ga-scene{font-size:20px;line-height:1.6;padding:18px 0}.ga-caption{border-top:1px solid #67808c;padding:16px 0;white-space:pre-wrap}.ga-progress{width:100%;accent-color:#b9d1dd}.ga-variant{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);max-width:45vw;text-align:center;background:#13232be8;padding:8px 15px;border:1px solid #607581;border-radius:7px;font-size:12px}
+.ga-dialog label{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0}.ga-dialog input{width:160px}.ga-dialog select{max-width:60%}.ga-row{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.ga-row button{flex:1;min-width:110px}.ga-error{color:#ffcc9f;white-space:pre-wrap}.ga-scene{font-size:20px;line-height:1.6;padding:18px 0}.ga-caption{border-top:1px solid #67808c;padding:16px 0;white-space:pre-wrap}.ga-progress{width:100%;accent-color:#b9d1dd}.ga-variant[hidden]{display:none!important}.ga-variant{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);max-width:45vw;text-align:center;background:#13232be8;padding:8px 15px;border:1px solid #607581;border-radius:7px;font-size:12px}
 .ga-root .ga-panel{background:linear-gradient(145deg,#111c21ed,#0a1217eb);border:1px solid #b4c5c52e;border-radius:10px;padding:12px;box-shadow:0 8px 28px #0004}
 .ga-panel h2{font-size:14px;font-weight:500;margin:0 0 8px;color:#ded8c8}.ga-panel h3{font-size:10px;letter-spacing:.14em;margin:8px 0;color:#8fa5ad}
 .ga-root .ga-panel button{font-size:12px;line-height:1.35;min-height:36px;padding:8px 10px;margin:2px 0;border-color:#b4c5c526;background:#d4e1de09;border-radius:5px}
@@ -140,15 +140,16 @@ class UI{
  if(!available.length)this.left.append(el('p','Осмотрите соседние помещения.','ga-muted'));
  const pending=this.data.actions.filter(a=>a.room===s.room&&a.when?.min===s.chapter&&!s.done.includes(a.id)&&!available.includes(a));
  for(const a of pending.slice(0,5)){const details=el('details');details.append(el('summary',a.label+' · требуется подготовка'));const req=this.requirementHints(a.when).join('; ')||'Сначала завершите предыдущие действия в текущей главе.';details.append(el('p',req,'ga-muted'));this.left.append(details);}
- const links=this.data.links.filter(l=>l.from===s.room&&api.test(l.when,s));if(links.length)this.right.append(el('p','ВЫХОДЫ · КЛИК ИЛИ 1–9','ga-route-heading'));
+ const links=this.data.links.filter(l=>l.from===s.room);if(links.length)this.right.append(el('p','ВЫХОДЫ · КЛИК ИЛИ 1–9','ga-route-heading'));
  for(const [index,l] of links.entries()){
   const name=this.data.rooms.find(r=>r.id===l.to)?.name,enabled=api.test(l.when,s)&&!s.ended;
   const b=this.button(this.right,'→ '+name,()=>this.enterRoom(l.to));b.className='ga-route';b.dataset.routeTo=l.to;b.setAttribute('aria-label','→ '+name);
   if(index<9){b.dataset.routeKey=String(index+1);const key=el('kbd',String(index+1));key.setAttribute('aria-hidden','true');b.append(key);}
-  b.setAttribute('aria-disabled',String(!enabled));if(!enabled){const lock=el('span','Закрыто','ga-route-lock');lock.setAttribute('aria-hidden','true');b.append(lock);b.title=l.locked||'Переход пока закрыт';b.setAttribute('aria-description',b.title);}
+  b.disabled=!enabled;b.setAttribute('aria-disabled',String(!enabled));if(!enabled){const lock=el('span','Закрыто','ga-route-lock');lock.setAttribute('aria-hidden','true');b.append(lock);b.title=l.locked||'Переход пока закрыт';b.setAttribute('aria-description',b.title);}
   else if(l.to===guide?.route?.[0]){b.classList.add('ga-recommended');b.title='Путь к текущей цели';}
  }
- const room=this.data.rooms.find(r=>r.id===s.room),authored=room?.variantAssets?.[s.variants[s.room]]||(room?.approvedBaseArt&&s.variants[s.room]===room.default_variant);this.updateHUD();this.variant.textContent=authored?'Состояние помещения: '+s.variants[s.room]:'ОТСУТСТВУЕТ АССЕТ: '+s.variants[s.room]+' · временная панорама';
+ const room=this.data.rooms.find(r=>r.id===s.room),authored=room?.variantAssets?.[s.variants[s.room]]||(room?.approvedBaseArt&&s.variants[s.room]===room.default_variant);this.updateHUD();// Technical variant IDs and missing-art warnings belong in editor diagnostics, not the horror HUD.
+ this.variant.textContent='';this.variant.hidden=true;
  }
  guidanceRoute(target){
   const s=this.engine.state;if(s.room===target)return [];
