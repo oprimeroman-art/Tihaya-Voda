@@ -11,3 +11,8 @@ chrome-test-*/
 *.tmp
 .env
 .env.*
+.agents/skills/
+.claude/skills/
+.claude/rules/by-gagarin.md
+.cursor/rules/by-gagarin.mdc
+CLAUDE.md
