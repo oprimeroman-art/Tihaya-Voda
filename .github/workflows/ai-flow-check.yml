@@ -1,0 +1,22 @@
+name: Agent docs integrity
+on:
+  pull_request:
+    paths:
+      - 'AGENTS.md'
+      - '.ai/**'
+      - 'scripts/ai_*.py'
+      - 'docs/**'
+      - 'tests/test_ai_flow.py'
+      - '.github/workflows/ai-flow-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check index and metadata
+        run: python3 scripts/ai_docs.py check
+      - name: Test source links
+        run: python3 -m unittest discover -s tests -p 'test_ai_flow.py'
