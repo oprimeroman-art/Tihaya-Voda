@@ -138,6 +138,13 @@ body:has(.ga-ending) #gameLanguage{display:none}body:has(.ga-ending) #gs-quick{t
  .ga-root .ga-nav .ga-route{flex:0 0 auto}
  .ga-root .ga-nav .ga-route-heading{display:none}
 }
+
+.ga-root .ga-unavailable{margin:12px 0 2px;border-top:1px solid #b8c3b72b;padding:11px 0;color:#9facaa}
+.ga-root .ga-unavailable>summary{cursor:pointer;font-size:11px;color:#a7b5b0;line-height:1.5}
+.ga-root .ga-unavailable-item{padding:10px 0;border-bottom:1px solid #b8c3b718}
+.ga-root .ga-unavailable-item strong{font-size:12px;font-weight:500;color:#bfc7bd}
+.ga-root .ga-unavailable-item p{font-size:11px;line-height:1.5;margin:4px 0 0}
+
 `;
 
 class UI{
@@ -156,22 +163,26 @@ class UI{
   if(!src||!isImageSource(src))return;
   const img=el('img');img.src=src;img.alt=alt;img.className='ga-document-art';parent.append(img);
  }
- constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.root=el('div',undefined,'ga-root');this.root.hidden=true;this.root.setAttribute('translate','no');this.root.append(el('style',CSS));this.left=el('section',undefined,'ga-panel ga-actions');this.right=el('nav',undefined,'ga-nav');this.right.setAttribute('aria-label','Выходы из комнаты');this.exits=el('div',undefined,'ga-exits');this.exits.setAttribute('aria-label','Двери в панораме');this.variant=el('div',undefined,'ga-variant');this.hotspots=el('div',undefined,'ga-hotspots');this.hotspots.setAttribute('aria-label','Объекты в панораме');this.notice=el('div',undefined,'ga-notice');this.notice.setAttribute('role','status');this.notice.setAttribute('aria-live','polite');this.notice.hidden=true;this.ambientLine=el('aside',undefined,'ga-ambient-line');this.ambientLine.hidden=true;this.ambientLine.setAttribute('role','status');this.ambientLine.setAttribute('aria-live','polite');this.dock=el('nav',undefined,'ga-dock');this.dock.setAttribute('aria-label','Управление сменой');this.objective=this.button(this.dock,'',()=>this.journal(this.data.playerGuidance?'tasks':'observations'));this.objective.className='ga-objective';this.quickAction=this.button(this.dock,'',()=>this.openRecommended());this.quickAction.className='ga-next-action';this.quickAction.hidden=true;this.quickAction.title='Выполнить ближайший доступный шаг · E';this.hudPanel=null;const uid='ga-hud-'+(UI.serial=(UI.serial||0)+1);this.left.id=uid+'-objects';this.right.id=uid+'-routes';this.objectsButton=this.button(this.dock,'Объекты',()=>this.toggleHUD('objects'));this.objectsButton.setAttribute('aria-controls',this.left.id);this.objectsButton.title='Объекты в комнате · H';this.button(this.dock,'Журнал',()=>this.journal()).title='Журнал и инвентарь · I / J';this.button(this.dock,'Схема',()=>this.map()).title='Схема станции · M';this.fieldbar=el('div',undefined,'ga-fieldbar');this.fieldbar.append(this.dock,this.right);this.root.append(this.hotspots,this.exits,this.left,this.variant,this.notice,this.ambientLine,this.fieldbar);document.body.append(this.root);this.pendingLines=[];this.engine=new api.Engine(data,{line:l=>this.pendingLines.push(l),change:()=>{this.render();hooks.change?.();},death:n=>{this.death=n;},progress:()=>hooks.progress?.()});this.last=performance.now();this.timer=setInterval(()=>this.tick(),150);this.onKey=e=>{if(this.root.hidden||!this.active())return;if(e.key==='Escape'&&!this.dialog&&this.hudPanel){e.preventDefault();e.stopImmediatePropagation();this.toggleHUD(this.hudPanel);return;}if(!this.dialog&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&!e.target.closest?.('input,textarea,select,[contenteditable=true]')){const digit=/^Digit([1-9])$/.exec(e.code||'');if(digit){const target=this.right.querySelector('[data-route-key="'+digit[1]+'"]');if(target){e.preventDefault();e.stopImmediatePropagation();target.click();}return;}const key=e.code||e.key,run={KeyI:()=>this.journal(),KeyJ:()=>this.journal(),KeyM:()=>this.map(),KeyH:()=>this.toggleHUD('objects'),KeyR:()=>this.focusExits(),KeyE:()=>this.openRecommended(),KeyQ:()=>this.scanScene()}[key];if(run){e.preventDefault();e.stopImmediatePropagation();run();return;}}if(e.key==='Escape'&&this.dialog){e.preventDefault();e.stopImmediatePropagation();this.close();}else if(e.key==='Tab'&&this.dialog){const nodes=[...this.box.querySelectorAll('button:not(:disabled),input:not(:disabled),select:not(:disabled),summary,[tabindex="0"]')].filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(!first){e.preventDefault();this.box.focus();}else if(!this.box.contains(document.activeElement)){e.preventDefault();(e.shiftKey?last:first).focus();}else if(e.shiftKey&&(document.activeElement===first||document.activeElement===this.box)){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===this.box)){e.preventDefault();first.focus();}}};window.addEventListener('keydown',this.onKey,true);this.onLayout=()=>this.physicalPaint?.();window.addEventListener('resize',this.onLayout);}
+ constructor(data,hooks={}){this.data=data;this.hooks=hooks;this.root=el('div',undefined,'ga-root');this.root.hidden=true;this.root.setAttribute('translate','no');this.root.append(el('style',CSS));this.left=el('section',undefined,'ga-panel ga-actions');this.right=el('nav',undefined,'ga-nav');this.right.setAttribute('aria-label','Выходы из комнаты');this.exits=el('div',undefined,'ga-exits');this.exits.setAttribute('aria-label','Двери в панораме');this.variant=el('div',undefined,'ga-variant');this.hotspots=el('div',undefined,'ga-hotspots');this.hotspots.setAttribute('aria-label','Объекты в панораме');this.notice=el('div',undefined,'ga-notice');this.notice.setAttribute('role','status');this.notice.setAttribute('aria-live','polite');this.notice.hidden=true;this.ambientLine=el('aside',undefined,'ga-ambient-line');this.ambientLine.hidden=true;this.ambientLine.setAttribute('role','status');this.ambientLine.setAttribute('aria-live','polite');this.dock=el('nav',undefined,'ga-dock');this.dock.setAttribute('aria-label','Управление сменой');this.objective=this.button(this.dock,'',()=>this.journal(this.data.playerGuidance?'tasks':'observations'));this.objective.className='ga-objective';this.quickAction=this.button(this.dock,'',()=>this.openRecommended());this.quickAction.className='ga-next-action';this.quickAction.hidden=true;this.quickAction.title='Выполнить ближайший доступный шаг · E';this.previousRoom=null;this.hudPanel=null;const uid='ga-hud-'+(UI.serial=(UI.serial||0)+1);this.left.id=uid+'-objects';this.right.id=uid+'-routes';this.objectsButton=this.button(this.dock,'Объекты',()=>this.toggleHUD('objects'));this.objectsButton.setAttribute('aria-controls',this.left.id);this.objectsButton.title='Объекты в комнате · H';this.button(this.dock,'Журнал',()=>this.journal()).title='Журнал и инвентарь · I / J';this.button(this.dock,'Схема',()=>this.map()).title='Схема станции · M';this.fieldbar=el('div',undefined,'ga-fieldbar');this.fieldbar.append(this.dock,this.right);this.root.append(this.hotspots,this.exits,this.left,this.variant,this.notice,this.ambientLine,this.fieldbar);document.body.append(this.root);this.pendingLines=[];this.engine=new api.Engine(data,{line:l=>this.pendingLines.push(l),change:()=>{this.render();hooks.change?.();},death:n=>{this.death=n;},progress:()=>hooks.progress?.()});this.last=performance.now();this.timer=setInterval(()=>this.tick(),150);this.onKey=e=>{if(this.root.hidden||!this.active())return;if(e.key==='Escape'&&!this.dialog&&this.hudPanel){e.preventDefault();e.stopImmediatePropagation();this.toggleHUD(this.hudPanel);return;}if(!this.dialog&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&!e.target.closest?.('input,textarea,select,[contenteditable=true]')){const digit=/^Digit([1-9])$/.exec(e.code||'');if(digit){const target=this.right.querySelector('[data-route-key="'+digit[1]+'"]');if(target){e.preventDefault();e.stopImmediatePropagation();target.click();}return;}const key=e.code||e.key,run={KeyI:()=>this.journal(),KeyJ:()=>this.journal(),KeyM:()=>this.map(),KeyH:()=>this.toggleHUD('objects'),KeyR:()=>this.focusExits(),KeyE:()=>this.openRecommended(),KeyQ:()=>this.scanScene(),Backspace:()=>this.goPrevious()}[key];if(run){e.preventDefault();e.stopImmediatePropagation();run();return;}}if(e.key==='Escape'&&this.dialog){e.preventDefault();e.stopImmediatePropagation();this.close();}else if(e.key==='Tab'&&this.dialog){const nodes=[...this.box.querySelectorAll('button:not(:disabled),input:not(:disabled),select:not(:disabled),summary,[tabindex="0"]')].filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(!first){e.preventDefault();this.box.focus();}else if(!this.box.contains(document.activeElement)){e.preventDefault();(e.shiftKey?last:first).focus();}else if(e.shiftKey&&(document.activeElement===first||document.activeElement===this.box)){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===this.box)){e.preventDefault();first.focus();}}};window.addEventListener('keydown',this.onKey,true);this.onLayout=()=>this.physicalPaint?.();window.addEventListener('resize',this.onLayout);}
  destroy(){clearTimeout(this.scanTimer);clearTimeout(this.ambientTimer);clearTimeout(this.noticeTimer);this.stopVoice?.();clearInterval(this.timer);this.disposeMedia?.();window.removeEventListener('keydown',this.onKey,true);window.removeEventListener('resize',this.onLayout);this.root.remove();}
  active(){return !this.hooks.paused?.();}
- reset(){this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set();this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
- load(s){const validated=this.engine.normalize(s);this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set(validated.ended?[validated.ended]:[]);this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.load(validated);this.root.hidden=false;this.sync();}
+ reset(){this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set();this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.reset();this.engine.start();this.root.hidden=false;this.render();}
+ load(s){const validated=this.engine.normalize(s);this.previousRoom=null;this.hudPanel=null;this.clearNotice();this.clearAmbient();clearTimeout(this.scanTimer);this.root.classList.remove('ga-scanning');this.lastAmbientRoom=null;this.journalSection=null;this.journalQueries={};this.voicedEndings=new Set(validated.ended?[validated.ended]:[]);this.endingShown=false;this.pendingLines=[];this.death=null;this.close(false);this.engine.load(validated);this.root.hidden=false;this.sync();}
  snapshot(){return this.engine.export();}
  sync(){this.hooks.variant?.(this.engine.state.room,this.engine.state.variants[this.engine.state.room]);if(this.engine.state.room!==this.hooks.room?.())this.hooks.go?.(this.engine.state.room);this.render();}
  tick(){const now=performance.now(),dt=Math.min(1,(now-this.last)/1000);this.last=now;if(this.root.hidden)return;this.root.style.visibility=this.active()?'visible':'hidden';this.voice?.setPaused(!this.active());this.syncVoiceVolume();if(!this.active())return;if(!this.dialog&&this.ambientRemaining>0){this.ambientRemaining-=dt;if(this.ambientRemaining<=0)this.clearAmbient();}if(this.mediaTick)this.mediaTick(dt);if(this.endingTick)this.endingTick(dt);if(this.dialog){this.engine.flush(dt);return;}if(this.hooks.staging?.())return;const ev=this.engine.flush(dt);if(ev)this.scene(ev);else if(this.engine.state.ended&&!this.endingShown)this.ending();}
  button(parent,label,fn,disabled=false){const b=el('button',label);b.type='button';b.disabled=disabled;b.onclick=fn;parent.append(b);return b;}
  scanScene(){
   if(this.dialog||!this.active()||this.engine.state.ended)return false;
-  this.hudPanel=null;this.updateHUD();
+  // An inspection must always give a usable result, even without visible markers
+  // in a heavily staged panorama or in a room with no authored sign object.
+  this.hudPanel='objects';this.updateHUD();
   clearTimeout(this.scanTimer);this.root.classList.add('ga-scanning');
+  const available=this.engine.actions();
   const target=this.guide()?.action;
   if(target?.room===this.engine.state.room&&this.engine.eligible(target))
    this.hooks.focusAction?.(target.id);
+  if(!available.length)this.notify('Здесь пока нечего исследовать. Проверьте соседние помещения и журнал задач.');
   this.scanTimer=setTimeout(()=>this.root.classList.remove('ga-scanning'),5200);
   return true;
  }
@@ -179,14 +190,24 @@ class UI{
  const available=this.engine.actions();for(const a of available){const b=this.button(this.left,a.label,()=>this.openAction(a.id));b.dataset.actionId=a.id;if(a.id===guide?.action?.id)b.classList.add('ga-recommended');}
  if(!available.length)this.left.append(el('p','Осмотрите соседние помещения.','ga-muted'));
  const pending=this.data.actions.filter(a=>a.room===s.room&&a.when?.min===s.chapter&&!s.done.includes(a.id)&&!available.includes(a));
- for(const a of pending.slice(0,5)){const details=el('details');details.append(el('summary',a.label+' · требуется подготовка'));const req=this.requirementHints(a.when).join('; ')||'Сначала завершите предыдущие действия в текущей главе.';details.append(el('p',req,'ga-muted'));this.left.append(details);}
+ if(pending.length){
+  const group=el('details',undefined,'ga-unavailable');
+  group.append(el('summary','Ещё недоступно · '+pending.length));
+  for(const a of pending.slice(0,6)){
+   const item=el('div',undefined,'ga-unavailable-item');
+   item.append(el('strong',a.label));
+   const req=this.requirementHints(a.when).join('; ')||'Продолжите расследование.';
+   item.append(el('p',req,'ga-muted'));group.append(item);
+  }
+  this.left.append(group);
+ }
  const links=this.data.links.filter(l=>l.from===s.room);if(links.length)this.right.append(el('p','ВЫХОДЫ · КЛИК ИЛИ 1–9','ga-route-heading'));
  for(const [index,l] of links.entries()){
   const name=this.data.rooms.find(r=>r.id===l.to)?.name,enabled=api.test(l.when,s)&&!s.ended;
-  const b=this.button(this.right,'→ '+name,()=>this.enterRoom(l.to));b.className='ga-route';b.dataset.routeTo=l.to;b.setAttribute('aria-label','→ '+name);
+  const returning=l.to===this.previousRoom;const b=this.button(this.right,(returning?'← ':'→ ')+name,()=>this.enterRoom(l.to));b.className='ga-route'+(returning?' ga-return':'');b.dataset.routeTo=l.to;b.setAttribute('aria-label','→ '+name);
   if(index<9){b.dataset.routeKey=String(index+1);const key=el('kbd',String(index+1));key.setAttribute('aria-hidden','true');b.append(key);}
   b.disabled=!enabled;b.setAttribute('aria-disabled',String(!enabled));if(!enabled){const lock=el('span','Закрыто','ga-route-lock');lock.setAttribute('aria-hidden','true');b.append(lock);b.title=l.locked||'Переход пока закрыт';b.setAttribute('aria-description',b.title);}
-  else if(l.to===guide?.route?.[0]){b.classList.add('ga-recommended');b.title='Путь к текущей цели';}
+  else if(l.to===guide?.route?.[0]){b.classList.add('ga-recommended');b.title='Путь к текущей цели';}else if(returning){b.title='Вернуться в '+name+' · Backspace';b.setAttribute('aria-keyshortcuts','Backspace');}
  }
  const room=this.data.rooms.find(r=>r.id===s.room),authored=room?.variantAssets?.[s.variants[s.room]]||(room?.approvedBaseArt&&s.variants[s.room]===room.default_variant);this.updateHUD();// Technical variant IDs and missing-art warnings belong in editor diagnostics, not the horror HUD.
  this.variant.textContent='';this.variant.hidden=true;
@@ -221,8 +242,12 @@ class UI{
   if(action?.room===s.room&&this.engine.eligible(action)){this.openAction(action.id);return true;}
   // Move only to the next adjacent room through the existing locked-door rules.
   if(guide?.route?.length)return this.enterRoom(guide.route[0]);
-  if(action?.room===s.room){this.notify('Это действие пока закрыто. Осмотрите другие доступные объекты или откройте задачи.');return false;}
-  this.notify('Текущие задачи и доступные действия — в журнале.');
+  // If authored guidance is blocked, the player can still investigate locally
+  // instead of pressing a button that apparently does nothing.
+  const local=this.engine.actions()[0];
+  if(local){this.openAction(local.id);return true;}
+  if(action?.room===s.room){this.notify('Сначала подготовьте оборудование или прочитайте найденные материалы. Подробности — в журнале.');return false;}
+  this.notify('Здесь нет доступных действий. Проверьте соседние помещения или журнал задач.');
   return false;
  }
  guideObjects(target=null){this.close();if(this.dialog)return;if(this.hudPanel!=='objects')this.toggleHUD('objects');const id=target||this.guide()?.action?.id;[...this.left.querySelectorAll('[data-action-id]')].find(n=>n.dataset.actionId===id)?.focus();}
@@ -268,16 +293,24 @@ class UI{
   if(this.dialog||!this.active()||this.travelling||this.engine.state.ended)return false;
   const link=this.data.links.find(l=>l.from===this.engine.state.room&&l.to===id);if(!link)return false;
   if(!api.test(link.when,this.engine.state)){this.notify(link.locked||'Переход пока закрыт.');return false;}
-  this.travelling=true;try{if(!this.engine.enter(id))return false;this.hudPanel=null;this.sync();return true;}finally{this.travelling=false;}
+  this.travelling=true;try{const from=this.engine.state.room;if(!this.engine.enter(id))return false;this.previousRoom=from;this.hudPanel=null;this.sync();return true;}finally{this.travelling=false;}
+ }
+ goPrevious(){
+  const room=this.previousRoom,s=this.engine.state;
+  if(!room||!this.data.links.some(l=>l.from===s.room&&l.to===room&&api.test(l.when,s)))return false;
+  return this.enterRoom(room);
  }
  focusExits(){this.hudPanel=null;this.updateHUD();(this.right.querySelector('.ga-recommended')||this.right.querySelector('[aria-disabled="false"]'))?.focus();}
  toggleHUD(panel){if(panel==='routes'){this.focusExits();return;}this.hudPanel=this.hudPanel===panel?null:panel;this.updateHUD();if(this.hudPanel)(this.left.querySelector('[data-action-id]')||this.left.querySelector('button:not(:disabled):not(.ga-panel-close)'))?.focus();else this.objectsButton?.focus();}
  updateHUD(){if(!this.dock)return;const modal=!!this.dialog;this.fieldbar.hidden=modal;this.dock.hidden=modal;this.left.hidden=modal||this.hudPanel!=='objects';this.right.hidden=modal||!!this.engine?.state.ended;this.exits.hidden=modal||!this.active();this.objectsButton.setAttribute('aria-expanded',String(!this.left.hidden));const count=this.engine?.actions().length??0;this.objectsButton.textContent='Объекты · '+count;
  const guide=this.guide(),target=guide?.action,ready=!!target&&target.room===this.engine.state.room&&this.engine.eligible(target);
  const nextRoom=guide?.route?.[0],canMove=!!nextRoom&&this.data.links.some(l=>l.from===this.engine.state.room&&l.to===nextRoom&&api.test(l.when,this.engine.state));
- this.quickAction.hidden=modal||!(ready||canMove)||!this.active();
+ const otherAction=!ready&&!canMove?this.engine.actions()[0]:null;
+ this.quickAction.hidden=modal||!(ready||canMove||otherAction)||!this.active();
  if(ready){this.quickAction.textContent='Осмотреть: '+target.label;this.quickAction.dataset.actionId=target.id;this.quickAction.title=target.label+' · E';}
- else{this.quickAction.removeAttribute('data-action-id');if(canMove){const name=this.data.rooms.find(r=>r.id===nextRoom)?.name||'соседнее помещение';this.quickAction.textContent='Идти: '+name;this.quickAction.title='Перейти в '+name+' · E';}}
+ else if(canMove){const name=this.data.rooms.find(r=>r.id===nextRoom)?.name||'соседнее помещение';this.quickAction.removeAttribute('data-action-id');this.quickAction.textContent='Идти: '+name;this.quickAction.title='Перейти в '+name+' · E';}
+ else if(otherAction){this.quickAction.dataset.actionId=otherAction.id;this.quickAction.textContent='Исследовать: '+otherAction.label;this.quickAction.title=otherAction.label+' · E';}
+ else this.quickAction.removeAttribute('data-action-id');
  const title=this.data.quests.find(q=>q.chapter===this.engine?.state.chapter)?.title;const next=this.guide()?.step?.text;this.objective.textContent=this.engine?.state.ended?'Смена завершена · журнал':next||title||'Станция «Маяк-9»';this.objective.title=(title||'Журнал смены')+' · открыть задачи';this.objective.setAttribute('aria-label','Текущая цель: '+this.objective.textContent+'. Открыть задачи');if(title)this.objectsButton.title=title+' · H';}
  itemName(id){const names={BADGE04:'Бейдж оператора 04',ARCHIVE_KEY:'Ключ архива',STORAGE_KEY:'Ключ кладовой',FUSE_3:'Предохранитель №3',VHS_V01:'Кассета V01',P17_SAMPLE:'Проба P-17',FLASHLIGHT:'Фонарь',ANTENNA_KEY:'Ключ антенны',BEACON:'Аварийный маячок',VHS_FRAGMENT_A:'Фрагмент плёнки А',VHS_FRAGMENT_B:'Фрагмент плёнки Б',PUNCHCARD_RU:'Русская перфокарта',PUNCHCARD_DE:'Немецкая перфокарта',VHS_V03:'Личная кассета Петра',SHUTTER_PIN:'Стопор створки'};if(names[id])return names[id];return this.data.actions.find(a=>a.effects?.some(e=>e.item===id))?.label||id;}
  documentTitle(doc){return this.data.actions.find(a=>a.template==='document'&&a.document===doc.id)?.label||doc.title;}
@@ -330,7 +363,7 @@ class UI{
  if(target&&names[target]){b.append(el('p','Цель: '+names[target],'ga-map-purpose'));if(path?.length)b.append(el('p','Путь: '+[s.room,...path].map(id=>names[id]).join(' → '),'ga-task-route'));}
  b.append(el('p','Выберите соседнее помещение. Закрытые переходы требуют подготовки.','ga-muted'),grid);
  for(const r of this.data.rooms){const card=el('section',undefined,'ga-map-room');card.append(el('h3',r.name));if(r.id===target){card.classList.add('ga-map-target');card.append(el('p','Текущая цель','ga-map-purpose'));}if(r.id===path?.[0]){card.classList.add('ga-map-next');card.append(el('p','Следующий переход по пути к цели','ga-map-purpose'));}
- if(r.id===s.room){card.setAttribute('aria-current','location');card.append(el('p','Вы здесь'));}else{const link=this.data.links.find(l=>l.from===s.room&&l.to===r.id);if(link){const enabled=api.test(link.when,s)&&!s.ended;this.button(card,'→ '+r.name,()=>{if(this.engine.enter(r.id)){this.close();this.sync();}},!enabled);if(!enabled)card.append(el('p',link.locked||'Переход пока закрыт.'));}else card.append(el('p','Через соседние помещения'));}
+ if(r.id===s.room){card.setAttribute('aria-current','location');card.append(el('p','Вы здесь'));}else{const link=this.data.links.find(l=>l.from===s.room&&l.to===r.id);if(link){const enabled=api.test(link.when,s)&&!s.ended;this.button(card,'→ '+r.name,()=>{this.close();this.enterRoom(r.id);},!enabled);if(!enabled)card.append(el('p',link.locked||'Переход пока закрыт.'));}else card.append(el('p','Через соседние помещения'));}
  const destinations=this.data.links.filter(l=>l.from===r.id).map(l=>names[l.to]);if(destinations.length)card.append(el('p','Связи: '+destinations.join(' · ')));grid.append(card);}
  this.button(b,'Закрыть',()=>this.close());
  }
