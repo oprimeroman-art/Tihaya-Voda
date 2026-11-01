@@ -305,14 +305,14 @@ function presenceConclude(state,outcome,zone,figure){
 function presencePaint(dt,state,figure){
  const zone=presenceZone(state);
  if(!zone){if(presenceSession){presenceSession=null;presenceSound(0);horrorAppliedKey='';}return false;}
- if(!presenceSession||presenceSession.room!==roomId)presenceSession={room:roomId,time:0,exposure:0,announced:false};
+ if(!presenceSession||presenceSession.room!==roomId)presenceSession={room:roomId,time:0,exposure:0,announced:false,discovered:false};
  const threat=presenceSession,point=project({u:zone.u,v:zone.v});
  if(dt>0&&cameraAllowed()){
   threat.time+=Math.min(.15,Math.max(0,dt));
   if(threat.time>=5&&!threat.announced){
    threat.announced=true;
    note(zone.mode==='stare'?'За столом кто-то есть. Смотрите прямо на него.':
-    zone.mode==='dark'?'На свету силуэт приближается. Попробуйте погасить фонарь.':
+    zone.mode==='dark'?'За стеклом кто-то есть. Сначала высветите силуэт.':
     'Кто-то рядом. Найдите его в темноте и удержите луч фонаря.');
   }
  }
@@ -320,8 +320,12 @@ function presencePaint(dt,state,figure){
  const pressure=Math.max(0,Math.min(1,(threat.time-5)/(zone.mode==='dark'&&torch?11:17)));
  const lit=!!torch&&!!point&&Math.hypot(point.x-mx,point.y-my)<Math.min(160,innerWidth*.17);
  const centered=!!point&&Math.hypot(point.x-innerWidth/2,point.y-innerHeight/2)<Math.min(140,innerWidth*.15);
- const protection=zone.mode==='stare'?centered:zone.mode==='dark'?!torch:lit;
- if(dt>0&&cameraAllowed()){
+ if(zone.mode==='dark'&&lit&&!threat.discovered){
+  threat.discovered=true;
+  note('В свете оно приближается. Погасите фонарь.');
+ }
+ const protection=zone.mode==='stare'?centered:zone.mode==='dark'?threat.discovered&&!torch:lit;
+ if(dt>0&&cameraAllowed()){ 
   threat.exposure=Math.max(0,Math.min(2.5,threat.exposure+(protection?dt:-dt*.65)));
   presenceSound(pressure*(protection?.25:1));
   if(threat.exposure>=(zone.mode==='dark'?2.1:1.55)){
@@ -649,11 +653,11 @@ function restoreMutable(snapshot){for(const entry of snapshot.globals||[]){const
   for(const v of r.vars||[]){const src=(data.vars||[]).find(x=>x.key===v.key);if(src)v.value=src.value;}
   for(const o of r.objects||[]){const src=(data.objects||[]).find(x=>x.id===o.id);if(src){o.state=Math.max(0,Math.min((o.states||[]).length-1,Number(src.state)||0));o.visible=!!src.visible;}}cache.get(r.id)&&(cache.get(r.id).dirty=true);
  }}
-function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
+function clearPanoramaCache(){for(const entry of cache.values()){try{if(entry?.texture&&gl)gl.deleteTexture(entry.texture);}catch(_){}try{entry?.bitmap?.close?.();}catch(_){}}cache.clear();}function resetGame(){presenceSession=null;presenceSound(0);horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;if(adventurePlayer){adventurePlayer.endingShown=false;Object.assign(game.panoramas,adventureBasePanoramas);for(const key of Object.keys(adventureVariantsApplied))delete adventureVariantsApplied[key];for(const entry of cache.values()){if(entry.texture&&gl)gl.deleteTexture(entry.texture);entry.cv.width=0;entry.cv.height=0;}cache.clear();}adventurePlayer?.reset();directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);storyPlayer.stop();restoreMutable(initialGameState);runtime.fired={};runtime.visits={};runtime.progress={};runtime.elapsedRoom=0;
  storyPlayer.questStates={};storyPlayer.showQuests();roomId=game.release?.startRoom||game.rooms[0].id;game.current=roomId;runtime.current=roomId;
  yaw=(game.rooms.find(r=>r.id===roomId)?.view?.yaw)||0;pitch=(game.rooms.find(r=>r.id===roomId)?.view?.pitch)||0;fov=72;torch=false;
  updateTorchButton();sessionStarted=true;closeSystem();switchRoom(roomId).then(loaded=>{if(loaded){runtime.enter(roomId);saveGameLocal()}}).catch(e=>note(e.message));}
-async function loadGameSave(data){validateSave(data);horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
+async function loadGameSave(data){validateSave(data);presenceSession=null;presenceSound(0);horrorCueStop();horrorGazeActive=false;horrorGazeKey='';horrorGazeHold=0;directorStop();for(const c of mediaControllers.values()){c.video?.pause();c.audio?.pause();c.playing=false;}clearTimeout(saveDebounce);validateSave(data);const savedRoom=data.adventure?.room&&game.rooms.some(r=>r.id===data.adventure.room)?data.adventure.room:data.roomId;roomId=savedRoom;game.current=savedRoom;runtime.current=savedRoom;if(adventurePlayer&&data.adventure)adventurePlayer.load(data.adventure);storyPlayer.stop();restoreMutable(data);adventureReflectState();runtime.fired={...(data.rules?.fired||{})};runtime.visits={...(data.rules?.visits||{})};runtime.progress={...(data.rules?.progress||{})};runtime.elapsedRoom=0;
  storyPlayer.questStates={...(data.story?.quests||{})};storyPlayer.showQuests();roomId=savedRoom;game.current=roomId;runtime.current=roomId;
  yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));torch=torchUnlocked()&&data.torch===true;
  updateTorchButton();sessionStarted=true;closeSystem();if(!await switchRoom(roomId,true))throw Error('Не удалось открыть помещение сохранения.');adventurePlayer?.sync();yaw=Number(data.yaw)||0;pitch=clamp(Number(data.pitch)||0,-1.1,1.1);fov=Math.max(35,Math.min(98,Number(data.fov)||72));refresh();note('Прогресс восстановлен.');}
