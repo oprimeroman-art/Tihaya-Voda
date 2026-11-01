@@ -347,6 +347,44 @@ function horrorCueFrame(dt=0){const layer=$('horror-cue');if(!layer)return;
 /* HORROR_CUES_END */
 // Technical sign textures are retained for editing; the player uses compact hotspots.
 function adventureSign(o){return !!game.story?.adventure&&o.tourKey?.startsWith('ga:')&&o.states?.length>0&&o.states.every(id=>id.startsWith('sign_'))&&(!o.media||o.media.kind==='none');}
+/* Optional look-at-object: use Work's authored per-variant panorama anchors.
+   This affects only camera orientation, not any puzzle, item or plot flag. */
+let objectiveLook=null;
+function objectivePoint(id){
+ const ui=adventurePlayer;
+ if(!ui||ui.engine.state.room!==roomId)return null;
+ const o=(current()?.objects||[]).find(v=>adventureSign(v)&&v.tourKey==='ga:'+id);
+ if(!o)return null;
+ const variant=ui.engine.state.variants[roomId],anchor=ui.data.interactionAnchors?.[variant]?.[id];
+ const point=anchor?{u:anchor[0],v:anchor[1]}:centroid(o);
+ return Number.isFinite(point.u)&&Number.isFinite(point.v)?point:null;
+}
+function focusObjective(id){
+ if(!cameraAllowed()||!adventurePlayer?.engine.actions().some(a=>a.id===id))return false;
+ const point=objectivePoint(id);if(!point)return false;
+ clearCameraInput();
+ const targetYaw=(point.u-.5)*TAU,targetPitch=clamp((.5-point.v)*Math.PI,-1.05,1.05);
+ let turn=targetYaw-yaw;
+ while(turn>Math.PI)turn-=TAU;
+ while(turn<-Math.PI)turn+=TAU;
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+  yaw+=turn;pitch=targetPitch;constrainCamera();refresh();
+ }else{
+  objectiveLook={yaw0:yaw,yaw1:yaw+turn,pitch0:pitch,pitch1:targetPitch,time:0,duration:.48};
+ }
+ return true;
+}
+function objectiveLookFrame(dt){
+ if(!objectiveLook)return;
+ if(!cameraAllowed()){objectiveLook=null;return;}
+ const aim=objectiveLook;
+ aim.time+=Math.max(0,Math.min(dt,.15));
+ const x=Math.min(1,aim.time/aim.duration),ease=x*x*(3-2*x);
+ yaw=aim.yaw0+(aim.yaw1-aim.yaw0)*ease;
+ pitch=aim.pitch0+(aim.pitch1-aim.pitch0)*ease;
+ constrainCamera();refresh();
+ if(x>=1)objectiveLook=null;
+}
 function adventureMarkers(){
  const ui=adventurePlayer;if(!ui?.hotspots)return;const layer=ui.hotspots,exitLayer=ui.exits;
  layer.hidden=!sessionStarted||sessionPaused||!!ui.dialog||!!switchRoom.loading||!!switchRoom.failed||roomId!==ui.engine.state.room;exitLayer.hidden=layer.hidden||!!ui.engine.state.ended;
@@ -410,6 +448,7 @@ function adventureApplyVariant(rid,variant,transient=false){
 }
 function adventureSetup(){if(!game.story?.adventure)return;adventureBasePanoramas={...game.panoramas};adventurePlayer=new GagarinAdventure.UI(game.story.adventure,{
  room:()=>roomId,go:id=>switchRoom(id,true),timeline:id=>directorStart(id),cue:horrorCueStart,
+ canFocusAction:id=>!!objectivePoint(id),focusAction:focusObjective,
  staging:()=>!!horrorCue?.panoramaVariant,sceneArt:e=>{if(!e.sceneArt)return null;const a=game.assets?.[e.sceneArt];if(!a)console.warn('Не найдена постановочная иллюстрация',e.sceneArt);return a?assetSource(a):null;},
  variant:adventureApplyVariant,paused:()=>sessionPaused||!sessionStarted||!!switchRoom.loading||!!switchRoom.failed,save:()=>saveProgress(true),newGame:()=>resetGame(),
  change:()=>{adventureReflectState();scheduleGameSave();},progress:()=>scheduleGameSave(),
@@ -443,12 +482,12 @@ function cameraTangent(){return Math.tan(fov*Math.PI/360)/Math.max(1,innerWidth/
 function levelCamera(){if(!cameraAllowed())return;clearCameraInput();if(flatRoom())yaw=0;pitch=0;fov=current().view?.fov||72;refresh();canvas.focus({preventScroll:true});}
 function updateTorchButton(){const b=$('toggle');b.textContent='Свет · '+(torch?'вкл.':'выкл.');b.setAttribute('aria-label','Фонарик: '+(torch?'включён':'выключен'));b.setAttribute('aria-pressed',String(torch));b.title='Фонарик · F';}
 const cameraKeys=new Set();let cameraPointer=null,dragStartX=0,dragStartY=0;
-function clearCameraInput(){cameraKeys.clear();down=false;dragged=false;canvas.classList.remove('drag');if(cameraPointer!==null&&canvas.hasPointerCapture?.(cameraPointer)){try{canvas.releasePointerCapture(cameraPointer)}catch(_){}}cameraPointer=null;}
+function clearCameraInput(){objectiveLook=null;cameraKeys.clear();down=false;dragged=false;canvas.classList.remove('drag');if(cameraPointer!==null&&canvas.hasPointerCapture?.(cameraPointer)){try{canvas.releasePointerCapture(cameraPointer)}catch(_){}}cameraPointer=null;}
 function cameraAllowed(){return sessionStarted&&!sessionPaused&&!adventurePlayer?.engine.modal&&!switchRoom.loading&&!switchRoom.failed;}
-function cameraFrame(dt){if(!cameraAllowed()){cameraKeys.clear();return;}const x=Number(cameraKeys.has('ArrowRight'))-Number(cameraKeys.has('ArrowLeft')),y=Number(cameraKeys.has('ArrowDown'))-Number(cameraKeys.has('ArrowUp')),z=Number(cameraKeys.has('-'))-Number(cameraKeys.has('+')||cameraKeys.has('='));if(!x&&!y&&!z)return;yaw+=x*dt*1.1;pitch=clamp(pitch-y*dt*.85,-1.1,1.1);fov=clamp(fov+z*dt*35,35,98);mx=innerWidth/2;my=innerHeight/2;refresh();}
+function cameraFrame(dt){if(!cameraAllowed()){cameraKeys.clear();objectiveLook=null;return;}objectiveLookFrame(dt);const x=Number(cameraKeys.has('ArrowRight'))-Number(cameraKeys.has('ArrowLeft')),y=Number(cameraKeys.has('ArrowDown'))-Number(cameraKeys.has('ArrowUp')),z=Number(cameraKeys.has('-'))-Number(cameraKeys.has('+')||cameraKeys.has('='));if(!x&&!y&&!z)return;objectiveLook=null;yaw+=x*dt*1.1;pitch=clamp(pitch-y*dt*.85,-1.1,1.1);fov=clamp(fov+z*dt*35,35,98);mx=innerWidth/2;my=innerHeight/2;refresh();}
 function cameraKey(e){return e.code==='Equal'?'=':e.code==='Minus'?'-':e.key;}
 canvas.tabIndex=0;canvas.setAttribute('aria-label','Обзор помещения: стрелки, плюс и минус — приближение');
-canvas.addEventListener('pointerdown',e=>{if(!cameraAllowed()||e.button!==0||cameraPointer!==null)return;cameraPointer=e.pointerId;down=true;dragged=false;lx=dragStartX=e.clientX;ly=dragStartY=e.clientY;canvas.classList.add('drag');canvas.focus({preventScroll:true});canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointerdown',e=>{if(!cameraAllowed()||e.button!==0||cameraPointer!==null)return;objectiveLook=null;cameraPointer=e.pointerId;down=true;dragged=false;lx=dragStartX=e.clientX;ly=dragStartY=e.clientY;canvas.classList.add('drag');canvas.focus({preventScroll:true});canvas.setPointerCapture(e.pointerId);});
 canvas.addEventListener('pointermove',e=>{if(!cameraAllowed())return;mx=e.clientX;my=e.clientY;if(down&&e.pointerId===cameraPointer){const dx=e.clientX-lx,dy=e.clientY-ly;if(Math.hypot(e.clientX-dragStartX,e.clientY-dragStartY)>6)dragged=true;yaw-=dx*.003;pitch=clamp(pitch+dy*.003,-1.1,1.1);lx=e.clientX;ly=e.clientY;}$('cursorhint').style.display='none';refresh();});
 canvas.addEventListener('pointerup',e=>{if(e.pointerId!==cameraPointer)return;const click=!dragged&&Math.hypot(e.clientX-dragStartX,e.clientY-dragStartY)<=6;clearCameraInput();if(!cameraAllowed()||!click)return;const o=objectAt(e.clientX,e.clientY);if(o){if(o.tourKey?.startsWith('ga:'))adventurePlayer?.openAction(o.tourKey.slice(3));else runtime.fire('click',o.id);if(o.media?.clickPlay)mediaControl(roomId,o.id,true);scheduleGameSave();refresh();}});
 canvas.addEventListener('pointercancel',clearCameraInput);canvas.addEventListener('lostpointercapture',()=>{down=false;cameraPointer=null;canvas.classList.remove('drag');});
