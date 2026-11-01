@@ -1,0 +1,579 @@
+{
+  "version": 1,
+  "purpose": "Optional player-triggered environmental horror. None of these actions gate quests or endings.",
+  "actions": [
+    {
+      "id": "TV_PLATE_SOUND",
+      "room": "B",
+      "when": {
+        "min": 4,
+        "max": 4,
+        "all": [
+          "COOKED"
+        ]
+      },
+      "label": "Прислушаться к чужому месту",
+      "text": "От второй тарелки идёт тепло. Вытяжка шумит привычно, но под этим шумом слышен негромкий звон посуды — с той стороны стола.",
+      "template": "choice",
+      "once": true,
+      "effects": [],
+      "options": [
+        {
+          "value": "STAY",
+          "label": "Постоять и послушать",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_PLATE": "STAY"
+              }
+            }
+          ]
+        },
+        {
+          "value": "AWAY",
+          "label": "Отодвинуться от стола",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_PLATE": "AWAY"
+              }
+            }
+          ]
+        }
+      ],
+      "signal": "tv_echo_plate"
+    },
+    {
+      "id": "TV_RADIO_SILENCE",
+      "room": "D",
+      "when": {
+        "min": 6,
+        "max": 6,
+        "all": [
+          "WAVE_PHASE"
+        ]
+      },
+      "label": "Проверить тишину эфира",
+      "text": "После настройки остаётся чистая частота. В наушниках кто-то делает вдох на долю секунды раньше вас.",
+      "template": "choice",
+      "once": true,
+      "effects": [],
+      "options": [
+        {
+          "value": "LISTEN",
+          "label": "Не двигаться и дослушать",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_RADIO": "LISTEN"
+              }
+            }
+          ]
+        },
+        {
+          "value": "MUTE",
+          "label": "Снять наушники",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_RADIO": "MUTE"
+              }
+            }
+          ]
+        }
+      ],
+      "signal": "tv_echo_radio"
+    },
+    {
+      "id": "TV_GLASS_TOWEL",
+      "room": "H",
+      "when": {
+        "min": 8,
+        "max": 8,
+        "all": [
+          "WATCHED_V02"
+        ]
+      },
+      "label": "Посмотреть в стекло архива",
+      "text": "После выключения записи на стекле остаётся узкая полоса пара. Она расположена слишком высоко для вашего дыхания.",
+      "template": "choice",
+      "once": true,
+      "effects": [],
+      "options": [
+        {
+          "value": "APPROACH",
+          "label": "Подойти к стеклу",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_GLASS": "APPROACH"
+              }
+            }
+          ]
+        },
+        {
+          "value": "DISTANCE",
+          "label": "Отойти и оглянуться",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_GLASS": "DISTANCE"
+              }
+            }
+          ]
+        }
+      ],
+      "signal": "tv_echo_glass"
+    },
+    {
+      "id": "TV_BED_BREATH",
+      "room": "I",
+      "when": {
+        "min": 11,
+        "max": 11,
+        "all": [
+          "I_BLANKET_BODY"
+        ]
+      },
+      "label": "Послушать возле койки",
+      "text": "Воздух над покрывалом чуть теплее. Вдох повторяется с неправильной паузой, будто кто-то ждёт вашей реакции.",
+      "template": "choice",
+      "once": true,
+      "effects": [],
+      "options": [
+        {
+          "value": "TOUCH",
+          "label": "Осторожно положить ладонь на край",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_BED": "TOUCH"
+              }
+            }
+          ]
+        },
+        {
+          "value": "STILL",
+          "label": "Не прикасаться. Просто слушать",
+          "effects": [
+            {
+              "set": {
+                "TV_ECHO_BED": "STILL"
+              }
+            }
+          ]
+        }
+      ],
+      "signal": "tv_echo_bed"
+    }
+  ],
+  "events": [
+    {
+      "id": "TV_A03_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 3,
+        "max": 4,
+        "all": [
+          "WATCHED_V01"
+        ]
+      },
+      "priority": "optional",
+      "delay": 8,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "За стенкой проходит разговор. Слышны два спокойных голоса, но ни одного слова не разобрать.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A04_A",
+      "room": "A",
+      "signal": "enter:A",
+      "when": {
+        "min": 4,
+        "max": 4,
+        "all": [
+          "COOKED"
+        ]
+      },
+      "priority": "optional",
+      "delay": 6,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "На краю койки осталась неглубокая вмятина. Матрас медленно выпрямляется, хотя в помещении никого нет.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A05_D",
+      "room": "D",
+      "signal": "enter:D",
+      "when": {
+        "min": 5,
+        "max": 5,
+        "all": [
+          "P17_ANALYZED"
+        ]
+      },
+      "priority": "optional",
+      "delay": 9,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Отключённый динамик щёлкает ровно два раза. На шкале приёмника ничего не меняется.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A06_F",
+      "room": "F",
+      "signal": "enter:F",
+      "when": {
+        "min": 6,
+        "max": 6
+      },
+      "priority": "optional",
+      "delay": 7,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Пыль между ящиками движется против слабого потока вентиляции. Стоит моргнуть — снова неподвижна.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A07_G",
+      "room": "G",
+      "signal": "enter:G",
+      "when": {
+        "min": 7,
+        "max": 7
+      },
+      "priority": "optional",
+      "delay": 8,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Лабораторное стекло запотевает только с внутренней стороны. Надписи на образцах остаются сухими.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A08_B",
+      "room": "B",
+      "signal": "enter:B",
+      "when": {
+        "min": 8,
+        "max": 8
+      },
+      "priority": "optional",
+      "delay": 8,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Из пустой раковины доносится едва слышный звон чайной ложки. После него слышен обычный шум трубы.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A09_E",
+      "room": "E",
+      "signal": "enter:E",
+      "when": {
+        "min": 9,
+        "max": 9
+      },
+      "priority": "optional",
+      "delay": 10,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Стрелка на щите делает короткий ход назад и возвращается к норме. Дизель даже не меняет обороты.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A10_F",
+      "room": "F",
+      "signal": "enter:F",
+      "when": {
+        "min": 10,
+        "max": 10
+      },
+      "priority": "optional",
+      "delay": 9,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Рукав запасного костюма на секунду распрямляется. Воздух в помещении не движется.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_A11_C",
+      "room": "C",
+      "signal": "enter:C",
+      "when": {
+        "min": 11,
+        "max": 11
+      },
+      "priority": "optional",
+      "delay": 6,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "В конце коридора свет остаётся выключенным на один такт дольше остальных ламп. Там никого.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.17
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_PLATE_STAY",
+      "room": "B",
+      "signal": "tv_echo_plate",
+      "when": {
+        "min": 4,
+        "max": 4,
+        "eq": {
+          "TV_ECHO_PLATE": "STAY"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Звон повторяется уже из вашей чашки. Поверхность чая остаётся неподвижной.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_PLATE_AWAY",
+      "room": "B",
+      "signal": "tv_echo_plate",
+      "when": {
+        "min": 4,
+        "max": 4,
+        "eq": {
+          "TV_ECHO_PLATE": "AWAY"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Шум посуды прекращается. Стул напротив будто подают ближе к столу.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_RADIO_LISTEN",
+      "room": "D",
+      "signal": "tv_echo_radio",
+      "when": {
+        "min": 6,
+        "max": 6,
+        "eq": {
+          "TV_ECHO_RADIO": "LISTEN"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Вдох сменяется тихой паузой. На другом конце ждут, пока вы заговорите первым.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_RADIO_MUTE",
+      "room": "D",
+      "signal": "tv_echo_radio",
+      "when": {
+        "min": 6,
+        "max": 6,
+        "eq": {
+          "TV_ECHO_RADIO": "MUTE"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "В наушниках становится тихо. Тот же вдох слышен из выключенного динамика.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_GLASS_APPROACH",
+      "room": "H",
+      "signal": "tv_echo_glass",
+      "when": {
+        "min": 8,
+        "max": 8,
+        "eq": {
+          "TV_ECHO_GLASS": "APPROACH"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "На запотевшем стекле проступает отпечаток с обратной стороны. Он исчезает, пока вы стоите рядом.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_GLASS_DISTANCE",
+      "room": "H",
+      "signal": "tv_echo_glass",
+      "when": {
+        "min": 8,
+        "max": 8,
+        "eq": {
+          "TV_ECHO_GLASS": "DISTANCE"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Пока вы оборачиваетесь, кто-то проводит ладонью по стеклу. Вернув взгляд, вы видите сухую поверхность.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_BED_TOUCH",
+      "room": "I",
+      "signal": "tv_echo_bed",
+      "when": {
+        "min": 11,
+        "max": 11,
+        "eq": {
+          "TV_ECHO_BED": "TOUCH"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Матрас под ладонью медленно опускается на ширину чужой ладони. Дыхание смещается в сторону шкафа.",
+      "visualCue": {
+        "mode": "flicker",
+        "duration": 1.15,
+        "strength": 0.23
+      },
+      "effects": []
+    },
+    {
+      "id": "TV_REPLY_BED_STILL",
+      "room": "I",
+      "signal": "tv_echo_bed",
+      "when": {
+        "min": 11,
+        "max": 11,
+        "eq": {
+          "TV_ECHO_BED": "STILL"
+        }
+      },
+      "priority": "conditional",
+      "delay": 0.5,
+      "category": "quiet",
+      "horror": true,
+      "ambient": true,
+      "ambientLabel": "НАБЛЮДЕНИЕ",
+      "presentation": "Вдох совпадает с вашим, затем продолжается ещё мгновение после того, как вы задержали дыхание.",
+      "visualCue": {
+        "mode": "temporal",
+        "duration": 1.5,
+        "strength": 0.23
+      },
+      "effects": []
+    }
+  ]
+}

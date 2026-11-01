@@ -109,6 +109,8 @@ def main():
     html,count=QA_RE.subn("",html)
     if "KITCHEN_QA_PREVIEW_BEGIN" in html:
         raise ValueError("Leftover temporary 3D art preview injection")
+    from sync_optional_encounters import apply_optional_encounters
+    apply_optional_encounters(payload, ROOT)
     from web_assets import externalize_payload
     payload,web_manifest=externalize_payload(payload,args.output)
     html=html[:start]+json.dumps(payload,ensure_ascii=False,separators=(",",":"))+html[start+end:]
