@@ -37,7 +37,7 @@ def apply_panorama_details(payload: dict, root: Path, *, web_dir: Path | None = 
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(file, target)
             src = "panorama-detail/" + path.name
-        result.append({k:row[k] for k in ("id","room","rect","when","priority") if k in row} | {"src":src})
+        result.append({k:row[k] for k in ("id","room","rect","when","priority","variant") if k in row} | {"src":src})
     payload["panoramaDetailTiles"] = result
     # Canonical game action becomes a direct physical interaction, not a modal
     # confirmation. Keep the existing story flag and allow E015 to unset the

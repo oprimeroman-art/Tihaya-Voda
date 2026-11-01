@@ -23,3 +23,13 @@ code_paths: ["studio/source/game-runtime.html", "studio/source/adventure-ui.js",
 - Same assets delivered externally for Pages and inline for offline file:// output with codex-scripts/panorama_detail.py.
 - Targeted test: node studio/verification/panorama-detail-tiles.test.cjs.
 - The approved background is still 1774x887: pixel reassembly does NOT improve it without independently better source tiles.
+
+## Actual Forge source integrated
+
+- Original uploaded Forge core: codex-scripts/panorama_forge_engine.py.
+- Build bridge: codex-scripts/forge_pipeline.py.
+- Scalable UV tile renderer: studio/source/game-runtime.html, 24 visible tiles
+  selected from camera viewport, texture cache limit 30, separate layer draw.
+- panorama_detail.py must preserve variant gating in web and standalone packs.
+- Synthetic spherical upscale and exact tile roundtrip passed; browser and
+  real Vulkan AI still need checking.

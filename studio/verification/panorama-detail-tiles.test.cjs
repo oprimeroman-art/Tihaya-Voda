@@ -28,8 +28,24 @@ assert(Math.abs(rgba[0]-60)<2&&Math.abs(rgba[1]-70)<2);
 const outside=new Uint8ClampedArray([10,20,30,255]);
 detailCpuPixel([{tile,entry:{pixel}}],.1,.1,outside,0);
 assert.equal(outside[0],10,'unaffected background remains byte-identical');
-assert(runtime.includes('uniform sampler2D detail0,detail1,detail2,detail3;'),'four independent GPU tile samplers');
-assert(runtime.includes('gl.uniform4f(gpu.detailEnabled,...enabled)'),'GPU tile mask updated on state changes');
+assert(runtime.includes('const PANORAMA_TILE_LIMIT=24'),'viewport tile budget is larger than four');
+assert(runtime.includes('gpu.detailProgram=build(detailFs)'),'layers have an independent draw program');
+assert(runtime.includes('gl.enable(gl.BLEND)'),'transparent tiles composite over the original panorama');
+assert(runtime.includes('gl.uniform4f(layer.tileRect,...tile.rect)'),'GPU compositor sets each UV rect independently');
+// 8K-style tile grids cannot silently truncate after four texture samplers.
+const grid=[];
+for(let row=0;row<4;row++)for(let col=0;col<8;col++){
+ const id='grid_'+row+'_'+col;
+ grid.push({id,room:'Z',src:id+'.png',priority:-10,
+  rect:[col/8,row/4,(col+1)/8,(row+1)/4]});
+}
+game.panoramaDetailTiles=grid;
+ctx.adventurePlayer.engine.state.variants.Z='Z_NORMAL';
+const coverage=detailTilesFor('Z',.49,.49,.20,.34);
+assert(coverage.length>4,'multiple 8K tiles remain visible concurrently');
+assert(coverage.length<=24,'visible tiles are bounded');
+const opposite=detailTilesFor('Z',.05,.49,.05,.12);
+assert(opposite.length<coverage.length,'offscreen grid columns are not loaded');
 const ui=fs.readFileSync(path.join(root,'studio/source/adventure-ui.js'),'utf8');
 assert(ui.includes('if(a.instant&&'),'world micro-interactions must avoid giant modal');
-console.log('PASS UV tile eligibility, story reversion, independent 4-slot GPU sampling, transparent pixel compositing and inline footwear action');
+console.log('PASS UV tile eligibility, story reversion, scalable WebGL overlay rendering, transparent pixel compositing and inline footwear action');

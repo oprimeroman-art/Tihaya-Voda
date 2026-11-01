@@ -105,12 +105,11 @@ function note(m){const node=$('notice');node.textContent=m;node.classList.add('s
 function assetSource(asset){return asset?.url||(asset?.data?'data:'+asset.mime+';base64,'+asset.data:'');}
 function sourceImg(data,mime,url){return new Promise((ok,fail)=>{const img=new Image();img.onload=()=>ok(img);img.onerror=()=>fail(Error('Не открылось изображение'));img.src=url||'data:'+mime+';base64,'+data;});}
 /* PANORAMA_DETAIL_TILES_BEGIN
-Independent, high-resolution equirectangular regions. A low-resolution room
-remains a safe fallback; full-size details are sampled in WebGL at native
-texture resolution without squeezing the whole room into 4096 pixels.
-Tile coordinates: normalized [left,top,right,bottom], nonwrapping in U.
-Each tile is independently authored and can be gated by an adventure flag. */
-const PANORAMA_TILE_SLOTS=4,detailCache=new Map();
+Independent 360° region textures. A stable low-res panorama is always visible
+while viewport tiles load; each tile is separately sampled in a WebGL overlay
+draw pass, so there is no 4-texture ceiling or GPU atlas-size limit.
+Rects are normalized equirectangular [left,top,right,bottom] without U wrapping. */
+const PANORAMA_TILE_LIMIT=24, PANORAMA_TILE_CACHE_LIMIT=30,detailCache=new Map();
 function detailAllowed(tile,state,variant){
  if(tile.variant&&tile.variant!==variant)return false;
  const when=tile.when;
@@ -119,22 +118,29 @@ function detailAllowed(tile,state,variant){
  if(when.notFlag&&state.flags?.[when.notFlag])return false;
  if(when.flag){
   const match=state.flags?.[when.flag];
-  if(Object.prototype.hasOwnProperty.call(when,'value'))return match===when.value;
-  return !!match;
+  return Object.prototype.hasOwnProperty.call(when,'value')?match===when.value:!!match;
  }
- if(when.done)return !!state?.done?.includes(when.done);
+ if(when.done)return !!state.done?.includes(when.done);
  return !!when.notFlag;
 }
-function detailTilesFor(room,viewU){
- const candidates=(game.panoramaDetailTiles||[]).filter(x=>x.room===room&&
-   Array.isArray(x.rect)&&x.rect.length===4&&x.rect.every(Number.isFinite)&&
-   x.rect[0]>=0&&x.rect[2]<=1&&x.rect[0]<x.rect[2]&&x.rect[1]>=0&&x.rect[3]<=1&&x.rect[1]<x.rect[3]&&
-   detailAllowed(x,adventurePlayer?.engine?.state,adventurePlayer?.engine?.state?.variants?.[room]));
- // Prioritize small visual detail patches near the camera, not arbitrary file order.
- return candidates.sort((a,b)=>{
-   const distance=x=>{const u=(x.rect[0]+x.rect[2])/2;return Math.min(Math.abs(u-viewU),1-Math.abs(u-viewU));};
-   return distance(a)-distance(b)||(b.priority||0)-(a.priority||0);
- }).slice(0,PANORAMA_TILE_SLOTS);
+function detailTilesFor(room,viewU,viewV=.5,halfU=.5,halfV=.5){
+ const state=adventurePlayer?.engine?.state,variant=state?.variants?.[room];
+ const candidates=(game.panoramaDetailTiles||[]).filter(x=>{
+  const r=x.rect;
+  if(x.room!==room||!Array.isArray(r)||r.length!==4||
+     !r.every(Number.isFinite)||r[0]<0||r[2]>1||r[1]<0||r[3]>1||
+     r[0]>=r[2]||r[1]>=r[3]||!detailAllowed(x,state,variant))return false;
+  // Conservative visibility bounds prevent loading the opposite side of 8K
+  // panoramas while keeping partially visible edge and pole tiles ready.
+  const u=(r[0]+r[2])/2,v=(r[1]+r[3])/2;
+  const du=Math.abs(u-viewU),longitude=Math.min(du,1-du);
+  return longitude<=halfU+(r[2]-r[0])/2+.04 &&
+    Math.abs(v-viewV)<=halfV+(r[3]-r[1])/2+.04;
+ });
+ const distance=x=>{const u=(x.rect[0]+x.rect[2])/2,v=(x.rect[1]+x.rect[3])/2;
+  const d=Math.abs(u-viewU);return Math.min(d,1-d)+Math.abs(v-viewV)*.5;};
+ return candidates.sort((a,b)=>distance(a)-distance(b)).slice(0,PANORAMA_TILE_LIMIT)
+  .sort((a,b)=>(Number(a.priority)||0)-(Number(b.priority)||0));
 }
 function detailRelease(entry){
  if(entry?.texture&&gl)gl.deleteTexture(entry.texture);
@@ -148,7 +154,9 @@ function detailLoad(tile){
  sourceImg(null,null,tile.src).then(img=>{
   if(detailCache.get(key)!==entry)return;
   const maxSize=gl?gl.getParameter(gl.MAX_TEXTURE_SIZE):8192;
-  if(img.width>maxSize||img.height>maxSize){entry.failed=true;console.warn('Плитка больше лимита GPU',tile.id);return;}
+  if(img.width>maxSize||img.height>maxSize){
+   entry.failed=true;console.warn('Panorama tile exceeds GPU maximum',tile.id);return;
+  }
   entry.image=img;
   if(gl){
    const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
@@ -165,23 +173,30 @@ function detailLoad(tile){
    entry.pixel=c.getImageData(0,0,img.width,img.height);
   }
   entry.ready=true;refresh();
- }).catch(err=>{entry.failed=true;console.warn('Не загружена плитка',tile.id,err);});
- while(detailCache.size>16){
-  const [first,entry]=detailCache.entries().next().value;detailRelease(entry);detailCache.delete(first);
+ }).catch(err=>{entry.failed=true;console.warn('Tile unavailable',tile.id,err);});
+ while(detailCache.size>PANORAMA_TILE_CACHE_LIMIT){
+  const [first,old]=detailCache.entries().next().value;
+  detailRelease(old);detailCache.delete(first);
  }
  return entry;
 }
 function detailActive(){
  if(!game.panoramaDetailTiles?.length)return [];
- const center=norm(.5-yaw/TAU);
- return detailTilesFor(roomId,center).map(tile=>({tile,entry:detailLoad(tile)})).filter(t=>t.entry.ready);
+ const center=screenUv(innerWidth/2,innerHeight/2);
+ const aspect=innerWidth/Math.max(1,innerHeight);
+ const pole=Math.abs(pitch)>1.05;
+ const halfU=pole?.5:Math.min(.5,Math.atan(cameraTangent()*aspect)/TAU+.09);
+ const halfV=Math.min(.5,Math.atan(cameraTangent())/Math.PI+.10);
+ return detailTilesFor(roomId,center.u,center.v,halfU,halfV)
+   .map(tile=>({tile,entry:detailLoad(tile)})).filter(t=>t.entry.ready);
 }
 function detailCpuPixel(tiles,u,v,data,i){
- // Source pixel is already sampled. Overlay only actual RGBA pixels of tiles.
  for(const {tile,entry}of tiles){
-  const r=tile.rect;if(u<r[0]||u>=r[2]||v<r[1]||v>=r[3]||!entry.pixel)continue;
+  const r=tile.rect;
+  if(u<r[0]||u>=r[2]||v<r[1]||v>=r[3]||!entry.pixel)continue;
   const src=entry.pixel,px=Math.min(src.width-1,Math.floor((u-r[0])/(r[2]-r[0])*src.width)),
-        py=Math.min(src.height-1,Math.floor((v-r[1])/(r[3]-r[1])*src.height)),j=(py*src.width+px)*4,alpha=src.data[j+3]/255;
+    py=Math.min(src.height-1,Math.floor((v-r[1])/(r[3]-r[1])*src.height)),
+    j=(py*src.width+px)*4,alpha=src.data[j+3]/255;
   if(alpha<=0)continue;
   for(let k=0;k<3;k++)data[i+k]=Math.round(data[i+k]*(1-alpha)+src.data[j+k]*alpha);
  }
@@ -281,31 +296,53 @@ function directorTick(dt){if(!sessionStarted||!sessionReady||sessionPaused||adve
 }
 
 function composite(r){const e=cache.get(r.id);if(!e?.dirty)return;const c=e.ctx;c.clearRect(0,0,e.width,e.height);c.drawImage(e.bitmap,0,0,e.width,e.height);if(e.clean)c.drawImage(e.clean,0,0,e.width,e.height);if(e.previous){c.globalAlpha=1-Math.min(1,e.fade/e.fadeDuration);c.drawImage(e.previous,0,0,e.width,e.height);c.globalAlpha=1;}adventureMotionPaint(c,r,e);for(const o of r.objects){if(!o.visible||!o.states?.length||adventureSign(o))continue;const id=o.states[clamp(o.state,0,o.states.length-1)],img=e.imgs[id];const live=mediaControllers.get(o.id);if(live?.playing&&live.kind==='video'&&live.video?.readyState>=2)drawQuad(c,live.video,o.corners,e.width,e.height);else if(img)drawQuad(c,img,o.corners,e.width,e.height);}e.dirty=false;if(gl){gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,e.cv);}}
-function initGL(){if(!gl)return;const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;const fs=`precision highp float;uniform sampler2D tex;uniform sampler2D detail0,detail1,detail2,detail3;uniform vec2 size,mouse;uniform float yaw,pitch,fov,torch,danger,planarMode;uniform vec4 flatView;
-uniform vec4 detailRect0,detailRect1,detailRect2,detailRect3;uniform vec4 detailEnabled;
+function initGL(){if(!gl)return;const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;const baseFs=`precision highp float;uniform sampler2D tex;uniform vec2 size,mouse;uniform float yaw,pitch,fov,torch,danger,planarMode;uniform vec4 flatView;
+
 const float PI=3.141592653589793;void main(){vec2 q=(gl_FragCoord.xy/size-.5)*2.;float t=tan(radians(fov)*.5);vec3 v=normalize(vec3(q.x*(size.x/size.y)*t,q.y*t,-1.));float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);v=vec3(v.x,cp*v.y-sp*v.z,sp*v.y+cp*v.z);v=vec3(cy*v.x-sy*v.z,v.y,sy*v.x+cy*v.z);vec2 uv=vec2(fract(.5+atan(v.x,-v.z)/(2.*PI)),.5+asin(clamp(v.y,-1.,1.))/PI);if(planarMode>.5){uv=vec2(flatView.x+gl_FragCoord.x/size.x*flatView.z,1.-flatView.y-(1.-gl_FragCoord.y/size.y)*flatView.w);}vec3 col=texture2D(tex,uv).rgb;
-if(detailEnabled.x>.5&&uv.x>=detailRect0.x&&uv.x<detailRect0.z&&uv.y>=detailRect0.y&&uv.y<detailRect0.w){vec4 over=texture2D(detail0,(uv-detailRect0.xy)/(detailRect0.zw-detailRect0.xy));col=mix(col,over.rgb,over.a);}
-if(detailEnabled.y>.5&&uv.x>=detailRect1.x&&uv.x<detailRect1.z&&uv.y>=detailRect1.y&&uv.y<detailRect1.w){vec4 over=texture2D(detail1,(uv-detailRect1.xy)/(detailRect1.zw-detailRect1.xy));col=mix(col,over.rgb,over.a);}
-if(detailEnabled.z>.5&&uv.x>=detailRect2.x&&uv.x<detailRect2.z&&uv.y>=detailRect2.y&&uv.y<detailRect2.w){vec4 over=texture2D(detail2,(uv-detailRect2.xy)/(detailRect2.zw-detailRect2.xy));col=mix(col,over.rgb,over.a);}
-if(detailEnabled.w>.5&&uv.x>=detailRect3.x&&uv.x<detailRect3.z&&uv.y>=detailRect3.y&&uv.y<detailRect3.w){vec4 over=texture2D(detail3,(uv-detailRect3.xy)/(detailRect3.zw-detailRect3.xy));col=mix(col,over.rgb,over.a);}
-float d=distance(gl_FragCoord.xy,vec2(mouse.x,size.y-mouse.y));float spot=1.-smoothstep(150.,330.,d);float b=mix(1.,mix(1.+.12*spot,.16+1.04*spot,danger),torch);gl_FragColor=vec4(col*b,1.);}`;
-function sh(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
-const program=gl.createProgram();gl.attachShader(program,sh(gl.VERTEX_SHADER,vs));gl.attachShader(program,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);const attr=gl.getAttribLocation(program,'p');gl.enableVertexAttribArray(attr);gl.vertexAttribPointer(attr,2,gl.FLOAT,false,0,0);for(const key of ['size','mouse','yaw','pitch','fov','torch','danger','planarMode','flatView','detailEnabled',...Array.from({length:4},(_,i)=>'detailRect'+i)])gpu[key]=gl.getUniformLocation(program,key);
-gl.uniform1i(gl.getUniformLocation(program,'tex'),0);
-for(let i=0;i<PANORAMA_TILE_SLOTS;i++)gl.uniform1i(gl.getUniformLocation(program,'detail'+i),i+1);}
+float d=distance(gl_FragCoord.xy,vec2(mouse.x,size.y-mouse.y));float spot=1.-smoothstep(150.,330.,d);float b=mix(1.,mix(1.+.12*spot,.16+1.04*spot,danger),torch);gl_FragColor=vec4(col*b,1.);}`;const detailFs=`precision highp float;uniform sampler2D detailTex;uniform vec4 tileRect;uniform vec2 size,mouse;uniform float yaw,pitch,fov,torch,danger,planarMode;uniform vec4 flatView;
+
+const float PI=3.141592653589793;void main(){vec2 q=(gl_FragCoord.xy/size-.5)*2.;float t=tan(radians(fov)*.5);vec3 v=normalize(vec3(q.x*(size.x/size.y)*t,q.y*t,-1.));float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);v=vec3(v.x,cp*v.y-sp*v.z,sp*v.y+cp*v.z);v=vec3(cy*v.x-sy*v.z,v.y,sy*v.x+cy*v.z);vec2 uv=vec2(fract(.5+atan(v.x,-v.z)/(2.*PI)),.5+asin(clamp(v.y,-1.,1.))/PI);if(planarMode>.5){uv=vec2(flatView.x+gl_FragCoord.x/size.x*flatView.z,1.-flatView.y-(1.-gl_FragCoord.y/size.y)*flatView.w);}if(uv.x<tileRect.x||uv.x>=tileRect.z||uv.y<tileRect.y||uv.y>=tileRect.w)discard;
+vec4 col=texture2D(detailTex,clamp((uv-tileRect.xy)/(tileRect.zw-tileRect.xy),0.,1.));
+float d=distance(gl_FragCoord.xy,vec2(mouse.x,size.y-mouse.y));float spot=1.-smoothstep(150.,330.,d);float b=mix(1.,mix(1.+.12*spot,.16+1.04*spot,danger),torch);gl_FragColor=vec4(col.rgb*b,col.a);}`;
+function sh(type,source){const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(shader));return shader;}
+const vertex=sh(gl.VERTEX_SHADER,vs);
+function build(fragmentSource){const program=gl.createProgram();gl.attachShader(program,vertex);gl.attachShader(program,sh(gl.FRAGMENT_SHADER,fragmentSource));gl.bindAttribLocation(program,0,'p');gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));return program;}
+gpu.baseProgram=build(baseFs);gpu.detailProgram=build(detailFs);
+const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+gl.useProgram(gpu.baseProgram);
+for(const key of ['size','mouse','yaw','pitch','fov','torch','danger','planarMode','flatView'])gpu[key]=gl.getUniformLocation(gpu.baseProgram,key);
+gl.uniform1i(gl.getUniformLocation(gpu.baseProgram,'tex'),0);
+gl.useProgram(gpu.detailProgram);gpu.detail={};
+for(const key of ['size','mouse','yaw','pitch','fov','torch','danger','planarMode','flatView','tileRect'])gpu.detail[key]=gl.getUniformLocation(gpu.detailProgram,key);
+gl.uniform1i(gl.getUniformLocation(gpu.detailProgram,'detailTex'),1);
+gl.useProgram(gpu.baseProgram);
+}
 function render(){queued=false;constrainCamera();horrorPaint();adventureMarkers();const r=current(),e=cache.get(roomId);if(!e)return;composite(r);const dpr=Math.min(devicePixelRatio||1,1.5),w=Math.round(innerWidth*dpr),h=Math.round(innerHeight*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;if(gl)gl.viewport(0,0,w,h);}
  const detail=detailActive();
  if(gl){
-  const enabled=[0,0,0,0];
-  for(let i=0;i<PANORAMA_TILE_SLOTS;i++){
-   const item=detail[i],r=item?.tile.rect||[0,0,0,0];
-   gl.activeTexture(gl.TEXTURE0+i+1);
-   gl.bindTexture(gl.TEXTURE_2D,item?.entry.texture||null);
-   gl.uniform4f(gpu['detailRect'+i],r[0],r[1],r[2],r[3]);
-   enabled[i]=item?.entry.texture?1:0;
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.uniform2f(gpu.size,w,h);gl.uniform2f(gpu.mouse,mx*dpr,my*dpr);gl.uniform1f(gpu.yaw,yaw);gl.uniform1f(gpu.pitch,pitch);gl.uniform1f(gpu.fov,Math.atan(cameraTangent())*360/Math.PI);gl.uniform1f(gpu.torch,torch?1:0);gl.uniform1f(gpu.danger,presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state)?1:0);const frame=flatFraming();gl.uniform1f(gpu.planarMode,frame?1:0);gl.uniform4f(gpu.flatView,frame?.left||0,frame?.top||0,frame?.width||1,frame?.height||1);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  if(detail.length){
+   gl.useProgram(gpu.detailProgram);
+   const layer=gpu.detail;
+   gl.uniform2f(layer.size,w,h);gl.uniform2f(layer.mouse,mx*dpr,my*dpr);
+   gl.uniform1f(layer.yaw,yaw);gl.uniform1f(layer.pitch,pitch);
+   gl.uniform1f(layer.fov,Math.atan(cameraTangent())*360/Math.PI);
+   gl.uniform1f(layer.torch,torch?1:0);
+   gl.uniform1f(layer.danger,presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state)?1:0);
+   gl.uniform1f(layer.planarMode,frame?1:0);
+   gl.uniform4f(layer.flatView,frame?.left||0,frame?.top||0,frame?.width||1,frame?.height||1);
+   gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+   gl.activeTexture(gl.TEXTURE1);
+   for(const {tile,entry}of detail){
+    if(!entry.texture)continue;
+    gl.bindTexture(gl.TEXTURE_2D,entry.texture);
+    gl.uniform4f(layer.tileRect,...tile.rect);
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+   }
+   gl.disable(gl.BLEND);gl.activeTexture(gl.TEXTURE0);gl.useProgram(gpu.baseProgram);
   }
-  gl.uniform4f(gpu.detailEnabled,...enabled);
-  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,e.texture);gl.uniform2f(gpu.size,w,h);gl.uniform2f(gpu.mouse,mx*dpr,my*dpr);gl.uniform1f(gpu.yaw,yaw);gl.uniform1f(gpu.pitch,pitch);gl.uniform1f(gpu.fov,Math.atan(cameraTangent())*360/Math.PI);gl.uniform1f(gpu.torch,torch?1:0);gl.uniform1f(gpu.danger,presenceSession?.time>=5&&presenceZone(adventurePlayer?.engine?.state)?1:0);const frame=flatFraming();gl.uniform1f(gpu.planarMode,frame?1:0);gl.uniform4f(gpu.flatView,frame?.left||0,frame?.top||0,frame?.width||1,frame?.height||1);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}
+ }
  else{const ctx=canvas.getContext('2d'),frame=flatFraming();if(frame){ctx.drawImage(e.cv,frame.left*e.width,frame.top*e.height,frame.width*e.width,frame.height*e.height,0,0,w,h);
  for(const {tile,entry}of detail){
   if(!entry.image)continue;
